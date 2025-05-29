@@ -7,6 +7,19 @@ edition = "2024"
 [dependencies]
 bevy = { version = "0.16", features = ["wayland"] }
 rand = "0.8"
+bevy-inspector-egui = "0.31.0"
+leafwing-input-manager = "0.17.0"
+
+## EXTRAS - some useful ecosystem crates, uncomment if needed - let's get rid of any we end up not needing before release
+anyhow = "1.0.98" # better Result ergonomics
+bevy_aseprite_ultra = "0.6.1" # aseprite w/ hot reloading
+bevy_asset_loader = "0.23.0" # simpler asset loading
+bevy_ecs_ldtk = "0.12.0" # LDTK integration
+bevy_lunex = "0.4.1" # UI
+bevy_mod_debugdump = "0.13.0" # debug system execution ordering
+bevy_simple_subsecond_system = "0.1.11" # hot-reloadable tweakable values
+
+
 # Compile low-severity logs out of native builds for performance.
 log = { version = "0.4", features = [
     "max_level_debug",
