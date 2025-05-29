@@ -19,9 +19,9 @@ tracing = { version = "0.1", features = [
 ] }
 # Tell `getrandom v0.3+` to use the `wasm_js` backend on web.
 # See: <https://github.com/rust-random/getrandom/issues/671>.
-getrandom = { version = "0.3", default-features = false, features = [
-    "wasm_js",
-], optional = true }
+#getrandom = { version = "0.3", default-features = false, features = [
+#    "wasm_js",
+#], optional = true }
 
 [features]
 default = [
