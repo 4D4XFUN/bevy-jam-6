@@ -28,16 +28,16 @@ env:
 
   # Whether to build and package a release for a given target platform.
   build_for_web: true
-  build_for_linux: true
-  build_for_windows: true
-  build_for_macos: true
+#  build_for_linux: true
+#  build_for_windows: true
+#  build_for_macos: true
 
   # Whether to upload the packages produced by this workflow to a GitHub release.
   upload_to_github: true
 
   # The itch.io project to upload to in the format `user-name/project-name`.
   # There will be no upload to itch.io if this is commented out.
-  #upload_to_itch: your-itch-username/bevy_jam_6
+  upload_to_itch: 4D4XFUN/bevy-jam-6
 
   ############
   # ADVANCED #
