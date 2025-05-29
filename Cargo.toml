@@ -16,9 +16,6 @@ bevy_aseprite_ultra = "0.6.1" # aseprite w/ hot reloading
 bevy_asset_loader = "0.23.0" # simpler asset loading
 bevy_ecs_ldtk = "0.12.0" # LDTK integration
 bevy_lunex = "0.4.1" # UI
-bevy_mod_debugdump = "0.13.0" # debug system execution ordering
-bevy_simple_subsecond_system = "0.1.11" # hot-reloadable tweakable values
-
 
 # Compile low-severity logs out of native builds for performance.
 log = { version = "0.4", features = [
@@ -35,6 +32,10 @@ tracing = { version = "0.1", features = [
 #getrandom = { version = "0.3", default-features = false, features = [
 #    "wasm_js",
 #], optional = true }
+
+[dev-dependencies]
+bevy_simple_subsecond_system = "0.1.11" # hot-reloadable tweakable values
+bevy_mod_debugdump = "0.13.0" # debug system execution ordering
 
 [features]
 default = [
