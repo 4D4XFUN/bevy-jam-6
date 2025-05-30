@@ -7,7 +7,6 @@ edition = "2024"
 [dependencies]
 bevy = { version = "0.16", features = ["wayland"] }
 rand = "0.8"
-bevy-inspector-egui = "0.31.0"
 leafwing-input-manager = "0.17.0"
 
 ## EXTRAS - some useful ecosystem crates, uncomment if needed - let's get rid of any we end up not needing before release
@@ -34,8 +33,7 @@ tracing = { version = "0.1", features = [
 #], optional = true }
 
 [dev-dependencies]
-bevy_simple_subsecond_system = "0.1.11" # hot-reloadable tweakable values
-bevy_mod_debugdump = "0.13.0" # debug system execution ordering
+bevy-inspector-egui = "0.31.0"
 
 [features]
 default = [
