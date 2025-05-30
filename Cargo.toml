@@ -7,7 +7,7 @@ edition = "2024"
 [dependencies]
 bevy = { version = "0.16", features = ["wayland"] }
 rand = "0.8"
-leafwing-input-manager = "0.17.0"
+bevy_enhanced_input = "0.12.0" # maps input keys -> abstract actions
 
 ## EXTRAS - some useful ecosystem crates, uncomment if needed - let's get rid of any we end up not needing before release
 anyhow = "1.0.98" # better Result ergonomics
