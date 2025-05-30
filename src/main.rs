@@ -11,6 +11,7 @@ mod dev_tools;
 mod screens;
 mod theme;
 
+use bevy::window::PresentMode;
 use bevy::{asset::AssetMetaCheck, prelude::*};
 
 fn main() -> AppExit {
@@ -48,6 +49,7 @@ impl Plugin for AppPlugin {
                 .set(WindowPlugin {
                     primary_window: Window {
                         title: "Bevy Jam 6".to_string(),
+                        present_mode: PresentMode::AutoNoVsync, // turn off vsync to prevent input lag
                         fit_canvas_to_parent: true,
                         ..default()
                     }
