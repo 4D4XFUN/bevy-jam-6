@@ -2,7 +2,6 @@
 
 use crate::demo::input::{PlayerActions, PlayerMove};
 use crate::{
-    AppSystems,
     asset_tracking::LoadResource,
     demo::{
         animation::PlayerAnimation,
@@ -14,9 +13,7 @@ use bevy::{
     prelude::*,
 };
 use bevy_enhanced_input::events::Completed;
-use bevy_enhanced_input::prelude::{Action, Actions, Fired};
-use std::process::CommandArgs;
-use bevy::ecs::error::info;
+use bevy_enhanced_input::prelude::{Actions, Fired};
 
 pub(super) fn plugin(app: &mut App) {
     app.register_type::<Player>();
