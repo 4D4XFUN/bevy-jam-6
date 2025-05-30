@@ -42,7 +42,7 @@ default = [
 ]
 dev = [
     # Improve compile times for dev builds by linking Bevy as a dynamic library.
-    "bevy/dynamic_linking",
+#    "bevy/dynamic_linking",
     "bevy/bevy_dev_tools",
     "bevy/bevy_ui_debug",
     # Improve error messages coming from Bevy
