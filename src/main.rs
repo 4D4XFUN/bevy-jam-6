@@ -11,8 +11,8 @@ mod dev_tools;
 mod screens;
 mod theme;
 
-use bevy::{asset::AssetMetaCheck, prelude::*};
 use bevy::window::PresentMode;
+use bevy::{asset::AssetMetaCheck, prelude::*};
 
 fn main() -> AppExit {
     App::new().add_plugins(AppPlugin).run()

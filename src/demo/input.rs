@@ -16,11 +16,19 @@ pub fn plugin(app: &mut App) {
     app.add_observer(regular_binding);
 }
 
-fn regular_binding(trigger: Trigger<Binding<PlayerActions>>, mut player: Query<&mut Actions<PlayerActions>>) {
+fn regular_binding(
+    trigger: Trigger<Binding<PlayerActions>>,
+    mut player: Query<&mut Actions<PlayerActions>>,
+) {
     // We have to bind the input mapping to the player at runtime
     let mut actions = player.get_mut(trigger.target()).unwrap();
     actions
         .bind::<PlayerMove>()
-        .to((Cardinal::wasd_keys(), Axial::left_stick(), Cardinal::arrow_keys(), Cardinal::dpad_buttons()))
+        .to((
+            Cardinal::wasd_keys(),
+            Axial::left_stick(),
+            Cardinal::arrow_keys(),
+            Cardinal::dpad_buttons(),
+        ))
         .with_modifiers(DeadZone::default());
 }
