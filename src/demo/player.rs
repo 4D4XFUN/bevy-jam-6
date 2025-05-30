@@ -15,6 +15,8 @@ use bevy::{
 };
 use bevy_enhanced_input::events::Completed;
 use bevy_enhanced_input::prelude::{Action, Actions, Fired};
+use std::process::CommandArgs;
+use bevy::ecs::error::info;
 
 pub(super) fn plugin(app: &mut App) {
     app.register_type::<Player>();
@@ -22,8 +24,10 @@ pub(super) fn plugin(app: &mut App) {
     app.register_type::<PlayerAssets>();
     app.load_resource::<PlayerAssets>();
 
-    app.add_observer(record_player_directional_input)
-        .add_observer(stop_player_directional_input);
+    // we attach movement-related observers to the player entity so that they
+    // get despawned when the player does. That way, movement happens only while
+    // playing, not while e.g. in a menu or splash screen.
+    app.add_observer(add_player_movement_on_spawn);
 }
 
 /// The player character.
@@ -54,7 +58,6 @@ pub fn player(
             max_speed,
             ..default()
         },
-        Actions::<PlayerActions>::default(),
         ScreenWrap,
         player_animation,
     )
@@ -64,10 +67,24 @@ pub fn player(
 #[reflect(Component)]
 struct Player;
 
+fn add_player_movement_on_spawn(
+    trigger: Trigger<OnAdd, Player>,
+    query: Query<Entity, With<Player>>,
+    mut commands: Commands,
+) -> Result {
+    let id = query.get(trigger.target())?;
+    commands
+        .entity(id)
+        .insert(Actions::<PlayerActions>::default())
+        .observe(record_player_directional_input)
+        .observe(stop_player_directional_input);
+    Ok(())
+}
+
 fn record_player_directional_input(
     trigger: Trigger<Fired<PlayerMove>>,
     mut movement_controller: Query<&mut MovementController>,
-)-> Result {
+) -> Result {
     movement_controller.get_mut(trigger.target())?.intent = trigger.value; // vector is already normalized for us
     Ok(())
 }
@@ -75,7 +92,7 @@ fn record_player_directional_input(
 fn stop_player_directional_input(
     trigger: Trigger<Completed<PlayerMove>>,
     mut movement_controller: Query<&mut MovementController>,
-) -> Result{
+) -> Result {
     movement_controller.get_mut(trigger.target())?.intent = Vec2::ZERO;
     Ok(())
 }
