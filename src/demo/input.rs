@@ -12,7 +12,7 @@ pub fn plugin(app: &mut App) {
     app.add_plugins(EnhancedInputPlugin);
 
     app.add_input_context::<PlayerActions>();
-    
+
     app.add_observer(regular_binding);
 }
 
@@ -21,6 +21,6 @@ fn regular_binding(trigger: Trigger<Binding<PlayerActions>>, mut player: Query<&
     let mut actions = player.get_mut(trigger.target()).unwrap();
     actions
         .bind::<PlayerMove>()
-        .to((Cardinal::wasd_keys(), Axial::left_stick()))
+        .to((Cardinal::wasd_keys(), Axial::left_stick(), Cardinal::arrow_keys(), Cardinal::dpad_buttons()))
         .with_modifiers(DeadZone::default());
 }
