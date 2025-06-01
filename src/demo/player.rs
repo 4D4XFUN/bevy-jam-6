@@ -63,7 +63,7 @@ fn spawn_player_to_point(
 
 #[derive(Component, Debug, Clone, Copy, PartialEq, Eq, Default, Reflect)]
 #[reflect(Component)]
-struct Player;
+pub struct Player;
 
 #[derive(Component, Reflect)]
 #[reflect(Component)]

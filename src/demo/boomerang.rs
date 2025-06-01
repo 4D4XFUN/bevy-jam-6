@@ -334,9 +334,9 @@ fn update_boomerang_preview_position(
             (first_hit.distance, None)
         }
     } else {
-        warn!(
-            "Unable to find a raycast target? Maybe we aren't in an enclosed room right now? If that's ever wanted, we probably need to also set up some max flying distance"
-        );
+        // warn!(
+        //     "Unable to find a raycast target? Maybe we aren't in an enclosed room right now? If that's ever wanted, we probably need to also set up some max flying distance"
+        // );
 
         (max_distance, None)
     };
