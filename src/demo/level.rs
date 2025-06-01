@@ -53,6 +53,8 @@ pub fn spawn_level(
     ));
     commands.spawn((
         Name::new("3dModel"),
-        SceneRoot(asset_server.load(GltfAssetLabel::Scene(0).from_asset("models/Environment.gltf"),
-    ))));
+        SceneRoot(
+            asset_server.load(GltfAssetLabel::Scene(0).from_asset("models/Environment.gltf")),
+        ),
+    ));
 }

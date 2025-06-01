@@ -60,8 +60,10 @@ impl Plugin for AppPlugin {
                     ..default()
                 }),
             SkeinPlugin::default(),
-            EguiPlugin { enable_multipass_for_primary_context: true },
-            WorldInspectorPlugin::new()
+            EguiPlugin {
+                enable_multipass_for_primary_context: true,
+            },
+            WorldInspectorPlugin::new(),
         ));
 
         // Add other plugins.
