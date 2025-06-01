@@ -5,6 +5,7 @@ use avian3d::prelude::Collider;
 use bevy::prelude::*;
 use bevy_tnua_avian3d::TnuaAvian3dSensorShape;
 use rand::{Rng, thread_rng};
+use crate::demo::boomerang::BoomerangHittable;
 
 pub fn plugin(app: &mut App) {
     app.init_resource::<EnemySpawningConfig>();
@@ -48,6 +49,7 @@ pub fn spawn_enemies_on_enemy_spawn_points(
         MeshMaterial3d(materials.add(Color::srgb_u8(124, 32, 32))),
         StateScoped(Screen::Gameplay),
         TnuaAvian3dSensorShape(Collider::cylinder(0.49, 0.)),
+        BoomerangHittable,
     ));
 
     Ok(())
