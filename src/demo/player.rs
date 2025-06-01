@@ -1,13 +1,8 @@
 //! Player-specific behavior.
 
 use crate::demo::input::{PlayerActions, PlayerMove};
-use crate::{
-    asset_tracking::LoadResource,
-    demo::{
-        animation::PlayerAnimation,
-        movement::{MovementController, ScreenWrap},
-    },
-};
+use crate::screens::Screen;
+use crate::{asset_tracking::LoadResource, demo::movement::MovementController};
 use bevy::{
     image::{ImageLoaderSettings, ImageSampler},
     prelude::*,
@@ -15,49 +10,47 @@ use bevy::{
 use bevy_enhanced_input::events::Completed;
 use bevy_enhanced_input::prelude::{Actions, Fired};
 
+#[derive(Component, Reflect)]
+#[reflect(Component)]
+struct PlayerSpawnPoint;
+
 pub(super) fn plugin(app: &mut App) {
-    app.register_type::<Player>();
+    app.register_type::<Player>()
+        .register_type::<PlayerSpawnPoint>();
 
     app.register_type::<PlayerAssets>();
     app.load_resource::<PlayerAssets>();
-
+    app.add_observer(spawn_player_to_point);
     // we attach movement-related observers to the player entity so that they
     // get despawned when the player does. That way, movement happens only while
     // playing, not while e.g. in a menu or splash screen.
     app.add_observer(add_player_movement_on_spawn);
 }
 
-/// The player character.
-pub fn player(
-    max_speed: f32,
-    player_assets: &PlayerAssets,
-    texture_atlas_layouts: &mut Assets<TextureAtlasLayout>,
-) -> impl Bundle {
-    // A texture atlas is a way to split a single image into a grid of related images.
-    // You can learn more in this example: https://github.com/bevyengine/bevy/blob/latest/examples/2d/texture_atlas.rs
-    let layout = TextureAtlasLayout::from_grid(UVec2::splat(32), 6, 2, Some(UVec2::splat(1)), None);
-    let texture_atlas_layout = texture_atlas_layouts.add(layout);
-    let player_animation = PlayerAnimation::new();
-
-    (
+fn spawn_player_to_point(
+    trigger: Trigger<OnAdd, PlayerSpawnPoint>,
+    spawn_points: Query<&Transform, With<PlayerSpawnPoint>>,
+    mut meshes: ResMut<Assets<Mesh>>,
+    mut materials: ResMut<Assets<StandardMaterial>>,
+    mut commands: Commands,
+) {
+    let Ok(spawn_point) = spawn_points.get(trigger.target()) else {
+        warn!("No spawn point found!");
+        return;
+    };
+    info!("spawn point at {:?} added", spawn_point);
+    commands.spawn((
         Name::new("Player"),
         Player,
-        Sprite {
-            image: player_assets.ducky.clone(),
-            texture_atlas: Some(TextureAtlas {
-                layout: texture_atlas_layout,
-                index: player_animation.get_atlas_index(),
-            }),
-            ..default()
-        },
-        Transform::from_scale(Vec2::splat(8.0).extend(1.0)),
-        MovementController {
-            max_speed,
-            ..default()
-        },
-        ScreenWrap,
-        player_animation,
-    )
+        Transform::from_translation(spawn_point.translation),
+        children![(
+            Mesh3d(meshes.add(Capsule3d::default())),
+            MeshMaterial3d(materials.add(Color::srgb_u8(124, 124, 0))),
+            Transform::from_xyz(0., 1.0, 0.)
+        )],
+        StateScoped(Screen::Gameplay),
+        MovementController { ..default() },
+    ));
 }
 
 #[derive(Component, Debug, Clone, Copy, PartialEq, Eq, Default, Reflect)]

@@ -106,6 +106,7 @@ pub enum PlayerAnimationState {
     Walking,
 }
 
+#[allow(dead_code)]
 impl PlayerAnimation {
     /// The number of idle frames.
     const IDLE_FRAMES: usize = 2;

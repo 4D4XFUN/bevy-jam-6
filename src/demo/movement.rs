@@ -47,19 +47,19 @@ impl Default for MovementController {
     fn default() -> Self {
         Self {
             intent: Vec2::ZERO,
-            // 400 pixels per second is a nice default, but we can still vary this per character.
-            max_speed: 400.0,
+            // 400 pixels per second is a nice default for 2d, but we can still vary this per character.
+            max_speed: 20.0,
         }
     }
 }
 
 fn apply_movement(
-    time: Res<Time>,
+    time: Res<Time<Real>>,
     mut movement_query: Query<(&MovementController, &mut Transform)>,
 ) {
     for (controller, mut transform) in &mut movement_query {
         let velocity = controller.max_speed * controller.intent;
-        transform.translation += velocity.extend(0.0) * time.delta_secs();
+        transform.translation += Vec3::new(velocity.x, 0., velocity.y) * time.delta_secs();
     }
 }
 
