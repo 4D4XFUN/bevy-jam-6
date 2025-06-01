@@ -23,7 +23,7 @@ pub fn spawn_camera(mut commands: Commands) {
             ..Default::default()
         },
         Projection::from(PerspectiveProjection {
-            fov: 5.0_f32.to_radians(),
+            fov: 10.0_f32.to_radians(),
             ..default()
         }),
         // RenderLayers::from(  // this is from froxtrot but isn't working right
