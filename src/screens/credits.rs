@@ -28,7 +28,7 @@ fn spawn_credits_screen(mut commands: Commands) {
 
 fn created_by() -> impl Bundle {
     grid(vec![
-        ["Joe Shmoe", "Implemented alligator wrestling AI"],
+        ["Emily 'tigerplush' P.", "UI, SFX"],
         ["Jane Doe", "Made the music for the alien invasion"],
     ])
 }
@@ -38,6 +38,7 @@ fn assets() -> impl Bundle {
         ["Ducky sprite", "CC0 by Caz Creates Games"],
         ["Button SFX", "CC0 by Jaszunio15"],
         ["Music", "CC BY 3.0 by Kevin MacLeod"],
+        ["Pistol Riccoechet Sound", "CC0 by Diboz"],
         [
             "Bevy logo",
             "All rights reserved by the Bevy Foundation, permission granted for splash screen use when unmodified",

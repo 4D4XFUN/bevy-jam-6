@@ -4,6 +4,7 @@
 #![cfg_attr(not(feature = "dev"), windows_subsystem = "windows")]
 
 mod asset_tracking;
+mod assets;
 mod audio;
 mod demo;
 #[cfg(feature = "dev")]
@@ -11,6 +12,7 @@ mod dev_tools;
 mod screens;
 mod theme;
 
+use bevy::image::ImageSamplerDescriptor;
 use bevy::window::PresentMode;
 use bevy::{asset::AssetMetaCheck, prelude::*};
 use bevy_inspector_egui::bevy_egui::EguiPlugin;
@@ -57,6 +59,10 @@ impl Plugin for AppPlugin {
                         ..default()
                     }
                     .into(),
+                    ..default()
+                })
+                .set(ImagePlugin {
+                    default_sampler: ImageSamplerDescriptor::nearest(),
                     ..default()
                 }),
             SkeinPlugin::default(),
