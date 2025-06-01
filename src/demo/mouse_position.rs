@@ -29,7 +29,7 @@ pub fn plugin(app: &mut App) {
     app.add_systems(PreUpdate, update_mouse_position);
 }
 
-/// Taken & adjusted from https://bevy-cheatbook.github.io/cookbook/cursor2world.html
+/// Taken & adjusted from <https://bevy-cheatbook.github.io/cookbook/cursor2world.html>
 fn update_mouse_position(
     mut mouse_position: ResMut<MousePosition>,
     window_query: Query<&Window, With<PrimaryWindow>>,
