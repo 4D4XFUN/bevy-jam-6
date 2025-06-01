@@ -10,16 +10,13 @@ use bevy::math::Dir3;
 use bevy::prelude::{
     AppGizmoBuilder, Assets, BevyError, Color, Commands, Component, Cuboid, Entity, Event,
     EventReader, EventWriter, GizmoConfigGroup, Gizmos, GlobalTransform, Handle,
-    IntoScheduleConfigs, Mesh, Mesh3d, MeshMaterial3d, MouseButton, Mut, Name, OnEnter, Plugin,
-    Query, Reflect, Res, ResMut, Resource, StandardMaterial, Transform, Update, Vec3, With,
-    Without, in_state, on_event,
+    IntoScheduleConfigs, Mesh, Mesh3d, MeshMaterial3d, MouseButton, Mut, Name, OnEnter, Query,
+    Reflect, Res, ResMut, Resource, StandardMaterial, Transform, Update, Vec3, With, Without,
+    in_state, on_event,
 };
 use bevy::time::Time;
 use log::{error, warn};
 use std::collections::VecDeque;
-
-const BOOMERANG_ROTATIONS_PER_SECOND: f32 = 6.0;
-const BOOMERANG_FALL_SPEED: f32 = 1.0;
 
 pub const BOOMERANG_FLYING_HEIGHT: f32 = 0.5;
 
@@ -87,17 +84,29 @@ enum BoomerangTargetKind {
     Position(Vec3),
 }
 
-/// The path our boomerang is supposed to follow.
-#[derive(Resource)]
-struct PlannedBoomerangPath {
-    targets: Vec<BoomerangTargetKind>,
-}
-
 /// Component for the preview entity for the next boomerang target location.
 #[derive(Component)]
 struct BoomerangPathPreview {
     /// The entity that's being targeted, if there is any.
     target_entity: Option<Entity>,
+}
+
+/// Current set of stats of our boomerang
+#[derive(Resource)]
+struct BoomerangStats {
+    movement_speed: f32,
+    rotations_per_second: f32,
+    falling_speed: f32,
+}
+
+impl Default for BoomerangStats {
+    fn default() -> Self {
+        Self {
+            movement_speed: 10.0,
+            rotations_per_second: 6.0,
+            falling_speed: 2.0,
+        }
+    }
 }
 
 pub fn plugin(app: &mut App) {
@@ -106,24 +115,26 @@ pub fn plugin(app: &mut App) {
     app.add_event::<BounceBoomerangEvent>();
     app.add_event::<BoomerangHasFallenOnGroundEvent>();
     app.init_resource::<BoomerangAssets>();
+    app.init_resource::<BoomerangStats>();
 
     app.add_systems(
         Update,
         (
             (
                 update_boomerang_preview_position,
-                throw_boomerang_on_button_press,
+                on_button_press_throw_boomerang,
                 (
                     draw_preview_gizmo,
-                    on_throw_boomerang.run_if(on_event::<ThrowBoomerangEvent>),
+                    on_throw_boomerang_spawn_boomerang.run_if(on_event::<ThrowBoomerangEvent>),
                 ),
             )
                 .chain(),
             rotate_boomerangs,
             move_flying_boomerangs,
-            on_boomerang_bounce.after(move_flying_boomerangs),
+            on_boomerang_bounce_advance_to_next_pathing_step_or_fall_down
+                .after(move_flying_boomerangs),
             move_falling_boomerangs,
-            remove_falling_from_fallen_boomerangs.after(move_falling_boomerangs),
+            on_boomerang_fallen_remove_falling_component.after(move_falling_boomerangs),
         )
             .run_if(in_state(Screen::Gameplay)),
     );
@@ -209,9 +220,10 @@ fn move_falling_boomerangs(
     mut falling_boomerangs: Query<(Entity, &mut Transform), (With<Boomerang>, With<Falling>)>,
     time: Res<Time>,
     mut fallen_event_writer: EventWriter<BoomerangHasFallenOnGroundEvent>,
+    boomerang_stats: Res<BoomerangStats>,
 ) -> Result<(), BevyError> {
     for (entity, mut transform) in falling_boomerangs.iter_mut() {
-        transform.translation.y -= BOOMERANG_FALL_SPEED * time.delta_secs();
+        transform.translation.y -= boomerang_stats.falling_speed * time.delta_secs();
 
         // Probably needs to be raised a bit once we got a proper boomerang mesh
         if transform.translation.y <= 0.0 {
@@ -225,11 +237,11 @@ fn move_falling_boomerangs(
     Ok(())
 }
 
-fn remove_falling_from_fallen_boomerangs(
-    mut bounce_events: EventReader<BoomerangHasFallenOnGroundEvent>,
+fn on_boomerang_fallen_remove_falling_component(
+    mut fallen_events: EventReader<BoomerangHasFallenOnGroundEvent>,
     mut commands: Commands,
 ) -> Result<(), BevyError> {
-    for event in bounce_events.read() {
+    for event in fallen_events.read() {
         commands
             .entity(event.boomerang_entity)
             .remove::<Falling>()
@@ -253,7 +265,7 @@ fn send_boomerang_bounce_event(
     });
 }
 
-fn on_boomerang_bounce(
+fn on_boomerang_bounce_advance_to_next_pathing_step_or_fall_down(
     mut bounce_events: EventReader<BounceBoomerangEvent>,
     mut boomerangs: Query<&mut Boomerang, With<Flying>>,
     mut commands: Commands,
@@ -278,9 +290,10 @@ fn on_boomerang_bounce(
 fn rotate_boomerangs(
     mut boomerangs: Query<&mut Transform, (With<Boomerang>, With<Flying>)>,
     time: Res<Time>,
+    boomerang_stats: Res<BoomerangStats>,
 ) {
     for mut transform in boomerangs.iter_mut() {
-        transform.rotate_local_y(BOOMERANG_ROTATIONS_PER_SECOND * time.delta_secs());
+        transform.rotate_local_y(boomerang_stats.rotations_per_second * time.delta_secs());
     }
 }
 
@@ -321,13 +334,16 @@ fn update_boomerang_preview_position(
         spatial_query.cast_ray(origin, direction, max_distance, solid, &filter)
     {
         if potential_origins.get(first_hit.entity).is_ok() {
+            // It's something that can be used as an origin, so we want to home at it!
+            // ...might want to adjust the filter in that query if we ever need to home in on non-boomerang-origins.
             (first_hit.distance, Some(first_hit.entity))
         } else {
+            // It's a wall.
             (first_hit.distance, None)
         }
     } else {
         warn!(
-            "Unable to find a raycast target? Maybe we aren't in an enclosed room right now? If that's ever wanted, we probably need to set up some max flying distance"
+            "Unable to find a raycast target? Maybe we aren't in an enclosed room right now? If that's ever wanted, we probably need to also set up some max flying distance"
         );
 
         (max_distance, None)
@@ -348,7 +364,7 @@ fn update_boomerang_preview_position(
 }
 
 // TODO: use bevy_enhanced_input for the button press
-fn throw_boomerang_on_button_press(
+fn on_button_press_throw_boomerang(
     mouse_buttons: Res<ButtonInput<MouseButton>>,
     boomerang_holders: Query<Entity, With<ActiveBoomerangThrowOrigin>>,
     boomerang_previews: Query<(&BoomerangPathPreview, &GlobalTransform)>,
@@ -378,11 +394,12 @@ fn throw_boomerang_on_button_press(
     });
 }
 
-fn on_throw_boomerang(
+fn on_throw_boomerang_spawn_boomerang(
     mut event_reader: EventReader<ThrowBoomerangEvent>,
     mut commands: Commands,
     all_transforms: Query<&Transform>,
     boomerang_assets: Res<BoomerangAssets>,
+    boomerang_stats: Res<BoomerangStats>,
 ) -> Result<(), BevyError> {
     for event in event_reader.read() {
         commands.spawn((
@@ -395,7 +412,7 @@ fn on_throw_boomerang(
             ),
             Boomerang {
                 path: vec![event.target].into(),
-                speed: 10.0,
+                speed: boomerang_stats.movement_speed,
             },
             Flying,
             Mesh3d(boomerang_assets.mesh.clone()),
