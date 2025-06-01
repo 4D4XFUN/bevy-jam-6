@@ -9,7 +9,6 @@ mod animation;
 mod camera;
 mod input;
 pub mod level;
-mod movement;
 pub mod player;
 
 pub(super) fn plugin(app: &mut App) {
@@ -17,7 +16,6 @@ pub(super) fn plugin(app: &mut App) {
         camera::plugin,
         animation::plugin,
         level::plugin,
-        movement::plugin,
         player::plugin,
         input::plugin,
     ));

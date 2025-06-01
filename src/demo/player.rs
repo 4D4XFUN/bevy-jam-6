@@ -1,14 +1,17 @@
 //! Player-specific behavior.
 
+use crate::asset_tracking::LoadResource;
 use crate::demo::input::{PlayerActions, PlayerMove};
 use crate::screens::Screen;
-use crate::{asset_tracking::LoadResource, demo::movement::MovementController};
+use avian3d::prelude::{Collider, LockedAxes, RigidBody};
 use bevy::{
     image::{ImageLoaderSettings, ImageSampler},
     prelude::*,
 };
 use bevy_enhanced_input::events::Completed;
 use bevy_enhanced_input::prelude::{Actions, Fired};
+use bevy_tnua::prelude::{TnuaBuiltinWalk, TnuaController};
+use bevy_tnua_avian3d::TnuaAvian3dSensorShape;
 
 #[derive(Component, Reflect)]
 #[reflect(Component)]
@@ -42,20 +45,31 @@ fn spawn_player_to_point(
     commands.spawn((
         Name::new("Player"),
         Player,
-        Transform::from_translation(spawn_point.translation),
-        children![(
-            Mesh3d(meshes.add(Capsule3d::default())),
-            MeshMaterial3d(materials.add(Color::srgb_u8(124, 124, 0))),
-            Transform::from_xyz(0., 1.0, 0.)
-        )],
+        Transform::from_translation(spawn_point.translation + Vec3::Y),
+        Visibility::Inherited,
+        Mesh3d(meshes.add(Capsule3d::default())),
+        MeshMaterial3d(materials.add(Color::srgb_u8(124, 124, 0))),
+        Collider::capsule(0.5, 1.),
         StateScoped(Screen::Gameplay),
-        MovementController { ..default() },
+        TnuaController::default(),
+        RigidBody::Dynamic,
+        TnuaAvian3dSensorShape(Collider::cylinder(0.49, 0.)),
+        LockedAxes::ROTATION_LOCKED,
+        MovementSettings {
+            maximum_velocity: 20.,
+        },
     ));
 }
 
 #[derive(Component, Debug, Clone, Copy, PartialEq, Eq, Default, Reflect)]
 #[reflect(Component)]
 struct Player;
+
+#[derive(Component, Reflect)]
+#[reflect(Component)]
+struct MovementSettings {
+    maximum_velocity: f32,
+}
 
 fn add_player_movement_on_spawn(
     trigger: Trigger<OnAdd, Player>,
@@ -73,18 +87,27 @@ fn add_player_movement_on_spawn(
 
 fn record_player_directional_input(
     trigger: Trigger<Fired<PlayerMove>>,
-    mut movement_controller: Query<&mut MovementController>,
-) -> Result {
-    movement_controller.get_mut(trigger.target())?.intent = trigger.value; // vector is already normalized for us
-    Ok(())
+    movement_controller: Single<(&mut TnuaController, &MovementSettings)>,
+) {
+    let (mut controller, settings) = movement_controller.into_inner();
+    controller.basis(TnuaBuiltinWalk {
+        desired_velocity: Vec3::new(trigger.value.x, 0., trigger.value.y)
+            * settings.maximum_velocity,
+        float_height: 1.,
+        ..default()
+    });
 }
 
 fn stop_player_directional_input(
-    trigger: Trigger<Completed<PlayerMove>>,
-    mut movement_controller: Query<&mut MovementController>,
-) -> Result {
-    movement_controller.get_mut(trigger.target())?.intent = Vec2::ZERO;
-    Ok(())
+    _trigger: Trigger<Completed<PlayerMove>>,
+    movement_controller: Single<&mut TnuaController>,
+) {
+    let mut controller = movement_controller.into_inner();
+    controller.basis(TnuaBuiltinWalk {
+        desired_velocity: Vec3::ZERO,
+        float_height: 1.,
+        ..default()
+    });
 }
 
 #[derive(Resource, Asset, Clone, Reflect)]
