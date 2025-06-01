@@ -10,8 +10,8 @@ mod demo;
 #[cfg(feature = "dev")]
 mod dev_tools;
 mod screens;
-mod theme;
 mod settings;
+mod theme;
 
 use avian3d::PhysicsPlugins;
 use bevy::image::ImageSamplerDescriptor;
@@ -88,7 +88,6 @@ impl Plugin for AppPlugin {
             theme::plugin,
             settings::plugin,
         ));
-
     }
 }
 
