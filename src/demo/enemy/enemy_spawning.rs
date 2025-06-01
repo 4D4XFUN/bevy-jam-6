@@ -1,7 +1,7 @@
 use crate::demo::enemy::Enemy;
 use crate::demo::player::Player;
 use crate::screens::Screen;
-use avian3d::prelude::Collider;
+use avian3d::prelude::{Collider, RigidBody};
 use bevy::prelude::*;
 use bevy_tnua_avian3d::TnuaAvian3dSensorShape;
 use rand::{Rng, thread_rng};
@@ -50,6 +50,8 @@ pub fn spawn_enemies_on_enemy_spawn_points(
         StateScoped(Screen::Gameplay),
         TnuaAvian3dSensorShape(Collider::cylinder(0.49, 0.)),
         BoomerangHittable,
+        Collider::capsule(0.5, 1.),
+        RigidBody::Dynamic,
     ));
 
     Ok(())
