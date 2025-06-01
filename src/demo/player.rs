@@ -1,6 +1,7 @@
 //! Player-specific behavior.
 
 use crate::asset_tracking::LoadResource;
+use crate::demo::boomerang::ActiveBoomerangThrowOrigin;
 use crate::demo::input::{PlayerActions, PlayerMove};
 use crate::screens::Screen;
 use avian3d::prelude::{Collider, LockedAxes, RigidBody};
@@ -56,6 +57,7 @@ fn spawn_player_to_point(
         TnuaAvian3dSensorShape(Collider::cylinder(0.49, 0.)),
         LockedAxes::ROTATION_LOCKED,
         MovementSettings { walk_speed: 300. },
+        ActiveBoomerangThrowOrigin,
     ));
 }
 

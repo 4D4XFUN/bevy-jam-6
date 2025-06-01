@@ -6,10 +6,12 @@
 use bevy::prelude::*;
 
 mod animation;
+mod boomerang;
 mod camera;
 mod input;
 pub mod level;
-pub mod player;
+mod mouse_position;
+mod player;
 
 pub(super) fn plugin(app: &mut App) {
     app.add_plugins((
@@ -18,5 +20,7 @@ pub(super) fn plugin(app: &mut App) {
         level::plugin,
         player::plugin,
         input::plugin,
+        mouse_position::plugin,
+        boomerang::plugin,
     ));
 }
