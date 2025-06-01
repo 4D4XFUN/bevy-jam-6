@@ -1,8 +1,10 @@
 use crate::assets::BoomerangAssets;
 use crate::demo::mouse_position::MousePosition;
 use crate::screens::Screen;
+use avian3d::prelude::{Collider, SpatialQuery, SpatialQueryFilter};
 use bevy::app::App;
 use bevy::color;
+use bevy::ecs::entity::EntityHashSet;
 use bevy::input::ButtonInput;
 use bevy::math::Dir3;
 use bevy::prelude::{
@@ -13,7 +15,7 @@ use bevy::prelude::{
     Without, in_state, on_event,
 };
 use bevy::time::Time;
-use log::error;
+use log::{error, warn};
 use std::collections::VecDeque;
 
 const BOOMERANG_ROTATIONS_PER_SECOND: f32 = 6.0;
@@ -56,7 +58,7 @@ pub struct ActiveBoomerangThrowOrigin;
 // An event which gets fired whenever the player throws their boomerang.
 #[derive(Event)]
 struct ThrowBoomerangEvent {
-    origin: Entity,
+    thrower_entity: Entity,
     target: BoomerangTargetKind,
 }
 
@@ -95,7 +97,7 @@ struct PlannedBoomerangPath {
 #[derive(Component)]
 struct BoomerangPathPreview {
     /// The entity that's being targeted, if there is any.
-    entity: Option<Entity>,
+    target_entity: Option<Entity>,
 }
 
 pub fn plugin(app: &mut App) {
@@ -135,7 +137,7 @@ fn spawn_test_entities(
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<StandardMaterial>>,
 ) {
-    let mesh = meshes.add(Cuboid::new(0.2, 1.0, 0.2));
+    let mesh = meshes.add(Cuboid::new(0.5, 1.5, 0.5));
     let enemy_material: Handle<StandardMaterial> = materials.add(Color::linear_rgb(1.0, 0.2, 0.2));
 
     commands.spawn((
@@ -145,6 +147,7 @@ fn spawn_test_entities(
         Transform::from_translation(Vec3::new(5.0, 0.0, 2.0)),
         Mesh3d(mesh.clone()),
         MeshMaterial3d(enemy_material.clone()),
+        Collider::cuboid(0.5, 1.5, 0.5),
     ));
 }
 
@@ -282,41 +285,64 @@ fn rotate_boomerangs(
 }
 
 fn update_boomerang_preview_position(
-    boomerang_origins: Query<&GlobalTransform, With<ActiveBoomerangThrowOrigin>>,
-    boomerang_targets: Query<(Entity, &GlobalTransform), With<BoomerangHittable>>,
+    boomerang_origins: Query<(Entity, &GlobalTransform), With<ActiveBoomerangThrowOrigin>>,
+    potential_origins: Query<(), With<PotentialBoomerangOrigin>>,
     mut previews: Query<(&mut BoomerangPathPreview, &mut Transform)>,
     mouse_position: Res<MousePosition>,
     mut commands: Commands,
+    spatial_query: SpatialQuery,
 ) {
     let Some(mouse_position) = mouse_position.boomerang_throwing_plane else {
         // Mouse is probably not inside the game window right now
         return;
     };
 
-    let Ok(origin_transform) = boomerang_origins.single() else {
+    let Ok((origin_entity, origin_transform)) = boomerang_origins.single() else {
         error!("There was no boomerang origin to update the preview?");
         return;
     };
 
-    let Ok(direction) = Dir3::new(mouse_position - origin_transform.translation()) else {
+    let origin = origin_transform
+        .translation()
+        .with_y(BOOMERANG_FLYING_HEIGHT);
+
+    let Ok(direction) = Dir3::new(mouse_position - origin) else {
         // We are probably just pointing right at the ThrowOrigin
         return;
     };
 
-    // TODO: Raycast to see what and where we hit something.
-    let preview_location =
-        (origin_transform.translation() + direction * 10.0).with_y(BOOMERANG_FLYING_HEIGHT);
-    let target_entity = None;
+    let max_distance = 100.0;
+    let solid = true;
+    let filter = SpatialQueryFilter {
+        excluded_entities: EntityHashSet::from([origin_entity]),
+        ..Default::default()
+    };
+    let (distance_to_target, target_entity) = if let Some(first_hit) =
+        spatial_query.cast_ray(origin, direction, max_distance, solid, &filter)
+    {
+        if potential_origins.get(first_hit.entity).is_ok() {
+            (first_hit.distance, Some(first_hit.entity))
+        } else {
+            (first_hit.distance, None)
+        }
+    } else {
+        warn!(
+            "Unable to find a raycast target? Maybe we aren't in an enclosed room right now? If that's ever wanted, we probably need to set up some max flying distance"
+        );
+
+        (max_distance, None)
+    };
+
+    let target_location = origin + direction * distance_to_target;
 
     if let Ok((mut preview, mut transform)) = previews.single_mut() {
-        preview.entity = target_entity;
-        transform.translation = preview_location;
+        preview.target_entity = target_entity;
+        transform.translation = target_location;
     } else {
+        // TODO: Preview needs to be despawned after throw
         commands.spawn((
-            BoomerangPathPreview {
-                entity: target_entity,
-            },
-            Transform::from_translation(preview_location),
+            BoomerangPathPreview { target_entity },
+            Transform::from_translation(target_location),
         ));
     }
 }
@@ -341,13 +367,13 @@ fn throw_boomerang_on_button_press(
         return;
     };
 
-    let target = match preview.entity {
+    let target = match preview.target_entity {
         None => BoomerangTargetKind::Position(preview_position.translation()),
         Some(entity) => BoomerangTargetKind::Entity(entity),
     };
 
     event_writer.write(ThrowBoomerangEvent {
-        origin: thrower_entity,
+        thrower_entity,
         target,
     });
 }
@@ -363,7 +389,7 @@ fn on_throw_boomerang(
             Name::new("Boomerang"),
             Transform::from_translation(
                 all_transforms
-                    .get(event.origin)?
+                    .get(event.thrower_entity)?
                     .translation
                     .with_y(BOOMERANG_FLYING_HEIGHT),
             ),
