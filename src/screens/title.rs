@@ -2,28 +2,47 @@
 
 use bevy::prelude::*;
 
-use crate::{asset_tracking::ResourceHandles, screens::Screen, theme::prelude::*};
+use crate::{
+    asset_tracking::{LoadResource, ResourceHandles},
+    assets::{FontAssets, PanelAssets},
+    screens::Screen,
+    theme::prelude::*,
+};
 
 pub(super) fn plugin(app: &mut App) {
-    app.add_systems(OnEnter(Screen::Title), spawn_title_screen);
+    app.register_type::<PanelAssets>()
+        .load_resource::<PanelAssets>()
+        .register_type::<FontAssets>()
+        .load_resource::<FontAssets>()
+        .add_systems(OnEnter(Screen::Title), spawn_title_screen);
 }
 
-fn spawn_title_screen(mut commands: Commands) {
+fn spawn_title_screen(panel: Res<PanelAssets>, fonts: Res<FontAssets>, mut commands: Commands) {
     commands.spawn((
         widget::ui_root("Title Screen"),
         StateScoped(Screen::Title),
         #[cfg(not(target_family = "wasm"))]
         children![
-            widget::button("Play", enter_loading_or_gameplay_screen),
-            widget::button("Settings", enter_settings_screen),
-            widget::button("Credits", enter_credits_screen),
-            widget::button("Exit", exit_app),
+            widget::paneled_button(
+                "Play",
+                enter_loading_or_gameplay_screen,
+                &panel,
+                &fonts.header
+            ),
+            widget::paneled_button("Settings", enter_settings_screen, &panel, &fonts.header),
+            widget::paneled_button("Credits", enter_credits_screen, &panel, &fonts.header),
+            widget::paneled_button("Exit", exit_app, &panel, &fonts.header),
         ],
         #[cfg(target_family = "wasm")]
         children![
-            widget::button("Play", enter_loading_or_gameplay_screen),
-            widget::button("Settings", enter_settings_screen),
-            widget::button("Credits", enter_credits_screen),
+            widget::paneled_button(
+                "Play",
+                enter_loading_or_gameplay_screen,
+                &panel,
+                &fonts.header
+            ),
+            widget::paneled_button("Settings", enter_settings_screen, &panel, &fonts.header),
+            widget::paneled_button("Credits", enter_credits_screen, &panel, &fonts.header),
         ],
     ));
 }
