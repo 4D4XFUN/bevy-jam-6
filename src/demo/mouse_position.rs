@@ -1,9 +1,7 @@
 use crate::demo::boomerang::BOOMERANG_FLYING_HEIGHT;
 use bevy::app::{App, PreUpdate};
 use bevy::math::Vec3;
-use bevy::prelude::{
-    Camera, GlobalTransform, InfinitePlane3d, Query, ResMut, Resource, Vec2, Window, With,
-};
+use bevy::prelude::*;
 use bevy::window::PrimaryWindow;
 
 /// The current position our mouse is pointing at.
@@ -32,22 +30,22 @@ pub fn plugin(app: &mut App) {
 /// Taken & adjusted from <https://bevy-cheatbook.github.io/cookbook/cursor2world.html>
 fn update_mouse_position(
     mut mouse_position: ResMut<MousePosition>,
-    window_query: Query<&Window, With<PrimaryWindow>>,
-    camera_query: Query<(&Camera, &GlobalTransform)>,
-) {
+    window_query: Single<&Window, With<PrimaryWindow>>,
+    camera_query: Single<(&Camera, &GlobalTransform)>,
+) -> Result{
     mouse_position.reset();
 
     // get the camera info and transform
     // assuming there is exactly one main camera entity, so Query::single() is OK
-    let (camera, camera_transform) = camera_query.single().unwrap();
+    let (camera, camera_transform) = camera_query.into_inner();
 
     // There is only one primary window, so we can similarly get it from the query:
-    let window = window_query.single().unwrap();
+    let window = window_query.into_inner();
 
     // check if the cursor is inside the window and get its position
     let Some(cursor_position) = window.cursor_position() else {
         // if the cursor is not inside the window, we can't do anything
-        return;
+        return Ok(());
     };
 
     mouse_position.boomerang_throwing_plane = plane_cast(
@@ -57,6 +55,8 @@ fn update_mouse_position(
         BOOMERANG_FLYING_HEIGHT,
     );
     mouse_position.global = plane_cast(camera, camera_transform, cursor_position, 0.0);
+    
+    Ok(())
 }
 
 fn plane_cast(

@@ -7,13 +7,7 @@ use bevy::color;
 use bevy::ecs::entity::EntityHashSet;
 use bevy::input::ButtonInput;
 use bevy::math::Dir3;
-use bevy::prelude::{
-    AppGizmoBuilder, Assets, BevyError, Color, Commands, Component, Cuboid, Entity, Event,
-    EventReader, EventWriter, GizmoConfigGroup, Gizmos, GlobalTransform, Handle,
-    IntoScheduleConfigs, Mesh, Mesh3d, MeshMaterial3d, MouseButton, Mut, Name, OnEnter, Query,
-    Reflect, Res, ResMut, Resource, StandardMaterial, Transform, Update, Vec3, With, Without,
-    in_state, on_event,
-};
+use bevy::prelude::*;
 use bevy::time::Time;
 use log::{error, warn};
 use std::collections::VecDeque;
@@ -21,7 +15,7 @@ use std::collections::VecDeque;
 pub const BOOMERANG_FLYING_HEIGHT: f32 = 0.5;
 
 /// Component used to describe boomerang entities.
-#[derive(Component, Default)]
+#[derive(Component, Debug, Default)]
 struct Boomerang {
     /// The path this boomerang is following.
     path: VecDeque<BoomerangTargetKind>,
@@ -76,7 +70,7 @@ struct BoomerangHasFallenOnGroundEvent {
 }
 
 /// An enum to differentiate between the different kinds of targets our boomerang may want to hit.
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, Debug)]
 enum BoomerangTargetKind {
     /// Targeting an entity means it will home in on it, even as it moves.
     Entity(Entity),
@@ -93,13 +87,13 @@ struct BoomerangPathPreview {
 
 /// Current set of stats of our boomerang
 #[derive(Resource)]
-struct BoomerangStats {
+struct BoomerangSettings {
     movement_speed: f32,
     rotations_per_second: f32,
     falling_speed: f32,
 }
 
-impl Default for BoomerangStats {
+impl Default for BoomerangSettings {
     fn default() -> Self {
         Self {
             movement_speed: 10.0,
@@ -115,7 +109,7 @@ pub fn plugin(app: &mut App) {
     app.add_event::<BounceBoomerangEvent>();
     app.add_event::<BoomerangHasFallenOnGroundEvent>();
     app.init_resource::<BoomerangAssets>();
-    app.init_resource::<BoomerangStats>();
+    app.init_resource::<BoomerangSettings>();
 
     app.add_systems(
         Update,
@@ -169,11 +163,10 @@ fn move_flying_boomerangs(
     all_other_transforms: Query<&Transform, Without<Boomerang>>,
     time: Res<Time>,
     mut bounce_event_writer: EventWriter<BounceBoomerangEvent>,
-) -> Result<(), BevyError> {
+) -> Result {
+    
     for (boomerang_entity, boomerang, mut transform) in flying_boomerangs.iter_mut() {
-        let Some(target) = boomerang.path.front() else {
-            panic!("Boomerang path list was empty?")
-        };
+        let target = boomerang.path.front().ok_or(format!("No path for boomerang {:?}", boomerang))?;
 
         let target_position = match target {
             BoomerangTargetKind::Entity(entity) => all_other_transforms
@@ -220,8 +213,8 @@ fn move_falling_boomerangs(
     mut falling_boomerangs: Query<(Entity, &mut Transform), (With<Boomerang>, With<Falling>)>,
     time: Res<Time>,
     mut fallen_event_writer: EventWriter<BoomerangHasFallenOnGroundEvent>,
-    boomerang_stats: Res<BoomerangStats>,
-) -> Result<(), BevyError> {
+    boomerang_stats: Res<BoomerangSettings>,
+) -> Result {
     for (entity, mut transform) in falling_boomerangs.iter_mut() {
         transform.translation.y -= boomerang_stats.falling_speed * time.delta_secs();
 
@@ -240,7 +233,7 @@ fn move_falling_boomerangs(
 fn on_boomerang_fallen_remove_falling_component(
     mut fallen_events: EventReader<BoomerangHasFallenOnGroundEvent>,
     mut commands: Commands,
-) -> Result<(), BevyError> {
+) -> Result {
     for event in fallen_events.read() {
         commands
             .entity(event.boomerang_entity)
@@ -269,7 +262,7 @@ fn on_boomerang_bounce_advance_to_next_pathing_step_or_fall_down(
     mut bounce_events: EventReader<BounceBoomerangEvent>,
     mut boomerangs: Query<&mut Boomerang, With<Flying>>,
     mut commands: Commands,
-) -> Result<(), BevyError> {
+) -> Result {
     for event in bounce_events.read() {
         let mut boomerang = boomerangs.get_mut(event.boomerang_entity)?;
 
@@ -290,7 +283,7 @@ fn on_boomerang_bounce_advance_to_next_pathing_step_or_fall_down(
 fn rotate_boomerangs(
     mut boomerangs: Query<&mut Transform, (With<Boomerang>, With<Flying>)>,
     time: Res<Time>,
-    boomerang_stats: Res<BoomerangStats>,
+    boomerang_stats: Res<BoomerangSettings>,
 ) {
     for mut transform in boomerangs.iter_mut() {
         transform.rotate_local_y(boomerang_stats.rotations_per_second * time.delta_secs());
@@ -298,22 +291,19 @@ fn rotate_boomerangs(
 }
 
 fn update_boomerang_preview_position(
-    boomerang_origins: Query<(Entity, &GlobalTransform), With<ActiveBoomerangThrowOrigin>>,
+    boomerang_origins: Single<(Entity, &GlobalTransform), With<ActiveBoomerangThrowOrigin>>,
     potential_origins: Query<(), With<PotentialBoomerangOrigin>>,
     mut previews: Query<(&mut BoomerangPathPreview, &mut Transform)>,
     mouse_position: Res<MousePosition>,
     mut commands: Commands,
     spatial_query: SpatialQuery,
-) {
+) -> Result{
     let Some(mouse_position) = mouse_position.boomerang_throwing_plane else {
         // Mouse is probably not inside the game window right now
-        return;
+        return Ok(());
     };
 
-    let Ok((origin_entity, origin_transform)) = boomerang_origins.single() else {
-        error!("There was no boomerang origin to update the preview?");
-        return;
-    };
+    let (origin_entity, origin_transform) = boomerang_origins.into_inner();
 
     let origin = origin_transform
         .translation()
@@ -321,7 +311,7 @@ fn update_boomerang_preview_position(
 
     let Ok(direction) = Dir3::new(mouse_position - origin) else {
         // We are probably just pointing right at the ThrowOrigin
-        return;
+        return Ok(());
     };
 
     let max_distance = 100.0;
@@ -361,6 +351,7 @@ fn update_boomerang_preview_position(
             Transform::from_translation(target_location),
         ));
     }
+    Ok(())
 }
 
 // TODO: use bevy_enhanced_input for the button press
@@ -399,8 +390,8 @@ fn on_throw_boomerang_spawn_boomerang(
     mut commands: Commands,
     all_transforms: Query<&Transform>,
     boomerang_assets: Res<BoomerangAssets>,
-    boomerang_stats: Res<BoomerangStats>,
-) -> Result<(), BevyError> {
+    boomerang_stats: Res<BoomerangSettings>,
+) -> Result {
     for event in event_reader.read() {
         commands.spawn((
             Name::new("Boomerang"),
