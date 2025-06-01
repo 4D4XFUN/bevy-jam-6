@@ -18,10 +18,10 @@ pub(super) fn plugin(app: &mut App) {
         // bevy::diagnostic::SystemInformationDiagnosticsPlugin,
         bevy::render::diagnostic::RenderDiagnosticsPlugin,
         avian3d::debug_render::PhysicsDebugPlugin::new(FixedUpdate),
-        WorldInspectorPlugin::new(),
         EguiPlugin {
             enable_multipass_for_primary_context: true,
         },
+        WorldInspectorPlugin::new(),
     ));
 
     // Log `Screen` state transitions.
