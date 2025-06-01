@@ -19,6 +19,9 @@ use std::collections::VecDeque;
 const BOOMERANG_ROTATIONS_PER_SECOND: f32 = 6.0;
 const BOOMERANG_FALL_SPEED: f32 = 1.0;
 
+pub const BOOMERANG_FLYING_HEIGHT: f32 = 0.5;
+const BOOMERANG_FLYING_OFFSET: Vec3 = Vec3::new(0.0, BOOMERANG_FLYING_HEIGHT, 0.0);
+
 /// Component used to describe boomerang entities.
 #[derive(Component, Default)]
 struct Boomerang {
@@ -294,7 +297,7 @@ fn update_boomerang_preview_position(
     mouse_position: Res<MousePosition>,
     mut commands: Commands,
 ) {
-    let Some(global_mouse_position) = mouse_position.global else {
+    let Some(mouse_position) = mouse_position.boomerang_throwing_plane else {
         // Mouse is probably not inside the game window right now
         return;
     };
@@ -304,7 +307,7 @@ fn update_boomerang_preview_position(
         return;
     };
 
-    let Ok(direction) = Dir3::new(global_mouse_position - origin_transform.translation()) else {
+    let Ok(direction) = Dir3::new(mouse_position - origin_transform.translation()) else {
         // We are probably just pointing right at the ThrowOrigin
         return;
     };
@@ -366,7 +369,9 @@ fn on_throw_boomerang(
     for event in event_reader.read() {
         commands.spawn((
             Name::new("Boomerang"),
-            Transform::from_translation(all_transforms.get(event.origin)?.translation),
+            Transform::from_translation(
+                all_transforms.get(event.origin)?.translation + BOOMERANG_FLYING_OFFSET,
+            ),
             Boomerang {
                 path: vec![event.target].into(),
                 speed: 10.0,
@@ -391,7 +396,7 @@ fn draw_preview_gizmo(
     for from in boomerang_holders {
         for to in boomerang_target_preview {
             gizmos.line(
-                from.translation(),
+                from.translation() + BOOMERANG_FLYING_OFFSET,
                 to.translation(),
                 color::palettes::css::ORANGE,
             );
