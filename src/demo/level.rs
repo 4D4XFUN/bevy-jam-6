@@ -36,15 +36,17 @@ pub fn spawn_level(
         Transform::default(),
         Visibility::default(),
         StateScoped(Screen::Gameplay),
-        children![(
-            Name::new("Gameplay Music"),
-            music(level_assets.music.clone())
-        )],
-    ));
-    commands.spawn((
-        Name::new("Environment"),
-        SceneRoot(
-            asset_server.load(GltfAssetLabel::Scene(0).from_asset("models/Environment.gltf")),
-        ),
+        children![
+            (
+                Name::new("Gameplay Music"),
+                // music(level_assets.music.clone()), // TODO: uncomment to add music back in
+            ),
+            (
+                Name::new("Environment"),
+                SceneRoot(
+                    asset_server.load(GltfAssetLabel::Scene(0).from_asset("models/Environment.gltf")),
+                ),
+            ),
+        ],
     ));
 }
