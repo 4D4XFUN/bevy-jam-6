@@ -65,7 +65,7 @@ struct BounceBoomerangEvent {
     /// The boomerang entity
     boomerang_entity: Entity,
     /// The target we have bounced against
-    bounce_on: BoomerangTargetKind,
+    _bounce_on: BoomerangTargetKind,
 }
 
 // An event which gets fired whenever a boomerang falls to the ground, thus ceasing all movement.
@@ -261,7 +261,7 @@ fn send_boomerang_bounce_event(
     transform.translation = target_position;
     bounce_event_writer.write(BounceBoomerangEvent {
         boomerang_entity,
-        bounce_on: target.clone(),
+        _bounce_on: target.clone(),
     });
 }
 
