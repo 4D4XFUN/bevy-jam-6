@@ -55,8 +55,8 @@ impl Plugin for AppPlugin {
                 })
                 .set(WindowPlugin {
                     primary_window: Window {
-                        title: "Boomerang Showdown".to_string(),
-                        present_mode: PresentMode::AutoNoVsync,
+                        title: "A FISTFUL OF BOOMERANGS".to_string(),
+                        present_mode: PresentMode::AutoVsync,
                         fit_canvas_to_parent: true,
                         ..default()
                     }
