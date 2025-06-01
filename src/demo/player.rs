@@ -5,6 +5,7 @@ use crate::demo::boomerang::ActiveBoomerangThrowOrigin;
 use crate::demo::input::{PlayerActions, PlayerMove};
 use crate::screens::Screen;
 use avian3d::prelude::{Collider, LockedAxes, RigidBody};
+use bevy::math::NormedVectorSpace;
 use bevy::{
     image::{ImageLoaderSettings, ImageSampler},
     prelude::*,
@@ -92,12 +93,16 @@ fn record_player_directional_input(
 ) {
     let (mut controller, settings) = movement_controller.into_inner();
     let camera_transform = camera_query.into_inner();
-    let mut camera_right = camera_transform.right().as_vec3();
-    let mut camera_forward = camera_transform.forward().as_vec3();
-    camera_right.y = 0.0;
-    camera_forward.y = 0.0;
-    camera_right = camera_right.normalize_or_zero();
-    camera_forward = camera_forward.normalize_or_zero();
+    let camera_right = camera_transform
+        .right()
+        .as_vec3()
+        .with_y(0.)
+        .normalize_or_zero();
+    let camera_forward = camera_transform
+        .forward()
+        .as_vec3()
+        .with_y(0.)
+        .normalize_or_zero();
     let velocity = (camera_right * trigger.value.x + camera_forward * trigger.value.y)
         .normalize_or_zero()
         * settings.walk_speed;
