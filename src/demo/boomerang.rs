@@ -164,9 +164,11 @@ fn move_flying_boomerangs(
     time: Res<Time>,
     mut bounce_event_writer: EventWriter<BounceBoomerangEvent>,
 ) -> Result {
-    
     for (boomerang_entity, boomerang, mut transform) in flying_boomerangs.iter_mut() {
-        let target = boomerang.path.front().ok_or(format!("No path for boomerang {:?}", boomerang))?;
+        let target = boomerang
+            .path
+            .front()
+            .ok_or(format!("No path for boomerang {:?}", boomerang))?;
 
         let target_position = match target {
             BoomerangTargetKind::Entity(entity) => all_other_transforms
@@ -297,7 +299,7 @@ fn update_boomerang_preview_position(
     mouse_position: Res<MousePosition>,
     mut commands: Commands,
     spatial_query: SpatialQuery,
-) -> Result{
+) -> Result {
     let Some(mouse_position) = mouse_position.boomerang_throwing_plane else {
         // Mouse is probably not inside the game window right now
         return Ok(());

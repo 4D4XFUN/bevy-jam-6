@@ -32,7 +32,7 @@ fn update_mouse_position(
     mut mouse_position: ResMut<MousePosition>,
     window_query: Single<&Window, With<PrimaryWindow>>,
     camera_query: Single<(&Camera, &GlobalTransform)>,
-) -> Result{
+) -> Result {
     mouse_position.reset();
 
     // get the camera info and transform
@@ -55,7 +55,7 @@ fn update_mouse_position(
         BOOMERANG_FLYING_HEIGHT,
     );
     mouse_position.global = plane_cast(camera, camera_transform, cursor_position, 0.0);
-    
+
     Ok(())
 }
 
