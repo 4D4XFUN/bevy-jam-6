@@ -190,7 +190,7 @@ fn move_flying_boomerangs(
                 &mut bounce_event_writer,
                 boomerang_entity,
                 &mut transform,
-                target,
+                *target,
                 target_position,
             );
             continue;
@@ -202,7 +202,7 @@ fn move_flying_boomerangs(
                 &mut bounce_event_writer,
                 boomerang_entity,
                 &mut transform,
-                target,
+                *target,
                 target_position,
             );
             continue;
@@ -255,13 +255,13 @@ fn send_boomerang_bounce_event(
     bounce_event_writer: &mut EventWriter<BounceBoomerangEvent>,
     boomerang_entity: Entity,
     transform: &mut Mut<Transform>,
-    target: &BoomerangTargetKind,
+    target: BoomerangTargetKind,
     target_position: Vec3,
 ) {
     transform.translation = target_position;
     bounce_event_writer.write(BounceBoomerangEvent {
         boomerang_entity,
-        _bounce_on: target.clone(),
+        _bounce_on: target,
     });
 }
 
