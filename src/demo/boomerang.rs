@@ -168,7 +168,7 @@ fn move_flying_boomerangs(
         let target = boomerang
             .path
             .front()
-            .ok_or(format!("No path for boomerang {:?}", boomerang))?;
+            .ok_or(format!("No path for boomerang {boomerang:?}"))?;
 
         let target_position = match target {
             BoomerangTargetKind::Entity(entity) => all_other_transforms
