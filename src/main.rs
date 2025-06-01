@@ -16,6 +16,7 @@ mod theme;
 
 use avian3d::PhysicsPlugins;
 use bevy::window::{PresentMode, WindowResolution};
+use bevy::image::ImageSamplerDescriptor;
 use bevy::{asset::AssetMetaCheck, prelude::*};
 use bevy_skein::SkeinPlugin;
 use bevy_tnua::prelude::TnuaControllerPlugin;
@@ -59,6 +60,10 @@ impl Plugin for AppPlugin {
                         ..default()
                     }
                     .into(),
+                    ..default()
+                })
+                .set(ImagePlugin {
+                    default_sampler: ImageSamplerDescriptor::nearest(),
                     ..default()
                 }),
             SkeinPlugin::default(),
