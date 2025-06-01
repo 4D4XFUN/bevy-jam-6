@@ -87,7 +87,6 @@ fn record_player_directional_input(
     trigger: Trigger<Fired<PlayerMove>>,
     movement_controller: Single<(&mut TnuaController, &MovementSettings)>,
     camera_query: Single<&Transform, With<Camera3d>>,
-    time: Res<Time>,
 ) {
     let (mut controller, settings) = movement_controller.into_inner();
     let camera_transform = camera_query.into_inner();
