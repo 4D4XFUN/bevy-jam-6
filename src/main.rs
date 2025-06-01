@@ -44,7 +44,6 @@ impl Plugin for AppPlugin {
 
         // Spawn the main camera.
         // app.add_systems(Startup, spawn_camera);
-        Vec3::ZERO.with_y(0.0)
 
         // Add Bevy plugins.
         app.add_plugins((
