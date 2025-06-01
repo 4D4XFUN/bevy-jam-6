@@ -1,7 +1,6 @@
 use crate::asset_tracking::LoadResource;
 use crate::audio::sound_effect;
 use crate::demo::input::AimModeAction;
-use crate::screens::Screen;
 use bevy::prelude::*;
 use bevy_enhanced_input::prelude::*;
 
@@ -72,7 +71,7 @@ impl FromWorld for AimModeAssets {
     }
 }
 
-pub fn play_aim_mode_sound_effect(mut commands: Commands, assets: Option<Res<AimModeAssets>>) {
+fn play_aim_mode_sound_effect(mut commands: Commands, assets: Option<Res<AimModeAssets>>) {
     let Some(assets) = assets else {
         return;
     };
