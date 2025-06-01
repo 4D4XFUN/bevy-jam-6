@@ -10,6 +10,7 @@ mod demo;
 #[cfg(feature = "dev")]
 mod dev_tools;
 mod screens;
+mod settings;
 mod theme;
 
 use avian3d::PhysicsPlugins;
@@ -55,7 +56,7 @@ impl Plugin for AppPlugin {
                 .set(WindowPlugin {
                     primary_window: Window {
                         title: "Boomerang Showdown".to_string(),
-                        present_mode: PresentMode::AutoVsync,
+                        present_mode: PresentMode::AutoNoVsync,
                         fit_canvas_to_parent: true,
                         ..default()
                     }
@@ -79,6 +80,7 @@ impl Plugin for AppPlugin {
             dev_tools::plugin,
             screens::plugin,
             theme::plugin,
+            settings::plugin,
         ));
     }
 }
