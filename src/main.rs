@@ -80,7 +80,7 @@ impl Plugin for AppPlugin {
             dev_tools::plugin,
             screens::plugin,
             theme::plugin,
-            // settings::plugin,
+            settings::plugin,
         ));
     }
 }
