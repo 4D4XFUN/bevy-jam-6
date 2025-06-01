@@ -1,12 +1,15 @@
 use crate::gameplay::mouse_position::MousePosition;
+use crate::screens::Screen;
 use bevy::app::App;
 use bevy::color;
+use bevy::color::palettes;
 use bevy::math::Dir3;
 use bevy::prelude::{
-    AppGizmoBuilder, Color, Commands, Component, Entity, Event, EventReader, EventWriter,
-    GizmoConfigGroup, Gizmos, GlobalTransform, IntoScheduleConfigs, MouseButton, Name, Plugin,
-    PostUpdate, Query, Reflect, Res, Resource, Srgba, Startup, Transform, Trigger, Update, Vec3,
-    With, in_state,
+    AppGizmoBuilder, Assets, Color, Commands, Component, Cuboid, Entity, Event, EventReader,
+    EventWriter, GizmoConfigGroup, Gizmos, GlobalTransform, Handle, IntoScheduleConfigs, Mesh,
+    Mesh3d, MeshMaterial3d, MouseButton, Name, OnEnter, Plugin, PostUpdate, Query, Reflect, Res,
+    ResMut, Resource, Srgba, StandardMaterial, Startup, Transform, Trigger, Update, Vec3, With,
+    in_state,
 };
 use bevy_enhanced_input::actions::Actions;
 use bevy_enhanced_input::prelude::{Fired, InputAction, InputContext, Release};
@@ -60,25 +63,39 @@ impl Plugin for BoomerangThrowingPlugin {
                 update_boomerang_preview_position,
                 (draw_preview_gizmo, on_throw_boomerang),
             )
-                .chain(),
+                .chain()
+                .run_if(in_state(Screen::Gameplay)),
         );
 
-        // TODO: Remove
-        app.add_systems(Startup, spawn_test_entities);
+        // TODO: Remove this
+        app.add_systems(OnEnter(Screen::Gameplay), spawn_test_entities);
     }
 }
 
-fn spawn_test_entities(mut commands: Commands) {
+fn spawn_test_entities(
+    mut commands: Commands,
+    mut meshes: ResMut<Assets<Mesh>>,
+    mut materials: ResMut<Assets<StandardMaterial>>,
+) {
+    let mesh = meshes.add(Cuboid::new(0.2, 1.0, 0.2));
+
+    let player_material: Handle<StandardMaterial> = materials.add(Color::WHITE);
+    let enemy_material: Handle<StandardMaterial> = materials.add(Color::linear_rgb(1.0, 0.2, 0.2));
+
     commands.spawn((
         Name::new("TestBoomerangThrower"),
         ActiveBoomerangThrowOrigin,
         Transform::from_translation(Vec3::ZERO),
+        Mesh3d(mesh.clone()),
+        MeshMaterial3d(player_material.clone()),
     ));
     commands.spawn((
         Name::new("TestBoomerangTarget"),
         BoomerangHittable,
         PotentialBoomerangOrigin,
-        Transform::from_translation(Vec3::X * 10.0),
+        Transform::from_translation(Vec3::new(5.0, 0.0, 2.0)),
+        Mesh3d(mesh.clone()),
+        MeshMaterial3d(enemy_material.clone()),
     ));
 }
 
