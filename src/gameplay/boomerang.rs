@@ -1,26 +1,17 @@
+use crate::assets::MeshAssets;
 use crate::gameplay::mouse_position::MousePosition;
 use crate::screens::Screen;
 use bevy::app::App;
 use bevy::color;
-use bevy::color::palettes;
+use bevy::input::ButtonInput;
 use bevy::math::Dir3;
 use bevy::prelude::{
-    AppGizmoBuilder, Assets, Color, Commands, Component, Cuboid, Entity, Event, EventReader,
-    EventWriter, GizmoConfigGroup, Gizmos, GlobalTransform, Handle, IntoScheduleConfigs, Mesh,
-    Mesh3d, MeshMaterial3d, MouseButton, Name, OnEnter, Plugin, PostUpdate, Query, Reflect, Res,
-    ResMut, Resource, Srgba, StandardMaterial, Startup, Transform, Trigger, Update, Vec3, With,
-    in_state,
+    AppGizmoBuilder, Assets, BevyError, Color, Commands, Component, Cuboid, Entity, Event,
+    EventReader, EventWriter, GizmoConfigGroup, Gizmos, GlobalTransform, Handle,
+    IntoScheduleConfigs, Mesh, Mesh3d, MeshMaterial3d, MouseButton, Name, OnEnter, Plugin, Query,
+    Reflect, Res, ResMut, Resource, StandardMaterial, Transform, Update, Vec3, With, in_state,
 };
-use bevy_enhanced_input::actions::Actions;
-use bevy_enhanced_input::prelude::{Fired, InputAction, InputContext, Release};
 use log::error;
-
-#[derive(Debug, InputAction)]
-#[input_action(output = bool)]
-struct ThrowBoomerang;
-
-#[derive(InputContext)]
-struct MyInputContext;
 
 /// Component used to mark actively flying boomerangs.
 #[derive(Component, Default)]
@@ -48,19 +39,14 @@ struct ActiveBoomerangThrowOrigin;
 pub(crate) struct BoomerangThrowingPlugin;
 impl Plugin for BoomerangThrowingPlugin {
     fn build(&self, app: &mut App) {
-        let mut actions = Actions::<MyInputContext>::default();
-        actions
-            .bind::<ThrowBoomerang>()
-            .to((MouseButton::Left))
-            .with_conditions(Release::default());
         app.init_gizmo_group::<BoomerangPreviewGizmos>();
         app.add_event::<ThrowBoomerangEvent>();
-        app.add_observer(throw_boomerang_on_button_press);
 
         app.add_systems(
             Update,
             (
                 update_boomerang_preview_position,
+                throw_boomerang_on_button_press,
                 (draw_preview_gizmo, on_throw_boomerang),
             )
                 .chain()
@@ -107,6 +93,7 @@ struct ThrowBoomerangEvent {
 }
 
 /// An enum to differentiate between the different kinds of targets our boomerang may want to hit.
+#[derive(Copy, Clone)]
 enum BoomerangTargetKind {
     /// Targeting an entity means it will home in on it, even as it moves.
     Entity(Entity),
@@ -149,8 +136,8 @@ fn update_boomerang_preview_position(
         return;
     };
 
-    // TODO: Raycast to see what and where we hit something
-    let preview_location = direction * 100.0;
+    // TODO: Raycast to see what and where we hit something.
+    let preview_location = direction * 10.0;
     let target_entity = None;
 
     if let Ok((mut preview, mut transform)) = previews.single_mut() {
@@ -166,12 +153,17 @@ fn update_boomerang_preview_position(
     }
 }
 
+// TODO: use bevy_enhanced_input for the button press
 fn throw_boomerang_on_button_press(
-    trigger: Trigger<Fired<ThrowBoomerang>>,
+    mouse_buttons: Res<ButtonInput<MouseButton>>,
     boomerang_holders: Query<Entity, With<ActiveBoomerangThrowOrigin>>,
     boomerang_previews: Query<(&BoomerangPathPreview, &GlobalTransform)>,
     mut event_writer: EventWriter<ThrowBoomerangEvent>,
 ) {
+    if !mouse_buttons.just_released(MouseButton::Left) {
+        return;
+    }
+
     let Ok(thrower_entity) = boomerang_holders.single() else {
         error!("Was unable to find a single thrower! (multiple ain't supported yet)");
         return;
@@ -192,8 +184,24 @@ fn throw_boomerang_on_button_press(
     });
 }
 
-fn on_throw_boomerang(mut event_reader: EventReader<ThrowBoomerangEvent>, mut commands: Commands) {
-    for event in event_reader.read() {}
+fn on_throw_boomerang(
+    mut event_reader: EventReader<ThrowBoomerangEvent>,
+    mut commands: Commands,
+    all_transforms: Query<&Transform>,
+    meshes: Res<MeshAssets>,
+) -> Result<(), BevyError> {
+    for event in event_reader.read() {
+        commands.spawn((
+            Name::new("Boomerang"),
+            Transform::from_translation(all_transforms.get(event.origin)?.translation),
+            Boomerang {
+                path: vec![event.target],
+            },
+            Mesh3d(meshes.boomerang.clone()),
+        ));
+    }
+
+    Ok(())
 }
 
 #[derive(Default, Reflect, GizmoConfigGroup)]
