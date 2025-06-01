@@ -138,7 +138,7 @@ rustdocflags = ["-Clinker=rust-lld.exe"]
 rustflags = [
   # Nightly
   # "-Zshare-generics=n", # This needs to be off if you use dynamic linking on Windows.
-  # "-Zthreads=0",
+   "-Zthreads=0",
 ]
 
 # Optional: Uncommenting the following improves compile times, but reduces the amount of debug info to 'line number tables only'
