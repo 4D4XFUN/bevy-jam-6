@@ -31,9 +31,7 @@ pub(super) fn plugin(app: &mut App) {
 }
 
 /// Update the sprite direction and animation state (idling/walking).
-fn update_animation_movement(
-    _player_query: Query<(&TnuaController, &Sprite, &PlayerAnimation)>,
-) {
+fn update_animation_movement(_player_query: Query<(&TnuaController, &Sprite, &PlayerAnimation)>) {
     // todo!
 }
 
