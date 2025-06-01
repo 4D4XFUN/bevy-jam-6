@@ -42,12 +42,31 @@ pub fn header(text: impl Into<String>) -> impl Bundle {
     )
 }
 
+pub fn header_with_font(text: impl Into<String>, font: &Handle<Font>) -> impl Bundle {
+    (
+        Name::new("Header"),
+        Text(text.into()),
+        TextFont::from_font_size(40.0).with_font(font.clone()),
+        TextColor(HEADER_TEXT),
+    )
+}
+
 /// A simple text label.
 pub fn label(text: impl Into<String>) -> impl Bundle {
     (
         Name::new("Label"),
         Text(text.into()),
         TextFont::from_font_size(24.0),
+        TextColor(LABEL_TEXT),
+    )
+}
+
+/// A simple text label.
+pub fn label_with_font(text: impl Into<String>, font: &Handle<Font>) -> impl Bundle {
+    (
+        Name::new("Label"),
+        Text(text.into()),
+        TextFont::from_font_size(24.0).with_font(font.clone()),
         TextColor(LABEL_TEXT),
     )
 }
@@ -161,7 +180,7 @@ where
                 ..default()
             },
         ),
-        font
+        font,
     )
 }
 

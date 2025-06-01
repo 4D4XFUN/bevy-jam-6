@@ -2,7 +2,13 @@
 
 use bevy::{ecs::spawn::SpawnIter, prelude::*, ui::Val::*};
 
-use crate::{asset_tracking::LoadResource, audio::music, screens::Screen, theme::prelude::*};
+use crate::{
+    asset_tracking::LoadResource,
+    assets::{FontAssets, PanelAssets},
+    audio::music,
+    screens::Screen,
+    theme::prelude::*,
+};
 
 pub(super) fn plugin(app: &mut App) {
     app.add_systems(OnEnter(Screen::Credits), spawn_credits_screen);
@@ -12,16 +18,16 @@ pub(super) fn plugin(app: &mut App) {
     app.add_systems(OnEnter(Screen::Credits), start_credits_music);
 }
 
-fn spawn_credits_screen(mut commands: Commands) {
+fn spawn_credits_screen(panel: Res<PanelAssets>, fonts: Res<FontAssets>, mut commands: Commands) {
     commands.spawn((
         widget::ui_root("Credits Screen"),
         StateScoped(Screen::Credits),
         children![
-            widget::header("Created by"),
+            widget::header_with_font("Created by", &fonts.header),
             created_by(),
-            widget::header("Assets"),
+            widget::header_with_font("Assets", &fonts.header),
             assets(),
-            widget::button("Back", enter_title_screen),
+            widget::paneled_button("Back", enter_title_screen, &panel, &fonts.header),
         ],
     ));
 }
@@ -36,7 +42,6 @@ fn created_by() -> impl Bundle {
 fn assets() -> impl Bundle {
     grid(vec![
         ["Ducky sprite", "CC0 by Caz Creates Games"],
-        ["Button SFX", "CC0 by Jaszunio15"],
         ["Music", "CC BY 3.0 by Kevin MacLeod"],
         ["Pistol Riccoechet Sound", "CC0 by Diboz"],
         [
