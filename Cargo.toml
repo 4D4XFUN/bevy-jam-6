@@ -11,9 +11,9 @@ bevy_enhanced_input = "0.12.0" # maps input keys -> abstract actions
 
 ## EXTRAS - some useful ecosystem crates, uncomment if needed - let's get rid of any we end up not needing before release
 anyhow = "1.0.98" # better Result ergonomics
-bevy_aseprite_ultra = "0.6.1" # aseprite w/ hot reloading
+#bevy_aseprite_ultra = "0.6.1" # aseprite w/ hot reloading
 bevy_asset_loader = "0.23.0" # simpler asset loading
-bevy_ecs_ldtk = "0.12.0" # LDTK integration
+#bevy_ecs_ldtk = "0.12.0" # LDTK integration
 bevy_lunex = "0.4.1" # UI
 
 # Compile low-severity logs out of native builds for performance.
@@ -26,14 +26,16 @@ tracing = { version = "0.1", features = [
     "max_level_debug",
     "release_max_level_warn",
 ] }
+bevy_skein = { version = "0.2.1", features = [
+    "presets",
+] }
+bevy-inspector-egui = "0.31.0"
+bitflags = "2.9.1"
 # Tell `getrandom v0.3+` to use the `wasm_js` backend on web.
 # See: <https://github.com/rust-random/getrandom/issues/671>.
 #getrandom = { version = "0.3", default-features = false, features = [
 #    "wasm_js",
 #], optional = true }
-
-[dev-dependencies]
-bevy-inspector-egui = "0.31.0"
 
 [features]
 default = [
