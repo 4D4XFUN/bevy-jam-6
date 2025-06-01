@@ -404,7 +404,7 @@ fn on_throw_boomerang_spawn_boomerang(
                     .with_y(BOOMERANG_FLYING_HEIGHT),
             ),
             Boomerang {
-                path: vec![event.target].into(),
+                path: vec![event.target, BoomerangTargetKind::Entity(event.thrower_entity)].into(),
                 speed: boomerang_stats.movement_speed,
             },
             Flying,
