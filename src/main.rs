@@ -12,6 +12,8 @@ mod dev_tools;
 mod screens;
 mod theme;
 
+mod gameplay;
+
 use bevy::image::ImageSamplerDescriptor;
 use bevy::window::PresentMode;
 use bevy::{asset::AssetMetaCheck, prelude::*};
@@ -79,6 +81,7 @@ impl Plugin for AppPlugin {
             dev_tools::plugin,
             screens::plugin,
             theme::plugin,
+            gameplay::plugin,
         ));
     }
 }
