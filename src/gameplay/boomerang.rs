@@ -1,4 +1,4 @@
-use crate::assets::MeshAssets;
+use crate::assets::BoomerangAssets;
 use crate::gameplay::mouse_position::MousePosition;
 use crate::screens::Screen;
 use bevy::app::App;
@@ -9,15 +9,20 @@ use bevy::prelude::{
     AppGizmoBuilder, Assets, BevyError, Color, Commands, Component, Cuboid, Entity, Event,
     EventReader, EventWriter, GizmoConfigGroup, Gizmos, GlobalTransform, Handle,
     IntoScheduleConfigs, Mesh, Mesh3d, MeshMaterial3d, MouseButton, Name, OnEnter, Plugin, Query,
-    Reflect, Res, ResMut, Resource, StandardMaterial, Transform, Update, Vec3, With, in_state,
+    Reflect, Res, ResMut, Resource, StandardMaterial, Transform, Update, Vec3, With, Without,
+    in_state, on_event,
 };
+use bevy::time::Time;
 use log::error;
+
+const BOOMERANG_ROTATIONS_PER_SECOND: f32 = 6.0;
 
 /// Component used to mark actively flying boomerangs.
 #[derive(Component, Default)]
 struct Boomerang {
     /// The path this boomerang is following.
     path: Vec<BoomerangTargetKind>,
+    speed: f32,
 }
 
 /// Component used to mark anything which can be hit by the boomerang.
@@ -45,11 +50,18 @@ impl Plugin for BoomerangThrowingPlugin {
         app.add_systems(
             Update,
             (
-                update_boomerang_preview_position,
-                throw_boomerang_on_button_press,
-                (draw_preview_gizmo, on_throw_boomerang),
+                (
+                    update_boomerang_preview_position,
+                    throw_boomerang_on_button_press,
+                    (
+                        draw_preview_gizmo,
+                        on_throw_boomerang.run_if(on_event::<ThrowBoomerangEvent>),
+                    ),
+                )
+                    .chain(),
+                rotate_boomerangs,
+                move_boomerangs,
             )
-                .chain()
                 .run_if(in_state(Screen::Gameplay)),
         );
 
@@ -83,6 +95,48 @@ fn spawn_test_entities(
         Mesh3d(mesh.clone()),
         MeshMaterial3d(enemy_material.clone()),
     ));
+}
+
+fn move_boomerangs(
+    mut boomerangs: Query<(&Boomerang, &mut Transform)>,
+    all_other_transforms: Query<&Transform, Without<Boomerang>>,
+    time: Res<Time>,
+) -> Result<(), BevyError> {
+    for (boomerang, mut transform) in boomerangs.iter_mut() {
+        let Some(target) = boomerang.path.first() else {
+            panic!("Boomerang path list was empty?")
+        };
+
+        let target_position = match target {
+            BoomerangTargetKind::Entity(entity) => &all_other_transforms.get(*entity)?.translation,
+            BoomerangTargetKind::Position(position) => position,
+        };
+
+        let Ok((direction, remaining_distance)) =
+            Dir3::new_and_length(target_position - transform.translation)
+        else {
+            transform.translation = target_position.clone();
+            // TODO: We probably already hit our target here and should proceed to the next in path... or drop it.
+            continue;
+        };
+
+        let distance_travelled_this_frame = boomerang.speed * time.delta_secs();
+        if remaining_distance <= distance_travelled_this_frame {
+            transform.translation = target_position.clone();
+            // TODO: We definitely hit our target here and should proceed to the next in path... or drop it.
+            continue;
+        }
+
+        transform.translation += direction * distance_travelled_this_frame;
+    }
+
+    Ok(())
+}
+
+fn rotate_boomerangs(mut boomerangs: Query<&mut Transform, With<Boomerang>>, time: Res<Time>) {
+    for mut transform in boomerangs.iter_mut() {
+        transform.rotate_local_y(BOOMERANG_ROTATIONS_PER_SECOND * time.delta_secs());
+    }
 }
 
 // An event which gets fired whenever the player throws their boomerang.
@@ -188,7 +242,7 @@ fn on_throw_boomerang(
     mut event_reader: EventReader<ThrowBoomerangEvent>,
     mut commands: Commands,
     all_transforms: Query<&Transform>,
-    meshes: Res<MeshAssets>,
+    boomerang_assets: Res<BoomerangAssets>,
 ) -> Result<(), BevyError> {
     for event in event_reader.read() {
         commands.spawn((
@@ -196,8 +250,10 @@ fn on_throw_boomerang(
             Transform::from_translation(all_transforms.get(event.origin)?.translation),
             Boomerang {
                 path: vec![event.target],
+                speed: 10.0,
             },
-            Mesh3d(meshes.boomerang.clone()),
+            Mesh3d(boomerang_assets.mesh.clone()),
+            MeshMaterial3d(boomerang_assets.material.clone()),
         ));
     }
 
