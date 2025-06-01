@@ -55,7 +55,12 @@ fn spawn_player_to_point(
         RigidBody::Dynamic,
         TnuaAvian3dSensorShape(Collider::cylinder(0.49, 0.)),
         LockedAxes::ROTATION_LOCKED,
+<<<<<<< Updated upstream
         MovementSettings { walk_speed: 300. },
+=======
+        MovementSettings { walk_speed: 30. },
+        ActiveBoomerangThrowOrigin,
+>>>>>>> Stashed changes
     ));
 }
 
@@ -99,8 +104,7 @@ fn record_player_directional_input(
     camera_forward = camera_forward.normalize_or_zero();
     let velocity = (camera_right * trigger.value.x + camera_forward * trigger.value.y)
         .normalize_or_zero()
-        * settings.walk_speed
-        * time.into_inner().delta_secs();
+        * settings.walk_speed;
 
     controller.basis(TnuaBuiltinWalk {
         desired_velocity: velocity,
