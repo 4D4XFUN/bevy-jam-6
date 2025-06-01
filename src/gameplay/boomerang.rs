@@ -8,22 +8,32 @@ use bevy::math::Dir3;
 use bevy::prelude::{
     AppGizmoBuilder, Assets, BevyError, Color, Commands, Component, Cuboid, Entity, Event,
     EventReader, EventWriter, GizmoConfigGroup, Gizmos, GlobalTransform, Handle,
-    IntoScheduleConfigs, Mesh, Mesh3d, MeshMaterial3d, MouseButton, Name, OnEnter, Plugin, Query,
-    Reflect, Res, ResMut, Resource, StandardMaterial, Transform, Update, Vec3, With, Without,
-    in_state, on_event,
+    IntoScheduleConfigs, Mesh, Mesh3d, MeshMaterial3d, MouseButton, Mut, Name, OnEnter, Plugin,
+    Query, Reflect, Res, ResMut, Resource, StandardMaterial, Transform, Update, Vec3, With,
+    Without, in_state, on_event,
 };
 use bevy::time::Time;
 use log::error;
+use std::collections::VecDeque;
 
 const BOOMERANG_ROTATIONS_PER_SECOND: f32 = 6.0;
+const BOOMERANG_FALL_SPEED: f32 = 1.0;
 
-/// Component used to mark actively flying boomerangs.
+/// Component used to describe boomerang entities.
 #[derive(Component, Default)]
 struct Boomerang {
     /// The path this boomerang is following.
-    path: Vec<BoomerangTargetKind>,
+    path: VecDeque<BoomerangTargetKind>,
     speed: f32,
 }
+
+/// Component used to mark boomerangs which are midair.
+#[derive(Component)]
+struct Flying;
+
+/// Component used to mark boomerangs which have reached their final location and are now falling.
+#[derive(Component)]
+struct Falling;
 
 /// Component used to mark anything which can be hit by the boomerang.
 /// By default, the Boomerang will just bounce off of the marked surface (like a wall), add other components like [PotentialBoomerangOrigin] to add more functionality.
@@ -46,6 +56,8 @@ impl Plugin for BoomerangThrowingPlugin {
     fn build(&self, app: &mut App) {
         app.init_gizmo_group::<BoomerangPreviewGizmos>();
         app.add_event::<ThrowBoomerangEvent>();
+        app.add_event::<BounceBoomerangEvent>();
+        app.add_event::<BoomerangHasFallenOnGroundEvent>();
 
         app.add_systems(
             Update,
@@ -60,7 +72,10 @@ impl Plugin for BoomerangThrowingPlugin {
                 )
                     .chain(),
                 rotate_boomerangs,
-                move_boomerangs,
+                move_flying_boomerangs,
+                on_boomerang_bounce.after(move_flying_boomerangs),
+                move_falling_boomerangs,
+                remove_falling_from_fallen_boomerangs.after(move_falling_boomerangs),
             )
                 .run_if(in_state(Screen::Gameplay)),
         );
@@ -97,13 +112,16 @@ fn spawn_test_entities(
     ));
 }
 
-fn move_boomerangs(
-    mut boomerangs: Query<(&Boomerang, &mut Transform)>,
+/// Moves boomerangs along their paths.
+/// Fires a [BounceBoomerangEvent] in case that the next path destination was reached.
+fn move_flying_boomerangs(
+    mut flying_boomerangs: Query<(Entity, &Boomerang, &mut Transform), With<Flying>>,
     all_other_transforms: Query<&Transform, Without<Boomerang>>,
     time: Res<Time>,
+    mut bounce_event_writer: EventWriter<BounceBoomerangEvent>,
 ) -> Result<(), BevyError> {
-    for (boomerang, mut transform) in boomerangs.iter_mut() {
-        let Some(target) = boomerang.path.first() else {
+    for (boomerang_entity, boomerang, mut transform) in flying_boomerangs.iter_mut() {
+        let Some(target) = boomerang.path.front() else {
             panic!("Boomerang path list was empty?")
         };
 
@@ -115,15 +133,25 @@ fn move_boomerangs(
         let Ok((direction, remaining_distance)) =
             Dir3::new_and_length(target_position - transform.translation)
         else {
-            transform.translation = target_position.clone();
-            // TODO: We probably already hit our target here and should proceed to the next in path... or drop it.
+            send_boomerang_bounce_event(
+                &mut bounce_event_writer,
+                boomerang_entity,
+                &mut transform,
+                target,
+                target_position,
+            );
             continue;
         };
 
         let distance_travelled_this_frame = boomerang.speed * time.delta_secs();
         if remaining_distance <= distance_travelled_this_frame {
-            transform.translation = target_position.clone();
-            // TODO: We definitely hit our target here and should proceed to the next in path... or drop it.
+            send_boomerang_bounce_event(
+                &mut bounce_event_writer,
+                boomerang_entity,
+                &mut transform,
+                target,
+                target_position,
+            );
             continue;
         }
 
@@ -133,7 +161,82 @@ fn move_boomerangs(
     Ok(())
 }
 
-fn rotate_boomerangs(mut boomerangs: Query<&mut Transform, With<Boomerang>>, time: Res<Time>) {
+/// Lets boomerangs fall to the ground.
+/// Fires a [BoomerangHasFallenOnGroundEvent] in case that the next path destination was reached.
+fn move_falling_boomerangs(
+    mut falling_boomerangs: Query<(Entity, &mut Transform), (With<Boomerang>, With<Falling>)>,
+    time: Res<Time>,
+    mut fallen_event_writer: EventWriter<BoomerangHasFallenOnGroundEvent>,
+) -> Result<(), BevyError> {
+    for (entity, mut transform) in falling_boomerangs.iter_mut() {
+        transform.translation.y -= BOOMERANG_FALL_SPEED * time.delta_secs();
+
+        // Probably needs to be raised a bit once we got a proper boomerang mesh
+        if transform.translation.y <= 0.0 {
+            transform.translation.y = 0.0;
+            fallen_event_writer.write(BoomerangHasFallenOnGroundEvent {
+                boomerang_entity: entity,
+            });
+        }
+    }
+
+    Ok(())
+}
+
+fn remove_falling_from_fallen_boomerangs(
+    mut bounce_events: EventReader<BoomerangHasFallenOnGroundEvent>,
+    mut commands: Commands,
+) -> Result<(), BevyError> {
+    for event in bounce_events.read() {
+        commands
+            .entity(event.boomerang_entity)
+            .remove::<Falling>()
+            .insert(Falling);
+    }
+
+    Ok(())
+}
+
+fn send_boomerang_bounce_event(
+    bounce_event_writer: &mut EventWriter<BounceBoomerangEvent>,
+    boomerang_entity: Entity,
+    transform: &mut Mut<Transform>,
+    target: &BoomerangTargetKind,
+    target_position: &Vec3,
+) {
+    transform.translation = target_position.clone();
+    bounce_event_writer.write(BounceBoomerangEvent {
+        boomerang_entity,
+        bounce_on: target.clone(),
+    });
+}
+
+fn on_boomerang_bounce(
+    mut bounce_events: EventReader<BounceBoomerangEvent>,
+    mut boomerangs: Query<&mut Boomerang, With<Flying>>,
+    mut commands: Commands,
+) -> Result<(), BevyError> {
+    for event in bounce_events.read() {
+        let mut boomerang = boomerangs.get_mut(event.boomerang_entity)?;
+
+        boomerang.path.pop_front();
+
+        if boomerang.path.is_empty() {
+            commands
+                .entity(event.boomerang_entity)
+                .remove::<Flying>()
+                .insert(Falling);
+        }
+    }
+
+    Ok(())
+}
+
+/// Rotates our boomerangs at constant speed.
+fn rotate_boomerangs(
+    mut boomerangs: Query<&mut Transform, (With<Boomerang>, With<Flying>)>,
+    time: Res<Time>,
+) {
     for mut transform in boomerangs.iter_mut() {
         transform.rotate_local_y(BOOMERANG_ROTATIONS_PER_SECOND * time.delta_secs());
     }
@@ -144,6 +247,22 @@ fn rotate_boomerangs(mut boomerangs: Query<&mut Transform, With<Boomerang>>, tim
 struct ThrowBoomerangEvent {
     origin: Entity,
     target: BoomerangTargetKind,
+}
+
+// An event which gets fired whenever a boomerang reaches the end of its current path.
+#[derive(Event)]
+struct BounceBoomerangEvent {
+    /// The boomerang entity
+    boomerang_entity: Entity,
+    /// The target we have bounced against
+    bounce_on: BoomerangTargetKind,
+}
+
+// An event which gets fired whenever a boomerang falls to the ground, thus ceasing all movement.
+#[derive(Event)]
+struct BoomerangHasFallenOnGroundEvent {
+    /// The boomerang entity
+    boomerang_entity: Entity,
 }
 
 /// An enum to differentiate between the different kinds of targets our boomerang may want to hit.
@@ -249,9 +368,10 @@ fn on_throw_boomerang(
             Name::new("Boomerang"),
             Transform::from_translation(all_transforms.get(event.origin)?.translation),
             Boomerang {
-                path: vec![event.target],
+                path: vec![event.target].into(),
                 speed: 10.0,
             },
+            Flying,
             Mesh3d(boomerang_assets.mesh.clone()),
             MeshMaterial3d(boomerang_assets.material.clone()),
         ));
