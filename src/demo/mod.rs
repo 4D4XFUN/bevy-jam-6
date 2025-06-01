@@ -6,6 +6,7 @@
 use bevy::prelude::*;
 
 mod animation;
+mod camera;
 mod input;
 pub mod level;
 mod movement;
@@ -13,6 +14,7 @@ pub mod player;
 
 pub(super) fn plugin(app: &mut App) {
     app.add_plugins((
+        camera::plugin,
         animation::plugin,
         level::plugin,
         movement::plugin,

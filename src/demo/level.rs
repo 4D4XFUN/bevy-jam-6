@@ -36,6 +36,7 @@ pub fn spawn_level(
     level_assets: Res<LevelAssets>,
     player_assets: Res<PlayerAssets>,
     mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
+    asset_server: Res<AssetServer>,
 ) {
     commands.spawn((
         Name::new("Level"),
@@ -49,5 +50,11 @@ pub fn spawn_level(
                 music(level_assets.music.clone())
             )
         ],
+    ));
+    commands.spawn((
+        Name::new("3dModel"),
+        SceneRoot(
+            asset_server.load(GltfAssetLabel::Scene(0).from_asset("models/Environment.gltf")),
+        ),
     ));
 }

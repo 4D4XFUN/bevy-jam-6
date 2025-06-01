@@ -13,6 +13,9 @@ mod theme;
 
 use bevy::window::PresentMode;
 use bevy::{asset::AssetMetaCheck, prelude::*};
+use bevy_inspector_egui::bevy_egui::EguiPlugin;
+use bevy_inspector_egui::quick::WorldInspectorPlugin;
+use bevy_skein::SkeinPlugin;
 
 fn main() -> AppExit {
     App::new().add_plugins(AppPlugin).run()
@@ -34,10 +37,10 @@ impl Plugin for AppPlugin {
         );
 
         // Spawn the main camera.
-        app.add_systems(Startup, spawn_camera);
+        // app.add_systems(Startup, spawn_camera);
 
         // Add Bevy plugins.
-        app.add_plugins(
+        app.add_plugins((
             DefaultPlugins
                 .set(AssetPlugin {
                     // Wasm builds will check for meta files (that don't exist) if this isn't set.
@@ -48,7 +51,7 @@ impl Plugin for AppPlugin {
                 })
                 .set(WindowPlugin {
                     primary_window: Window {
-                        title: "Bevy Jam 6".to_string(),
+                        title: "Boomerang Showdown".to_string(),
                         present_mode: PresentMode::AutoNoVsync, // turn off vsync to prevent input lag
                         fit_canvas_to_parent: true,
                         ..default()
@@ -56,7 +59,12 @@ impl Plugin for AppPlugin {
                     .into(),
                     ..default()
                 }),
-        );
+            SkeinPlugin::default(),
+            EguiPlugin {
+                enable_multipass_for_primary_context: true,
+            },
+            WorldInspectorPlugin::new(),
+        ));
 
         // Add other plugins.
         app.add_plugins((
@@ -83,6 +91,18 @@ enum AppSystems {
     Update,
 }
 
-fn spawn_camera(mut commands: Commands) {
-    commands.spawn((Name::new("Camera"), Camera2d));
-}
+// bitflags! { //removed this until we need it for the 3d camera
+//     struct RenderLayer: u32 {
+//         /// Used implicitly by all entities without a `RenderLayers` component.
+//         /// Our world model camera and all objects other than the player are on this layer.
+//         /// The light source belongs to both layers.
+//         const DEFAULT = 0b00000001;
+//         /// Since we use multiple cameras, we need to be explicit about
+//         /// which one is allowed to render particles.
+//         const PARTICLES = 0b00000010;
+//         /// 3D gizmos. These need to be rendered only by a 3D camera, otherwise the UI camera will render them in a buggy way.
+//         /// Specifically, the UI camera is a 2D camera, which by default is placed at a far away Z position,
+//         /// so it will effectively render a very zoomed out view of the scene in the center of the screen.
+//         const GIZMO3 = 0b0000100;
+//     }
+// }
