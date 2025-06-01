@@ -18,13 +18,17 @@ pub struct PlayerMoveAction;
 
 #[derive(Debug, InputAction)]
 #[input_action(output = bool)]
+pub struct FireBoomerangAction;
+
+#[derive(Debug, InputAction)]
+#[input_action(output = bool)]
 pub struct AimModeAction;
 
-impl AimModeAction {
-    const KEY: KeyCode = KeyCode::Space;
-    const GAMEPAD: GamepadButton = GamepadButton::LeftTrigger;
-    const DELAY_SECONDS: f32 = 0.3;
+struct ControlSettings;
+impl ControlSettings {
+    const AIM_MODE_DELAY: f32 = 0.3;
 }
+
 fn regular_binding(
     trigger: Trigger<Binding<PlayerActions>>,
     mut player: Query<&mut Actions<PlayerActions>>,
@@ -41,8 +45,15 @@ fn regular_binding(
         ))
         .with_modifiers(DeadZone::default());
 
+    // 'Tap' means you need to release within the specified time for it to fire
+    actions
+        .bind::<FireBoomerangAction>()
+        .to(MouseButton::Left)
+        .with_conditions(Tap::new(ControlSettings::AIM_MODE_DELAY));
+
+    // 'Hold' fires only after the specified time has passed while the input remains pressed
     actions
         .bind::<AimModeAction>()
-        .to((AimModeAction::KEY, AimModeAction::GAMEPAD))
-        .with_conditions(Hold::new(AimModeAction::DELAY_SECONDS)); // trigger after this many seconds
+        .to((MouseButton::Left, GamepadButton::RightTrigger))
+        .with_conditions(Hold::new(ControlSettings::AIM_MODE_DELAY)); // trigger after this many seconds
 }

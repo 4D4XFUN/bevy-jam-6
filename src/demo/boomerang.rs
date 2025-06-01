@@ -11,6 +11,8 @@ use bevy::prelude::*;
 use bevy::time::Time;
 use log::{error, warn};
 use std::collections::VecDeque;
+use bevy_enhanced_input::events::Fired;
+use crate::demo::input::FireBoomerangAction;
 
 pub const BOOMERANG_FLYING_HEIGHT: f32 = 0.5;
 
@@ -116,7 +118,6 @@ pub fn plugin(app: &mut App) {
         (
             (
                 update_boomerang_preview_position,
-                on_button_press_throw_boomerang,
                 (
                     draw_preview_gizmo,
                     on_throw_boomerang_spawn_boomerang.run_if(on_event::<ThrowBoomerangEvent>),
@@ -132,6 +133,8 @@ pub fn plugin(app: &mut App) {
         )
             .run_if(in_state(Screen::Gameplay)),
     );
+
+    app.add_observer(on_fire_action_throw_boomerang);
 
     // TODO: Remove this
     app.add_systems(OnEnter(Screen::Gameplay), spawn_test_entities);
@@ -356,17 +359,12 @@ fn update_boomerang_preview_position(
     Ok(())
 }
 
-// TODO: use bevy_enhanced_input for the button press
-fn on_button_press_throw_boomerang(
-    mouse_buttons: Res<ButtonInput<MouseButton>>,
+fn on_fire_action_throw_boomerang(
+    trigger: Trigger<Fired<FireBoomerangAction>>,
     boomerang_holders: Query<Entity, With<ActiveBoomerangThrowOrigin>>,
     boomerang_previews: Query<(&BoomerangPathPreview, &GlobalTransform)>,
     mut event_writer: EventWriter<ThrowBoomerangEvent>,
 ) {
-    if !mouse_buttons.just_released(MouseButton::Left) {
-        return;
-    }
-
     let Ok(thrower_entity) = boomerang_holders.single() else {
         error!("Was unable to find a single thrower! (multiple ain't supported yet)");
         return;
@@ -384,7 +382,7 @@ fn on_button_press_throw_boomerang(
     event_writer.write(ThrowBoomerangEvent {
         thrower_entity,
         target,
-    });
+    });   
 }
 
 fn on_throw_boomerang_spawn_boomerang(
