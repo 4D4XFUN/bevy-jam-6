@@ -1,5 +1,5 @@
 use crate::assets::BoomerangAssets;
-use crate::gameplay::mouse_position::MousePosition;
+use crate::demo::mouse_position::MousePosition;
 use crate::screens::Screen;
 use bevy::app::App;
 use bevy::color;
@@ -20,7 +20,6 @@ const BOOMERANG_ROTATIONS_PER_SECOND: f32 = 6.0;
 const BOOMERANG_FALL_SPEED: f32 = 1.0;
 
 pub const BOOMERANG_FLYING_HEIGHT: f32 = 0.5;
-const BOOMERANG_FLYING_OFFSET: Vec3 = Vec3::new(0.0, BOOMERANG_FLYING_HEIGHT, 0.0);
 
 /// Component used to describe boomerang entities.
 #[derive(Component, Default)]
@@ -41,51 +40,94 @@ struct Falling;
 /// Component used to mark anything which can be hit by the boomerang.
 /// By default, the Boomerang will just bounce off of the marked surface (like a wall), add other components like [PotentialBoomerangOrigin] to add more functionality.
 #[derive(Component, Default)]
-struct BoomerangHittable;
+pub struct BoomerangHittable;
 
 /// Entities with this component will allow the user to redirect the boomerang bounce when they are hit by becoming an [ActiveBoomerangThrowOrigin]
 #[derive(Component, Default)]
 #[require(BoomerangHittable)]
-struct PotentialBoomerangOrigin;
+pub struct PotentialBoomerangOrigin;
 
 /// Component which should be added to the entity the boomerang is currently "attached" to.
 /// Used to mark the origin for the next bounce direction.
 #[derive(Component)]
 #[require(PotentialBoomerangOrigin)]
-struct ActiveBoomerangThrowOrigin;
+pub struct ActiveBoomerangThrowOrigin;
 
-pub(crate) struct BoomerangThrowingPlugin;
-impl Plugin for BoomerangThrowingPlugin {
-    fn build(&self, app: &mut App) {
-        app.init_gizmo_group::<BoomerangPreviewGizmos>();
-        app.add_event::<ThrowBoomerangEvent>();
-        app.add_event::<BounceBoomerangEvent>();
-        app.add_event::<BoomerangHasFallenOnGroundEvent>();
+// An event which gets fired whenever the player throws their boomerang.
+#[derive(Event)]
+struct ThrowBoomerangEvent {
+    origin: Entity,
+    target: BoomerangTargetKind,
+}
 
-        app.add_systems(
-            Update,
+// An event which gets fired whenever a boomerang reaches the end of its current path.
+#[derive(Event)]
+struct BounceBoomerangEvent {
+    /// The boomerang entity
+    boomerang_entity: Entity,
+    /// The target we have bounced against
+    bounce_on: BoomerangTargetKind,
+}
+
+// An event which gets fired whenever a boomerang falls to the ground, thus ceasing all movement.
+#[derive(Event)]
+struct BoomerangHasFallenOnGroundEvent {
+    /// The boomerang entity
+    boomerang_entity: Entity,
+}
+
+/// An enum to differentiate between the different kinds of targets our boomerang may want to hit.
+#[derive(Copy, Clone)]
+enum BoomerangTargetKind {
+    /// Targeting an entity means it will home in on it, even as it moves.
+    Entity(Entity),
+    /// Targeting a position means the boomerang will always fly in a straight line there.
+    Position(Vec3),
+}
+
+/// The path our boomerang is supposed to follow.
+#[derive(Resource)]
+struct PlannedBoomerangPath {
+    targets: Vec<BoomerangTargetKind>,
+}
+
+/// Component for the preview entity for the next boomerang target location.
+#[derive(Component)]
+struct BoomerangPathPreview {
+    /// The entity that's being targeted, if there is any.
+    entity: Option<Entity>,
+}
+
+pub fn plugin(app: &mut App) {
+    app.init_gizmo_group::<BoomerangPreviewGizmos>();
+    app.add_event::<ThrowBoomerangEvent>();
+    app.add_event::<BounceBoomerangEvent>();
+    app.add_event::<BoomerangHasFallenOnGroundEvent>();
+    app.init_resource::<BoomerangAssets>();
+
+    app.add_systems(
+        Update,
+        (
             (
+                update_boomerang_preview_position,
+                throw_boomerang_on_button_press,
                 (
-                    update_boomerang_preview_position,
-                    throw_boomerang_on_button_press,
-                    (
-                        draw_preview_gizmo,
-                        on_throw_boomerang.run_if(on_event::<ThrowBoomerangEvent>),
-                    ),
-                )
-                    .chain(),
-                rotate_boomerangs,
-                move_flying_boomerangs,
-                on_boomerang_bounce.after(move_flying_boomerangs),
-                move_falling_boomerangs,
-                remove_falling_from_fallen_boomerangs.after(move_falling_boomerangs),
+                    draw_preview_gizmo,
+                    on_throw_boomerang.run_if(on_event::<ThrowBoomerangEvent>),
+                ),
             )
-                .run_if(in_state(Screen::Gameplay)),
-        );
+                .chain(),
+            rotate_boomerangs,
+            move_flying_boomerangs,
+            on_boomerang_bounce.after(move_flying_boomerangs),
+            move_falling_boomerangs,
+            remove_falling_from_fallen_boomerangs.after(move_falling_boomerangs),
+        )
+            .run_if(in_state(Screen::Gameplay)),
+    );
 
-        // TODO: Remove this
-        app.add_systems(OnEnter(Screen::Gameplay), spawn_test_entities);
-    }
+    // TODO: Remove this
+    app.add_systems(OnEnter(Screen::Gameplay), spawn_test_entities);
 }
 
 fn spawn_test_entities(
@@ -94,17 +136,8 @@ fn spawn_test_entities(
     mut materials: ResMut<Assets<StandardMaterial>>,
 ) {
     let mesh = meshes.add(Cuboid::new(0.2, 1.0, 0.2));
-
-    let player_material: Handle<StandardMaterial> = materials.add(Color::WHITE);
     let enemy_material: Handle<StandardMaterial> = materials.add(Color::linear_rgb(1.0, 0.2, 0.2));
 
-    commands.spawn((
-        Name::new("TestBoomerangThrower"),
-        ActiveBoomerangThrowOrigin,
-        Transform::from_translation(Vec3::ZERO),
-        Mesh3d(mesh.clone()),
-        MeshMaterial3d(player_material.clone()),
-    ));
     commands.spawn((
         Name::new("TestBoomerangTarget"),
         BoomerangHittable,
@@ -129,13 +162,16 @@ fn move_flying_boomerangs(
         };
 
         let target_position = match target {
-            BoomerangTargetKind::Entity(entity) => &all_other_transforms.get(*entity)?.translation,
-            BoomerangTargetKind::Position(position) => position,
+            BoomerangTargetKind::Entity(entity) => all_other_transforms
+                .get(*entity)?
+                .translation
+                .with_y(BOOMERANG_FLYING_HEIGHT),
+            BoomerangTargetKind::Position(position) => position.with_y(BOOMERANG_FLYING_HEIGHT),
         };
 
-        let Ok((direction, remaining_distance)) =
-            Dir3::new_and_length(target_position - transform.translation)
-        else {
+        let Ok((direction, remaining_distance)) = Dir3::new_and_length(
+            target_position - transform.translation.with_y(BOOMERANG_FLYING_HEIGHT),
+        ) else {
             send_boomerang_bounce_event(
                 &mut bounce_event_writer,
                 boomerang_entity,
@@ -205,9 +241,9 @@ fn send_boomerang_bounce_event(
     boomerang_entity: Entity,
     transform: &mut Mut<Transform>,
     target: &BoomerangTargetKind,
-    target_position: &Vec3,
+    target_position: Vec3,
 ) {
-    transform.translation = target_position.clone();
+    transform.translation = target_position;
     bounce_event_writer.write(BounceBoomerangEvent {
         boomerang_entity,
         bounce_on: target.clone(),
@@ -245,51 +281,6 @@ fn rotate_boomerangs(
     }
 }
 
-// An event which gets fired whenever the player throws their boomerang.
-#[derive(Event)]
-struct ThrowBoomerangEvent {
-    origin: Entity,
-    target: BoomerangTargetKind,
-}
-
-// An event which gets fired whenever a boomerang reaches the end of its current path.
-#[derive(Event)]
-struct BounceBoomerangEvent {
-    /// The boomerang entity
-    boomerang_entity: Entity,
-    /// The target we have bounced against
-    bounce_on: BoomerangTargetKind,
-}
-
-// An event which gets fired whenever a boomerang falls to the ground, thus ceasing all movement.
-#[derive(Event)]
-struct BoomerangHasFallenOnGroundEvent {
-    /// The boomerang entity
-    boomerang_entity: Entity,
-}
-
-/// An enum to differentiate between the different kinds of targets our boomerang may want to hit.
-#[derive(Copy, Clone)]
-enum BoomerangTargetKind {
-    /// Targeting an entity means it will home in on it, even as it moves.
-    Entity(Entity),
-    /// Targeting a position means the boomerang will always fly in a straight line there.
-    Position(Vec3),
-}
-
-/// The path our boomerang is supposed to follow.
-#[derive(Resource)]
-struct PlannedBoomerangPath {
-    targets: Vec<BoomerangTargetKind>,
-}
-
-/// Component for the preview entity for the next boomerang target location.
-#[derive(Component)]
-struct BoomerangPathPreview {
-    /// The entity that's being targeted, if there is any.
-    entity: Option<Entity>,
-}
-
 fn update_boomerang_preview_position(
     boomerang_origins: Query<&GlobalTransform, With<ActiveBoomerangThrowOrigin>>,
     boomerang_targets: Query<(Entity, &GlobalTransform), With<BoomerangHittable>>,
@@ -313,7 +304,8 @@ fn update_boomerang_preview_position(
     };
 
     // TODO: Raycast to see what and where we hit something.
-    let preview_location = direction * 10.0;
+    let preview_location =
+        (origin_transform.translation() + direction * 10.0).with_y(BOOMERANG_FLYING_HEIGHT);
     let target_entity = None;
 
     if let Ok((mut preview, mut transform)) = previews.single_mut() {
@@ -370,7 +362,10 @@ fn on_throw_boomerang(
         commands.spawn((
             Name::new("Boomerang"),
             Transform::from_translation(
-                all_transforms.get(event.origin)?.translation + BOOMERANG_FLYING_OFFSET,
+                all_transforms
+                    .get(event.origin)?
+                    .translation
+                    .with_y(BOOMERANG_FLYING_HEIGHT),
             ),
             Boomerang {
                 path: vec![event.target].into(),
@@ -396,8 +391,8 @@ fn draw_preview_gizmo(
     for from in boomerang_holders {
         for to in boomerang_target_preview {
             gizmos.line(
-                from.translation() + BOOMERANG_FLYING_OFFSET,
-                to.translation(),
+                from.translation().with_y(BOOMERANG_FLYING_HEIGHT),
+                to.translation().with_y(BOOMERANG_FLYING_HEIGHT),
                 color::palettes::css::ORANGE,
             );
         }

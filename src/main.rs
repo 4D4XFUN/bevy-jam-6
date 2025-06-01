@@ -12,8 +12,6 @@ mod dev_tools;
 mod screens;
 mod theme;
 
-mod gameplay;
-
 use avian3d::PhysicsPlugins;
 use bevy::image::ImageSamplerDescriptor;
 use bevy::window::PresentMode;
@@ -87,7 +85,6 @@ impl Plugin for AppPlugin {
             dev_tools::plugin,
             screens::plugin,
             theme::plugin,
-            gameplay::plugin,
         ));
     }
 }

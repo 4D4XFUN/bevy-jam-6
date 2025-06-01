@@ -1,5 +1,5 @@
-use crate::gameplay::boomerang::BOOMERANG_FLYING_HEIGHT;
-use bevy::app::{App, Plugin, PreUpdate};
+use crate::demo::boomerang::BOOMERANG_FLYING_HEIGHT;
+use bevy::app::{App, PreUpdate};
 use bevy::math::Vec3;
 use bevy::prelude::{
     Camera, GlobalTransform, InfinitePlane3d, Query, ResMut, Resource, Vec2, Window, With,
@@ -24,12 +24,9 @@ impl MousePosition {
     }
 }
 
-pub(crate) struct MousePositionPlugin;
-impl Plugin for MousePositionPlugin {
-    fn build(&self, app: &mut App) {
-        app.init_resource::<MousePosition>();
-        app.add_systems(PreUpdate, update_mouse_position);
-    }
+pub fn plugin(app: &mut App) {
+    app.init_resource::<MousePosition>();
+    app.add_systems(PreUpdate, update_mouse_position);
 }
 
 /// Taken & adjusted from https://bevy-cheatbook.github.io/cookbook/cursor2world.html
@@ -53,16 +50,16 @@ fn update_mouse_position(
         return;
     };
 
-    mouse_position.boomerang_throwing_plane = planecast(
+    mouse_position.boomerang_throwing_plane = plane_cast(
         camera,
         camera_transform,
         cursor_position,
         BOOMERANG_FLYING_HEIGHT,
     );
-    mouse_position.global = planecast(camera, camera_transform, cursor_position, 0.0);
+    mouse_position.global = plane_cast(camera, camera_transform, cursor_position, 0.0);
 }
 
-fn planecast(
+fn plane_cast(
     camera: &Camera,
     camera_transform: &GlobalTransform,
     cursor_position: Vec2,
