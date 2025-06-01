@@ -90,22 +90,18 @@ enum AppSystems {
     Update,
 }
 
-fn spawn_camera(mut commands: Commands) {
-    commands.spawn((Name::new("Camera"), Camera2d));
-}
-
-bitflags! {
-    struct RenderLayer: u32 {
-        /// Used implicitly by all entities without a `RenderLayers` component.
-        /// Our world model camera and all objects other than the player are on this layer.
-        /// The light source belongs to both layers.
-        const DEFAULT = 0b00000001;
-        /// Since we use multiple cameras, we need to be explicit about
-        /// which one is allowed to render particles.
-        const PARTICLES = 0b00000010;
-        /// 3D gizmos. These need to be rendered only by a 3D camera, otherwise the UI camera will render them in a buggy way.
-        /// Specifically, the UI camera is a 2D camera, which by default is placed at a far away Z position,
-        /// so it will effectively render a very zoomed out view of the scene in the center of the screen.
-        const GIZMO3 = 0b0000100;
-    }
-}
+// bitflags! { //removed this until we need it for the 3d camera
+//     struct RenderLayer: u32 {
+//         /// Used implicitly by all entities without a `RenderLayers` component.
+//         /// Our world model camera and all objects other than the player are on this layer.
+//         /// The light source belongs to both layers.
+//         const DEFAULT = 0b00000001;
+//         /// Since we use multiple cameras, we need to be explicit about
+//         /// which one is allowed to render particles.
+//         const PARTICLES = 0b00000010;
+//         /// 3D gizmos. These need to be rendered only by a 3D camera, otherwise the UI camera will render them in a buggy way.
+//         /// Specifically, the UI camera is a 2D camera, which by default is placed at a far away Z position,
+//         /// so it will effectively render a very zoomed out view of the scene in the center of the screen.
+//         const GIZMO3 = 0b0000100;
+//     }
+// }
