@@ -11,6 +11,7 @@ mod demo;
 mod dev_tools;
 mod screens;
 mod theme;
+mod settings;
 
 use avian3d::PhysicsPlugins;
 use bevy::image::ImageSamplerDescriptor;
@@ -43,6 +44,7 @@ impl Plugin for AppPlugin {
 
         // Spawn the main camera.
         // app.add_systems(Startup, spawn_camera);
+        Vec3::ZERO.with_y(0.0)
 
         // Add Bevy plugins.
         app.add_plugins((
@@ -57,7 +59,7 @@ impl Plugin for AppPlugin {
                 .set(WindowPlugin {
                     primary_window: Window {
                         title: "Boomerang Showdown".to_string(),
-                        present_mode: PresentMode::AutoVsync,
+                        present_mode: PresentMode::AutoNoVsync,
                         fit_canvas_to_parent: true,
                         ..default()
                     }
@@ -85,7 +87,9 @@ impl Plugin for AppPlugin {
             dev_tools::plugin,
             screens::plugin,
             theme::plugin,
+            settings::plugin,
         ));
+
     }
 }
 
