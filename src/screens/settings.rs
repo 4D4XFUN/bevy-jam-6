@@ -4,7 +4,11 @@
 
 use bevy::{audio::Volume, prelude::*, ui::Val::*};
 
-use crate::{assets::{FontAssets, PanelAssets}, screens::Screen, theme::prelude::*};
+use crate::{
+    assets::{FontAssets, PanelAssets},
+    screens::Screen,
+    theme::prelude::*,
+};
 
 pub(super) fn plugin(app: &mut App) {
     app.add_systems(OnEnter(Screen::Settings), spawn_settings_screen);

@@ -63,7 +63,6 @@ impl Plugin for AppPlugin {
                 })
                 .set(ImagePlugin {
                     default_sampler: ImageSamplerDescriptor::nearest(),
-                    ..default()
                 }),
             SkeinPlugin::default(),
             EguiPlugin {

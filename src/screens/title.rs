@@ -35,9 +35,14 @@ fn spawn_title_screen(panel: Res<PanelAssets>, fonts: Res<FontAssets>, mut comma
         ],
         #[cfg(target_family = "wasm")]
         children![
-            widget::button("Play", enter_loading_or_gameplay_screen),
-            widget::button("Settings", enter_settings_screen),
-            widget::button("Credits", enter_credits_screen),
+            widget::paneled_button(
+                "Play",
+                enter_loading_or_gameplay_screen,
+                &panel,
+                &fonts.header
+            ),
+            widget::paneled_button("Settings", enter_settings_screen, &panel, &fonts.header),
+            widget::paneled_button("Credits", enter_credits_screen, &panel, &fonts.header),
         ],
     ));
 }

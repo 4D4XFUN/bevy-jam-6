@@ -56,8 +56,7 @@ fn apply_interaction_palette_to_image_node(
             Interaction::None => palette.none,
             Interaction::Hovered => palette.hovered,
             Interaction::Pressed => palette.pressed,
-        }
-        .into();
+        };
     }
 }
 
