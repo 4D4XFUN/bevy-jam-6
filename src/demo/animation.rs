@@ -5,14 +5,11 @@
 //! - [Timers](https://github.com/bevyengine/bevy/blob/latest/examples/time/timers.rs)
 
 use bevy::prelude::*;
+use bevy_tnua::prelude::TnuaController;
 use rand::prelude::*;
 use std::time::Duration;
 
-use crate::{
-    AppSystems,
-    audio::sound_effect,
-    demo::{movement::MovementController, player::PlayerAssets},
-};
+use crate::{AppSystems, audio::sound_effect, demo::player::PlayerAssets};
 
 pub(super) fn plugin(app: &mut App) {
     // Animate and play sound effects based on controls.
@@ -34,22 +31,8 @@ pub(super) fn plugin(app: &mut App) {
 }
 
 /// Update the sprite direction and animation state (idling/walking).
-fn update_animation_movement(
-    mut player_query: Query<(&MovementController, &mut Sprite, &mut PlayerAnimation)>,
-) {
-    for (controller, mut sprite, mut animation) in &mut player_query {
-        let dx = controller.intent.x;
-        if dx != 0.0 {
-            sprite.flip_x = dx < 0.0;
-        }
-
-        let animation_state = if controller.intent == Vec2::ZERO {
-            PlayerAnimationState::Idling
-        } else {
-            PlayerAnimationState::Walking
-        };
-        animation.update_state(animation_state);
-    }
+fn update_animation_movement(_player_query: Query<(&TnuaController, &Sprite, &PlayerAnimation)>) {
+    // todo!
 }
 
 /// Update the animation timer.
@@ -106,6 +89,7 @@ pub enum PlayerAnimationState {
     Walking,
 }
 
+#[allow(dead_code)]
 impl PlayerAnimation {
     /// The number of idle frames.
     const IDLE_FRAMES: usize = 2;

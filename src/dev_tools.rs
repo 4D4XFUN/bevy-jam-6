@@ -15,6 +15,7 @@ pub(super) fn plugin(app: &mut App) {
         // https://github.com/IyesGames/iyes_perf_ui/issues/30
         // bevy::diagnostic::SystemInformationDiagnosticsPlugin,
         bevy::render::diagnostic::RenderDiagnosticsPlugin,
+        avian3d::debug_render::PhysicsDebugPlugin::new(FixedUpdate),
     ));
 
     // Log `Screen` state transitions.
