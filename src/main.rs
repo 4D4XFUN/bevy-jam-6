@@ -12,12 +12,15 @@ mod dev_tools;
 mod screens;
 mod theme;
 
+use avian3d::PhysicsPlugins;
 use bevy::image::ImageSamplerDescriptor;
 use bevy::window::PresentMode;
 use bevy::{asset::AssetMetaCheck, prelude::*};
 use bevy_inspector_egui::bevy_egui::EguiPlugin;
 use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use bevy_skein::SkeinPlugin;
+use bevy_tnua::prelude::TnuaControllerPlugin;
+use bevy_tnua_avian3d::TnuaAvian3dPlugin;
 
 fn main() -> AppExit {
     App::new().add_plugins(AppPlugin).run()
@@ -69,6 +72,9 @@ impl Plugin for AppPlugin {
                 enable_multipass_for_primary_context: true,
             },
             WorldInspectorPlugin::new(),
+            PhysicsPlugins::default(),
+            TnuaControllerPlugin::new(FixedUpdate),
+            TnuaAvian3dPlugin::new(FixedUpdate),
         ));
 
         // Add other plugins.
