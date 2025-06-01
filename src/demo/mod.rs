@@ -13,6 +13,7 @@ pub mod level;
 mod mouse_position;
 mod player;
 mod enemy;
+mod aim_mode;
 
 pub(super) fn plugin(app: &mut App) {
     app.add_plugins((
@@ -24,5 +25,6 @@ pub(super) fn plugin(app: &mut App) {
         mouse_position::plugin,
         boomerang::plugin,
         enemy::plugin,
+        aim_mode::plugin,
     ));
 }

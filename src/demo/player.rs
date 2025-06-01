@@ -2,7 +2,7 @@
 
 use crate::asset_tracking::LoadResource;
 use crate::demo::boomerang::ActiveBoomerangThrowOrigin;
-use crate::demo::input::{PlayerActions, PlayerMove};
+use crate::demo::input::{PlayerActions, PlayerMoveAction};
 use crate::screens::Screen;
 use avian3d::prelude::{Collider, LockedAxes, RigidBody};
 use bevy::math::NormedVectorSpace;
@@ -87,7 +87,7 @@ fn add_player_movement_on_spawn(
 }
 
 fn record_player_directional_input(
-    trigger: Trigger<Fired<PlayerMove>>,
+    trigger: Trigger<Fired<PlayerMoveAction>>,
     movement_controller: Single<(&mut TnuaController, &MovementSettings)>,
     camera_query: Single<&Transform, With<Camera3d>>,
 ) {
@@ -115,7 +115,7 @@ fn record_player_directional_input(
 }
 
 fn stop_player_directional_input(
-    _trigger: Trigger<Completed<PlayerMove>>,
+    _trigger: Trigger<Completed<PlayerMoveAction>>,
     movement_controller: Single<&mut TnuaController>,
 ) {
     let mut controller = movement_controller.into_inner();
