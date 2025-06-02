@@ -5,7 +5,6 @@ use crate::demo::boomerang::ActiveBoomerangThrowOrigin;
 use crate::demo::input::{PlayerActions, PlayerMoveAction};
 use crate::screens::Screen;
 use avian3d::prelude::{Collider, LockedAxes, RigidBody};
-use bevy::math::NormedVectorSpace;
 use bevy::{
     image::{ImageLoaderSettings, ImageSampler},
     prelude::*,

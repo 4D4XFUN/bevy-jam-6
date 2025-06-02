@@ -16,7 +16,7 @@ pub fn plugin(app: &mut App) {
 
 pub fn create_enemy_spawn_points_around_player_on_spawn(
     trigger: Trigger<OnAdd, Player>,
-    query: Query<(&Transform), With<Player>>,
+    query: Query<&Transform, With<Player>>,
     config: Res<EnemySpawningConfig>,
     mut commands: Commands,
 ) -> Result {

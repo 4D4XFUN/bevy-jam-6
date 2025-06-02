@@ -1,14 +1,10 @@
 use crate::demo::aim_mode::AimModeState;
 use crate::demo::boomerang::{BoomerangHittable, BoomerangTargetKind, ThrowBoomerangEvent};
-use crate::demo::enemy::Enemy;
 use crate::demo::mouse_position::MousePosition;
 use crate::demo::player::Player;
 use crate::physics_layers::GameLayer;
-use crate::screens::Screen;
 use avian3d::prelude::*;
-use bevy::ecs::error::info;
 use bevy::prelude::*;
-use std::collections::VecDeque;
 
 /// While in aim mode, this module handles queueing up a list of targets,
 /// displaying crosshairs, and creating the target list for the boomerang to
@@ -39,7 +35,7 @@ fn initialize_target_list(mut commands: Commands) {
 
 fn cleanup_target_list(
     mut commands: Commands,
-    mut query: Single<(Entity, &AimModeTargets)>,
+    query: Single<(Entity, &AimModeTargets)>,
     player_single: Single<Entity, With<Player>>,
     mut event_writer: EventWriter<ThrowBoomerangEvent>,
 ) {
@@ -80,7 +76,7 @@ fn draw_target_circles(
     let x = &targets.targets;
 
     for e in x.iter() {
-        if let Some(t) = hittables.get(*e).ok() {
+        if let Ok(t) = hittables.get(*e) {
             // Create a rotation that rotates 90 degrees (PI/2 radians) around the X-axis
             let rotation = Quat::from_rotation_x(std::f32::consts::FRAC_PI_2);
             let isometry = Isometry3d::new(t.translation, rotation);

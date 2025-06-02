@@ -6,12 +6,11 @@ use avian3d::prelude::{Collider, SpatialQuery, SpatialQueryFilter};
 use bevy::app::App;
 use bevy::color;
 use bevy::ecs::entity::EntityHashSet;
-use bevy::input::ButtonInput;
 use bevy::math::Dir3;
 use bevy::prelude::*;
 use bevy::time::Time;
 use bevy_enhanced_input::events::Fired;
-use log::{error, warn};
+use log::error;
 use std::collections::VecDeque;
 
 pub const BOOMERANG_FLYING_HEIGHT: f32 = 0.5;
