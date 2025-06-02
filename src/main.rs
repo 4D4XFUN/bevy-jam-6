@@ -57,7 +57,7 @@ impl Plugin for AppPlugin {
                         resolution: WindowResolution::new(1024., 768.),
                         ..default()
                     }
-                        .into(),
+                    .into(),
                     ..default()
                 }),
             SkeinPlugin::default(),
@@ -91,4 +91,3 @@ enum AppSystems {
     /// Do everything else (consider splitting this into further variants).
     Update,
 }
-

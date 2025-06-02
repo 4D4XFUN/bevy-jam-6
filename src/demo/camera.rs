@@ -6,9 +6,7 @@ use bevy::render::camera::Exposure;
 pub fn plugin(app: &mut App) {
     app.register_type::<CameraProperties>();
     app.add_systems(Startup, spawn_camera);
-    app.add_systems(
-        Update, camera_follow,
-    );
+    app.add_systems(Update, camera_follow);
 }
 
 #[derive(Component)]
@@ -54,10 +52,7 @@ pub fn spawn_camera(mut commands: Commands) {
 }
 
 fn camera_follow(
-    mut camera: Query<
-        (&mut Transform, &CameraProperties),
-        With<Camera>,
-    >,
+    mut camera: Query<(&mut Transform, &CameraProperties), With<Camera>>,
     target: Query<&Transform, (With<CameraFollowTarget>, Without<Camera>)>,
     time: Res<Time>,
 ) {

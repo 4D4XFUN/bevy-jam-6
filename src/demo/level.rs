@@ -44,7 +44,8 @@ pub fn spawn_level(
             (
                 Name::new("Environment"),
                 SceneRoot(
-                    asset_server.load(GltfAssetLabel::Scene(0).from_asset("models/Environment.gltf")),
+                    asset_server
+                        .load(GltfAssetLabel::Scene(0).from_asset("models/Environment.gltf")),
                 ),
             ),
         ],
