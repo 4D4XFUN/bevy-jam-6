@@ -4,11 +4,7 @@
 
 use bevy::{audio::Volume, prelude::*, ui::Val::*};
 
-use crate::{
-    assets::{FontAssets, PanelAssets},
-    screens::Screen,
-    theme::prelude::*,
-};
+use crate::{screens::Screen, theme::prelude::*};
 
 pub(super) fn plugin(app: &mut App) {
     app.add_systems(OnEnter(Screen::Settings), spawn_settings_screen);
@@ -20,14 +16,14 @@ pub(super) fn plugin(app: &mut App) {
     );
 }
 
-fn spawn_settings_screen(panel: Res<PanelAssets>, fonts: Res<FontAssets>, mut commands: Commands) {
+fn spawn_settings_screen(mut commands: Commands) {
     commands.spawn((
         widget::ui_root("Settings Screen"),
         StateScoped(Screen::Settings),
         children![
-            widget::header_with_font("Settings", &fonts.header),
+            widget::header("Settings"),
             settings_grid(),
-            widget::paneled_button("Back", enter_title_screen, &panel, &fonts.header),
+            widget::button("Back", enter_title_screen),
         ],
     ));
 }
