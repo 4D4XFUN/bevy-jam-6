@@ -1,11 +1,13 @@
+use std::collections::VecDeque;
 use crate::demo::aim_mode::AimModeState;
-use crate::demo::boomerang::{BoomerangHittable, BoomerangTargetKind};
+use crate::demo::boomerang::{BoomerangHittable, BoomerangTargetKind, ThrowBoomerangEvent};
 use crate::demo::enemy::Enemy;
 use crate::demo::mouse_position::MousePosition;
 use crate::screens::Screen;
 use avian3d::prelude::*;
 use bevy::ecs::error::info;
 use bevy::prelude::*;
+use crate::demo::player::Player;
 
 /// While in aim mode, this module handles queueing up a list of targets,
 /// displaying crosshairs, and creating the target list for the boomerang to
@@ -27,8 +29,6 @@ const AUTOTARGETING_RADIUS: f32 = 2.0;
 #[derive(Component, Default, Debug, Clone)]
 struct AimModeTargets {
     targets: Vec<Entity>,
-    // todo add each "painted" target to this list as we mouse over them in aim mode
-    // todo snap crosshairs to each target to give player feedback about what they're going to hit
     // todo when aim mode exits, despawn this entity and fire a single boomerang with the list of targets we painted
 }
 
@@ -36,14 +36,19 @@ fn initialize_target_list(mut commands: Commands) {
     commands.spawn(AimModeTargets::default());
 }
 
-fn cleanup_target_list(mut commands: Commands, mut query: Single<(Entity, &AimModeTargets)>) {
+fn cleanup_target_list(mut commands: Commands,
+                       mut query: Single<(Entity, &AimModeTargets)>,
+                       player_single: Single<Entity, With<Player>>,
+                       mut event_writer: EventWriter<ThrowBoomerangEvent>,
+) {
     let (e, targets) = query.into_inner();
-    info!(
-        "Cleaning up target list: {:?}",
-        targets.targets
-    );
+    let v: Vec<_> = targets.targets.iter().map(|e| BoomerangTargetKind::Entity(*e)).collect();
+    let player = player_single.into_inner(); // todo not why we nee this or how to handle multiple such entities. just assuming throws always originate from the player for now.
 
-    // todo copy the targets to a new Boomerang throw event which will actually make the boomerang go
+    event_writer.write(ThrowBoomerangEvent {
+        thrower_entity: player,
+        target: v,
+    });
     commands.entity(e).despawn();
 }
 
@@ -101,7 +106,7 @@ fn record_target_near_mouse(
     };
 
     let direction = Dir3::X;
-    let config = ShapeCastConfig::from_max_distance(100.0);
+    let config = ShapeCastConfig::from_max_distance(0.0);
     let filter = SpatialQueryFilter::default();
     let Some(hit) = spatial_query.cast_shape(
         &Collider::sphere(AUTOTARGETING_RADIUS), // Shape

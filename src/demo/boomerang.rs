@@ -50,9 +50,9 @@ pub struct ActiveBoomerangThrowOrigin;
 
 // An event which gets fired whenever the player throws their boomerang.
 #[derive(Event)]
-struct ThrowBoomerangEvent {
-    thrower_entity: Entity,
-    target: BoomerangTargetKind,
+pub struct ThrowBoomerangEvent {
+    pub thrower_entity: Entity,
+    pub target: Vec<BoomerangTargetKind>,
 }
 
 // An event which gets fired whenever a boomerang reaches the end of its current path.
@@ -381,7 +381,7 @@ fn on_fire_action_throw_boomerang(
 
     event_writer.write(ThrowBoomerangEvent {
         thrower_entity,
-        target,
+        target: vec![target],
     });   
 }
 
@@ -393,6 +393,13 @@ fn on_throw_boomerang_spawn_boomerang(
     boomerang_stats: Res<BoomerangSettings>,
 ) -> Result {
     for event in event_reader.read() {
+        
+        // add player as the last node on the path
+        let mut path = event.target.clone();
+        path.push(BoomerangTargetKind::Entity(event.thrower_entity));
+        let path = VecDeque::from(path);
+        
+        // spawn the 'rang
         commands.spawn((
             Name::new("Boomerang"),
             Transform::from_translation(
@@ -402,7 +409,7 @@ fn on_throw_boomerang_spawn_boomerang(
                     .with_y(BOOMERANG_FLYING_HEIGHT),
             ),
             Boomerang {
-                path: vec![event.target, BoomerangTargetKind::Entity(event.thrower_entity)].into(),
+                path,
                 speed: boomerang_stats.movement_speed,
             },
             Flying,
