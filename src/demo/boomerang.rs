@@ -1,4 +1,5 @@
 use crate::assets::BoomerangAssets;
+use crate::demo::input::FireBoomerangAction;
 use crate::demo::mouse_position::MousePosition;
 use crate::screens::Screen;
 use avian3d::prelude::{Collider, SpatialQuery, SpatialQueryFilter};
@@ -9,10 +10,9 @@ use bevy::input::ButtonInput;
 use bevy::math::Dir3;
 use bevy::prelude::*;
 use bevy::time::Time;
+use bevy_enhanced_input::events::Fired;
 use log::{error, warn};
 use std::collections::VecDeque;
-use bevy_enhanced_input::events::Fired;
-use crate::demo::input::FireBoomerangAction;
 
 pub const BOOMERANG_FLYING_HEIGHT: f32 = 0.5;
 
@@ -382,7 +382,7 @@ fn on_fire_action_throw_boomerang(
     event_writer.write(ThrowBoomerangEvent {
         thrower_entity,
         target: vec![target],
-    });   
+    });
 }
 
 fn on_throw_boomerang_spawn_boomerang(
@@ -393,12 +393,11 @@ fn on_throw_boomerang_spawn_boomerang(
     boomerang_stats: Res<BoomerangSettings>,
 ) -> Result {
     for event in event_reader.read() {
-        
         // add player as the last node on the path
         let mut path = event.target.clone();
         path.push(BoomerangTargetKind::Entity(event.thrower_entity));
         let path = VecDeque::from(path);
-        
+
         // spawn the 'rang
         commands.spawn((
             Name::new("Boomerang"),

@@ -5,15 +5,15 @@
 
 use bevy::prelude::*;
 
+mod aim_mode;
 mod animation;
 mod boomerang;
 mod camera;
+mod enemy;
 mod input;
 pub mod level;
 mod mouse_position;
 mod player;
-mod enemy;
-mod aim_mode;
 
 pub(super) fn plugin(app: &mut App) {
     app.add_plugins((

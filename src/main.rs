@@ -9,10 +9,10 @@ mod audio;
 mod demo;
 #[cfg(feature = "dev")]
 mod dev_tools;
+mod physics_layers;
 mod screens;
 mod settings;
 mod theme;
-mod physics_layers;
 
 use avian3d::PhysicsPlugins;
 use bevy::window::PresentMode;

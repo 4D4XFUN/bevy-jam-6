@@ -8,7 +8,7 @@ use bevy_enhanced_input::prelude::*;
 
 pub fn plugin(app: &mut App) {
     app.add_plugins(targeting::plugin);
-    
+
     app.init_state::<AimModeState>();
     app.add_observer(enter_aim_mode).add_observer(exit_aim_mode);
 

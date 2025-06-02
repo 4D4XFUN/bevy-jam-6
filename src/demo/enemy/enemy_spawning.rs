@@ -1,12 +1,12 @@
+use crate::demo::boomerang::BoomerangHittable;
 use crate::demo::enemy::Enemy;
 use crate::demo::player::Player;
+use crate::physics_layers::GameLayer;
 use crate::screens::Screen;
 use avian3d::prelude::{Collider, CollisionLayers, RigidBody};
 use bevy::prelude::*;
 use bevy_tnua_avian3d::TnuaAvian3dSensorShape;
 use rand::{Rng, thread_rng};
-use crate::demo::boomerang::BoomerangHittable;
-use crate::physics_layers::GameLayer;
 
 pub fn plugin(app: &mut App) {
     app.init_resource::<EnemySpawningConfig>();
@@ -21,7 +21,10 @@ pub fn create_enemy_spawn_points_around_player_on_spawn(
     mut commands: Commands,
 ) -> Result {
     let origin = query.get(trigger.target())?;
-    info!("(dev mode) creating enemy spawners around player at {:?}", origin);
+    info!(
+        "(dev mode) creating enemy spawners around player at {:?}",
+        origin
+    );
 
     let positions = generate_enemy_spawn_positions(&origin.translation.xy(), &config);
 

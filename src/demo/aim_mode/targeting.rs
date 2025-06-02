@@ -1,14 +1,14 @@
-use std::collections::VecDeque;
 use crate::demo::aim_mode::AimModeState;
 use crate::demo::boomerang::{BoomerangHittable, BoomerangTargetKind, ThrowBoomerangEvent};
 use crate::demo::enemy::Enemy;
 use crate::demo::mouse_position::MousePosition;
+use crate::demo::player::Player;
+use crate::physics_layers::GameLayer;
 use crate::screens::Screen;
 use avian3d::prelude::*;
 use bevy::ecs::error::info;
 use bevy::prelude::*;
-use crate::demo::player::Player;
-use crate::physics_layers::GameLayer;
+use std::collections::VecDeque;
 
 /// While in aim mode, this module handles queueing up a list of targets,
 /// displaying crosshairs, and creating the target list for the boomerang to
@@ -37,13 +37,18 @@ fn initialize_target_list(mut commands: Commands) {
     commands.spawn(AimModeTargets::default());
 }
 
-fn cleanup_target_list(mut commands: Commands,
-                       mut query: Single<(Entity, &AimModeTargets)>,
-                       player_single: Single<Entity, With<Player>>,
-                       mut event_writer: EventWriter<ThrowBoomerangEvent>,
+fn cleanup_target_list(
+    mut commands: Commands,
+    mut query: Single<(Entity, &AimModeTargets)>,
+    player_single: Single<Entity, With<Player>>,
+    mut event_writer: EventWriter<ThrowBoomerangEvent>,
 ) {
     let (e, targets) = query.into_inner();
-    let v: Vec<_> = targets.targets.iter().map(|e| BoomerangTargetKind::Entity(*e)).collect();
+    let v: Vec<_> = targets
+        .targets
+        .iter()
+        .map(|e| BoomerangTargetKind::Entity(*e))
+        .collect();
     let player = player_single.into_inner(); // todo not why we nee this or how to handle multiple such entities. just assuming throws always originate from the player for now.
 
     event_writer.write(ThrowBoomerangEvent {
@@ -66,10 +71,11 @@ fn draw_crosshair(mut gizmos: Gizmos, mouse_position: Res<MousePosition>) {
     gizmos.circle(isometry, 2.0, Color::srgb(0.9, 0.1, 0.1));
 }
 
-fn draw_target_circles(mut gizmos: Gizmos,
-                       hittables: Query<&Transform, With<BoomerangHittable>>,
-                       query: Single<&AimModeTargets>) {
-
+fn draw_target_circles(
+    mut gizmos: Gizmos,
+    hittables: Query<&Transform, With<BoomerangHittable>>,
+    query: Single<&AimModeTargets>,
+) {
     let targets = query.into_inner();
     let x = &targets.targets;
 
@@ -84,7 +90,6 @@ fn draw_target_circles(mut gizmos: Gizmos,
         }
     }
     // todo draw a line from player to first target, first target to second, etc.
-
 }
 
 // some reasonable max that should never be reached during real gameplay (once we implement boomerang energy)
