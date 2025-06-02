@@ -7,7 +7,7 @@ use bevy::prelude::*;
 
 mod aim_mode;
 mod animation;
-mod boomerang;
+pub mod boomerang;
 mod camera;
 mod enemy;
 mod input;

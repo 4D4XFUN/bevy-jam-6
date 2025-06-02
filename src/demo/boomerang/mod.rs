@@ -10,17 +10,30 @@ use bevy::math::Dir3;
 use bevy::prelude::*;
 use bevy::time::Time;
 use bevy_enhanced_input::events::Fired;
+use boomerang_settings::BoomerangSettings;
 use log::error;
-use std::collections::VecDeque;
+
+pub mod boomerang_settings;
 
 pub const BOOMERANG_FLYING_HEIGHT: f32 = 0.5;
 
 /// Component used to describe boomerang entities.
-#[derive(Component, Debug, Default)]
+#[derive(Component, Debug, Default, Reflect)]
+#[reflect(Component)]
 struct Boomerang {
     /// The path this boomerang is following.
-    path: VecDeque<BoomerangTargetKind>,
-    speed: f32,
+    path: Vec<BoomerangTargetKind>,
+    path_index: usize,
+    progress_on_current_segment: f32, // value from 0.0 to 1.0
+}
+impl Boomerang {
+    pub fn new(path: Vec<BoomerangTargetKind>) -> Self {
+        Self {
+            path,
+            path_index: 0,
+            progress_on_current_segment: 0.0,
+        }
+    }
 }
 
 /// Component used to mark boomerangs which are midair.
@@ -71,7 +84,7 @@ struct BoomerangHasFallenOnGroundEvent {
 }
 
 /// An enum to differentiate between the different kinds of targets our boomerang may want to hit.
-#[derive(Copy, Clone, Debug, PartialEq)]
+#[derive(Copy, Clone, Debug, PartialEq, Reflect)]
 pub enum BoomerangTargetKind {
     /// Targeting an entity means it will home in on it, even as it moves.
     Entity(Entity),
@@ -86,31 +99,14 @@ struct BoomerangPathPreview {
     target_entity: Option<Entity>,
 }
 
-/// Current set of stats of our boomerang
-#[derive(Resource)]
-struct BoomerangSettings {
-    movement_speed: f32,
-    rotations_per_second: f32,
-    falling_speed: f32,
-}
-
-impl Default for BoomerangSettings {
-    fn default() -> Self {
-        Self {
-            movement_speed: 30.0,
-            rotations_per_second: 12.0,
-            falling_speed: 5.0,
-        }
-    }
-}
-
 pub fn plugin(app: &mut App) {
+    app.add_plugins(boomerang_settings::plugin);
+
     app.init_gizmo_group::<BoomerangPreviewGizmos>();
     app.add_event::<ThrowBoomerangEvent>();
     app.add_event::<BounceBoomerangEvent>();
     app.add_event::<BoomerangHasFallenOnGroundEvent>();
     app.init_resource::<BoomerangAssets>();
-    app.init_resource::<BoomerangSettings>();
 
     app.add_systems(
         Update,
@@ -161,16 +157,18 @@ fn spawn_test_entities(
 /// Moves boomerangs along their paths.
 /// Fires a [BounceBoomerangEvent] in case that the next path destination was reached.
 fn move_flying_boomerangs(
-    mut flying_boomerangs: Query<(Entity, &Boomerang, &mut Transform), With<Flying>>,
+    mut flying_boomerangs: Query<(Entity, &mut Boomerang, &mut Transform), With<Flying>>,
     all_other_transforms: Query<&Transform, Without<Boomerang>>,
+    boomerang_settings: Res<BoomerangSettings>,
     time: Res<Time>,
     mut bounce_event_writer: EventWriter<BounceBoomerangEvent>,
 ) -> Result {
-    for (boomerang_entity, boomerang, mut transform) in flying_boomerangs.iter_mut() {
-        let target = boomerang
+    for (boomerang_entity, mut boomerang, mut transform) in flying_boomerangs.iter_mut() {
+        let target = &boomerang
             .path
-            .front()
-            .ok_or(format!("No path for boomerang {boomerang:?}"))?;
+            .get(boomerang.path_index + 1)
+            .ok_or(format!("No path for boomerang {boomerang:?}"))?
+            .clone();
 
         let target_position = match target {
             BoomerangTargetKind::Entity(entity) => all_other_transforms
@@ -193,7 +191,25 @@ fn move_flying_boomerangs(
             continue;
         };
 
-        let distance_travelled_this_frame = boomerang.speed * time.delta_secs();
+        // todo make this a util fn
+        let origin_position = match boomerang
+            .path
+            .get(boomerang.path_index)
+            .ok_or(format!("No Origin for boomerang: {boomerang:?}"))?
+        {
+            BoomerangTargetKind::Entity(entity) => all_other_transforms
+                .get(*entity)?
+                .translation
+                .with_y(BOOMERANG_FLYING_HEIGHT),
+            BoomerangTargetKind::Position(position) => position.with_y(BOOMERANG_FLYING_HEIGHT),
+        };
+
+        let total_path_length = (target_position - origin_position).length();
+        let progress = 1. - (remaining_distance / total_path_length);
+        boomerang.progress_on_current_segment = progress; // convenience hack; cache this value so we don't have to recalculate in other systems.
+        let velocity = boomerang_settings.tween_movement_speed(progress);
+
+        let distance_travelled_this_frame = velocity * time.delta_secs();
         if remaining_distance <= distance_travelled_this_frame {
             send_boomerang_bounce_event(
                 &mut bounce_event_writer,
@@ -270,9 +286,9 @@ fn on_boomerang_bounce_advance_to_next_pathing_step_or_fall_down(
     for event in bounce_events.read() {
         let mut boomerang = boomerangs.get_mut(event.boomerang_entity)?;
 
-        boomerang.path.pop_front();
+        boomerang.path_index += 1;
 
-        if boomerang.path.is_empty() {
+        if boomerang.path_index >= boomerang.path.len() - 1 {
             commands
                 .entity(event.boomerang_entity)
                 .remove::<Flying>()
@@ -285,12 +301,13 @@ fn on_boomerang_bounce_advance_to_next_pathing_step_or_fall_down(
 
 /// Rotates our boomerangs at constant speed.
 fn rotate_boomerangs(
-    mut boomerangs: Query<&mut Transform, (With<Boomerang>, With<Flying>)>,
+    mut boomerangs: Query<(&mut Transform, &Boomerang), With<Flying>>,
     time: Res<Time>,
-    boomerang_stats: Res<BoomerangSettings>,
+    settings: Res<BoomerangSettings>,
 ) {
-    for mut transform in boomerangs.iter_mut() {
-        transform.rotate_local_y(boomerang_stats.rotations_per_second * time.delta_secs());
+    for (mut transform, boomerang) in boomerangs.iter_mut() {
+        let rotation_speed = settings.tween_rotation_speed(boomerang.progress_on_current_segment);
+        transform.rotate_local_y(rotation_speed * time.delta_secs());
     }
 }
 
@@ -385,13 +402,13 @@ fn on_throw_boomerang_spawn_boomerang(
     mut commands: Commands,
     all_transforms: Query<&Transform>,
     boomerang_assets: Res<BoomerangAssets>,
-    boomerang_stats: Res<BoomerangSettings>,
 ) -> Result {
     for event in event_reader.read() {
-        // add player as the last node on the path
-        let mut path = event.target.clone();
-        path.push(BoomerangTargetKind::Entity(event.thrower_entity));
-        let path = VecDeque::from(path);
+        // add the thrower as both the first and last node on the path
+        let thrower = BoomerangTargetKind::Entity(event.thrower_entity);
+        let mut path = vec![thrower];
+        path.append(&mut event.target.clone());
+        path.push(thrower);
 
         // spawn the 'rang
         commands.spawn((
@@ -402,10 +419,7 @@ fn on_throw_boomerang_spawn_boomerang(
                     .translation
                     .with_y(BOOMERANG_FLYING_HEIGHT),
             ),
-            Boomerang {
-                path,
-                speed: boomerang_stats.movement_speed,
-            },
+            Boomerang::new(path),
             Flying,
             Mesh3d(boomerang_assets.mesh.clone()),
             MeshMaterial3d(boomerang_assets.material.clone()),
