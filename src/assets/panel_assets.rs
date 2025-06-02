@@ -15,7 +15,7 @@ impl PanelAssets {
             self.image_handle.clone(),
             TextureAtlas {
                 layout: self.layout_handle.clone(),
-                index: 0,
+                index: 74,
             },
         )
         .with_mode(NodeImageMode::Sliced(self.slicer.clone()))
@@ -26,18 +26,18 @@ impl FromWorld for PanelAssets {
     fn from_world(world: &mut World) -> Self {
         let layout_handle = {
             let mut layouts = world.resource_mut::<Assets<TextureAtlasLayout>>();
-            let layout = TextureAtlasLayout::from_grid(UVec2::splat(128), 1, 1, None, None);
+            let layout = TextureAtlasLayout::from_grid(UVec2::splat(64), 10, 8, None, None);
             layouts.add(layout)
         };
         let slicer = TextureSlicer {
-            border: BorderRect::all(32.0),
+            border: BorderRect::all(16.0),
             center_scale_mode: SliceScaleMode::Stretch,
             sides_scale_mode: SliceScaleMode::Stretch,
             max_corner_scale: 1.0,
         };
         let asset_server = world.resource::<AssetServer>();
         PanelAssets {
-            image_handle: asset_server.load("images/1bit-panel.png"),
+            image_handle: asset_server.load("images/Ram Border All.png"),
             layout_handle,
             slicer,
         }
