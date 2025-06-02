@@ -30,7 +30,7 @@ impl Default for BoomerangSettings {
     fn default() -> Self {
         Self {
             min_movement_speed: 15.,
-            max_movement_speed: 35.,
+            max_movement_speed: 45.,
             min_rotation_speed: 20.,
             max_rotation_speed: 45.,
             falling_speed: 5.0,
