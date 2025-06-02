@@ -72,8 +72,8 @@ struct BoomerangHasFallenOnGroundEvent {
 }
 
 /// An enum to differentiate between the different kinds of targets our boomerang may want to hit.
-#[derive(Copy, Clone, Debug)]
-enum BoomerangTargetKind {
+#[derive(Copy, Clone, Debug, PartialEq)]
+pub enum BoomerangTargetKind {
     /// Targeting an entity means it will home in on it, even as it moves.
     Entity(Entity),
     /// Targeting a position means the boomerang will always fly in a straight line there.
