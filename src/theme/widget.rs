@@ -161,7 +161,7 @@ where
                 ..default()
             },
         ),
-        font
+        font,
     )
 }
 

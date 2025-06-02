@@ -4,7 +4,13 @@ use crate::{asset_tracking::LoadResource, audio::sound_effect};
 
 pub(super) fn plugin(app: &mut App) {
     app.register_type::<InteractionPalette>();
-    app.add_systems(Update, (apply_interaction_palette, apply_interaction_palette_to_image_node));
+    app.add_systems(
+        Update,
+        (
+            apply_interaction_palette,
+            apply_interaction_palette_to_image_node,
+        ),
+    );
 
     app.register_type::<InteractionAssets>();
     app.load_resource::<InteractionAssets>();
@@ -54,7 +60,6 @@ fn apply_interaction_palette_to_image_node(
         .into();
     }
 }
-
 
 #[derive(Resource, Asset, Clone, Reflect)]
 #[reflect(Resource)]
