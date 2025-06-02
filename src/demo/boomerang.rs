@@ -98,9 +98,9 @@ struct BoomerangSettings {
 impl Default for BoomerangSettings {
     fn default() -> Self {
         Self {
-            movement_speed: 10.0,
-            rotations_per_second: 6.0,
-            falling_speed: 2.0,
+            movement_speed: 20.0,
+            rotations_per_second: 12.0,
+            falling_speed: 4.0,
         }
     }
 }

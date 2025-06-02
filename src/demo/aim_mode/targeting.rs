@@ -8,6 +8,7 @@ use avian3d::prelude::*;
 use bevy::ecs::error::info;
 use bevy::prelude::*;
 use crate::demo::player::Player;
+use crate::physics_layers::GameLayer;
 
 /// While in aim mode, this module handles queueing up a list of targets,
 /// displaying crosshairs, and creating the target list for the boomerang to
@@ -107,7 +108,7 @@ fn record_target_near_mouse(
 
     let direction = Dir3::X;
     let config = ShapeCastConfig::from_max_distance(0.0);
-    let filter = SpatialQueryFilter::default();
+    let filter = SpatialQueryFilter::from_mask(GameLayer::Enemy);
     let Some(hit) = spatial_query.cast_shape(
         &Collider::sphere(AUTOTARGETING_RADIUS), // Shape
         mouse_position,                          // Shape position

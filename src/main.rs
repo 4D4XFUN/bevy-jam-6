@@ -12,6 +12,7 @@ mod dev_tools;
 mod screens;
 mod settings;
 mod theme;
+mod physics_layers;
 
 use avian3d::PhysicsPlugins;
 use bevy::window::PresentMode;

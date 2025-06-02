@@ -1,11 +1,12 @@
 use crate::demo::enemy::Enemy;
 use crate::demo::player::Player;
 use crate::screens::Screen;
-use avian3d::prelude::{Collider, RigidBody};
+use avian3d::prelude::{Collider, CollisionLayers, RigidBody};
 use bevy::prelude::*;
 use bevy_tnua_avian3d::TnuaAvian3dSensorShape;
 use rand::{Rng, thread_rng};
 use crate::demo::boomerang::BoomerangHittable;
+use crate::physics_layers::GameLayer;
 
 pub fn plugin(app: &mut App) {
     app.init_resource::<EnemySpawningConfig>();
@@ -51,6 +52,7 @@ pub fn spawn_enemies_on_enemy_spawn_points(
         TnuaAvian3dSensorShape(Collider::cylinder(0.49, 0.)),
         BoomerangHittable,
         Collider::capsule(0.5, 1.),
+        CollisionLayers::new(GameLayer::Enemy, GameLayer::ALL),
         RigidBody::Dynamic,
     ));
 
