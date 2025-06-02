@@ -1,4 +1,4 @@
-use crate::demo::aim_mode::AimModeState;
+use crate::demo::aim_mode::{AimModeState, PlayEnemyTargetedSound};
 use crate::demo::boomerang::{BoomerangHittable, BoomerangTargetKind, ThrowBoomerangEvent};
 use crate::demo::mouse_position::MousePosition;
 use crate::demo::player::Player;
@@ -95,6 +95,7 @@ fn record_target_near_mouse(
     mouse_position: Res<MousePosition>,
     spatial_query: SpatialQuery,
     mut current_target_list: Single<&mut AimModeTargets>,
+    mut commands: Commands,
 ) -> Result {
     // target list is full, don't add any more targets
     if current_target_list.targets.len() > MAX_TARGETS_SELECTABLE {
@@ -128,6 +129,7 @@ fn record_target_near_mouse(
         }
         _ => {
             current_target_list.targets.push(hit.entity);
+            commands.trigger(PlayEnemyTargetedSound); // play a sound when an enemy is targeted
             info!(
                 "Adding target to list {:?}. List after addition: {:?}",
                 hit.entity, &current_target_list.targets

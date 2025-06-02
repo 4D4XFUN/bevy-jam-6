@@ -97,9 +97,9 @@ struct BoomerangSettings {
 impl Default for BoomerangSettings {
     fn default() -> Self {
         Self {
-            movement_speed: 20.0,
+            movement_speed: 30.0,
             rotations_per_second: 12.0,
-            falling_speed: 4.0,
+            falling_speed: 5.0,
         }
     }
 }
@@ -318,7 +318,7 @@ fn update_boomerang_preview_position(
         return Ok(());
     };
 
-    let max_distance = 100.0;
+    let max_distance = 20.0;
     let solid = true;
     let filter = SpatialQueryFilter {
         excluded_entities: EntityHashSet::from([origin_entity]),
@@ -336,10 +336,6 @@ fn update_boomerang_preview_position(
             (first_hit.distance, None)
         }
     } else {
-        // warn!(
-        //     "Unable to find a raycast target? Maybe we aren't in an enclosed room right now? If that's ever wanted, we probably need to also set up some max flying distance"
-        // );
-
         (max_distance, None)
     };
 

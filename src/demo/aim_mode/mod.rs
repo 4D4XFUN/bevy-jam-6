@@ -15,6 +15,7 @@ pub fn plugin(app: &mut App) {
     // sound effect!
     app.load_resource::<AimModeAssets>()
         .add_systems(OnEnter(AimModeState::Aiming), play_aim_mode_sound_effect);
+    app.add_observer(play_enemy_targeted_sound_effect);
 }
 
 // =====================
@@ -63,14 +64,17 @@ fn exit_aim_mode(
 #[reflect(Resource)]
 struct AimModeAssets {
     #[dependency]
-    enter: Handle<AudioSource>,
+    entering_aim_mode: Handle<AudioSource>,
+    #[dependency]
+    targeting_an_enemy: Handle<AudioSource>,
 }
 
 impl FromWorld for AimModeAssets {
     fn from_world(world: &mut World) -> Self {
         let assets = world.resource::<AssetServer>();
         Self {
-            enter: assets.load("audio/sound_effects/step1.ogg"),
+            entering_aim_mode: assets.load("audio/sound_effects/step1.ogg"),
+            targeting_an_enemy: assets.load("audio/sound_effects/step2.ogg"),
         }
     }
 }
@@ -79,5 +83,19 @@ fn play_aim_mode_sound_effect(mut commands: Commands, assets: Option<Res<AimMode
     let Some(assets) = assets else {
         return;
     };
-    commands.spawn(sound_effect(assets.enter.clone()));
+    commands.spawn(sound_effect(assets.entering_aim_mode.clone()));
+}
+
+#[derive(Event)]
+pub struct PlayEnemyTargetedSound;
+
+fn play_enemy_targeted_sound_effect(
+    _trigger: Trigger<PlayEnemyTargetedSound>,
+    mut commands: Commands,
+    assets: Option<Res<AimModeAssets>>,
+) {
+    let Some(assets) = assets else {
+        return;
+    };
+    commands.spawn(sound_effect(assets.targeting_an_enemy.clone()));
 }

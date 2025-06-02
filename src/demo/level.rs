@@ -2,7 +2,7 @@
 
 use bevy::prelude::*;
 
-use crate::{asset_tracking::LoadResource, audio::music, screens::Screen};
+use crate::{asset_tracking::LoadResource, screens::Screen};
 
 pub(super) fn plugin(app: &mut App) {
     app.register_type::<LevelAssets>();
@@ -28,7 +28,7 @@ impl FromWorld for LevelAssets {
 /// A system that spawns the main level.
 pub fn spawn_level(
     mut commands: Commands,
-    level_assets: Res<LevelAssets>,
+    // level_assets: Res<LevelAssets>, // TODO: uncomment to add music back in
     asset_server: Res<AssetServer>,
 ) {
     commands.spawn((
@@ -36,15 +36,18 @@ pub fn spawn_level(
         Transform::default(),
         Visibility::default(),
         StateScoped(Screen::Gameplay),
-        children![(
-            Name::new("Gameplay Music"),
-            music(level_assets.music.clone())
-        )],
-    ));
-    commands.spawn((
-        Name::new("Environment"),
-        SceneRoot(
-            asset_server.load(GltfAssetLabel::Scene(0).from_asset("models/Environment.gltf")),
-        ),
+        children![
+            (
+                Name::new("Gameplay Music"),
+                // music(level_assets.music.clone()), // TODO: uncomment to add music back in
+            ),
+            (
+                Name::new("Environment"),
+                SceneRoot(
+                    asset_server
+                        .load(GltfAssetLabel::Scene(0).from_asset("models/Environment.gltf")),
+                ),
+            ),
+        ],
     ));
 }
