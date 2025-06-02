@@ -96,10 +96,10 @@ fn camera_follow(
 // ================
 // AIM MODE
 // ================
-fn camera_enter_aim_mode(mut camera: Single<&mut Transform, With<Camera>>) {
+fn camera_enter_aim_mode(camera: Single<&mut Transform, With<Camera>>) {
     // just a really subtle zoom out when aiming
     camera.into_inner().scale.z = 0.97;
 }
-fn camera_exit_aim_mode(mut camera: Single<&mut Transform, With<Camera>>) {
+fn camera_exit_aim_mode(camera: Single<&mut Transform, With<Camera>>) {
     camera.into_inner().scale.z = 1.0;
 }
