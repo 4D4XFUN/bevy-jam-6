@@ -43,6 +43,7 @@ fn cleanup_target_list(mut commands: Commands, mut query: Single<(Entity, &AimMo
         targets.targets
     );
 
+    // todo copy the targets to a new Boomerang throw event which will actually make the boomerang go
     commands.entity(e).despawn();
 }
 
@@ -76,6 +77,7 @@ fn draw_target_circles(mut gizmos: Gizmos,
             gizmos.circle(isometry, 1.5, Color::srgb(0.9, 0.1, 0.1));
         }
     }
+    // todo draw a line from player to first target, first target to second, etc.
 
 }
 
