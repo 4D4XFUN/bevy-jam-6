@@ -14,7 +14,7 @@ mod settings;
 mod theme;
 
 use avian3d::PhysicsPlugins;
-use bevy::window::PresentMode;
+use bevy::window::{PresentMode, WindowResolution};
 use bevy::{asset::AssetMetaCheck, prelude::*};
 use bevy_skein::SkeinPlugin;
 use bevy_tnua::prelude::TnuaControllerPlugin;
@@ -39,9 +39,6 @@ impl Plugin for AppPlugin {
                 .chain(),
         );
 
-        // Spawn the main camera.
-        // app.add_systems(Startup, spawn_camera);
-
         // Add Bevy plugins.
         app.add_plugins((
             DefaultPlugins
@@ -54,12 +51,13 @@ impl Plugin for AppPlugin {
                 })
                 .set(WindowPlugin {
                     primary_window: Window {
-                        title: "A FISTFUL OF BOOMERANGS".to_string(),
+                        title: "FISTFUL OF BOOMERANGS".to_string(),
                         present_mode: PresentMode::AutoVsync,
                         fit_canvas_to_parent: true,
+                        resolution: WindowResolution::new(1024., 768.),
                         ..default()
                     }
-                    .into(),
+                        .into(),
                     ..default()
                 }),
             SkeinPlugin::default(),
@@ -94,18 +92,3 @@ enum AppSystems {
     Update,
 }
 
-// bitflags! { //removed this until we need it for the 3d camera
-//     struct RenderLayer: u32 {
-//         /// Used implicitly by all entities without a `RenderLayers` component.
-//         /// Our world model camera and all objects other than the player are on this layer.
-//         /// The light source belongs to both layers.
-//         const DEFAULT = 0b00000001;
-//         /// Since we use multiple cameras, we need to be explicit about
-//         /// which one is allowed to render particles.
-//         const PARTICLES = 0b00000010;
-//         /// 3D gizmos. These need to be rendered only by a 3D camera, otherwise the UI camera will render them in a buggy way.
-//         /// Specifically, the UI camera is a 2D camera, which by default is placed at a far away Z position,
-//         /// so it will effectively render a very zoomed out view of the scene in the center of the screen.
-//         const GIZMO3 = 0b0000100;
-//     }
-// }

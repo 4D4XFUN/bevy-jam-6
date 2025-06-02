@@ -2,7 +2,7 @@
 
 use bevy::prelude::*;
 
-use crate::{asset_tracking::LoadResource, audio::music, screens::Screen};
+use crate::{asset_tracking::LoadResource, screens::Screen};
 
 pub(super) fn plugin(app: &mut App) {
     app.register_type::<LevelAssets>();
@@ -28,7 +28,7 @@ impl FromWorld for LevelAssets {
 /// A system that spawns the main level.
 pub fn spawn_level(
     mut commands: Commands,
-    level_assets: Res<LevelAssets>,
+    // level_assets: Res<LevelAssets>, // TODO: uncomment to add music back in
     asset_server: Res<AssetServer>,
 ) {
     commands.spawn((

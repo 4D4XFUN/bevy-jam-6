@@ -9,7 +9,7 @@ use bevy::input::ButtonInput;
 use bevy::math::Dir3;
 use bevy::prelude::*;
 use bevy::time::Time;
-use log::{error, warn};
+use log::error;
 use std::collections::VecDeque;
 
 pub const BOOMERANG_FLYING_HEIGHT: f32 = 0.5;
@@ -96,9 +96,9 @@ struct BoomerangSettings {
 impl Default for BoomerangSettings {
     fn default() -> Self {
         Self {
-            movement_speed: 10.0,
+            movement_speed: 30.0,
             rotations_per_second: 6.0,
-            falling_speed: 2.0,
+            falling_speed: 5.0,
         }
     }
 }
@@ -316,7 +316,7 @@ fn update_boomerang_preview_position(
         return Ok(());
     };
 
-    let max_distance = 100.0;
+    let max_distance = 20.0;
     let solid = true;
     let filter = SpatialQueryFilter {
         excluded_entities: EntityHashSet::from([origin_entity]),
@@ -334,10 +334,6 @@ fn update_boomerang_preview_position(
             (first_hit.distance, None)
         }
     } else {
-        warn!(
-            "Unable to find a raycast target? Maybe we aren't in an enclosed room right now? If that's ever wanted, we probably need to also set up some max flying distance"
-        );
-
         (max_distance, None)
     };
 
@@ -363,7 +359,7 @@ fn on_button_press_throw_boomerang(
     boomerang_previews: Query<(&BoomerangPathPreview, &GlobalTransform)>,
     mut event_writer: EventWriter<ThrowBoomerangEvent>,
 ) {
-    if !mouse_buttons.just_released(MouseButton::Left) {
+    if !mouse_buttons.just_pressed(MouseButton::Left) {
         return;
     }
 
