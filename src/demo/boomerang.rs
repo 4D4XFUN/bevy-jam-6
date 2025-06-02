@@ -1,15 +1,16 @@
 use crate::assets::BoomerangAssets;
+use crate::demo::input::FireBoomerangAction;
 use crate::demo::mouse_position::MousePosition;
 use crate::screens::Screen;
 use avian3d::prelude::{Collider, SpatialQuery, SpatialQueryFilter};
 use bevy::app::App;
 use bevy::color;
 use bevy::ecs::entity::EntityHashSet;
-use bevy::input::ButtonInput;
 use bevy::math::Dir3;
 use bevy::prelude::*;
 use bevy::time::Time;
-use log::{error, warn};
+use bevy_enhanced_input::events::Fired;
+use log::error;
 use std::collections::VecDeque;
 
 pub const BOOMERANG_FLYING_HEIGHT: f32 = 0.5;
@@ -48,9 +49,9 @@ pub struct ActiveBoomerangThrowOrigin;
 
 // An event which gets fired whenever the player throws their boomerang.
 #[derive(Event)]
-struct ThrowBoomerangEvent {
-    thrower_entity: Entity,
-    target: BoomerangTargetKind,
+pub struct ThrowBoomerangEvent {
+    pub thrower_entity: Entity,
+    pub target: Vec<BoomerangTargetKind>,
 }
 
 // An event which gets fired whenever a boomerang reaches the end of its current path.
@@ -70,8 +71,8 @@ struct BoomerangHasFallenOnGroundEvent {
 }
 
 /// An enum to differentiate between the different kinds of targets our boomerang may want to hit.
-#[derive(Copy, Clone, Debug)]
-enum BoomerangTargetKind {
+#[derive(Copy, Clone, Debug, PartialEq)]
+pub enum BoomerangTargetKind {
     /// Targeting an entity means it will home in on it, even as it moves.
     Entity(Entity),
     /// Targeting a position means the boomerang will always fly in a straight line there.
@@ -96,9 +97,9 @@ struct BoomerangSettings {
 impl Default for BoomerangSettings {
     fn default() -> Self {
         Self {
-            movement_speed: 10.0,
-            rotations_per_second: 6.0,
-            falling_speed: 2.0,
+            movement_speed: 20.0,
+            rotations_per_second: 12.0,
+            falling_speed: 4.0,
         }
     }
 }
@@ -116,7 +117,6 @@ pub fn plugin(app: &mut App) {
         (
             (
                 update_boomerang_preview_position,
-                on_button_press_throw_boomerang,
                 (
                     draw_preview_gizmo,
                     on_throw_boomerang_spawn_boomerang.run_if(on_event::<ThrowBoomerangEvent>),
@@ -132,6 +132,8 @@ pub fn plugin(app: &mut App) {
         )
             .run_if(in_state(Screen::Gameplay)),
     );
+
+    app.add_observer(on_fire_action_throw_boomerang);
 
     // TODO: Remove this
     app.add_systems(OnEnter(Screen::Gameplay), spawn_test_entities);
@@ -334,9 +336,9 @@ fn update_boomerang_preview_position(
             (first_hit.distance, None)
         }
     } else {
-        warn!(
-            "Unable to find a raycast target? Maybe we aren't in an enclosed room right now? If that's ever wanted, we probably need to also set up some max flying distance"
-        );
+        // warn!(
+        //     "Unable to find a raycast target? Maybe we aren't in an enclosed room right now? If that's ever wanted, we probably need to also set up some max flying distance"
+        // );
 
         (max_distance, None)
     };
@@ -356,17 +358,12 @@ fn update_boomerang_preview_position(
     Ok(())
 }
 
-// TODO: use bevy_enhanced_input for the button press
-fn on_button_press_throw_boomerang(
-    mouse_buttons: Res<ButtonInput<MouseButton>>,
+fn on_fire_action_throw_boomerang(
+    _trigger: Trigger<Fired<FireBoomerangAction>>,
     boomerang_holders: Query<Entity, With<ActiveBoomerangThrowOrigin>>,
     boomerang_previews: Query<(&BoomerangPathPreview, &GlobalTransform)>,
     mut event_writer: EventWriter<ThrowBoomerangEvent>,
 ) {
-    if !mouse_buttons.just_released(MouseButton::Left) {
-        return;
-    }
-
     let Ok(thrower_entity) = boomerang_holders.single() else {
         error!("Was unable to find a single thrower! (multiple ain't supported yet)");
         return;
@@ -383,7 +380,7 @@ fn on_button_press_throw_boomerang(
 
     event_writer.write(ThrowBoomerangEvent {
         thrower_entity,
-        target,
+        target: vec![target],
     });
 }
 
@@ -395,6 +392,12 @@ fn on_throw_boomerang_spawn_boomerang(
     boomerang_stats: Res<BoomerangSettings>,
 ) -> Result {
     for event in event_reader.read() {
+        // add player as the last node on the path
+        let mut path = event.target.clone();
+        path.push(BoomerangTargetKind::Entity(event.thrower_entity));
+        let path = VecDeque::from(path);
+
+        // spawn the 'rang
         commands.spawn((
             Name::new("Boomerang"),
             Transform::from_translation(
@@ -404,7 +407,7 @@ fn on_throw_boomerang_spawn_boomerang(
                     .with_y(BOOMERANG_FLYING_HEIGHT),
             ),
             Boomerang {
-                path: vec![event.target].into(),
+                path,
                 speed: boomerang_stats.movement_speed,
             },
             Flying,

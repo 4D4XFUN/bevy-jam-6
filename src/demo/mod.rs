@@ -5,9 +5,11 @@
 
 use bevy::prelude::*;
 
+mod aim_mode;
 mod animation;
 mod boomerang;
 mod camera;
+mod enemy;
 mod input;
 pub mod level;
 mod mouse_position;
@@ -22,5 +24,7 @@ pub(super) fn plugin(app: &mut App) {
         input::plugin,
         mouse_position::plugin,
         boomerang::plugin,
+        enemy::plugin,
+        aim_mode::plugin,
     ));
 }

@@ -2,7 +2,7 @@
 
 use crate::asset_tracking::LoadResource;
 use crate::demo::boomerang::ActiveBoomerangThrowOrigin;
-use crate::demo::input::{PlayerActions, PlayerMove};
+use crate::demo::input::{PlayerActions, PlayerMoveAction};
 use crate::screens::Screen;
 use avian3d::prelude::{Collider, LockedAxes, RigidBody};
 use bevy::{
@@ -63,7 +63,7 @@ fn spawn_player_to_point(
 
 #[derive(Component, Debug, Clone, Copy, PartialEq, Eq, Default, Reflect)]
 #[reflect(Component)]
-struct Player;
+pub struct Player;
 
 #[derive(Component, Reflect)]
 #[reflect(Component)]
@@ -86,18 +86,22 @@ fn add_player_movement_on_spawn(
 }
 
 fn record_player_directional_input(
-    trigger: Trigger<Fired<PlayerMove>>,
+    trigger: Trigger<Fired<PlayerMoveAction>>,
     movement_controller: Single<(&mut TnuaController, &MovementSettings)>,
     camera_query: Single<&Transform, With<Camera3d>>,
 ) {
     let (mut controller, settings) = movement_controller.into_inner();
     let camera_transform = camera_query.into_inner();
-    let mut camera_right = camera_transform.right().as_vec3();
-    let mut camera_forward = camera_transform.forward().as_vec3();
-    camera_right.y = 0.0;
-    camera_forward.y = 0.0;
-    camera_right = camera_right.normalize_or_zero();
-    camera_forward = camera_forward.normalize_or_zero();
+    let camera_right = camera_transform
+        .right()
+        .as_vec3()
+        .with_y(0.)
+        .normalize_or_zero();
+    let camera_forward = camera_transform
+        .forward()
+        .as_vec3()
+        .with_y(0.)
+        .normalize_or_zero();
     let velocity = (camera_right * trigger.value.x + camera_forward * trigger.value.y)
         .normalize_or_zero()
         * settings.walk_speed;
@@ -110,7 +114,7 @@ fn record_player_directional_input(
 }
 
 fn stop_player_directional_input(
-    _trigger: Trigger<Completed<PlayerMove>>,
+    _trigger: Trigger<Completed<PlayerMoveAction>>,
     movement_controller: Single<&mut TnuaController>,
 ) {
     let mut controller = movement_controller.into_inner();
