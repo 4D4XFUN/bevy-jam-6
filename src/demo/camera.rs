@@ -59,7 +59,7 @@ fn camera_follow(
     let Ok(target_transform) = target.single() else {
         return;
     };
-    let Ok((mut camera_transform, properties)) = camera.get_single_mut() else {
+    let Ok((mut camera_transform, properties)) = camera.single_mut() else {
         return;
     };
     //calculate bounds
