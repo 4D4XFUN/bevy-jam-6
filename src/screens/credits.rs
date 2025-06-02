@@ -2,13 +2,7 @@
 
 use bevy::{ecs::spawn::SpawnIter, prelude::*, ui::Val::*};
 
-use crate::{
-    asset_tracking::LoadResource,
-    assets::{FontAssets, PanelAssets},
-    audio::music,
-    screens::Screen,
-    theme::prelude::*,
-};
+use crate::{asset_tracking::LoadResource, audio::music, screens::Screen, theme::prelude::*};
 
 pub(super) fn plugin(app: &mut App) {
     app.add_systems(OnEnter(Screen::Credits), spawn_credits_screen);
@@ -18,23 +12,23 @@ pub(super) fn plugin(app: &mut App) {
     app.add_systems(OnEnter(Screen::Credits), start_credits_music);
 }
 
-fn spawn_credits_screen(panel: Res<PanelAssets>, fonts: Res<FontAssets>, mut commands: Commands) {
+fn spawn_credits_screen(mut commands: Commands) {
     commands.spawn((
         widget::ui_root("Credits Screen"),
         StateScoped(Screen::Credits),
         children![
-            widget::header_with_font("Created by", &fonts.header),
+            widget::header("Created by"),
             created_by(),
-            widget::header_with_font("Assets", &fonts.header),
+            widget::header("Assets"),
             assets(),
-            widget::paneled_button("Back", enter_title_screen, &panel, &fonts.header),
+            widget::button("Back", enter_title_screen),
         ],
     ));
 }
 
 fn created_by() -> impl Bundle {
     grid(vec![
-        ["Emily 'tigerplush' P.", "UI, SFX"],
+        ["Joe Shmoe", "Implemented alligator wrestling AI"],
         ["Jane Doe", "Made the music for the alien invasion"],
     ])
 }
@@ -42,8 +36,8 @@ fn created_by() -> impl Bundle {
 fn assets() -> impl Bundle {
     grid(vec![
         ["Ducky sprite", "CC0 by Caz Creates Games"],
+        ["Button SFX", "CC0 by Jaszunio15"],
         ["Music", "CC BY 3.0 by Kevin MacLeod"],
-        ["Pistol Riccoechet Sound", "CC0 by Diboz"],
         [
             "Bevy logo",
             "All rights reserved by the Bevy Foundation, permission granted for splash screen use when unmodified",
