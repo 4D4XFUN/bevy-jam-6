@@ -5,6 +5,7 @@ use crate::audio::sound_effect;
 use crate::demo::input::AimModeAction;
 use bevy::prelude::*;
 use bevy_enhanced_input::prelude::*;
+use rand::Rng;
 
 pub fn plugin(app: &mut App) {
     app.add_plugins(targeting::plugin);
@@ -66,15 +67,29 @@ struct AimModeAssets {
     #[dependency]
     entering_aim_mode: Handle<AudioSource>,
     #[dependency]
-    targeting_an_enemy: Handle<AudioSource>,
+    targeting1: Handle<AudioSource>,
+    #[dependency]
+    targeting2: Handle<AudioSource>,
+    #[dependency]
+    targeting3: Handle<AudioSource>,
+    #[dependency]
+    targeting4: Handle<AudioSource>,
+    #[dependency]
+    targeting5: Handle<AudioSource>,
 }
 
 impl FromWorld for AimModeAssets {
     fn from_world(world: &mut World) -> Self {
         let assets = world.resource::<AssetServer>();
         Self {
-            entering_aim_mode: assets.load("audio/sound_effects/step1.ogg"),
-            targeting_an_enemy: assets.load("audio/sound_effects/step2.ogg"),
+            entering_aim_mode: assets
+                .load("audio/sound_effects/571273__princeofworms__hawkeagle-cry-distant.ogg"),
+
+            targeting1: assets.load("audio/sound_effects/spurs/spur1.ogg"),
+            targeting2: assets.load("audio/sound_effects/spurs/spur1.ogg"),
+            targeting3: assets.load("audio/sound_effects/spurs/spur1.ogg"),
+            targeting4: assets.load("audio/sound_effects/spurs/spur1.ogg"),
+            targeting5: assets.load("audio/sound_effects/spurs/spur1.ogg"),
         }
     }
 }
@@ -97,5 +112,17 @@ fn play_enemy_targeted_sound_effect(
     let Some(assets) = assets else {
         return;
     };
-    commands.spawn(sound_effect(assets.targeting_an_enemy.clone()));
+
+    let random_index = rand::thread_rng().gen_range(1..=5);
+
+    let sound_asset = match random_index {
+        1 => assets.targeting1.clone(),
+        2 => assets.targeting2.clone(),
+        3 => assets.targeting3.clone(),
+        4 => assets.targeting4.clone(),
+        5 => assets.targeting5.clone(),
+        _ => unreachable!(),
+    };
+
+    commands.spawn(sound_effect(sound_asset));
 }

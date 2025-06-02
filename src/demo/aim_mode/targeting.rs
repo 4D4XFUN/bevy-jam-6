@@ -130,10 +130,10 @@ fn record_target_near_mouse(
         _ => {
             current_target_list.targets.push(hit.entity);
             commands.trigger(PlayEnemyTargetedSound); // play a sound when an enemy is targeted
-            info!(
-                "Adding target to list {:?}. List after addition: {:?}",
-                hit.entity, &current_target_list.targets
-            );
+            // info!(
+            //     "Adding target to list {:?}. List after addition: {:?}",
+            //     hit.entity, &current_target_list.targets
+            // );
         }
     }
 
