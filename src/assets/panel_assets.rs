@@ -1,4 +1,7 @@
-use bevy::prelude::*;
+use bevy::{
+    image::{ImageLoaderSettings, ImageSampler},
+    prelude::*,
+};
 
 #[derive(Resource, Asset, Clone, Reflect)]
 #[reflect(Resource)]
@@ -37,7 +40,13 @@ impl FromWorld for PanelAssets {
         };
         let asset_server = world.resource::<AssetServer>();
         PanelAssets {
-            image_handle: asset_server.load("images/Ram Border All.png"),
+            image_handle: asset_server.load_with_settings(
+                "images/Ram Border All.png",
+                |settings: &mut ImageLoaderSettings| {
+                    // Use `nearest` image sampling to preserve pixel art style.
+                    settings.sampler = ImageSampler::nearest();
+                },
+            ),
             layout_handle,
             slicer,
         }
