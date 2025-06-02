@@ -10,8 +10,8 @@ use bevy::math::Dir3;
 use bevy::prelude::*;
 use bevy::time::Time;
 use bevy_enhanced_input::events::Fired;
-use log::error;
 use boomerang_settings::BoomerangSettings;
+use log::error;
 
 pub mod boomerang_settings;
 
@@ -27,7 +27,7 @@ struct Boomerang {
     progress_on_current_segment: f32, // value from 0.0 to 1.0
 }
 impl Boomerang {
-    pub fn new (path: Vec<BoomerangTargetKind>) -> Self {
+    pub fn new(path: Vec<BoomerangTargetKind>) -> Self {
         Self {
             path,
             path_index: 0,
@@ -167,7 +167,8 @@ fn move_flying_boomerangs(
         let target = &boomerang
             .path
             .get(boomerang.path_index + 1)
-            .ok_or(format!("No path for boomerang {boomerang:?}"))?.clone();
+            .ok_or(format!("No path for boomerang {boomerang:?}"))?
+            .clone();
 
         let target_position = match target {
             BoomerangTargetKind::Entity(entity) => all_other_transforms
@@ -191,7 +192,11 @@ fn move_flying_boomerangs(
         };
 
         // todo make this a util fn
-        let origin_position = match boomerang.path.get(boomerang.path_index).ok_or(format!("No Origin for boomerang: {:?}", boomerang))? {
+        let origin_position = match boomerang
+            .path
+            .get(boomerang.path_index)
+            .ok_or(format!("No Origin for boomerang: {:?}", boomerang))?
+        {
             BoomerangTargetKind::Entity(entity) => all_other_transforms
                 .get(*entity)?
                 .translation

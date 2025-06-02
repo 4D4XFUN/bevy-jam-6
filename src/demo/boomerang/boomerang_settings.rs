@@ -5,7 +5,6 @@ pub fn plugin(app: &mut App) {
 
     // reflection
     app.register_type::<BoomerangSettings>();
-
 }
 
 #[cfg(feature = "dev")]
@@ -47,7 +46,9 @@ impl BoomerangSettings {
         self.tween_values(self.min_rotation_speed, self.max_rotation_speed, progress)
     }
 
-    fn tween_values(&self, min: f32, max:f32, progress:f32) -> f32 {
-        EasingCurve::new(min, max, self.easing_function).sample(progress).unwrap_or((min + max) / 2.)
+    fn tween_values(&self, min: f32, max: f32, progress: f32) -> f32 {
+        EasingCurve::new(min, max, self.easing_function)
+            .sample(progress)
+            .unwrap_or((min + max) / 2.)
     }
 }
