@@ -41,7 +41,7 @@ fn apply_interaction_palette(
             Interaction::Hovered => palette.hovered,
             Interaction::Pressed => palette.pressed,
         }
-        .into();
+            .into();
     }
 }
 
@@ -73,8 +73,8 @@ impl FromWorld for InteractionAssets {
     fn from_world(world: &mut World) -> Self {
         let assets = world.resource::<AssetServer>();
         Self {
-            hover: assets.load("audio/sound_effects/banjo_hover.ogg"),
-            click: assets.load("audio/sound_effects/banjo_click_long.ogg"),
+            hover: assets.load("audio/sound_effects/button_hover.ogg"),
+            click: assets.load("audio/sound_effects/button_click.ogg"),
         }
     }
 }
