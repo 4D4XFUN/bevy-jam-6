@@ -70,7 +70,7 @@ env:
 
   # Before enabling LFS, please take a look at GitHub's documentation for costs and quota limits:
   # <https://docs.github.com/en/repositories/working-with-files/managing-large-files/about-storage-and-bandwidth-usage>
-  git_lfs: false
+  git_lfs: true
 
   # Enabling this only helps with consecutive releases to the same tag (and takes up cache storage space).
   # See: <https://github.com/orgs/community/discussions/27059>.
