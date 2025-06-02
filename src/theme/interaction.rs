@@ -39,6 +39,21 @@ fn apply_interaction_palette(
     }
 }
 
+fn apply_interaction_palette_to_image_node(
+    mut palette_query: Query<
+        (&Interaction, &InteractionPalette, &mut ImageNode),
+        Changed<Interaction>,
+    >,
+) {
+    for (interaction, palette, mut image_node) in &mut palette_query {
+        image_node.color = match interaction {
+            Interaction::None => palette.none,
+            Interaction::Hovered => palette.hovered,
+            Interaction::Pressed => palette.pressed,
+        };
+    }
+}
+
 #[derive(Resource, Asset, Clone, Reflect)]
 #[reflect(Resource)]
 struct InteractionAssets {
@@ -52,8 +67,8 @@ impl FromWorld for InteractionAssets {
     fn from_world(world: &mut World) -> Self {
         let assets = world.resource::<AssetServer>();
         Self {
-            hover: assets.load("audio/sound_effects/button_hover.ogg"),
-            click: assets.load("audio/sound_effects/button_click.ogg"),
+            hover: assets.load("audio/sound_effects/banjo_hover.ogg"),
+            click: assets.load("audio/sound_effects/banjo_click_long.ogg"),
         }
     }
 }

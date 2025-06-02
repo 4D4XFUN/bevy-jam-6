@@ -60,7 +60,8 @@ impl Plugin for AppPlugin {
                     }
                     .into(),
                     ..default()
-                }),
+                })
+                .set(ImagePlugin::default_nearest()),
             SkeinPlugin::default(),
             PhysicsPlugins::default(),
             TnuaControllerPlugin::new(FixedUpdate),
