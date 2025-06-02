@@ -8,6 +8,7 @@ use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use iyes_perf_ui::PerfUiPlugin;
 use iyes_perf_ui::entries::{PerfUiFramerateEntries, PerfUiWindowEntries};
 use iyes_perf_ui::prelude::{PerfUiPosition, PerfUiRoot};
+use crate::demo::boomerang::boomerang_settings::boomerang_dev_tools_plugin;
 
 pub(super) fn plugin(app: &mut App) {
     app.add_plugins((
@@ -22,6 +23,7 @@ pub(super) fn plugin(app: &mut App) {
             enable_multipass_for_primary_context: true,
         },
         WorldInspectorPlugin::new(),
+        boomerang_dev_tools_plugin,
     ));
 
     // Log `Screen` state transitions.

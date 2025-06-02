@@ -12,6 +12,9 @@ use bevy::time::Time;
 use bevy_enhanced_input::events::Fired;
 use log::error;
 use std::collections::VecDeque;
+use boomerang_settings::BoomerangSettings;
+
+pub mod boomerang_settings;
 
 pub const BOOMERANG_FLYING_HEIGHT: f32 = 0.5;
 
@@ -86,31 +89,14 @@ struct BoomerangPathPreview {
     target_entity: Option<Entity>,
 }
 
-/// Current set of stats of our boomerang
-#[derive(Resource)]
-struct BoomerangSettings {
-    movement_speed: f32,
-    rotations_per_second: f32,
-    falling_speed: f32,
-}
-
-impl Default for BoomerangSettings {
-    fn default() -> Self {
-        Self {
-            movement_speed: 30.0,
-            rotations_per_second: 12.0,
-            falling_speed: 5.0,
-        }
-    }
-}
-
 pub fn plugin(app: &mut App) {
+    app.add_plugins(boomerang_settings::plugin);
+    
     app.init_gizmo_group::<BoomerangPreviewGizmos>();
     app.add_event::<ThrowBoomerangEvent>();
     app.add_event::<BounceBoomerangEvent>();
     app.add_event::<BoomerangHasFallenOnGroundEvent>();
     app.init_resource::<BoomerangAssets>();
-    app.init_resource::<BoomerangSettings>();
 
     app.add_systems(
         Update,
