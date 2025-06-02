@@ -1,3 +1,4 @@
+use crate::demo::aim_mode::AimModeState;
 use bevy::core_pipeline::bloom::Bloom;
 use bevy::core_pipeline::tonemapping::Tonemapping;
 use bevy::prelude::*;
@@ -7,6 +8,9 @@ pub fn plugin(app: &mut App) {
     app.register_type::<CameraProperties>();
     app.add_systems(Startup, spawn_camera);
     app.add_systems(Update, camera_follow);
+
+    app.add_systems(OnEnter(AimModeState::Aiming), camera_enter_aim_mode);
+    app.add_systems(OnExit(AimModeState::Aiming), camera_exit_aim_mode);
 }
 
 #[derive(Component)]
@@ -52,16 +56,13 @@ pub fn spawn_camera(mut commands: Commands) {
 }
 
 fn camera_follow(
-    mut camera: Query<(&mut Transform, &CameraProperties), With<Camera>>,
-    target: Query<&Transform, (With<CameraFollowTarget>, Without<Camera>)>,
+    camera: Single<(&mut Transform, &CameraProperties), With<Camera>>,
+    target: Single<&Transform, (With<CameraFollowTarget>, Without<Camera>)>,
     time: Res<Time>,
-) {
-    let Ok(target_transform) = target.single() else {
-        return;
-    };
-    let Ok((mut camera_transform, properties)) = camera.single_mut() else {
-        return;
-    };
+) -> Result {
+    let target_transform = target.into_inner();
+    let (mut camera_transform, properties) = camera.into_inner();
+
     //calculate bounds
     let level_width = 50.0f32;
     let level_height = 50.0f32;
@@ -88,4 +89,17 @@ fn camera_follow(
         camera_transform.translation.y,
         translation.z.clamp(min_z, max_z),
     );
+
+    Ok(())
+}
+
+// ================
+// AIM MODE
+// ================
+fn camera_enter_aim_mode(mut camera: Single<&mut Transform, With<Camera>>) {
+    // just a really subtle zoom out when aiming
+    camera.into_inner().scale.z = 0.97;
+}
+fn camera_exit_aim_mode(mut camera: Single<&mut Transform, With<Camera>>) {
+    camera.into_inner().scale.z = 1.0;
 }
