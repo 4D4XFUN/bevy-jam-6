@@ -24,12 +24,14 @@ struct Boomerang {
     /// The path this boomerang is following.
     path: Vec<BoomerangTargetKind>,
     path_index: usize,
+    progress_on_current_segment: f32, // value from 0.0 to 1.0
 }
 impl Boomerang {
     pub fn new (path: Vec<BoomerangTargetKind>) -> Self {
         Self {
             path,
             path_index: 0,
+            progress_on_current_segment: 0.0,
         }
     }
 }
@@ -155,17 +157,17 @@ fn spawn_test_entities(
 /// Moves boomerangs along their paths.
 /// Fires a [BounceBoomerangEvent] in case that the next path destination was reached.
 fn move_flying_boomerangs(
-    mut flying_boomerangs: Query<(Entity, &Boomerang, &mut Transform), With<Flying>>,
+    mut flying_boomerangs: Query<(Entity, &mut Boomerang, &mut Transform), With<Flying>>,
     all_other_transforms: Query<&Transform, Without<Boomerang>>,
     boomerang_settings: Res<BoomerangSettings>,
     time: Res<Time>,
     mut bounce_event_writer: EventWriter<BounceBoomerangEvent>,
 ) -> Result {
-    for (boomerang_entity, boomerang, mut transform) in flying_boomerangs.iter_mut() {
-        let target = boomerang
+    for (boomerang_entity, mut boomerang, mut transform) in flying_boomerangs.iter_mut() {
+        let target = &boomerang
             .path
             .get(boomerang.path_index + 1)
-            .ok_or(format!("No path for boomerang {boomerang:?}"))?;
+            .ok_or(format!("No path for boomerang {boomerang:?}"))?.clone();
 
         let target_position = match target {
             BoomerangTargetKind::Entity(entity) => all_other_transforms
@@ -199,6 +201,7 @@ fn move_flying_boomerangs(
 
         let total_path_length = (target_position - origin_position).length();
         let progress = 1. - (remaining_distance / total_path_length);
+        boomerang.progress_on_current_segment = progress; // convenience hack; cache this value so we don't have to recalculate in other systems.
         let velocity = boomerang_settings.tween_movement_speed(progress);
 
         let distance_travelled_this_frame = velocity * time.delta_secs();
@@ -293,12 +296,13 @@ fn on_boomerang_bounce_advance_to_next_pathing_step_or_fall_down(
 
 /// Rotates our boomerangs at constant speed.
 fn rotate_boomerangs(
-    mut boomerangs: Query<&mut Transform, (With<Boomerang>, With<Flying>)>,
+    mut boomerangs: Query<(&mut Transform, &Boomerang), (With<Flying>)>,
     time: Res<Time>,
-    boomerang_stats: Res<BoomerangSettings>,
+    settings: Res<BoomerangSettings>,
 ) {
-    for mut transform in boomerangs.iter_mut() {
-        transform.rotate_local_y(boomerang_stats.rotations_per_second * time.delta_secs());
+    for (mut transform, boomerang) in boomerangs.iter_mut() {
+        let rotation_speed = settings.tween_rotation_speed(boomerang.progress_on_current_segment);
+        transform.rotate_local_y(rotation_speed * time.delta_secs());
     }
 }
 
