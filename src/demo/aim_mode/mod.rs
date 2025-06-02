@@ -29,7 +29,7 @@ pub enum AimModeState {
 }
 
 fn enter_aim_mode(
-    trigger: Trigger<Fired<AimModeAction>>,
+    _trigger: Trigger<Fired<AimModeAction>>,
     state: Res<State<AimModeState>>,
     mut next_state: ResMut<NextState<AimModeState>>,
 ) {
@@ -43,7 +43,7 @@ fn enter_aim_mode(
 }
 
 fn exit_aim_mode(
-    trigger: Trigger<Completed<AimModeAction>>,
+    _trigger: Trigger<Completed<AimModeAction>>,
     state: Res<State<AimModeState>>,
     mut next_state: ResMut<NextState<AimModeState>>,
 ) {

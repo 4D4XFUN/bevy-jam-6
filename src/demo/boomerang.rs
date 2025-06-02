@@ -359,7 +359,7 @@ fn update_boomerang_preview_position(
 }
 
 fn on_fire_action_throw_boomerang(
-    trigger: Trigger<Fired<FireBoomerangAction>>,
+    _trigger: Trigger<Fired<FireBoomerangAction>>,
     boomerang_holders: Query<Entity, With<ActiveBoomerangThrowOrigin>>,
     boomerang_previews: Query<(&BoomerangPathPreview, &GlobalTransform)>,
     mut event_writer: EventWriter<ThrowBoomerangEvent>,

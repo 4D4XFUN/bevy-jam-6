@@ -91,7 +91,7 @@ pub fn generate_enemy_spawn_positions(origin: &Vec2, config: &EnemySpawningConfi
 
     let mut result = vec![];
 
-    for i in 0..n {
+    for _ in 0..n {
         // Generate random angle (0 to 2π)
         let angle = rng.gen_range(0.0..std::f64::consts::TAU);
 

@@ -88,13 +88,12 @@ fn draw_target_circles(
     // todo draw a line from player to first target, first target to second, etc.
 }
 
-// some reasonable max that should never be reached during real gameplay (once we implement boomerang energy)
-const MAX_TARGETS_SELECTABLE: usize = 10;
+// some absolute max that should never be reached during real gameplay (once we implement boomerang energy)
+const MAX_TARGETS_SELECTABLE: usize = 30;
 
 fn record_target_near_mouse(
     mouse_position: Res<MousePosition>,
     spatial_query: SpatialQuery,
-    potential_targets: Query<Entity, With<BoomerangHittable>>,
     mut current_target_list: Single<&mut AimModeTargets>,
 ) -> Result {
     // target list is full, don't add any more targets
