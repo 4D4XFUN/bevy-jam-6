@@ -1,4 +1,4 @@
-use crate::demo::boomerang::{BounceBoomerangEvent};
+use crate::demo::boomerang::BounceBoomerangEvent;
 use bevy::prelude::*;
 use rand::Rng;
 

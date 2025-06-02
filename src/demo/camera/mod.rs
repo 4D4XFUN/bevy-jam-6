@@ -9,13 +9,13 @@ use bevy::render::camera::Exposure;
 pub fn plugin(app: &mut App) {
     // plugins
     app.add_plugins(screen_shake::plugin);
-    
+
     // systems
     app.add_systems(Startup, spawn_camera);
     app.add_systems(Update, camera_follow);
     app.add_systems(OnEnter(AimModeState::Aiming), camera_enter_aim_mode);
     app.add_systems(OnExit(AimModeState::Aiming), camera_exit_aim_mode);
-    
+
     // reflection
     app.register_type::<CameraProperties>();
 }
