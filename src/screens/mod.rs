@@ -26,11 +26,11 @@ pub(super) fn plugin(app: &mut App) {
 #[derive(States, Debug, Hash, PartialEq, Eq, Clone, Default)]
 #[states(scoped_entities)]
 pub enum Screen {
+    #[default]
     Splash,
     Title,
     Credits,
     Settings,
-    #[default]
     Loading,
     Gameplay,
 }
