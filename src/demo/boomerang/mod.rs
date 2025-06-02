@@ -10,8 +10,8 @@ use bevy::math::Dir3;
 use bevy::prelude::*;
 use bevy::time::Time;
 use bevy_enhanced_input::events::Fired;
-use log::error;
 use boomerang_settings::BoomerangSettings;
+use log::error;
 
 pub mod boomerang_settings;
 
@@ -20,19 +20,23 @@ pub const BOOMERANG_FLYING_HEIGHT: f32 = 0.5;
 /// Component used to describe boomerang entities.
 #[derive(Component, Debug, Default, Reflect)]
 #[reflect(Component)]
-struct Boomerang {
+pub struct Boomerang {
     /// The path this boomerang is following.
     path: Vec<BoomerangTargetKind>,
     path_index: usize,
     progress_on_current_segment: f32, // value from 0.0 to 1.0
 }
 impl Boomerang {
-    pub fn new (path: Vec<BoomerangTargetKind>) -> Self {
+    pub fn new(path: Vec<BoomerangTargetKind>) -> Self {
         Self {
             path,
             path_index: 0,
             progress_on_current_segment: 0.0,
         }
+    }
+
+    pub fn _is_last_segment(&self) -> bool {
+        self.path_index >= self.path.len() - 2
     }
 }
 
@@ -69,11 +73,11 @@ pub struct ThrowBoomerangEvent {
 
 // An event which gets fired whenever a boomerang reaches the end of its current path.
 #[derive(Event)]
-struct BounceBoomerangEvent {
+pub struct BounceBoomerangEvent {
     /// The boomerang entity
-    boomerang_entity: Entity,
+    pub boomerang_entity: Entity,
     /// The target we have bounced against
-    _bounce_on: BoomerangTargetKind,
+    pub _bounce_on: BoomerangTargetKind,
 }
 
 // An event which gets fired whenever a boomerang falls to the ground, thus ceasing all movement.
@@ -167,7 +171,8 @@ fn move_flying_boomerangs(
         let target = &boomerang
             .path
             .get(boomerang.path_index + 1)
-            .ok_or(format!("No path for boomerang {boomerang:?}"))?.clone();
+            .ok_or(format!("No path for boomerang {boomerang:?}"))?
+            .clone();
 
         let target_position = match target {
             BoomerangTargetKind::Entity(entity) => all_other_transforms
@@ -191,7 +196,11 @@ fn move_flying_boomerangs(
         };
 
         // todo make this a util fn
-        let origin_position = match boomerang.path.get(boomerang.path_index).ok_or(format!("No Origin for boomerang: {:?}", boomerang))? {
+        let origin_position = match boomerang
+            .path
+            .get(boomerang.path_index)
+            .ok_or(format!("No Origin for boomerang: {boomerang:?}"))?
+        {
             BoomerangTargetKind::Entity(entity) => all_other_transforms
                 .get(*entity)?
                 .translation
@@ -296,7 +305,7 @@ fn on_boomerang_bounce_advance_to_next_pathing_step_or_fall_down(
 
 /// Rotates our boomerangs at constant speed.
 fn rotate_boomerangs(
-    mut boomerangs: Query<(&mut Transform, &Boomerang), (With<Flying>)>,
+    mut boomerangs: Query<(&mut Transform, &Boomerang), With<Flying>>,
     time: Res<Time>,
     settings: Res<BoomerangSettings>,
 ) {
