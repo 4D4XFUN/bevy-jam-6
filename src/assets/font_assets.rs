@@ -11,7 +11,7 @@ impl FromWorld for FontAssets {
     fn from_world(world: &mut World) -> Self {
         let asset_server = world.resource::<AssetServer>();
         FontAssets {
-            header: asset_server.load("fonts/Carnevalee Freakshow.ttf"),
+            header: asset_server.load("fonts/Cowboys 2.0.otf"),
             content: asset_server.load("fonts/Kirsty Rg.otf"),
         }
     }
