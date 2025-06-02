@@ -6,7 +6,6 @@ use bevy::{
 #[derive(Resource, Asset, Clone, Reflect)]
 #[reflect(Resource)]
 pub struct PanelAssets {
-    #[dependency]
     image_handle: Handle<Image>,
     layout_handle: Handle<TextureAtlasLayout>,
     slicer: TextureSlicer,
@@ -41,7 +40,7 @@ impl FromWorld for PanelAssets {
         let asset_server = world.resource::<AssetServer>();
         PanelAssets {
             image_handle: asset_server.load_with_settings(
-                "images/Ram Border All.png",
+                "images/Ram_Border_All.png",
                 |settings: &mut ImageLoaderSettings| {
                     // Use `nearest` image sampling to preserve pixel art style.
                     settings.sampler = ImageSampler::nearest();
