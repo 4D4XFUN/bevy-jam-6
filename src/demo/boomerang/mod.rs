@@ -195,7 +195,7 @@ fn move_flying_boomerangs(
         let origin_position = match boomerang
             .path
             .get(boomerang.path_index)
-            .ok_or(format!("No Origin for boomerang: {:?}", boomerang))?
+            .ok_or(format!("No Origin for boomerang: {boomerang:?}"))?
         {
             BoomerangTargetKind::Entity(entity) => all_other_transforms
                 .get(*entity)?
@@ -301,7 +301,7 @@ fn on_boomerang_bounce_advance_to_next_pathing_step_or_fall_down(
 
 /// Rotates our boomerangs at constant speed.
 fn rotate_boomerangs(
-    mut boomerangs: Query<(&mut Transform, &Boomerang), (With<Flying>)>,
+    mut boomerangs: Query<(&mut Transform, &Boomerang), With<Flying>>,
     time: Res<Time>,
     settings: Res<BoomerangSettings>,
 ) {
