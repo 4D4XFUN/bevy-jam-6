@@ -18,19 +18,31 @@ pub fn boomerang_dev_tools_plugin(app: &mut App) {
 #[derive(Resource, Debug, Reflect)]
 #[reflect(Resource)]
 pub struct BoomerangSettings {
-    pub movement_speed: f32,
+    pub min_movement_speed: f32,
+    pub max_movement_speed: f32,
     pub rotations_per_second: f32,
     pub falling_speed: f32,
-    pub easing_function: EaseFunction,
+    pub easing_function: EaseFunction, // see https://bevyengine.org/examples/animation/easing-functions/
 }
 
 impl Default for BoomerangSettings {
     fn default() -> Self {
         Self {
-            movement_speed: 30.0,
+            min_movement_speed: 15.,
+            max_movement_speed: 35.,
             rotations_per_second: 12.0,
             falling_speed: 5.0,
-            easing_function: EaseFunction::ElasticInOut,
+            easing_function: EaseFunction::ExponentialInOut,
         }
+    }
+}
+
+impl BoomerangSettings {
+    pub fn tween_movement_speed(&self, progress: f32) -> f32 {
+        self.tween_values(self.min_movement_speed, self.max_movement_speed, progress)
+    }
+    
+    fn tween_values(&self, min: f32, max:f32, progress:f32) -> f32 {
+        EasingCurve::new(min, max, self.easing_function).sample(progress).unwrap_or((min + max) / 2.)
     }
 }

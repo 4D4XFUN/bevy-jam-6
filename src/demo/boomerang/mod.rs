@@ -11,7 +11,6 @@ use bevy::prelude::*;
 use bevy::time::Time;
 use bevy_enhanced_input::events::Fired;
 use log::error;
-use std::collections::VecDeque;
 use boomerang_settings::BoomerangSettings;
 
 pub mod boomerang_settings;
@@ -189,7 +188,20 @@ fn move_flying_boomerangs(
             continue;
         };
 
-        let distance_travelled_this_frame = boomerang_settings.movement_speed * time.delta_secs();
+        // todo make this a util fn
+        let origin_position = match boomerang.path.get(boomerang.path_index).ok_or(format!("No Origin for boomerang: {:?}", boomerang))? {
+            BoomerangTargetKind::Entity(entity) => all_other_transforms
+                .get(*entity)?
+                .translation
+                .with_y(BOOMERANG_FLYING_HEIGHT),
+            BoomerangTargetKind::Position(position) => position.with_y(BOOMERANG_FLYING_HEIGHT),
+        };
+
+        let total_path_length = (target_position - origin_position).length();
+        let progress = 1. - (remaining_distance / total_path_length);
+        let velocity = boomerang_settings.tween_movement_speed(progress);
+
+        let distance_travelled_this_frame = velocity * time.delta_secs();
         if remaining_distance <= distance_travelled_this_frame {
             send_boomerang_bounce_event(
                 &mut bounce_event_writer,
@@ -381,10 +393,9 @@ fn on_throw_boomerang_spawn_boomerang(
     mut commands: Commands,
     all_transforms: Query<&Transform>,
     boomerang_assets: Res<BoomerangAssets>,
-    boomerang_stats: Res<BoomerangSettings>,
 ) -> Result {
     for event in event_reader.read() {
-        // add player as the last node on the path
+        // add the thrower as both the first and last node on the path
         let thrower = BoomerangTargetKind::Entity(event.thrower_entity);
         let mut path = vec![thrower];
         path.append(&mut event.target.clone());
