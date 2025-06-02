@@ -70,7 +70,7 @@ impl FromWorld for AimModeAssets {
     fn from_world(world: &mut World) -> Self {
         let assets = world.resource::<AssetServer>();
         Self {
-            enter: assets.load("audio/sound_effects/whip.mp3"),
+            enter: assets.load("audio/sound_effects/step1.ogg"),
         }
     }
 }
