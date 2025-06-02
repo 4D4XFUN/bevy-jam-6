@@ -84,7 +84,7 @@ impl FromWorld for AimModeAssets {
         Self {
             entering_aim_mode: assets
                 .load("audio/sound_effects/571273__princeofworms__hawkeagle-cry-distant.ogg"),
-            
+
             targeting1: assets.load("audio/sound_effects/spurs/spur1.ogg"),
             targeting2: assets.load("audio/sound_effects/spurs/spur1.ogg"),
             targeting3: assets.load("audio/sound_effects/spurs/spur1.ogg"),
