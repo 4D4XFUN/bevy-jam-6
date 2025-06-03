@@ -9,24 +9,22 @@ use bevy::{
 };
 
 pub(super) fn plugin(app: &mut App) {
-    app
-        .add_systems(Startup, setup)
-        .add_systems(
-            Update,
-            (
-                move_virtual_time_sprites,
-                move_real_time_sprites,
-                toggle_pause.run_if(input_just_pressed(KeyCode::Space)),
-                change_time_speed::<1>.run_if(input_just_pressed(KeyCode::ArrowUp)),
-                change_time_speed::<-1>.run_if(input_just_pressed(KeyCode::ArrowDown)),
-                (update_virtual_time_info_text, update_real_time_info_text)
-                    // update the texts on a timer to make them more readable
-                    // `on_timer` run condition uses `Virtual` time meaning it's scaled
-                    // and would result in the UI updating at different intervals based
-                    // on `Time<Virtual>::relative_speed` and `Time<Virtual>::is_paused()`
-                    .run_if(on_real_timer(Duration::from_millis(250))),
-            ),
-        );
+    app.add_systems(Startup, setup).add_systems(
+        Update,
+        (
+            move_virtual_time_sprites,
+            move_real_time_sprites,
+            toggle_pause.run_if(input_just_pressed(KeyCode::Space)),
+            change_time_speed::<1>.run_if(input_just_pressed(KeyCode::ArrowUp)),
+            change_time_speed::<-1>.run_if(input_just_pressed(KeyCode::ArrowDown)),
+            (update_virtual_time_info_text, update_real_time_info_text)
+                // update the texts on a timer to make them more readable
+                // `on_timer` run condition uses `Virtual` time meaning it's scaled
+                // and would result in the UI updating at different intervals based
+                // on `Time<Virtual>::relative_speed` and `Time<Virtual>::is_paused()`
+                .run_if(on_real_timer(Duration::from_millis(250))),
+        ),
+    );
 }
 
 /// `Real` time related marker

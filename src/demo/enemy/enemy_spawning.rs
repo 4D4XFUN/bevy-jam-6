@@ -5,7 +5,6 @@ use crate::physics_layers::GameLayer;
 use crate::screens::Screen;
 use avian3d::prelude::{Collider, CollisionLayers, RigidBody};
 use bevy::prelude::*;
-use bevy_tnua_avian3d::TnuaAvian3dSensorShape;
 use rand::{Rng, thread_rng};
 
 pub fn plugin(app: &mut App) {
@@ -52,7 +51,6 @@ pub fn spawn_enemies_on_enemy_spawn_points(
         Mesh3d(meshes.add(Capsule3d::default())),
         MeshMaterial3d(materials.add(Color::srgb_u8(124, 32, 32))),
         StateScoped(Screen::Gameplay),
-        TnuaAvian3dSensorShape(Collider::cylinder(0.49, 0.)),
         BoomerangHittable,
         Collider::capsule(0.5, 1.),
         CollisionLayers::new(GameLayer::Enemy, GameLayer::ALL),

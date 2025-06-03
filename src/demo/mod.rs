@@ -13,6 +13,7 @@ mod enemy;
 mod input;
 pub mod level;
 mod mouse_position;
+mod movement;
 mod player;
 pub mod virtual_time;
 
