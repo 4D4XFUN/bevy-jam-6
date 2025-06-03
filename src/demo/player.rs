@@ -5,7 +5,7 @@ use crate::demo::boomerang::ActiveBoomerangThrowOrigin;
 use crate::demo::camera::CameraFollowTarget;
 use crate::demo::input::{PlayerActions, PlayerMoveAction};
 use crate::screens::Screen;
-use avian3d::prelude::{Collider, LockedAxes, RigidBody};
+use avian3d::prelude::{Collider, LinearVelocity, LockedAxes, RigidBody};
 use bevy::{
     image::{ImageLoaderSettings, ImageSampler},
     prelude::*,
@@ -85,18 +85,16 @@ fn add_player_movement_on_spawn(
 
 fn record_player_directional_input(
     trigger: Trigger<Fired<PlayerMoveAction>>,
-    player_transform_query: Single<
-        (&mut Transform, &MovementSettings),
+    player_query: Single<
+        (&mut LinearVelocity, &MovementSettings),
         (With<Player>, Without<Camera3d>),
     >,
     camera_query: Single<&Transform, With<Camera3d>>,
-    time_resource: Res<Time<Real>>,
     virtual_time: ResMut<Time<Virtual>>,
 ) {
     let camera_transform = camera_query.into_inner();
-    let time = time_resource.into_inner();
     let virtual_time = virtual_time.into_inner();
-    let (mut transform, settings) = player_transform_query.into_inner();
+    let (mut linear_velocity, settings) = player_query.into_inner();
     let camera_right = camera_transform
         .right()
         .as_vec3()
@@ -112,16 +110,23 @@ fn record_player_directional_input(
     virtual_time.set_relative_speed(velocity.length());
 
     let final_velocity = velocity.normalize_or_zero() * settings.walk_speed * Vec3::new(1., 0., 1.); // this is a hack, we should store a data in a velocity component on the player and apply all velocities in another system
-    transform.translation += final_velocity * time.delta_secs();
+    // linear_velocity.translation += final_velocity * time.delta_secs();
+    linear_velocity.x = final_velocity.x;
+    linear_velocity.z = final_velocity.z;
 }
 
 fn stop_player_directional_input(
     _trigger: Trigger<Completed<PlayerMoveAction>>,
+    player: Single<&mut LinearVelocity, With<Player>>,
     virtual_time: ResMut<Time<Virtual>>,
 ) {
     let virtual_time = virtual_time.into_inner();
 
     virtual_time.set_relative_speed(0.05);
+    let mut player = player.into_inner();
+    player.x = 0.;
+    player.y = 0.;
+    player.z = 0.;
 }
 
 #[derive(Resource, Asset, Clone, Reflect)]
