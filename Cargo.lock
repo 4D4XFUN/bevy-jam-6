@@ -541,37 +541,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "bevy-tnua"
-version = "0.24.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "fed533302dfcef51b63d60c2731e0c64bf835ca3e287da686b411869afddee0e"
-dependencies = [
- "bevy",
- "bevy-tnua-physics-integration-layer",
- "thiserror 2.0.12",
-]
-
-[[package]]
-name = "bevy-tnua-avian3d"
-version = "0.5.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8767dfb15ed696e07750470145240ca007e5276c367f68b9a3895955e92cbb66"
-dependencies = [
- "avian3d",
- "bevy",
- "bevy-tnua-physics-integration-layer",
-]
-
-[[package]]
-name = "bevy-tnua-physics-integration-layer"
-version = "0.8.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "914d26cf060dd50852d66fe31edf385fd5b9ea7f57a9ca5ddd9ba628b4157747"
-dependencies = [
- "bevy",
-]
-
-[[package]]
 name = "bevy_a11y"
 version = "0.16.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1187,8 +1156,6 @@ dependencies = [
  "avian3d",
  "bevy",
  "bevy-inspector-egui",
- "bevy-tnua",
- "bevy-tnua-avian3d",
  "bevy_asset_loader",
  "bevy_enhanced_input",
  "bevy_framepace",

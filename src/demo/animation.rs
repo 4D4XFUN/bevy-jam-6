@@ -5,7 +5,6 @@
 //! - [Timers](https://github.com/bevyengine/bevy/blob/latest/examples/time/timers.rs)
 
 use bevy::prelude::*;
-use bevy_tnua::prelude::TnuaController;
 use rand::prelude::*;
 use std::time::Duration;
 
@@ -18,21 +17,12 @@ pub(super) fn plugin(app: &mut App) {
         Update,
         (
             update_animation_timer.in_set(AppSystems::TickTimers),
-            (
-                update_animation_movement,
-                update_animation_atlas,
-                trigger_step_sound_effect,
-            )
+            (update_animation_atlas, trigger_step_sound_effect)
                 .chain()
                 .run_if(resource_exists::<PlayerAssets>)
                 .in_set(AppSystems::Update),
         ),
     );
-}
-
-/// Update the sprite direction and animation state (idling/walking).
-fn update_animation_movement(_player_query: Query<(&TnuaController, &Sprite, &PlayerAnimation)>) {
-    // todo!
 }
 
 /// Update the animation timer.
