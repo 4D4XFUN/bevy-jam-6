@@ -153,7 +153,8 @@
 				124,
 				126,
 				128,
-				130
+				130,
+				131
 			]
 		}
 	],
@@ -1764,6 +1765,28 @@
 				-13.336315155029297,
 				0,
 				-11.22475528717041
+			]
+		},
+		{
+			"extras":{
+				"skein_two":[
+					{
+						"name":"EnemySpawnPoint",
+						"selected_type_path":"bevy_jam_6::demo::enemy::enemy_spawning::EnemySpawnPoint"
+					}
+				],
+				"active_component_index":0,
+				"skein":[
+					{
+						"bevy_jam_6::demo::enemy::enemy_spawning::EnemySpawnPoint":{}
+					}
+				]
+			},
+			"name":"EnemySpawnPoint",
+			"translation":[
+				3.7572460174560547,
+				1,
+				5.459350109100342
 			]
 		}
 	],
