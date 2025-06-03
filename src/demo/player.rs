@@ -53,7 +53,7 @@ fn spawn_player_to_point(
         StateScoped(Screen::Gameplay),
         RigidBody::Dynamic,
         LockedAxes::ROTATION_LOCKED,
-        MovementSettings { walk_speed: 8. },
+        MovementSettings { walk_speed: 400. },
         ActiveBoomerangThrowOrigin,
         CameraFollowTarget, // Can't add more components to this tuple, it is at max capacity, we should use the insert component command on the entity
     ));
@@ -91,9 +91,11 @@ fn record_player_directional_input(
     >,
     camera_query: Single<&Transform, With<Camera3d>>,
     virtual_time: ResMut<Time<Virtual>>,
+    real_time: Res<Time<Real>>,
 ) {
     let camera_transform = camera_query.into_inner();
     let virtual_time = virtual_time.into_inner();
+    let real_time = real_time.into_inner();
     let (mut linear_velocity, settings) = player_query.into_inner();
     let camera_right = camera_transform
         .right()
@@ -109,10 +111,9 @@ fn record_player_directional_input(
 
     virtual_time.set_relative_speed(velocity.length());
 
-    let final_velocity = velocity.normalize_or_zero() * settings.walk_speed * Vec3::new(1., 0., 1.); // this is a hack, we should store a data in a velocity component on the player and apply all velocities in another system
-    // linear_velocity.translation += final_velocity * time.delta_secs();
-    linear_velocity.x = final_velocity.x;
-    linear_velocity.z = final_velocity.z;
+    let final_velocity = velocity.normalize_or_zero() * settings.walk_speed * Vec3::new(1., 0., 1.) * real_time.delta_secs();
+    linear_velocity.0 = final_velocity;
+    // linear_velocity.z = final_velocity.z;
 }
 
 fn stop_player_directional_input(
