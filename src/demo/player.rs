@@ -4,6 +4,7 @@ use crate::asset_tracking::LoadResource;
 use crate::demo::boomerang::ActiveBoomerangThrowOrigin;
 use crate::demo::camera::CameraFollowTarget;
 use crate::demo::input::{PlayerActions, PlayerMoveAction};
+use crate::demo::virtual_time::*;
 use crate::screens::Screen;
 use avian3d::prelude::{Collider, LockedAxes, RigidBody};
 use bevy::{
@@ -44,7 +45,7 @@ fn spawn_player_to_point(
         return;
     };
     info!("spawn point at {:?} added", spawn_point);
-    commands.spawn((
+    let entity_id = commands.spawn((
         Name::new("Player"),
         Player,
         Transform::from_translation(spawn_point.translation + Vec3::Y),
@@ -59,8 +60,9 @@ fn spawn_player_to_point(
         LockedAxes::ROTATION_LOCKED,
         MovementSettings { walk_speed: 8. },
         ActiveBoomerangThrowOrigin,
-        CameraFollowTarget,
-    ));
+        CameraFollowTarget, // Can't add more components to this tuple, it is at max capacity
+    )).id();
+    commands.entity(entity_id).insert(VirtualTime);
 }
 
 #[derive(Component, Debug, Clone, Copy, PartialEq, Eq, Default, Reflect)]
@@ -89,7 +91,7 @@ fn add_player_movement_on_spawn(
 
 fn record_player_directional_input(
     trigger: Trigger<Fired<PlayerMoveAction>>,
-    movement_controller: Single<(&mut TnuaController, &MovementSettings)>,
+    movement_controller: Single<(&mut TnuaController, &MovementSettings), With<Player>>,
     camera_query: Single<&Transform, With<Camera3d>>,
 ) {
     let (mut controller, settings) = movement_controller.into_inner();
