@@ -20,7 +20,7 @@ pub const BOOMERANG_FLYING_HEIGHT: f32 = 0.5;
 /// Component used to describe boomerang entities.
 #[derive(Component, Debug, Default, Reflect)]
 #[reflect(Component)]
-struct Boomerang {
+pub struct Boomerang {
     /// The path this boomerang is following.
     path: Vec<BoomerangTargetKind>,
     path_index: usize,
@@ -33,6 +33,10 @@ impl Boomerang {
             path_index: 0,
             progress_on_current_segment: 0.0,
         }
+    }
+
+    pub fn _is_last_segment(&self) -> bool {
+        self.path_index >= self.path.len() - 2
     }
 }
 
@@ -69,11 +73,11 @@ pub struct ThrowBoomerangEvent {
 
 // An event which gets fired whenever a boomerang reaches the end of its current path.
 #[derive(Event)]
-struct BounceBoomerangEvent {
+pub struct BounceBoomerangEvent {
     /// The boomerang entity
-    boomerang_entity: Entity,
+    pub boomerang_entity: Entity,
     /// The target we have bounced against
-    _bounce_on: BoomerangTargetKind,
+    pub _bounce_on: BoomerangTargetKind,
 }
 
 // An event which gets fired whenever a boomerang falls to the ground, thus ceasing all movement.
