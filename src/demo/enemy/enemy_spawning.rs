@@ -8,6 +8,7 @@ use bevy::prelude::*;
 use rand::{Rng, thread_rng};
 
 pub fn plugin(app: &mut App) {
+    app.register_type::<EnemySpawnPoint>();
     app.init_resource::<EnemySpawningConfig>();
     app.add_observer(create_enemy_spawn_points_around_player_on_spawn)
         .add_observer(spawn_enemies_on_enemy_spawn_points);
@@ -78,7 +79,8 @@ impl Default for EnemySpawningConfig {
     }
 }
 
-#[derive(Component)]
+#[derive(Component, Reflect)]
+#[reflect(Component)]
 pub struct EnemySpawnPoint;
 
 pub fn generate_enemy_spawn_positions(origin: &Vec2, config: &EnemySpawningConfig) -> Vec<Vec2> {

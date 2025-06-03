@@ -339,7 +339,7 @@ fn update_boomerang_preview_position(
         return Ok(());
     };
 
-    let max_distance = 20.0;
+    let max_distance = 10.0;
     let solid = true;
     let filter = SpatialQueryFilter {
         excluded_entities: EntityHashSet::from([origin_entity]),

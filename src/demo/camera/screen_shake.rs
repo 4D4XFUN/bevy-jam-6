@@ -16,8 +16,8 @@ struct ScreenShake {
 impl ScreenShake {
     pub fn default() -> Self {
         Self {
-            intensity: 0.02,
-            timer: Timer::from_seconds(0.25, TimerMode::Once),
+            intensity: 0.01,
+            timer: Timer::from_seconds(0.1, TimerMode::Once),
         }
     }
 }
@@ -41,7 +41,7 @@ fn update_screen_shake(
     let viewport_size = windows
         .single()
         .map(|w| Vec2::new(w.width(), w.height()))
-        .unwrap_or(Vec2::new(1920.0, 1080.0));
+        .unwrap_or(Vec2::new(1024.0, 768.0));
     // Maximum shake offset as a small percentage of viewport (e.g., 1% of viewport size)
     let max_shake_percentage = 0.01;
     let max_offset = viewport_size * max_shake_percentage;
@@ -64,7 +64,7 @@ fn update_screen_shake(
 }
 
 fn tick_shake_timers(
-    time: Res<Time>,
+    time: Res<Time<Real>>,
     mut commands: Commands,
     mut query: Query<(Entity, &mut ScreenShake)>,
 ) {
