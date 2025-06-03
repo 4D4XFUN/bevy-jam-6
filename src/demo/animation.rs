@@ -8,7 +8,7 @@ use bevy::prelude::*;
 use rand::prelude::*;
 use std::time::Duration;
 
-use crate::{audio::sound_effect, demo::player::PlayerAssets, AppSystems};
+use crate::{AppSystems, audio::sound_effect, demo::player::PlayerAssets};
 
 pub(super) fn plugin(app: &mut App) {
     // Animate and play sound effects based on controls.
@@ -118,9 +118,9 @@ impl PlayerAnimation {
         }
         self.frame = (self.frame + 1)
             % match self.state {
-            PlayerAnimationState::Idling => Self::IDLE_FRAMES,
-            PlayerAnimationState::Walking => Self::WALKING_FRAMES,
-        };
+                PlayerAnimationState::Idling => Self::IDLE_FRAMES,
+                PlayerAnimationState::Walking => Self::WALKING_FRAMES,
+            };
     }
 
     /// Update animation state if it changes.
