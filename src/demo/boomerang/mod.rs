@@ -2,6 +2,7 @@ use crate::assets::BoomerangAssets;
 use crate::demo::health::{Health, HealthEvent};
 use crate::demo::input::FireBoomerangAction;
 use crate::demo::mouse_position::MousePosition;
+use crate::demo::player::Player;
 use crate::screens::Screen;
 use avian3d::prelude::{Collider, SpatialQuery, SpatialQueryFilter};
 use bevy::app::App;
@@ -280,6 +281,7 @@ fn send_boomerang_bounce_event(
     target_position: Vec3,
 ) {
     transform.translation = target_position;
+    println!("Boomerang bounce event: {boomerang_entity}");
     bounce_event_writer.write(BounceBoomerangEvent {
         boomerang_entity,
         _bounce_on: target,
@@ -439,15 +441,17 @@ fn on_throw_boomerang_spawn_boomerang(
 
 fn on_boomerang_collision(
     mut events: EventReader<BounceBoomerangEvent>,
-    healths: Query<Entity, With<Health>>,
+    healths: Query<Entity, (With<Health>, Without<Player>)>,
     mut commands: Commands,
 ) {
+    println!("Boomerang Collision!");
     for event in events.read() {
         let BoomerangTargetKind::Entity(target) = event._bounce_on else {
             continue;
         };
         if healths.contains(target) {
             commands.entity(target).trigger(HealthEvent::Damage(1));
+            println!("Fired Health Damage Event");
         }
     }
 }

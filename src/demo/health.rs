@@ -58,12 +58,15 @@ fn on_health_event(
     mut health: Query<&mut Health>,
     mut commands: Commands,
 ) {
+    println!("Health Trigger Called");
     let Ok(mut health) = health.get_mut(trigger.target()) else {
+        println!("Could not find health trigger target");
         return;
     };
     match trigger.event() {
         HealthEvent::Damage(dmg) => health.0 -= dmg,
     }
+    println!("Health: {:?}", health.0);
     if health.0 <= 0 {
         commands
             .entity(trigger.target())
