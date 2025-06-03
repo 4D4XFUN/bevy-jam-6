@@ -15,12 +15,10 @@ pub mod level;
 mod mouse_position;
 mod movement;
 mod player;
-pub mod virtual_time;
 
 pub(super) fn plugin(app: &mut App) {
     app.add_plugins((
         camera::plugin,
-        virtual_time::plugin,
         animation::plugin,
         level::plugin,
         player::plugin,

@@ -65,7 +65,7 @@ pub fn spawn_camera(mut commands: Commands) {
 fn camera_follow(
     camera: Single<(&mut Transform, &CameraProperties), With<Camera>>,
     target: Single<&Transform, (With<CameraFollowTarget>, Without<Camera>)>,
-    time: Res<Time>,
+    time: Res<Time<Real>>,
 ) -> Result {
     let target_transform = target.into_inner();
     let (mut camera_transform, properties) = camera.into_inner();

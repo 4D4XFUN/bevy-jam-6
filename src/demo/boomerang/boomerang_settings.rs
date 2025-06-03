@@ -28,12 +28,12 @@ pub struct BoomerangSettings {
 impl Default for BoomerangSettings {
     fn default() -> Self {
         Self {
-            min_movement_speed: 15.,
-            max_movement_speed: 45.,
-            min_rotation_speed: 20.,
-            max_rotation_speed: 45.,
+            min_movement_speed: 8.,
+            max_movement_speed: 18.,
+            min_rotation_speed: 10.,
+            max_rotation_speed: 25.,
             falling_speed: 5.0,
-            easing_function: EaseFunction::ExponentialInOut,
+            easing_function: EaseFunction::BackOut,
         }
     }
 }
