@@ -1,4 +1,5 @@
 use crate::assets::BoomerangAssets;
+use crate::demo::health::{Health, HealthEvent};
 use crate::demo::input::FireBoomerangAction;
 use crate::demo::mouse_position::MousePosition;
 use crate::screens::Screen;
@@ -124,9 +125,12 @@ pub fn plugin(app: &mut App) {
             )
                 .chain(),
             rotate_boomerangs,
-            move_flying_boomerangs,
-            on_boomerang_bounce_advance_to_next_pathing_step_or_fall_down
-                .after(move_flying_boomerangs),
+            (
+                move_flying_boomerangs,
+                on_boomerang_bounce_advance_to_next_pathing_step_or_fall_down,
+                on_boomerang_collision,
+            )
+                .chain(),
             move_falling_boomerangs,
             on_boomerang_fallen_remove_falling_component.after(move_falling_boomerangs),
         )
@@ -431,6 +435,21 @@ fn on_throw_boomerang_spawn_boomerang(
     }
 
     Ok(())
+}
+
+fn on_boomerang_collision(
+    mut events: EventReader<BounceBoomerangEvent>,
+    healths: Query<Entity, With<Health>>,
+    mut commands: Commands,
+) {
+    for event in events.read() {
+        let BoomerangTargetKind::Entity(target) = event._bounce_on else {
+            continue;
+        };
+        if healths.contains(target) {
+            commands.entity(target).trigger(HealthEvent::Damage(1));
+        }
+    }
 }
 
 #[derive(Default, Reflect, GizmoConfigGroup)]
