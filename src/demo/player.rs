@@ -111,7 +111,10 @@ fn record_player_directional_input(
 
     virtual_time.set_relative_speed(velocity.length());
 
-    let final_velocity = velocity.normalize_or_zero() * settings.walk_speed * Vec3::new(1., 0., 1.) * real_time.delta_secs();
+    let final_velocity = velocity.normalize_or_zero()
+        * settings.walk_speed
+        * Vec3::new(1., 0., 1.)
+        * real_time.delta_secs();
     linear_velocity.0 = final_velocity;
     // linear_velocity.z = final_velocity.z;
 }
