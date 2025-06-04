@@ -1,6 +1,7 @@
-use crate::demo::boomerang::BoomerangHittable;
 use crate::demo::enemy::Enemy;
+use crate::demo::health::DeathEvent;
 use crate::demo::player::Player;
+use crate::demo::{boomerang::BoomerangHittable, health::Health};
 use crate::physics_layers::GameLayer;
 use crate::screens::Screen;
 use avian3d::prelude::{Collider, CollisionLayers, RigidBody};
@@ -45,20 +46,27 @@ pub fn spawn_enemies_on_enemy_spawn_points(
 ) -> Result {
     let position = spawn_points.get(trigger.target())?;
 
-    commands.spawn((
-        Enemy,
-        Name::new("Enemy"),
-        *position,
-        Mesh3d(meshes.add(Capsule3d::default())),
-        MeshMaterial3d(materials.add(Color::srgb_u8(124, 32, 32))),
-        StateScoped(Screen::Gameplay),
-        BoomerangHittable,
-        Collider::capsule(0.5, 1.),
-        CollisionLayers::new(GameLayer::Enemy, GameLayer::ALL),
-        RigidBody::Dynamic,
-    ));
+    commands
+        .spawn((
+            Enemy,
+            Name::new("Enemy"),
+            *position,
+            Mesh3d(meshes.add(Capsule3d::default())),
+            MeshMaterial3d(materials.add(Color::srgb_u8(124, 32, 32))),
+            StateScoped(Screen::Gameplay),
+            BoomerangHittable,
+            Collider::capsule(0.5, 1.),
+            CollisionLayers::new(GameLayer::Enemy, GameLayer::ALL),
+            RigidBody::Dynamic,
+            Health(1),
+        ))
+        .observe(on_death);
 
     Ok(())
+}
+
+fn on_death(_trigger: Trigger<DeathEvent>) {
+    info!("ouch! but maybe it'd hurt more if I'd actually die");
 }
 
 #[derive(Resource, Debug, Clone, Reflect)]

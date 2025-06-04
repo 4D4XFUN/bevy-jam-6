@@ -1,8 +1,13 @@
 use crate::assets::BoomerangAssets;
+use crate::demo::enemy::Enemy;
+use crate::demo::health::{CanDamage, Health, HealthEvent};
 use crate::demo::input::FireBoomerangAction;
 use crate::demo::mouse_position::MousePosition;
+use crate::physics_layers::GameLayer;
 use crate::screens::Screen;
-use avian3d::prelude::{Collider, SpatialQuery, SpatialQueryFilter};
+use avian3d::prelude::{
+    Collider, CollisionEventsEnabled, CollisionLayers, RigidBody, SpatialQuery, SpatialQueryFilter,
+};
 use bevy::app::App;
 use bevy::color;
 use bevy::ecs::entity::EntityHashSet;
@@ -124,9 +129,12 @@ pub fn plugin(app: &mut App) {
             )
                 .chain(),
             rotate_boomerangs,
-            move_flying_boomerangs,
-            on_boomerang_bounce_advance_to_next_pathing_step_or_fall_down
-                .after(move_flying_boomerangs),
+            (
+                move_flying_boomerangs,
+                on_boomerang_bounce_advance_to_next_pathing_step_or_fall_down,
+                on_boomerang_collision,
+            )
+                .chain(),
             move_falling_boomerangs,
             on_boomerang_fallen_remove_falling_component.after(move_falling_boomerangs),
         )
@@ -276,6 +284,7 @@ fn send_boomerang_bounce_event(
     target_position: Vec3,
 ) {
     transform.translation = target_position;
+    println!("Boomerang bounce event: {boomerang_entity}");
     bounce_event_writer.write(BounceBoomerangEvent {
         boomerang_entity,
         _bounce_on: target,
@@ -427,10 +436,33 @@ fn on_throw_boomerang_spawn_boomerang(
             Flying,
             Mesh3d(boomerang_assets.mesh.clone()),
             MeshMaterial3d(boomerang_assets.material.clone()),
+            Collider::sphere(0.5),
+            CollisionLayers::new(GameLayer::Enemy, GameLayer::Enemy),
+            RigidBody::Kinematic,
+            CanDamage(1),
+            CollisionEventsEnabled,
         ));
     }
 
     Ok(())
+}
+
+fn on_boomerang_collision(
+    mut events: EventReader<BounceBoomerangEvent>,
+    healths: Query<Entity, (With<Health>, With<Enemy>)>,
+    mut commands: Commands,
+) {
+    for event in events.read() {
+        println!("Boomerang Collision!");
+        let BoomerangTargetKind::Entity(target) = event._bounce_on else {
+            continue;
+        };
+        println!("Boomerang Collision on target {:?}", target);
+        if healths.contains(target) {
+            commands.entity(target).trigger(HealthEvent::Damage(1));
+            println!("Fired Health Damage Event");
+        }
+    }
 }
 
 #[derive(Default, Reflect, GizmoConfigGroup)]

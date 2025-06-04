@@ -1,5 +1,6 @@
 use bevy::prelude::*;
 
+mod enemy_movement;
 mod enemy_spawning;
 
 pub fn plugin(app: &mut App) {

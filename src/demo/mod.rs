@@ -10,6 +10,7 @@ mod animation;
 pub mod boomerang;
 mod camera;
 mod enemy;
+mod health;
 mod input;
 pub mod level;
 mod mouse_position;
@@ -27,5 +28,6 @@ pub(super) fn plugin(app: &mut App) {
         boomerang::plugin,
         enemy::plugin,
         aim_mode::plugin,
+        health::plugin,
     ));
 }
