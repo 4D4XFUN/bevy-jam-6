@@ -6,7 +6,7 @@ use crate::physics_layers::GameLayer;
 use crate::screens::Screen;
 use avian3d::prelude::{Collider, CollisionLayers, RigidBody};
 use bevy::prelude::*;
-use rand::{thread_rng, Rng};
+use rand::{Rng, thread_rng};
 
 pub fn plugin(app: &mut App) {
     app.register_type::<EnemySpawnPoint>();
