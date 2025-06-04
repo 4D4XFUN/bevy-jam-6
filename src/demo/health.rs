@@ -96,9 +96,13 @@ fn on_damage_event(
             println!("Heath Found for entity {:?}", health_entity);
             for (damager_entity, damager) in damager_query.iter() {
                 println!("Damager Found for entity {:?}", damager_entity);
-                if (*entity1 == health_entity || *entity2 == health_entity) && (*entity1 == damager_entity || *entity2 == damager_entity) {
+                if (*entity1 == health_entity || *entity2 == health_entity)
+                    && (*entity1 == damager_entity || *entity2 == damager_entity)
+                {
                     println!("FIRING EVENT FOR DAMAGE {:?}", damager.0);
-                    commands.entity(health_entity).trigger(HealthEvent::Damage(damager.0));
+                    commands
+                        .entity(health_entity)
+                        .trigger(HealthEvent::Damage(damager.0));
                 }
             }
         }

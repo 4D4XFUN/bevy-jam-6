@@ -3,10 +3,11 @@ use crate::demo::enemy::Enemy;
 use crate::demo::health::{CanDamage, Health, HealthEvent};
 use crate::demo::input::FireBoomerangAction;
 use crate::demo::mouse_position::MousePosition;
-use crate::demo::player::Player;
 use crate::physics_layers::GameLayer;
 use crate::screens::Screen;
-use avian3d::prelude::{Collider, CollisionEventsEnabled, CollisionLayers, RigidBody, SpatialQuery, SpatialQueryFilter};
+use avian3d::prelude::{
+    Collider, CollisionEventsEnabled, CollisionLayers, RigidBody, SpatialQuery, SpatialQueryFilter,
+};
 use bevy::app::App;
 use bevy::color;
 use bevy::ecs::entity::EntityHashSet;

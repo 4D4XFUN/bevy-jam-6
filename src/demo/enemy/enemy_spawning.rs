@@ -11,7 +11,7 @@ use rand::{thread_rng, Rng};
 pub fn plugin(app: &mut App) {
     app.register_type::<EnemySpawnPoint>();
     app.init_resource::<EnemySpawningConfig>();
-    app //.add_observer(create_enemy_spawn_points_around_player_on_spawn)
+    app.add_observer(create_enemy_spawn_points_around_player_on_spawn)
         .add_observer(spawn_enemies_on_enemy_spawn_points);
 }
 
