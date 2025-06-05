@@ -267,9 +267,7 @@ fn on_boomerang_fallen_despawn_boomerang(
     mut commands: Commands,
 ) -> Result {
     for event in fallen_events.read() {
-        commands
-            .entity(event.boomerang_entity)
-            .despawn();
+        commands.entity(event.boomerang_entity).despawn();
     }
 
     Ok(())
