@@ -35,6 +35,11 @@ impl DilatedTime {
     /// The "minimum possible" speed time can go. We never fully pause the game during slo-mo.
     const SLOW_MO_SCALING_FACTOR: f32 = 0.1;
 
+    /// Intended to be drop-in replacement for Res<Time>
+    pub fn delta(&self) -> Duration {
+        self.delta
+    }
+    /// Intended to be drop-in replacement for Res<Time>
     pub fn delta_secs(&self) -> f32 {
         self.delta.as_secs_f32()
     }
@@ -96,4 +101,3 @@ fn rotate_anything_with_a_rotation(
         transform.rotate_local_y(rotation_speed * time.delta_secs());
     }
 }
-

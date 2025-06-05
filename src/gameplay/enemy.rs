@@ -12,7 +12,7 @@ use bevy::color;
 use bevy::ecs::entity::EntityHashSet;
 use bevy::prelude::*;
 use rand::{Rng, thread_rng};
-use crate::gameplay::time_dilation::{RotationDilated, VelocityDilated};
+use crate::gameplay::time_dilation::{DilatedTime, RotationDilated, VelocityDilated};
 
 pub fn plugin(app: &mut App) {
     app.register_type::<EnemySpawnPoint>();
@@ -162,7 +162,7 @@ fn attack_target_after_delay(
         ),
         With<Enemy>,
     >,
-    time: Res<Time<Real>>,
+    time: Res<DilatedTime>,
     player_query: Single<&Transform, With<Player>>,
     boomerang_assets: Res<BoomerangAssets>,
 ) {
