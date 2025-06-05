@@ -136,7 +136,7 @@ pub fn plugin(app: &mut App) {
             )
                 .chain(),
             move_falling_boomerangs,
-            on_boomerang_fallen_remove_falling_component.after(move_falling_boomerangs),
+            on_boomerang_fallen_despawn_boomerang.after(move_falling_boomerangs),
         )
             .run_if(in_state(Screen::Gameplay)),
     );
@@ -262,15 +262,12 @@ fn move_falling_boomerangs(
     Ok(())
 }
 
-fn on_boomerang_fallen_remove_falling_component(
+fn on_boomerang_fallen_despawn_boomerang(
     mut fallen_events: EventReader<BoomerangHasFallenOnGroundEvent>,
     mut commands: Commands,
 ) -> Result {
     for event in fallen_events.read() {
-        commands
-            .entity(event.boomerang_entity)
-            .remove::<Falling>()
-            .insert(Falling);
+        commands.entity(event.boomerang_entity).despawn();
     }
 
     Ok(())
@@ -457,7 +454,7 @@ fn on_boomerang_collision(
         let BoomerangTargetKind::Entity(target) = event._bounce_on else {
             continue;
         };
-        println!("Boomerang Collision on target {:?}", target);
+        println!("Boomerang Collision on target {target:?}");
         if healths.contains(target) {
             commands.entity(target).trigger(HealthEvent::Damage(1));
             println!("Fired Health Damage Event");
