@@ -93,9 +93,9 @@ fn on_damage_event(
     for CollisionStarted(entity1, entity2) in collision_event.read() {
         println!("Collision Event Read");
         for health_entity in health_query.iter() {
-            println!("Heath Found for entity {:?}", health_entity);
+            println!("Heath Found for entity {health_entity:?}");
             for (damager_entity, damager) in damager_query.iter() {
-                println!("Damager Found for entity {:?}", damager_entity);
+                println!("Damager Found for entity {damager_entity:?}");
                 if (*entity1 == health_entity || *entity2 == health_entity)
                     && (*entity1 == damager_entity || *entity2 == damager_entity)
                 {

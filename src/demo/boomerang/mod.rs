@@ -454,7 +454,7 @@ fn on_boomerang_collision(
         let BoomerangTargetKind::Entity(target) = event._bounce_on else {
             continue;
         };
-        println!("Boomerang Collision on target {:?}", target);
+        println!("Boomerang Collision on target {target:?}");
         if healths.contains(target) {
             commands.entity(target).trigger(HealthEvent::Damage(1));
             println!("Fired Health Damage Event");
