@@ -1,7 +1,9 @@
 //! Spawn the main level.
 
+use avian3d::prelude::CollisionLayers;
 use bevy::prelude::*;
 
+use crate::physics_layers::GameLayer;
 use crate::{asset_tracking::LoadResource, screens::Screen};
 
 pub(super) fn plugin(app: &mut App) {
@@ -46,6 +48,15 @@ pub fn spawn_level(
                 SceneRoot(
                     asset_server
                         .load(GltfAssetLabel::Scene(0).from_asset("models/Environment.gltf")),
+                ),
+                CollisionLayers::new(
+                    GameLayer::Terrain,
+                    [
+                        GameLayer::Terrain,
+                        GameLayer::Player,
+                        GameLayer::Default,
+                        GameLayer::Bullet
+                    ]
                 ),
             ),
         ],
