@@ -5,10 +5,10 @@
 
 mod asset_tracking;
 mod audio;
-mod gameplay;
 #[cfg(feature = "dev")]
 mod dev_tools;
 mod framepace;
+mod gameplay;
 mod physics_layers;
 mod screens;
 mod theme;
@@ -56,7 +56,7 @@ impl Plugin for AppPlugin {
                         resolution: WindowResolution::new(1024., 768.),
                         ..default()
                     }
-                        .into(),
+                    .into(),
                     ..default()
                 })
                 .set(ImagePlugin::default_nearest()),

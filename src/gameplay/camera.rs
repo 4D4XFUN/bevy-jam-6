@@ -6,9 +6,9 @@ use bevy::core_pipeline::tonemapping::Tonemapping;
 use bevy::math::{Vec2, Vec3};
 use bevy::prelude::ReflectComponent;
 use bevy::prelude::{
-    default, Camera, Camera3d, Commands, Component, Entity, EventReader, IsDefaultUiCamera, Msaa,
-    Name, OnEnter, OnExit, PerspectiveProjection, Projection, Query, Real, Reflect, Res, Single,
-    Time, Timer, TimerMode, Transform, Window, With, Without,
+    Camera, Camera3d, Commands, Component, Entity, EventReader, IsDefaultUiCamera, Msaa, Name,
+    OnEnter, OnExit, PerspectiveProjection, Projection, Query, Real, Reflect, Res, Single, Time,
+    Timer, TimerMode, Transform, Window, With, Without, default,
 };
 use bevy::render::camera::Exposure;
 use rand::Rng;
