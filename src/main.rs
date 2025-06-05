@@ -4,15 +4,15 @@
 #![cfg_attr(not(feature = "dev"), windows_subsystem = "windows")]
 
 mod asset_tracking;
-mod assets;
 mod audio;
-mod demo;
+mod gameplay;
 #[cfg(feature = "dev")]
 mod dev_tools;
+mod framepace;
 mod physics_layers;
 mod screens;
-mod settings;
 mod theme;
+mod ui_assets;
 
 use avian3d::PhysicsPlugins;
 use bevy::window::{PresentMode, WindowResolution};
@@ -56,7 +56,7 @@ impl Plugin for AppPlugin {
                         resolution: WindowResolution::new(1024., 768.),
                         ..default()
                     }
-                    .into(),
+                        .into(),
                     ..default()
                 })
                 .set(ImagePlugin::default_nearest()),
@@ -67,12 +67,12 @@ impl Plugin for AppPlugin {
         // Add other plugins.
         app.add_plugins((
             asset_tracking::plugin,
-            demo::plugin,
             #[cfg(feature = "dev")]
             dev_tools::plugin,
             screens::plugin,
             theme::plugin,
-            settings::plugin,
+            framepace::plugin,
+            gameplay::plugin,
         ));
     }
 }

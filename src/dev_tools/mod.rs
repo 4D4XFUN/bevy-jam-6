@@ -1,14 +1,14 @@
 //! Development tools for the game. This plugin is only enabled in dev builds.
 
-use crate::demo::boomerang::boomerang_settings::boomerang_dev_tools_plugin;
+use crate::gameplay::boomerang::boomerang_dev_tools_plugin;
 use crate::screens::Screen;
 use bevy::dev_tools::states::log_transitions;
 use bevy::prelude::*;
 use bevy_inspector_egui::bevy_egui::EguiPlugin;
 use bevy_inspector_egui::quick::WorldInspectorPlugin;
-use iyes_perf_ui::PerfUiPlugin;
 use iyes_perf_ui::entries::{PerfUiFramerateEntries, PerfUiWindowEntries};
 use iyes_perf_ui::prelude::{PerfUiPosition, PerfUiRoot};
+use iyes_perf_ui::PerfUiPlugin;
 
 pub(super) fn plugin(app: &mut App) {
     app.add_plugins((

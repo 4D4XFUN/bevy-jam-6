@@ -1,4 +1,6 @@
-use bevy::prelude::*;
+use bevy::asset::Handle;
+use bevy::audio::{AudioPlayer, AudioSource, PlaybackSettings};
+use bevy::prelude::{Bundle, Component};
 
 /// An organizational marker component that should be added to a spawned [`AudioPlayer`] if it's in the
 /// general "music" category (e.g. global background music, soundtrack).
