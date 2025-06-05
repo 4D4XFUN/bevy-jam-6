@@ -2,13 +2,8 @@
 
 use bevy::{ecs::spawn::SpawnIter, prelude::*, ui::Val::*};
 
-use crate::{
-    asset_tracking::LoadResource,
-    assets::{FontAssets, PanelAssets},
-    audio::music,
-    screens::Screen,
-    theme::prelude::*,
-};
+use crate::ui_assets::{FontAssets, PanelAssets};
+use crate::{asset_tracking::LoadResource, audio::music, screens::Screen, theme::prelude::*};
 
 pub(super) fn plugin(app: &mut App) {
     app.add_systems(OnEnter(Screen::Credits), spawn_credits_screen);

@@ -154,7 +154,9 @@
 				126,
 				128,
 				130,
-				131
+				131,
+				132,
+				133
 			]
 		}
 	],
@@ -235,55 +237,13 @@
 				"skein_two":[
 					{
 						"name":"PlayerSpawnPoint",
-						"selected_type_path":"bevy_jam_6::demo::player::PlayerSpawnPoint"
-					},
-					{
-						"name":"Transform",
-						"selected_type_path":"bevy_transform::components::transform::Transform",
-						"bevy_transform::components::transform::Transform":{
-							"rotation":{
-								"x":0.0,
-								"y":0.0,
-								"z":0.0,
-								"w":1.0
-							},
-							"scale":{
-								"x":1.0,
-								"y":1.0,
-								"z":1.0
-							},
-							"translation":{
-								"x":0.0,
-								"y":0.0,
-								"z":0.0
-							}
-						}
+						"selected_type_path":"bevy_jam_6::gameplay::player::PlayerSpawnPoint"
 					}
 				],
-				"active_component_index":1,
+				"active_component_index":0,
 				"skein":[
 					{
-						"bevy_jam_6::demo::player::PlayerSpawnPoint":{}
-					},
-					{
-						"bevy_transform::components::transform::Transform":{
-							"rotation":[
-								0.0,
-								0.0,
-								0.0,
-								1.0
-							],
-							"scale":[
-								1.0,
-								1.0,
-								1.0
-							],
-							"translation":[
-								0.0,
-								0.0,
-								0.0
-							]
-						}
+						"bevy_jam_6::gameplay::player::PlayerSpawnPoint":{}
 					}
 				]
 			},
@@ -966,7 +926,7 @@
 			],
 			"name":"Collection 2.029",
 			"translation":[
-				-7.172032833099365,
+				-10.69970703125,
 				0,
 				4.189512252807617
 			]
@@ -1772,13 +1732,13 @@
 				"skein_two":[
 					{
 						"name":"EnemySpawnPoint",
-						"selected_type_path":"bevy_jam_6::demo::enemy::enemy_spawning::EnemySpawnPoint"
+						"selected_type_path":"bevy_jam_6::gameplay::enemy::EnemySpawnPoint"
 					}
 				],
 				"active_component_index":0,
 				"skein":[
 					{
-						"bevy_jam_6::demo::enemy::enemy_spawning::EnemySpawnPoint":{}
+						"bevy_jam_6::gameplay::enemy::EnemySpawnPoint":{}
 					}
 				]
 			},
@@ -1787,6 +1747,50 @@
 				3.7572460174560547,
 				1,
 				5.459350109100342
+			]
+		},
+		{
+			"extras":{
+				"skein_two":[
+					{
+						"name":"EnemySpawnPoint",
+						"selected_type_path":"bevy_jam_6::gameplay::enemy::EnemySpawnPoint"
+					}
+				],
+				"active_component_index":0,
+				"skein":[
+					{
+						"bevy_jam_6::gameplay::enemy::EnemySpawnPoint":{}
+					}
+				]
+			},
+			"name":"EnemySpawnPoint.001",
+			"translation":[
+				-3.9247493743896484,
+				1,
+				9.802791595458984
+			]
+		},
+		{
+			"extras":{
+				"skein_two":[
+					{
+						"name":"EnemySpawnPoint",
+						"selected_type_path":"bevy_jam_6::gameplay::enemy::EnemySpawnPoint"
+					}
+				],
+				"active_component_index":0,
+				"skein":[
+					{
+						"bevy_jam_6::gameplay::enemy::EnemySpawnPoint":{}
+					}
+				]
+			},
+			"name":"EnemySpawnPoint.002",
+			"translation":[
+				-8.7192964553833,
+				1,
+				-3.6464109420776367
 			]
 		}
 	],

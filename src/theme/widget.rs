@@ -2,15 +2,12 @@
 
 use std::borrow::Cow;
 
+use crate::theme::{interaction::InteractionPalette, palette::*};
+use crate::ui_assets::PanelAssets;
 use bevy::{
     ecs::{spawn::SpawnWith, system::IntoObserverSystem},
     prelude::*,
     ui::Val::*,
-};
-
-use crate::{
-    assets::PanelAssets,
-    theme::{interaction::InteractionPalette, palette::*},
 };
 
 /// A root UI node that fills the window and centers its content.

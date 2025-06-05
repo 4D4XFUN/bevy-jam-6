@@ -2,9 +2,9 @@
 
 use bevy::prelude::*;
 
+use crate::ui_assets::{FontAssets, PanelAssets};
 use crate::{
     asset_tracking::{LoadResource, ResourceHandles},
-    assets::{FontAssets, PanelAssets},
     screens::Screen,
     theme::prelude::*,
 };

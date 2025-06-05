@@ -1,6 +1,6 @@
 //! Development tools for the game. This plugin is only enabled in dev builds.
 
-use crate::demo::boomerang::boomerang_settings::boomerang_dev_tools_plugin;
+use crate::gameplay::boomerang::boomerang_dev_tools_plugin;
 use crate::screens::Screen;
 use bevy::dev_tools::states::log_transitions;
 use bevy::prelude::*;
