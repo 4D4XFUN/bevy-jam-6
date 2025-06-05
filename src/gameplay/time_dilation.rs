@@ -3,8 +3,17 @@ use bevy::prelude::*;
 use std::time::Duration;
 
 pub fn plugin(app: &mut App) {
+    // init
     app.init_resource::<DilatedTime>();
+
+    // systems
     app.add_systems(Update, scale_time.in_set(PreTickTimers));
+    app.add_systems(Update, move_anything_with_a_velocity);
+    app.add_systems(Update, rotate_anything_with_a_rotation);
+
+    // reflection
+    app.register_type::<VelocityDilated>();
+    app.register_type::<DilatedTime>();
 }
 
 /// Used by anything that needs to move in slow motion. We update this once per
@@ -25,12 +34,16 @@ pub struct DilatedTime {
 impl DilatedTime {
     /// The "minimum possible" speed time can go. We never fully pause the game during slo-mo.
     const SLOW_MO_SCALING_FACTOR: f32 = 0.1;
+
+    pub fn delta_secs(&self) -> f32 {
+        self.delta.as_secs_f32()
+    }
 }
 
 impl Default for DilatedTime {
     fn default() -> Self {
         Self {
-            scaling_factor: 1.0,
+            scaling_factor: 0.1,
             delta: Duration::from_secs(0),
         }
     }
@@ -42,3 +55,45 @@ fn scale_time(mut dilated_time_res: ResMut<DilatedTime>, actual_time: Res<Time>)
     dilated_time_res.delta = actual_delta.mul_f32(scale);
     Ok(())
 }
+
+// ===============
+// VELOCITY
+// ===============
+#[derive(Component, Debug, Reflect)]
+#[reflect(Component)]
+pub struct VelocityDilated(
+    /// Represents how far the entity should travel in a second (and its heading).
+    pub Vec3,
+);
+
+/// For anything with our special Velocity component and a transform, update the
+/// transform by velocity - but make sure to scale by the time dilation factor
+/// so that slow motion "just works"
+fn move_anything_with_a_velocity(
+    mut query: Query<(&VelocityDilated, &mut Transform)>,
+    time: Res<DilatedTime>,
+) {
+    for (VelocityDilated(velocity), mut transform) in query.iter_mut() {
+        transform.translation += velocity * time.delta_secs();
+    }
+}
+
+// ===============
+// ROTATION
+// ===============
+#[derive(Component, Debug, Reflect)]
+#[reflect(Component)]
+pub struct RotationDilated(
+    /// Represents how fast the entity should rotate.
+    pub f32,
+);
+
+fn rotate_anything_with_a_rotation(
+    mut query: Query<(&RotationDilated, &mut Transform)>,
+    time: Res<DilatedTime>,
+) {
+    for (RotationDilated(rotation_speed), mut transform) in query.iter_mut() {
+        transform.rotate_local_y(rotation_speed * time.delta_secs());
+    }
+}
+

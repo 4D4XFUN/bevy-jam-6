@@ -1,3 +1,4 @@
+use avian3d::dynamics::integrator::IntegrationSet::Velocity;
 use crate::asset_tracking::LoadResource;
 use crate::audio::sound_effect;
 use crate::gameplay::enemy::Enemy;
@@ -17,6 +18,7 @@ use bevy::prelude::*;
 use bevy_enhanced_input::events::Completed;
 use bevy_enhanced_input::prelude::Fired;
 use rand::Rng;
+use crate::gameplay::time_dilation::{DilatedTime, RotationDilated, VelocityDilated};
 
 pub const BOOMERANG_FLYING_HEIGHT: f32 = 0.5;
 
@@ -146,7 +148,7 @@ pub fn plugin(app: &mut App) {
                 ),
             )
                 .chain(),
-            rotate_boomerangs,
+            set_boomerang_rotation_speed_based_on_velocity,
             (
                 move_flying_boomerangs,
                 on_boomerang_bounce_advance_to_next_pathing_step_or_fall_down,
@@ -184,7 +186,7 @@ fn move_flying_boomerangs(
     mut flying_boomerangs: Query<(Entity, &mut Boomerang, &mut Transform), With<Flying>>,
     all_other_transforms: Query<&Transform, Without<Boomerang>>,
     boomerang_settings: Res<BoomerangSettings>,
-    time: Res<Time>,
+    time: Res<DilatedTime>,
     mut bounce_event_writer: EventWriter<BounceBoomerangEvent>,
 ) -> Result {
     for (boomerang_entity, mut boomerang, mut transform) in flying_boomerangs.iter_mut() {
@@ -321,14 +323,13 @@ fn on_boomerang_bounce_advance_to_next_pathing_step_or_fall_down(
 }
 
 /// Rotates our boomerangs at constant speed.
-fn rotate_boomerangs(
-    mut boomerangs: Query<(&mut Transform, &Boomerang), With<Flying>>,
-    time: Res<Time>,
+fn set_boomerang_rotation_speed_based_on_velocity(
+    mut boomerangs: Query<(&mut RotationDilated, &Boomerang), With<Flying>>,
     settings: Res<BoomerangSettings>,
 ) {
-    for (mut transform, boomerang) in boomerangs.iter_mut() {
+    for (mut rotation, boomerang) in boomerangs.iter_mut() {
         let rotation_speed = settings.tween_rotation_speed(boomerang.progress_on_current_segment);
-        transform.rotate_local_y(rotation_speed * time.delta_secs());
+        rotation.0 = rotation_speed;
     }
 }
 
@@ -434,13 +435,13 @@ fn on_throw_boomerang_spawn_boomerang(
         // spawn the 'rang
         commands.spawn((
             Name::new("Boomerang"),
+            Boomerang::new(path),
             Transform::from_translation(
                 all_transforms
                     .get(event.thrower_entity)?
                     .translation
                     .with_y(BOOMERANG_FLYING_HEIGHT),
             ),
-            Boomerang::new(path),
             Flying,
             Mesh3d(boomerang_assets.mesh.clone()),
             MeshMaterial3d(boomerang_assets.material.clone()),
@@ -449,6 +450,8 @@ fn on_throw_boomerang_spawn_boomerang(
             RigidBody::Kinematic,
             CanDamage(1),
             CollisionEventsEnabled,
+            VelocityDilated(Vec3::ZERO),
+            RotationDilated(0.0),
         ));
     }
 

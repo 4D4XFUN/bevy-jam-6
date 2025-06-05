@@ -14,6 +14,7 @@ pub mod level;
 mod mouse_position;
 mod player;
 mod time_dilation;
+mod velocity;
 
 pub(super) fn plugin(app: &mut App) {
     app.add_plugins((
@@ -26,5 +27,6 @@ pub(super) fn plugin(app: &mut App) {
         enemy::plugin,
         health_and_damage::plugin,
         time_dilation::plugin,
+        velocity::plugin,
     ));
 }

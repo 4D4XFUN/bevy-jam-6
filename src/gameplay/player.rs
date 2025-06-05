@@ -3,9 +3,11 @@
 use crate::gameplay::boomerang::ActiveBoomerangThrowOrigin;
 use crate::gameplay::camera::CameraFollowTarget;
 use crate::gameplay::input::{PlayerActions, PlayerMoveAction};
+use crate::gameplay::time_dilation::DilatedTime;
 use crate::physics_layers::GameLayer;
 use crate::screens::Screen;
 use avian3d::prelude::{Collider, CollisionLayers, LinearVelocity, LockedAxes, RigidBody};
+use bevy::ecs::system::command::trigger_targets;
 use bevy::prelude::*;
 use bevy_enhanced_input::events::Completed;
 use bevy_enhanced_input::prelude::{Actions, Fired};
@@ -94,44 +96,30 @@ fn record_player_directional_input(
         (With<Player>, Without<Camera3d>),
     >,
     camera_query: Single<&Transform, With<Camera3d>>,
-    virtual_time: ResMut<Time<Virtual>>,
-    real_time: Res<Time<Real>>,
+    mut time: ResMut<DilatedTime>,
 ) {
-    let camera_transform = camera_query.into_inner();
-    let virtual_time = virtual_time.into_inner();
-    let real_time = real_time.into_inner();
+    // Rotate input to be on the ground and aligned with camera
+    let camera_rotation = camera_query.into_inner().rotation;
+    let input_mapped_to_3d = Vec3::new(trigger.value.x, 0.0, -1. * trigger.value.y);
+    let velocity = (camera_rotation * input_mapped_to_3d).with_y(0.).normalize_or_zero();
+
+    // The entire world moves slower as player slows down.
+    // virtual_time.set_relative_speed(velocity.length());
+    time.scaling_factor = velocity.length();
+
     let (mut linear_velocity, settings) = player_query.into_inner();
-    let camera_right = camera_transform
-        .right()
-        .as_vec3()
-        .with_y(0.)
-        .normalize_or_zero();
-    let camera_forward = camera_transform
-        .forward()
-        .as_vec3()
-        .with_y(0.)
-        .normalize_or_zero();
-    let velocity = camera_right * trigger.value.x + camera_forward * trigger.value.y;
-
-    virtual_time.set_relative_speed(velocity.length());
-
-    let final_velocity = velocity.normalize_or_zero()
-        * settings.walk_speed
-        * Vec3::new(1., 0., 1.)
-        * real_time.delta_secs();
+    let final_velocity = velocity * settings.walk_speed * time.delta.as_secs_f32();
     linear_velocity.0 = final_velocity;
 }
 
 fn stop_player_directional_input(
     _trigger: Trigger<Completed<PlayerMoveAction>>,
     player: Single<&mut LinearVelocity, With<Player>>,
-    virtual_time: ResMut<Time<Virtual>>,
+    mut time: ResMut<DilatedTime>,
 ) {
-    let virtual_time = virtual_time.into_inner();
-
-    virtual_time.set_relative_speed(0.05);
     let mut player = player.into_inner();
     player.x = 0.;
     player.y = 0.;
     player.z = 0.;
+    time.scaling_factor = 0.1;
 }

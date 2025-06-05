@@ -12,6 +12,7 @@ use bevy::color;
 use bevy::ecs::entity::EntityHashSet;
 use bevy::prelude::*;
 use rand::{Rng, thread_rng};
+use crate::gameplay::time_dilation::{RotationDilated, VelocityDilated};
 
 pub fn plugin(app: &mut App) {
     app.register_type::<EnemySpawnPoint>();
@@ -171,6 +172,11 @@ fn attack_target_after_delay(
     {
         can_delay.timer.tick(time.delta());
         if can_delay.timer.just_finished() && attacker_target.target_entity.is_some() {
+
+            let bullet_velocity = (player_transform.translation - origin_transform.translation)
+                .normalize_or_zero()
+                * ranged_attack.speed;
+
             commands.spawn((
                 Name::new("Bullet"),
                 Transform::from_translation(origin_transform.translation),
@@ -180,11 +186,8 @@ fn attack_target_after_delay(
                 Collider::sphere(0.2),
                 CollisionLayers::new(GameLayer::Bullet, [GameLayer::Player, GameLayer::Terrain]),
                 RigidBody::Kinematic,
-                LinearVelocity(
-                    (player_transform.translation - origin_transform.translation)
-                        .normalize_or_zero()
-                        * ranged_attack.speed,
-                ),
+                VelocityDilated(bullet_velocity),
+                RotationDilated(10.),
                 CanDamage(1),
                 CollisionEventsEnabled,
             ));
