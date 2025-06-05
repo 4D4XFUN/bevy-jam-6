@@ -3,8 +3,9 @@
 use crate::gameplay::boomerang::ActiveBoomerangThrowOrigin;
 use crate::gameplay::camera::CameraFollowTarget;
 use crate::gameplay::input::{PlayerActions, PlayerMoveAction};
+use crate::physics_layers::GameLayer;
 use crate::screens::Screen;
-use avian3d::prelude::{Collider, LinearVelocity, LockedAxes, RigidBody};
+use avian3d::prelude::{Collider, CollisionLayers, LinearVelocity, LockedAxes, RigidBody};
 use bevy::prelude::*;
 use bevy_enhanced_input::events::Completed;
 use bevy_enhanced_input::prelude::{Actions, Fired};
@@ -49,6 +50,15 @@ fn spawn_player_to_point(
         LockedAxes::ROTATION_LOCKED,
         MovementSettings { walk_speed: 400. },
         ActiveBoomerangThrowOrigin,
+        CollisionLayers::new(
+            GameLayer::Player,
+            [
+                GameLayer::Enemy,
+                GameLayer::Bullet,
+                GameLayer::Terrain,
+                GameLayer::Default,
+            ],
+        ),
         CameraFollowTarget, // Can't add more components to this tuple, it is at max capacity, we should use the insert component command on the entity
     ));
 }
