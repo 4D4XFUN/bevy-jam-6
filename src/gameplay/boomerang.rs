@@ -100,10 +100,10 @@ pub enum BoomerangTargetKind {
 }
 
 /// Component for the preview entity for the next boomerang target location.
-#[derive(Component)]
-struct BoomerangPathPreview {
+#[derive(Component, Default)]
+pub struct WeaponTarget {
     /// The entity that's being targeted, if there is any.
-    target_entity: Option<Entity>,
+    pub target_entity: Option<Entity>,
 }
 
 #[derive(Resource, Asset, Clone, Reflect)]
@@ -293,7 +293,6 @@ fn send_boomerang_bounce_event(
     target_position: Vec3,
 ) {
     transform.translation = target_position;
-    println!("Boomerang bounce event: {boomerang_entity}");
     bounce_event_writer.write(BounceBoomerangEvent {
         boomerang_entity,
         _bounce_on: target,
@@ -336,7 +335,7 @@ fn rotate_boomerangs(
 fn update_boomerang_preview_position(
     boomerang_origins: Single<(Entity, &GlobalTransform), With<ActiveBoomerangThrowOrigin>>,
     potential_origins: Query<(), With<PotentialBoomerangOrigin>>,
-    mut previews: Query<(&mut BoomerangPathPreview, &mut Transform)>,
+    mut previews: Query<(&mut WeaponTarget, &mut Transform), Without<Enemy>>,
     mouse_position: Res<MousePosition>,
     mut commands: Commands,
     spatial_query: SpatialQuery,
@@ -386,7 +385,7 @@ fn update_boomerang_preview_position(
     } else {
         // TODO: Preview needs to be despawned after throw
         commands.spawn((
-            BoomerangPathPreview { target_entity },
+            WeaponTarget { target_entity },
             Transform::from_translation(target_location),
         ));
     }
@@ -396,7 +395,7 @@ fn update_boomerang_preview_position(
 fn on_fire_action_throw_boomerang(
     _trigger: Trigger<Fired<FireBoomerangAction>>,
     boomerang_holders: Query<Entity, With<ActiveBoomerangThrowOrigin>>,
-    boomerang_previews: Query<(&BoomerangPathPreview, &GlobalTransform)>,
+    boomerang_previews: Query<(&WeaponTarget, &GlobalTransform), Without<Enemy>>,
     mut event_writer: EventWriter<ThrowBoomerangEvent>,
 ) {
     let Ok(thrower_entity) = boomerang_holders.single() else {
@@ -477,7 +476,7 @@ struct BoomerangPreviewGizmos;
 fn draw_preview_gizmo(
     mut gizmos: Gizmos<BoomerangPreviewGizmos>,
     boomerang_holders: Query<&GlobalTransform, With<ActiveBoomerangThrowOrigin>>,
-    boomerang_target_preview: Query<&GlobalTransform, With<BoomerangPathPreview>>,
+    boomerang_target_preview: Query<&GlobalTransform, (With<WeaponTarget>, Without<Enemy>)>,
 ) {
     for from in boomerang_holders {
         for to in boomerang_target_preview {
