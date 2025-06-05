@@ -31,6 +31,7 @@ impl Plugin for AppPlugin {
         app.configure_sets(
             Update,
             (
+                AppSystems::PreTickTimers,
                 AppSystems::TickTimers,
                 AppSystems::RecordInput,
                 AppSystems::Update,
@@ -82,6 +83,8 @@ impl Plugin for AppPlugin {
 /// call above.
 #[derive(SystemSet, Debug, Clone, Copy, Eq, PartialEq, Hash, PartialOrd, Ord)]
 enum AppSystems {
+    /// Happens before timers tick, for time-manipulation stuff that subsequent timers need
+    PreTickTimers,
     /// Tick timers.
     TickTimers,
     /// Record player input.

@@ -30,7 +30,7 @@ impl FromWorld for LevelAssets {
 /// A system that spawns the main level.
 pub fn spawn_level(
     mut commands: Commands,
-    // level_assets: Res<LevelAssets>, // TODO: uncomment to add music back in
+    _level_assets: Res<LevelAssets>,
     asset_server: Res<AssetServer>,
 ) {
     commands.spawn((
@@ -41,7 +41,7 @@ pub fn spawn_level(
         children![
             (
                 Name::new("Gameplay Music"),
-                // music(level_assets.music.clone()), // TODO: uncomment to add music back in
+                // music(_level_assets.music.clone()), // TODO: uncomment to add music back in
             ),
             (
                 Name::new("Environment"),
