@@ -13,7 +13,7 @@ use avian3d::prelude::{
 use bevy::color;
 use bevy::ecs::entity::EntityHashSet;
 use bevy::prelude::*;
-use rand::{Rng, rng};
+use rand::{thread_rng, Rng};
 
 pub fn plugin(app: &mut App) {
     app.register_type::<EnemySpawnPoint>();
@@ -168,7 +168,7 @@ fn attack_target_after_delay(
     player_query: Single<&Transform, With<Player>>,
     pistolero_assets: Res<PistoleroAssets>,
 ) {
-    let mut rand = rng();
+    let mut rand = thread_rng();
     let player_transform = player_query.into_inner();
     for (ranged_attack, origin_transform, attacker_target, mut can_delay) in
         attacker_query.iter_mut()
@@ -191,7 +191,7 @@ fn attack_target_after_delay(
                 CanDamage(1),
                 CollisionEventsEnabled,
             ));
-            let pitch = rand.random::<f32>() * 0.4;
+            let pitch = rand.r#gen::<f32>() * 0.4;
             commands.spawn((
                 AudioPlayer::new(pistolero_assets.gunshot.clone()),
                 PlaybackSettings::DESPAWN.with_speed(0.8 + pitch),
@@ -248,19 +248,19 @@ fn create_enemy_spawn_points_around_player_on_spawn(
 
     // GENERATE ENEMY SPAWN POSITIONS
     let n = config.num_enemies;
-    let mut rng = rand::rng();
+    let mut rng = thread_rng();
 
     let mut positions = vec![];
 
     for _ in 0..n {
         // Generate random angle (0 to 2π)
-        let angle = rng.random_range(0.0..std::f64::consts::TAU);
+        let angle = rng.gen_range(0.0..std::f64::consts::TAU);
 
         // Generate random radius within the ring
         // Use sqrt for uniform distribution in the annular area
         let min_r_squared = config.min_radius * config.min_radius;
         let max_r_squared = config.max_radius * config.max_radius;
-        let radius_squared = rng.random_range(min_r_squared..max_r_squared);
+        let radius_squared = rng.gen_range(min_r_squared..max_r_squared);
         let radius = radius_squared.sqrt();
 
         // Convert polar coordinates to cartesian

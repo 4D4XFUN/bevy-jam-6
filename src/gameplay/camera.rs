@@ -11,7 +11,7 @@ use bevy::prelude::{
     Transform, Window, With, Without, default,
 };
 use bevy::render::camera::Exposure;
-use rand::Rng;
+use rand::{thread_rng, Rng};
 
 pub fn plugin(app: &mut App) {
     // systems
@@ -136,7 +136,7 @@ fn update_screen_shake(
     mut camera_query: Single<&mut Transform, With<Camera>>,
     windows: Query<&Window>,
 ) {
-    let mut rng = rand::rng();
+    let mut rng = thread_rng();
 
     // Get viewport dimensions for scaling
     let viewport_size = windows
@@ -156,8 +156,8 @@ fn update_screen_shake(
     let progress = 1.0 - shake.timer.fraction();
 
     // Generate random offset scaled by intensity and progress
-    let offset_x = rng.random_range(-1.0..1.0) * max_offset.x * shake.intensity * progress;
-    let offset_z = rng.random_range(-1.0..1.0) * max_offset.y * shake.intensity * progress;
+    let offset_x = rng.gen_range(-1.0..1.0) * max_offset.x * shake.intensity * progress;
+    let offset_z = rng.gen_range(-1.0..1.0) * max_offset.y * shake.intensity * progress;
 
     let total_offset = Vec3::new(offset_x, 0.0, offset_z);
 
