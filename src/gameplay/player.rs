@@ -112,7 +112,6 @@ fn record_player_directional_input(
 fn stop_player_directional_input(
     _trigger: Trigger<Completed<PlayerMoveAction>>,
     player: Single<&mut LinearVelocity, With<Player>>,
-    time: ResMut<DilatedTime>,
 ) {
     let mut player = player.into_inner();
     player.x = 0.;

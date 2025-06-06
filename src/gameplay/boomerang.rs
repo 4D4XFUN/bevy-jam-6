@@ -11,7 +11,6 @@ use bevy::color;
 use bevy::ecs::entity::EntityHashSet;
 use bevy::prelude::*;
 use bevy_enhanced_input::prelude::Fired;
-use rand::Rng;
 
 pub const BOOMERANG_FLYING_HEIGHT: f32 = 0.5;
 

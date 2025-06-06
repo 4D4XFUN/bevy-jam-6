@@ -102,7 +102,7 @@ pub fn play_aim_mode_sound_effect(mut commands: Commands, assets: Option<Res<Aim
 // =====================
 #[derive(Resource, Asset, Clone, Reflect)]
 #[reflect(Resource)]
-struct AimModeAssets {
+pub struct AimModeAssets {
     #[dependency]
     entering_aim_mode: Handle<AudioSource>,
     #[dependency]
@@ -165,7 +165,7 @@ pub fn play_enemy_targeted_sound_effect(
 const AUTOTARGETING_RADIUS: f32 = 2.0;
 
 #[derive(Component, Default, Debug, Clone)]
-struct AimModeTargets {
+pub struct AimModeTargets {
     targets: Vec<Entity>,
     // todo when aim mode exits, despawn this entity and fire a single boomerang with the list of targets we painted
 }
