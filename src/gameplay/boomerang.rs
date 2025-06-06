@@ -1,4 +1,3 @@
-use avian3d::dynamics::integrator::IntegrationSet::Velocity;
 use crate::asset_tracking::LoadResource;
 use crate::audio::sound_effect;
 use crate::gameplay::enemy::Enemy;
@@ -6,8 +5,10 @@ use crate::gameplay::health_and_damage::{CanDamage, Health, HealthEvent};
 use crate::gameplay::input::{AimModeAction, FireBoomerangAction};
 use crate::gameplay::mouse_position::MousePosition;
 use crate::gameplay::player::Player;
+use crate::gameplay::time_dilation::{DilatedTime, RotationDilated, VelocityDilated};
 use crate::physics_layers::GameLayer;
 use crate::screens::Screen;
+use avian3d::dynamics::integrator::IntegrationSet::Velocity;
 use avian3d::prelude::{
     Collider, CollisionEventsEnabled, CollisionLayers, RigidBody, ShapeCastConfig,
 };
@@ -18,7 +19,6 @@ use bevy::prelude::*;
 use bevy_enhanced_input::events::Completed;
 use bevy_enhanced_input::prelude::Fired;
 use rand::Rng;
-use crate::gameplay::time_dilation::{DilatedTime, RotationDilated, VelocityDilated};
 
 pub const BOOMERANG_FLYING_HEIGHT: f32 = 0.5;
 

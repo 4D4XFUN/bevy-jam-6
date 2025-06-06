@@ -1,6 +1,7 @@
 use crate::gameplay::boomerang::{BOOMERANG_FLYING_HEIGHT, BoomerangAssets, WeaponTarget};
 use crate::gameplay::health_and_damage::{CanDamage, DeathEvent};
 use crate::gameplay::player::Player;
+use crate::gameplay::time_dilation::{DilatedTime, RotationDilated, VelocityDilated};
 use crate::gameplay::{boomerang::BoomerangHittable, health_and_damage::Health};
 use crate::physics_layers::GameLayer;
 use crate::screens::Screen;
@@ -12,7 +13,6 @@ use bevy::color;
 use bevy::ecs::entity::EntityHashSet;
 use bevy::prelude::*;
 use rand::{Rng, thread_rng};
-use crate::gameplay::time_dilation::{DilatedTime, RotationDilated, VelocityDilated};
 
 pub fn plugin(app: &mut App) {
     app.register_type::<EnemySpawnPoint>();
@@ -172,7 +172,6 @@ fn attack_target_after_delay(
     {
         can_delay.timer.tick(time.delta());
         if can_delay.timer.just_finished() && attacker_target.target_entity.is_some() {
-
             let bullet_velocity = (player_transform.translation - origin_transform.translation)
                 .normalize_or_zero()
                 * ranged_attack.speed;
