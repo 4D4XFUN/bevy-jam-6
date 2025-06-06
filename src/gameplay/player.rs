@@ -48,7 +48,7 @@ fn spawn_player_to_point(
         Collider::capsule(0.5, 1.),
         StateScoped(Screen::Gameplay),
         RigidBody::Dynamic,
-        LockedAxes::ROTATION_LOCKED,
+        LockedAxes::ROTATION_LOCKED.lock_translation_y(),
         MovementSettings { walk_speed: 400. },
         ActiveBoomerangThrowOrigin,
         CollisionLayers::new(
@@ -104,10 +104,6 @@ fn record_player_directional_input(
         .with_y(0.)
         .normalize_or_zero();
 
-    // The entire world moves slower as player slows down.
-    // virtual_time.set_relative_speed(velocity.length());
-    // time.scaling_factor = velocity.length();
-
     let (mut linear_velocity, settings) = player_query.into_inner();
     let final_velocity = velocity * settings.walk_speed * time.delta.as_secs_f32();
     linear_velocity.0 = final_velocity;
@@ -122,5 +118,4 @@ fn stop_player_directional_input(
     player.x = 0.;
     player.y = 0.;
     player.z = 0.;
-    // time.scaling_factor = DilatedTime::SLOW_MO_SCALING_FACTOR;
 }
