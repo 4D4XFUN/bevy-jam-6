@@ -2,10 +2,12 @@ use crate::gameplay::enemy::Enemy;
 use crate::gameplay::health_and_damage::{CanDamage, Health, HealthEvent};
 use crate::gameplay::input::FireBoomerangAction;
 use crate::gameplay::mouse_position::MousePosition;
-use crate::gameplay::time_dilation::{DilatedTime, RotationDilated, VelocityDilated};
 use crate::physics_layers::GameLayer;
 use crate::screens::Screen;
-use avian3d::prelude::{Collider, CollisionEventsEnabled, CollisionLayers, RigidBody};
+use avian3d::prelude::{
+    AngularVelocity, Collider, CollisionEventsEnabled, CollisionLayers, LinearVelocity, Physics,
+    RigidBody,
+};
 use avian3d::spatial_query::{SpatialQuery, SpatialQueryFilter};
 use bevy::color;
 use bevy::ecs::entity::EntityHashSet;
@@ -158,7 +160,7 @@ fn move_flying_boomerangs(
     mut flying_boomerangs: Query<(Entity, &mut Boomerang, &mut Transform), With<Flying>>,
     all_other_transforms: Query<&Transform, Without<Boomerang>>,
     boomerang_settings: Res<BoomerangSettings>,
-    time: Res<DilatedTime>,
+    time: Res<Time<Physics>>,
     mut bounce_event_writer: EventWriter<BounceBoomerangEvent>,
 ) -> Result {
     for (boomerang_entity, mut boomerang, mut transform) in flying_boomerangs.iter_mut() {
@@ -296,12 +298,12 @@ fn on_boomerang_bounce_advance_to_next_pathing_step_or_fall_down(
 
 /// Rotates our boomerangs at constant speed.
 fn set_boomerang_rotation_speed_based_on_velocity(
-    mut boomerangs: Query<(&mut RotationDilated, &Boomerang), With<Flying>>,
+    mut boomerangs: Query<(&mut AngularVelocity, &Boomerang), With<Flying>>,
     settings: Res<BoomerangSettings>,
 ) {
     for (mut rotation, boomerang) in boomerangs.iter_mut() {
         let rotation_speed = settings.tween_rotation_speed(boomerang.progress_on_current_segment);
-        rotation.0 = rotation_speed;
+        rotation.0 = Vec3::new(0.0, rotation_speed, 0.0);
     }
 }
 
@@ -437,8 +439,8 @@ fn on_throw_boomerang_spawn_boomerang(
             RigidBody::Kinematic,
             CanDamage(1),
             CollisionEventsEnabled,
-            VelocityDilated(Vec3::ZERO),
-            RotationDilated(0.0),
+            LinearVelocity(Vec3::ZERO),
+            AngularVelocity(Vec3::ZERO),
         ));
     }
 

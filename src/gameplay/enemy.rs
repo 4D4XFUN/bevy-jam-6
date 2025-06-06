@@ -2,13 +2,12 @@ use crate::asset_tracking::LoadResource;
 use crate::gameplay::boomerang::{BOOMERANG_FLYING_HEIGHT, WeaponTarget};
 use crate::gameplay::health_and_damage::{CanDamage, DeathEvent};
 use crate::gameplay::player::Player;
-use crate::gameplay::time_dilation::{DilatedTime, RotationDilated, VelocityDilated};
 use crate::gameplay::{boomerang::BoomerangHittable, health_and_damage::Health};
 use crate::physics_layers::GameLayer;
 use crate::screens::Screen;
 use avian3d::prelude::{
     AngularDamping, Collider, CollisionEventsEnabled, CollisionLayers, Friction, LinearDamping,
-    LinearVelocity, Restitution, RigidBody, SpatialQuery, SpatialQueryFilter,
+    LinearVelocity, Physics, Restitution, RigidBody, SpatialQuery, SpatialQueryFilter,
 };
 use bevy::color;
 use bevy::ecs::entity::EntityHashSet;
@@ -164,7 +163,7 @@ fn attack_target_after_delay(
         ),
         With<Enemy>,
     >,
-    time: Res<DilatedTime>,
+    time: Res<Time<Physics>>,
     player_query: Single<&Transform, With<Player>>,
     pistolero_assets: Res<PistoleroAssets>,
 ) {
@@ -186,8 +185,7 @@ fn attack_target_after_delay(
                 Collider::sphere(0.2),
                 CollisionLayers::new(GameLayer::Bullet, [GameLayer::Player, GameLayer::Terrain]),
                 RigidBody::Kinematic,
-                VelocityDilated(bullet_velocity * ranged_attack.speed),
-                RotationDilated(0.),
+                LinearVelocity(bullet_velocity * ranged_attack.speed),
                 CanDamage(1),
                 CollisionEventsEnabled,
             ));

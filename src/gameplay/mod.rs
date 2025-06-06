@@ -14,7 +14,6 @@ mod input;
 pub mod level;
 mod mouse_position;
 mod player;
-mod time_dilation;
 
 pub(super) fn plugin(app: &mut App) {
     app.add_plugins((
@@ -27,6 +26,5 @@ pub(super) fn plugin(app: &mut App) {
         aim_mode::plugin,
         enemy::plugin,
         health_and_damage::plugin,
-        time_dilation::plugin,
     ));
 }
