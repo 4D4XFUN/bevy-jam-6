@@ -1833,15 +1833,22 @@
 						"name":"RigidBody",
 						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
 						"avian3d::dynamics::rigid_body::RigidBody":1
+					},
+					{
+						"name":"NavMeshAffector",
+						"selected_type_path":"oxidized_navigation::NavMeshAffector"
 					}
 				],
-				"active_component_index":0,
+				"active_component_index":2,
 				"skein":[
 					{
 						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
 					},
 					{
 						"avian3d::dynamics::rigid_body::RigidBody":"Static"
+					},
+					{
+						"oxidized_navigation::NavMeshAffector":{}
 					}
 				]
 			},
