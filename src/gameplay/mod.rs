@@ -5,6 +5,7 @@
 
 use bevy::prelude::*;
 
+mod aim_mode;
 pub(crate) mod boomerang;
 mod camera;
 mod enemy;
@@ -23,6 +24,7 @@ pub(super) fn plugin(app: &mut App) {
         player::plugin,
         mouse_position::plugin,
         boomerang::plugin,
+        aim_mode::plugin,
         enemy::plugin,
         health_and_damage::plugin,
         time_dilation::plugin,

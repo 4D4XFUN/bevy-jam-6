@@ -48,7 +48,7 @@ fn spawn_player_to_point(
         Collider::capsule(0.5, 1.),
         StateScoped(Screen::Gameplay),
         RigidBody::Dynamic,
-        LockedAxes::ROTATION_LOCKED,
+        LockedAxes::ROTATION_LOCKED.lock_translation_y(),
         MovementSettings { walk_speed: 400. },
         ActiveBoomerangThrowOrigin,
         CollisionLayers::new(
@@ -95,7 +95,7 @@ fn record_player_directional_input(
         (With<Player>, Without<Camera3d>),
     >,
     camera_query: Single<&Transform, With<Camera3d>>,
-    mut time: ResMut<DilatedTime>,
+    time: ResMut<DilatedTime>,
 ) {
     // Rotate input to be on the ground and aligned with camera
     let camera_rotation = camera_query.into_inner().rotation;
@@ -103,10 +103,6 @@ fn record_player_directional_input(
     let velocity = (camera_rotation * input_mapped_to_3d)
         .with_y(0.)
         .normalize_or_zero();
-
-    // The entire world moves slower as player slows down.
-    // virtual_time.set_relative_speed(velocity.length());
-    time.scaling_factor = velocity.length();
 
     let (mut linear_velocity, settings) = player_query.into_inner();
     let final_velocity = velocity * settings.walk_speed * time.delta.as_secs_f32();
@@ -116,11 +112,9 @@ fn record_player_directional_input(
 fn stop_player_directional_input(
     _trigger: Trigger<Completed<PlayerMoveAction>>,
     player: Single<&mut LinearVelocity, With<Player>>,
-    mut time: ResMut<DilatedTime>,
 ) {
     let mut player = player.into_inner();
     player.x = 0.;
     player.y = 0.;
     player.z = 0.;
-    time.scaling_factor = DilatedTime::SLOW_MO_SCALING_FACTOR;
 }
