@@ -419,9 +419,9 @@ dependencies = [
 
 [[package]]
 name = "avian3d"
-version = "0.3.0"
+version = "0.3.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e8ba10c23fee3d432f3c6cf8d036e269d952b8840c1ca4fa6a021ab926786dc4"
+checksum = "0feaf6ed522e3e55130d820bfa2a3f3395092cbee2c986cfc1a464b60b50b4ca"
 dependencies = [
  "avian_derive",
  "bevy",

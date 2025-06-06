@@ -1,12 +1,12 @@
 use crate::gameplay::boomerang::{BOOMERANG_FLYING_HEIGHT, BoomerangAssets, WeaponTarget};
 use crate::gameplay::health_and_damage::{CanDamage, DeathEvent};
 use crate::gameplay::player::Player;
+use crate::gameplay::time_dilation::{DilatedTime, RotationDilated, VelocityDilated};
 use crate::gameplay::{boomerang::BoomerangHittable, health_and_damage::Health};
 use crate::physics_layers::GameLayer;
 use crate::screens::Screen;
 use avian3d::prelude::{
-    Collider, CollisionEventsEnabled, CollisionLayers, LinearVelocity, RigidBody, SpatialQuery,
-    SpatialQueryFilter,
+    Collider, CollisionEventsEnabled, CollisionLayers, RigidBody, SpatialQuery, SpatialQueryFilter,
 };
 use bevy::color;
 use bevy::ecs::entity::EntityHashSet;
@@ -161,7 +161,7 @@ fn attack_target_after_delay(
         ),
         With<Enemy>,
     >,
-    time: Res<Time<Real>>,
+    time: Res<DilatedTime>,
     player_query: Single<&Transform, With<Player>>,
     boomerang_assets: Res<BoomerangAssets>,
 ) {
@@ -171,6 +171,10 @@ fn attack_target_after_delay(
     {
         can_delay.timer.tick(time.delta());
         if can_delay.timer.just_finished() && attacker_target.target_entity.is_some() {
+            let bullet_velocity = (player_transform.translation - origin_transform.translation)
+                .normalize_or_zero()
+                * ranged_attack.speed;
+
             commands.spawn((
                 Name::new("Bullet"),
                 Transform::from_translation(origin_transform.translation),
@@ -180,11 +184,8 @@ fn attack_target_after_delay(
                 Collider::sphere(0.2),
                 CollisionLayers::new(GameLayer::Bullet, [GameLayer::Player, GameLayer::Terrain]),
                 RigidBody::Kinematic,
-                LinearVelocity(
-                    (player_transform.translation - origin_transform.translation)
-                        .normalize_or_zero()
-                        * ranged_attack.speed,
-                ),
+                VelocityDilated(bullet_velocity),
+                RotationDilated(10.),
                 CanDamage(1),
                 CollisionEventsEnabled,
             ));
