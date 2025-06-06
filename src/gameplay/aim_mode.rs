@@ -17,7 +17,7 @@ use bevy::prelude::{
     Res, ResMut, Resource, Single, State, States, Transform, Trigger, With, World,
 };
 use bevy_enhanced_input::events::{Completed, Fired};
-use rand::{thread_rng, Rng};
+use rand::{Rng, thread_rng};
 use tracing::{debug, info, warn};
 
 // ===================

@@ -13,7 +13,7 @@ use avian3d::prelude::{
 use bevy::color;
 use bevy::ecs::entity::EntityHashSet;
 use bevy::prelude::*;
-use rand::{thread_rng, Rng};
+use rand::{Rng, thread_rng};
 
 pub fn plugin(app: &mut App) {
     app.register_type::<EnemySpawnPoint>();

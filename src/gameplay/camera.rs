@@ -11,7 +11,7 @@ use bevy::prelude::{
     Transform, Window, With, Without, default,
 };
 use bevy::render::camera::Exposure;
-use rand::{thread_rng, Rng};
+use rand::{Rng, thread_rng};
 
 pub fn plugin(app: &mut App) {
     // systems
