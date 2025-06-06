@@ -8,7 +8,6 @@ use crate::gameplay::player::Player;
 use crate::gameplay::time_dilation::{DilatedTime, RotationDilated, VelocityDilated};
 use crate::physics_layers::GameLayer;
 use crate::screens::Screen;
-use avian3d::dynamics::integrator::IntegrationSet::Velocity;
 use avian3d::prelude::{
     Collider, CollisionEventsEnabled, CollisionLayers, RigidBody, ShapeCastConfig,
 };

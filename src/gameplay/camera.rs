@@ -9,7 +9,7 @@ use bevy::prelude::{
     OnEnter, OnExit, PerspectiveProjection, Projection, Query, Real, Reflect, Res, Single, Time,
     Timer, TimerMode, Transform, Window, With, Without, default,
 };
-use bevy::prelude::{Changed, Quat, ReflectComponent};
+use bevy::prelude::{Quat, ReflectComponent};
 use bevy::render::camera::Exposure;
 use rand::Rng;
 
@@ -116,7 +116,7 @@ pub struct CameraForward {
     yaw_rotation: Quat,
 }
 impl CameraForward {
-    pub fn rotate_to_forward(self: &mut Self, transform: Transform) {
+    pub fn rotate_to_forward(&mut self, transform: Transform) {
         let camera_right = transform.right().as_vec3().with_y(0.).normalize_or_zero();
         let camera_forward = transform.forward().as_vec3().with_y(0.).normalize_or_zero();
     }
@@ -125,7 +125,7 @@ impl CameraForward {
 fn update_camera_forward_when_camera_moves(
     mut cameras: Query<(&Transform, &mut CameraForward), With<Camera3d>>,
 ) {
-    for (transform, mut camera_forward) in cameras.iter_mut() {
+    for (transform, camera_forward) in cameras.iter_mut() {
         let (yaw, _, _) = transform.rotation.to_euler(EulerRot::XYZ);
         let yaw_rotation = Quat::from_rotation_y(yaw);
     }

@@ -7,7 +7,6 @@ use crate::gameplay::time_dilation::DilatedTime;
 use crate::physics_layers::GameLayer;
 use crate::screens::Screen;
 use avian3d::prelude::{Collider, CollisionLayers, LinearVelocity, LockedAxes, RigidBody};
-use bevy::ecs::system::command::trigger_targets;
 use bevy::prelude::*;
 use bevy_enhanced_input::events::Completed;
 use bevy_enhanced_input::prelude::{Actions, Fired};
@@ -100,7 +99,7 @@ fn record_player_directional_input(
 ) {
     // Rotate input to be on the ground and aligned with camera
     let camera_rotation = camera_query.into_inner().rotation;
-    let input_mapped_to_3d = Vec3::new(trigger.value.x, 0.0, -1. * trigger.value.y);
+    let input_mapped_to_3d = Vec3::new(trigger.value.x, 0.0, -trigger.value.y);
     let velocity = (camera_rotation * input_mapped_to_3d)
         .with_y(0.)
         .normalize_or_zero();
