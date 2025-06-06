@@ -25,7 +25,7 @@ pub struct AimModeAction;
 struct ControlSettings;
 
 impl ControlSettings {
-    const AIM_MODE_DELAY: f32 = 0.3;
+    const AIM_MODE_DELAY: f32 = 0.001;
 }
 
 fn regular_binding(
@@ -45,10 +45,10 @@ fn regular_binding(
         .with_modifiers(DeadZone::default());
 
     // 'Tap' means you need to release within the specified time for it to fire
-    actions
-        .bind::<FireBoomerangAction>()
-        .to(MouseButton::Left)
-        .with_conditions(Tap::new(ControlSettings::AIM_MODE_DELAY));
+    // actions
+    //     .bind::<FireBoomerangAction>()
+    //     .to(MouseButton::Left)
+    //     .with_conditions(Tap::new(ControlSettings::AIM_MODE_DELAY));
 
     // 'Hold' fires only after the specified time has passed while the input remains pressed
     actions

@@ -47,8 +47,8 @@ pub fn plugin(app: &mut App) {
     );
 
     // sound effect!
-    app.load_resource::<AimModeAssets>()
-        .add_systems(OnEnter(AimModeState::Aiming), play_aim_mode_sound_effect);
+    // app.load_resource::<AimModeAssets>()
+    //     .add_systems(OnEnter(AimModeState::Aiming), play_aim_mode_sound_effect);
     app.add_observer(play_enemy_targeted_sound_effect);
 }
 
