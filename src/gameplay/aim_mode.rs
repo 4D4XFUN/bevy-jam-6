@@ -18,7 +18,6 @@ use bevy::prelude::{
 };
 use bevy_enhanced_input::events::{Completed, Fired};
 use rand::Rng;
-use std::ops::Deref;
 use tracing::{debug, info, warn};
 
 // ===================
