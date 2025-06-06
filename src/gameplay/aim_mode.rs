@@ -220,7 +220,7 @@ pub fn draw_target_circles(
 }
 
 // some absolute max that should never be reached during real gameplay (once we implement boomerang energy)
-const MAX_TARGETS_SELECTABLE: usize = 30;
+const MAX_TARGETS_SELECTABLE: usize = 3;
 
 pub fn record_target_near_mouse(
     mouse_position: Res<MousePosition>,
@@ -229,7 +229,7 @@ pub fn record_target_near_mouse(
     mut commands: Commands,
 ) -> Result {
     // target list is full, don't add any more targets
-    if current_target_list.targets.len() > MAX_TARGETS_SELECTABLE {
+    if current_target_list.targets.len() >= MAX_TARGETS_SELECTABLE {
         return Ok(());
     }
 
