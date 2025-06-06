@@ -1,6 +1,7 @@
 use crate::audio::sound_effect;
 use crate::gameplay::boomerang::{
-    BoomerangHittable, BoomerangTargetKind, ThrowBoomerangEvent, get_raycast_target,
+    BoomerangHittable, BoomerangTargetKind, CurrentBoomerangThrowOrigin, ThrowBoomerangEvent,
+    get_raycast_target,
 };
 use crate::gameplay::input::AimModeAction;
 use crate::gameplay::mouse_position::MousePosition;
@@ -17,6 +18,7 @@ use bevy::prelude::{
 };
 use bevy_enhanced_input::events::{Completed, Fired};
 use rand::Rng;
+use std::ops::Deref;
 use tracing::{debug, info, warn};
 
 // ===================
@@ -34,6 +36,10 @@ pub fn plugin(app: &mut App) {
     app.add_systems(Update, record_target_near_mouse);
     app.add_systems(OnEnter(AimModeState::Aiming), initialize_target_list);
     app.add_systems(OnExit(AimModeState::Aiming), cleanup_target_list);
+    app.add_systems(
+        OnExit(AimModeState::Aiming),
+        reset_current_boomerang_throw_origin_to_player,
+    );
 
     app.init_state::<AimModeState>();
     app.add_observer(enter_aim_mode).add_observer(exit_aim_mode);
@@ -274,6 +280,7 @@ pub fn record_target_near_mouse(
     mouse_position: Res<MousePosition>,
     spatial_query: SpatialQuery,
     mut current_target_list: Single<&mut AimModeTargets>,
+    current_throw_origin: Single<Entity, With<CurrentBoomerangThrowOrigin>>,
     mut commands: Commands,
 ) -> Result {
     // target list is full, don't add any more targets
@@ -307,6 +314,7 @@ pub fn record_target_near_mouse(
             return Ok(());
         }
         _ => {
+            swap_boomerang_throw_origin(*current_throw_origin, hit.entity, commands.reborrow());
             current_target_list.targets.push(hit.entity);
             commands.trigger(PlayEnemyTargetedSound); // play a sound when an enemy is targeted
             // info!(
@@ -317,4 +325,20 @@ pub fn record_target_near_mouse(
     }
 
     Ok(())
+}
+
+fn reset_current_boomerang_throw_origin_to_player(
+    player: Single<Entity, With<Player>>,
+    current_throw_origin: Single<Entity, With<CurrentBoomerangThrowOrigin>>,
+    commands: Commands,
+) {
+    swap_boomerang_throw_origin(*current_throw_origin, *player, commands);
+}
+
+/// Moves the boomerang throw origin component from one entity to another
+fn swap_boomerang_throw_origin(from: Entity, to: Entity, mut commands: Commands) {
+    commands
+        .entity(from)
+        .remove::<CurrentBoomerangThrowOrigin>();
+    commands.entity(to).insert(CurrentBoomerangThrowOrigin);
 }

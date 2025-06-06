@@ -1,6 +1,6 @@
 //! Player-specific behavior.
 
-use crate::gameplay::boomerang::ActiveBoomerangThrowOrigin;
+use crate::gameplay::boomerang::CurrentBoomerangThrowOrigin;
 use crate::gameplay::camera::CameraFollowTarget;
 use crate::gameplay::input::{PlayerActions, PlayerMoveAction};
 use crate::gameplay::time_dilation::DilatedTime;
@@ -50,7 +50,7 @@ fn spawn_player_to_point(
             MeshMaterial3d(materials.add(Color::srgb_u8(124, 124, 0))),
             StateScoped(Screen::Gameplay),
             MovementSettings { walk_speed: 400. },
-            ActiveBoomerangThrowOrigin,
+            CurrentBoomerangThrowOrigin,
             CameraFollowTarget,
         ))
         .insert((

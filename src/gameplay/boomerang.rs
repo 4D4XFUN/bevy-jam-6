@@ -50,16 +50,16 @@ struct Falling;
 #[derive(Component, Default)]
 pub struct BoomerangHittable;
 
-/// Entities with this component will allow the user to redirect the boomerang bounce when they are hit by becoming an [ActiveBoomerangThrowOrigin]
+/// Entities with this component will allow the user to redirect the boomerang bounce when they are hit by becoming a [CurrentBoomerangThrowOrigin]
 #[derive(Component, Default)]
 #[require(BoomerangHittable)]
 pub struct PotentialBoomerangOrigin;
 
 /// Component which should be added to the entity the boomerang is currently "attached" to.
-/// Used to mark the origin for the next bounce direction.
+/// Used to mark the origin for the next bounce direction. There should always be one (and exactly one) entity with this component during a running game.
 #[derive(Component)]
 #[require(PotentialBoomerangOrigin)]
-pub struct ActiveBoomerangThrowOrigin;
+pub struct CurrentBoomerangThrowOrigin;
 
 // An event which gets fired whenever the player throws their boomerang.
 #[derive(Event)]
@@ -310,7 +310,7 @@ fn set_boomerang_rotation_speed_based_on_velocity(
 }
 
 fn update_boomerang_preview_position(
-    boomerang_origins: Single<(Entity, &GlobalTransform), With<ActiveBoomerangThrowOrigin>>,
+    boomerang_origins: Single<(Entity, &GlobalTransform), With<CurrentBoomerangThrowOrigin>>,
     potential_origins: Query<(), With<PotentialBoomerangOrigin>>,
     mut previews: Query<(&mut WeaponTarget, &mut Transform), Without<Enemy>>,
     mouse_position: Res<MousePosition>,
@@ -387,7 +387,7 @@ pub fn get_raycast_target(
 
 fn on_fire_action_throw_boomerang(
     _trigger: Trigger<Fired<FireBoomerangAction>>,
-    boomerang_holders: Query<Entity, With<ActiveBoomerangThrowOrigin>>,
+    boomerang_holders: Query<Entity, With<CurrentBoomerangThrowOrigin>>,
     boomerang_previews: Query<(&WeaponTarget, &GlobalTransform), Without<Enemy>>,
     mut event_writer: EventWriter<ThrowBoomerangEvent>,
 ) {
@@ -470,7 +470,7 @@ struct BoomerangPreviewGizmos;
 
 fn draw_preview_gizmo(
     mut gizmos: Gizmos<BoomerangPreviewGizmos>,
-    boomerang_holders: Query<&GlobalTransform, With<ActiveBoomerangThrowOrigin>>,
+    boomerang_holders: Query<&GlobalTransform, With<CurrentBoomerangThrowOrigin>>,
     boomerang_target_preview: Query<&GlobalTransform, (With<WeaponTarget>, Without<Enemy>)>,
 ) {
     for from in boomerang_holders {
