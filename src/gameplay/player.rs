@@ -122,5 +122,5 @@ fn stop_player_directional_input(
     player.x = 0.;
     player.y = 0.;
     player.z = 0.;
-    time.scaling_factor = 0.1;
+    time.scaling_factor = DilatedTime::SLOW_MO_SCALING_FACTOR;
 }

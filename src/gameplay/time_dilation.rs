@@ -33,7 +33,7 @@ pub struct DilatedTime {
 
 impl DilatedTime {
     /// The "minimum possible" speed time can go. We never fully pause the game during slo-mo.
-    const SLOW_MO_SCALING_FACTOR: f32 = 0.1;
+    pub const SLOW_MO_SCALING_FACTOR: f32 = 0.1;
 
     /// Intended to be drop-in replacement for Res<Time>
     pub fn delta(&self) -> Duration {
@@ -48,7 +48,7 @@ impl DilatedTime {
 impl Default for DilatedTime {
     fn default() -> Self {
         Self {
-            scaling_factor: 0.1,
+            scaling_factor: DilatedTime::SLOW_MO_SCALING_FACTOR,
             delta: Duration::from_secs(0),
         }
     }
