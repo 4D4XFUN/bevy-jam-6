@@ -324,11 +324,15 @@ fn update_boomerang_preview_position(
 
     let (origin_entity, origin_transform) = boomerang_origins.into_inner();
 
-    let (mut target_entity, target_location) = match get_raycast_target(&spatial_query, mouse_position, origin_entity, origin_transform.translation()) {
+    let (mut target_entity, target_location) = match get_raycast_target(
+        &spatial_query,
+        mouse_position,
+        origin_entity,
+        origin_transform.translation(),
+    ) {
         Ok(value) => value,
         Err(_value) => return Ok(()),
     };
-
 
     if let Some(te) = target_entity {
         if potential_origins.get(te).is_err() {
@@ -350,9 +354,13 @@ fn update_boomerang_preview_position(
     Ok(())
 }
 
-pub fn get_raycast_target(spatial_query: &SpatialQuery, target_position: Vec3, origin_entity: Entity, origin_transform: Vec3) -> Result<(Option<Entity>, Vec3), Result> {
-    let origin = origin_transform
-        .with_y(BOOMERANG_FLYING_HEIGHT);
+pub fn get_raycast_target(
+    spatial_query: &SpatialQuery,
+    target_position: Vec3,
+    origin_entity: Entity,
+    origin_transform: Vec3,
+) -> Result<(Option<Entity>, Vec3), Result> {
+    let origin = origin_transform.with_y(BOOMERANG_FLYING_HEIGHT);
 
     let Ok(direction) = Dir3::new(target_position - origin) else {
         // We are probably just pointing right at the ThrowOrigin

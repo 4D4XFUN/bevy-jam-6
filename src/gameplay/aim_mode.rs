@@ -1,5 +1,7 @@
 use crate::audio::sound_effect;
-use crate::gameplay::boomerang::{get_raycast_target, BoomerangHittable, BoomerangTargetKind, ThrowBoomerangEvent};
+use crate::gameplay::boomerang::{
+    BoomerangHittable, BoomerangTargetKind, ThrowBoomerangEvent, get_raycast_target,
+};
 use crate::gameplay::input::AimModeAction;
 use crate::gameplay::mouse_position::MousePosition;
 use crate::gameplay::player::Player;
@@ -26,7 +28,8 @@ use bevy::prelude::*;
 pub fn plugin(app: &mut App) {
     app.add_systems(
         Update,
-        (draw_crosshair, draw_target_circles, draw_target_lines).run_if(in_state(AimModeState::Aiming)),
+        (draw_crosshair, draw_target_circles, draw_target_lines)
+            .run_if(in_state(AimModeState::Aiming)),
     );
     app.add_systems(Update, record_target_near_mouse);
     app.add_systems(OnEnter(AimModeState::Aiming), initialize_target_list);
@@ -230,10 +233,14 @@ pub fn draw_target_lines(
 
     let (mut last_entity_found, mut last_transform_found) = player_single.into_inner();
 
-
     for e in x.iter() {
         if let Ok(t) = hittables.get(*e) {
-            let (mut target_entity, target_location) = match get_raycast_target(&spatial_query, t.translation, last_entity_found, last_transform_found.translation) {
+            let (mut target_entity, target_location) = match get_raycast_target(
+                &spatial_query,
+                t.translation,
+                last_entity_found,
+                last_transform_found.translation,
+            ) {
                 Ok(value) => value,
                 Err(_value) => continue,
             };
