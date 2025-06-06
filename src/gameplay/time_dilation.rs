@@ -18,7 +18,7 @@ pub fn plugin(app: &mut App) {
 
 /// Used by anything that needs to move in slow motion. We update this once per
 /// frame, then everything with a velocity simply uses the delta from this
-/// resource, rather that Res<Time>::delta
+/// resource, rather that `Res<Time>::delta`
 #[derive(Resource, Debug, Reflect)]
 #[reflect(Resource)]
 pub struct DilatedTime {
@@ -27,7 +27,7 @@ pub struct DilatedTime {
     pub scaling_factor: f32,
 
     /// Always use this to tick timers, etc. if something needs to be affected
-    /// by slow motion. If not (like screen shake) use the regular game Res<Time>
+    /// by slow motion. If not (like screen shake) use the regular game `Res<Time>`
     pub delta: Duration,
 }
 
@@ -35,11 +35,11 @@ impl DilatedTime {
     /// The "minimum possible" speed time can go. We never fully pause the game during slo-mo.
     pub const SLOW_MO_SCALING_FACTOR: f32 = 0.1;
 
-    /// Intended to be drop-in replacement for Res<Time>
+    /// Intended to be drop-in replacement for `Res<Time>`
     pub fn delta(&self) -> Duration {
         self.delta
     }
-    /// Intended to be drop-in replacement for Res<Time>
+    /// Intended to be drop-in replacement for `Res<Time>`
     pub fn delta_secs(&self) -> f32 {
         self.delta.as_secs_f32()
     }
