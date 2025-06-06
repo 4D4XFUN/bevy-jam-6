@@ -20,7 +20,6 @@ use tracing::{debug, info, warn};
 // ===================
 // AIM MODE
 // ==================
-use crate::asset_tracking::LoadResource;
 use crate::gameplay::time_dilation::DilatedTime;
 use bevy::prelude::*;
 
@@ -46,9 +45,6 @@ pub fn plugin(app: &mut App) {
         |mut t: ResMut<DilatedTime>| t.scaling_factor = 1.0,
     );
 
-    // sound effect!
-    // app.load_resource::<AimModeAssets>()
-    //     .add_systems(OnEnter(AimModeState::Aiming), play_aim_mode_sound_effect);
     app.add_observer(play_enemy_targeted_sound_effect);
 }
 
@@ -91,12 +87,6 @@ pub fn exit_aim_mode(
     next_state.set(AimModeState::Normal);
 }
 
-pub fn play_aim_mode_sound_effect(mut commands: Commands, assets: Option<Res<AimModeAssets>>) {
-    let Some(assets) = assets else {
-        return;
-    };
-    commands.spawn(sound_effect(assets.entering_aim_mode.clone()));
-}
 // =====================
 // AUDIO
 // =====================
