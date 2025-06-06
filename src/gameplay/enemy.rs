@@ -7,7 +7,8 @@ use crate::physics_layers::GameLayer;
 use crate::screens::Screen;
 use avian3d::prelude::{
     AngularDamping, Collider, CollisionEventsEnabled, CollisionLayers, Friction, LinearDamping,
-    LinearVelocity, Physics, Restitution, RigidBody, SpatialQuery, SpatialQueryFilter,
+    LinearVelocity, Physics, PhysicsLayer, Restitution, RigidBody, SpatialQuery,
+    SpatialQueryFilter,
 };
 use bevy::color;
 use bevy::ecs::entity::EntityHashSet;
@@ -81,7 +82,7 @@ fn spawn_enemies_on_enemy_spawn_points(
             StateScoped(Screen::Gameplay),
             BoomerangHittable,
             Collider::capsule(0.5, 1.),
-            CollisionLayers::new(GameLayer::Enemy, GameLayer::ALL),
+            CollisionLayers::new(GameLayer::Enemy, GameLayer::all_bits()),
             RigidBody::Dynamic,
             Health(1),
         ))
