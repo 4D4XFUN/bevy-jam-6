@@ -7,7 +7,7 @@ use crate::gameplay::input::AimModeAction;
 use crate::gameplay::mouse_position::MousePosition;
 use crate::gameplay::player::Player;
 use crate::physics_layers::GameLayer;
-use avian3d::prelude::{Collider, ShapeCastConfig, SpatialQuery, SpatialQueryFilter};
+use avian3d::prelude::{Collider, Physics, PhysicsTime, ShapeCastConfig, SpatialQuery, SpatialQueryFilter};
 use bevy::asset::{Asset, AssetServer, Handle};
 use bevy::audio::AudioSource;
 use bevy::color::Color;
@@ -23,8 +23,10 @@ use tracing::{debug, info, warn};
 // ===================
 // AIM MODE
 // ==================
-use crate::gameplay::time_dilation::DilatedTime;
 use bevy::prelude::*;
+
+/// The "minimum possible" speed time can go. We never fully pause the game during slo-mo.
+pub const SLOW_MO_SCALING_FACTOR: f32 = 0.1;
 
 pub fn plugin(app: &mut App) {
     app.add_systems(
@@ -46,11 +48,11 @@ pub fn plugin(app: &mut App) {
     // slowdown time while in aim mode
     app.add_systems(
         OnEnter(AimModeState::Aiming),
-        |mut t: ResMut<DilatedTime>| t.scaling_factor = DilatedTime::SLOW_MO_SCALING_FACTOR,
+        |mut t: ResMut<Time<Physics>>| t.set_relative_speed(SLOW_MO_SCALING_FACTOR),
     );
     app.add_systems(
         OnExit(AimModeState::Aiming),
-        |mut t: ResMut<DilatedTime>| t.scaling_factor = 1.0,
+        |mut t: ResMut<Time<Physics>>| t.set_relative_speed(1.0),
     );
 
     app.add_observer(play_enemy_targeted_sound_effect);
