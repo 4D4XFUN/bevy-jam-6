@@ -245,13 +245,13 @@ pub fn draw_target_lines(
                 }
             }
 
-            // let color = match target_entity {
-            //     Some(_entity) => Color::srgb(0., 1., 0.),
-            //     None => Color::srgb(1., 0.1, 0.1),
-            // };
+            let color = match target_entity {
+                Some(_entity) => Color::srgb(0., 1., 0.),
+                None => Color::srgb(1., 0.1, 0.1),
+            };
 
             // todo use retained mode gizmos to be more efficient (or an instanced mesh of a cool looking crosshair)
-            gizmos.line(last_transform_found.translation, target_location, Color::srgb(1., 0.1, 0.1));
+            gizmos.line(last_transform_found.translation, target_location, color);
 
             last_transform_found = t;
             last_entity_found = *e;
