@@ -3,6 +3,7 @@
 // Disable console on Windows for non-dev builds.
 #![cfg_attr(not(feature = "dev"), windows_subsystem = "windows")]
 
+mod ai;
 mod asset_tracking;
 mod audio;
 #[cfg(feature = "dev")]
@@ -13,12 +14,13 @@ mod physics_layers;
 mod screens;
 mod theme;
 mod ui_assets;
-mod ai;
 
 use avian3d::PhysicsPlugins;
 use bevy::window::{PresentMode, WindowResolution};
 use bevy::{asset::AssetMetaCheck, prelude::*};
+use bevy_landmass::LandmassSystemSet;
 use bevy_skein::SkeinPlugin;
+use oxidized_navigation::OxidizedNavigation;
 
 fn main() -> AppExit {
     App::new().add_plugins(AppPlugin).run()
@@ -35,11 +37,22 @@ impl Plugin for AppPlugin {
                 AppSystems::PreTickTimers,
                 AppSystems::TickTimers,
                 AppSystems::RecordInput,
-                PrePhysicsAppSystems::UpdateNavmeshPositions,
-                PrePhysicsAppSystems::UpdateNavmeshTargets,
                 AppSystems::Update,
             )
                 .chain(),
+        );
+
+        app.configure_sets(
+            RunFixedMainLoop,
+            (
+                PrePhysicsAppSystems::UpdateNavmeshPositions,
+                PrePhysicsAppSystems::UpdateNavmeshTargets,
+                OxidizedNavigation::RemovedComponent,
+                OxidizedNavigation::Main,
+                LandmassSystemSet::SyncExistence,
+            )
+                .chain()
+                .in_set(RunFixedMainLoopSystem::BeforeFixedMainLoop),
         );
 
         // Add Bevy plugins.
@@ -81,7 +94,6 @@ impl Plugin for AppPlugin {
         ));
     }
 }
-
 
 /// High-level groupings of systems for the app in the [`RunFixedMainLoop`] schedule
 /// and the [`RunFixedMainLoopSystem::BeforeFixedMainLoop`] system set.

@@ -38,5 +38,6 @@ fn update_last_valid_player_navmesh_position(
     );
     if let Ok(sampled_point) = sampled_point {
         last_valid_player_navmesh_position.0 = Some(sampled_point.point());
+        info!("navmesh position updated: {:?}", &last_valid_player_navmesh_position.0);
     }
 }

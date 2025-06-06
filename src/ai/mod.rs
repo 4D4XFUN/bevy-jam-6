@@ -1,31 +1,31 @@
-mod navmesh_position;
 mod debug;
+mod navmesh_position;
 
+use bevy::ecs::error::info;
 use bevy::prelude::*;
 use bevy::prelude::*;
 use bevy_landmass::prelude::*;
-use landmass::{AgentId, Archipelago, IslandId, XYZ};
-use landmass_oxidized_navigation::LandmassOxidizedNavigationPlugin;
+use landmass::{AgentId, Archipelago, IslandId, PointSampleDistance3d, XYZ};
+use landmass_oxidized_navigation::{LandmassOxidizedNavigationPlugin, OxidizedArchipelago};
 use oxidized_navigation::{
-    colliders::avian::AvianCollider, NavMesh, NavMeshSettings, OxidizedNavigationPlugin
-    ,
+    NavMesh, NavMeshSettings, OxidizedNavigationPlugin, colliders::avian::AvianCollider,
 };
 
 pub fn plugin(app: &mut App) {
-    // other plugins
-    app.add_plugins(navmesh_position::plugin);
-    app.add_plugins(debug::plugin);
-
-    // oxidized nav
+    
+    // plugins
     app.add_plugins((
+        // navmesh_position::plugin,
+        debug::plugin,
+        // Landmass3dPlugin::default(),
+        // LandmassOxidizedNavigationPlugin::default(),
         OxidizedNavigationPlugin::<AvianCollider>::new(NavMeshSettings::from_agent_and_bounds(
             0.5, 1.9, 250.0, -1.0,
         )),
     ));
 
-    // landmass
-    app.add_plugins(Landmass3dPlugin::default())
-        .add_plugins(LandmassOxidizedNavigationPlugin::default());
+    // systems
+    app.add_systems(Startup, setup_archipelago);
 }
 
 // Component to mark the player character
@@ -49,7 +49,27 @@ struct PathAgent {
 // Resource to store the pathfinding archipelago
 #[derive(Resource)]
 struct PathfindingArchipelago {
-    archipelago: Archipelago<XYZ>,
+    archipelago: Archipelago<ThreeD>,
+}
+
+fn setup_archipelago(mut commands: Commands) {
+    // This *should* be scoped to the `Screen::Gameplay` state, but doing so
+    // seems to never regenerate the nav mesh when the level is loaded the second
+    // time.
+    info!("Spawning archipelago");
+    commands.spawn((
+        Name::new("Main Level Archipelago"),
+        Archipelago3d::new(AgentOptions {
+            point_sample_distance: PointSampleDistance3d {
+                horizontal_distance: 0.6,
+                distance_above: 1.0,
+                distance_below: 1.0,
+                vertical_preference_ratio: 2.0,
+            },
+            ..AgentOptions::from_agent_radius(0.5)
+        }),
+        OxidizedArchipelago,
+    ));
 }
 
 /*
