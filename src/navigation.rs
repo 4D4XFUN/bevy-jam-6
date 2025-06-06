@@ -41,7 +41,7 @@ fn spawn_test_entities(
     commands.spawn((
         Mesh3d(meshes.add(Plane3d::default().mesh().size(25.0, 25.0))),
         MeshMaterial3d(materials.add(Color::srgb(0.3, 0.5, 0.3))),
-        Transform::IDENTITY,
+        Transform::from_xyz(0.0, 0.01, 0.0), // raise slightly to prevent flicker
         Collider::cuboid(25.0, 0.1, 25.0),
         NavMeshAffector, // Only entities with a NavMeshAffector component will contribute to the nav-mesh.
         CollisionLayers::new(
