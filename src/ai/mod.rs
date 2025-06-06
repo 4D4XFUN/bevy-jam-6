@@ -1,6 +1,6 @@
 mod debug;
 mod navmesh_position;
-mod pathfinding;
+mod pathfinding_service;
 
 use bevy::ecs::error::info;
 use bevy::prelude::*;
@@ -17,7 +17,7 @@ pub fn plugin(app: &mut App) {
     // plugins
     app.add_plugins((
         // navmesh_position::plugin,
-        pathfinding::plugin, 
+        pathfinding_service::plugin,
         debug::plugin,
         // Landmass3dPlugin::default(),
         // LandmassOxidizedNavigationPlugin::default(),
