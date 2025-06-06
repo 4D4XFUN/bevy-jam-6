@@ -135,10 +135,15 @@ fn update_aim_preview_position(
         ) {
             if first_hit.entity == player_entity {
                 let target_location = origin + direction * first_hit.distance;
+
+                let aiming_line_length = 1.;
+                let aim_line_scaled_direction = (target_location - origin_transform.translation).normalize_or_zero() * aiming_line_length;
+                let aim_line_endpoint = origin_transform.translation + aim_line_scaled_direction;
+                
                 gizmos.line(
                     origin_transform.translation.with_y(BOOMERANG_FLYING_HEIGHT),
-                    target_location.with_y(BOOMERANG_FLYING_HEIGHT),
-                    color::palettes::css::RED,
+                    aim_line_endpoint,
+                    color::palettes::css::RED.with_alpha(0.5),
                 );
                 weapon_target.target_entity = Some(player_entity);
             } else {

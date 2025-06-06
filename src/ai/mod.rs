@@ -34,13 +34,6 @@ pub fn plugin(app: &mut App) {
 #[derive(Component)]
 struct Character;
 
-// Component to mark enemies
-#[derive(Component)]
-struct Enemy {
-    agent_id: AgentId,
-    island_id: IslandId,
-}
-
 // Component to store the computed path
 #[derive(Component)]
 struct PathAgent {
