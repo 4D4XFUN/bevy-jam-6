@@ -13,6 +13,7 @@ mod physics_layers;
 mod screens;
 mod theme;
 mod ui_assets;
+mod navigation;
 
 use avian3d::PhysicsPlugins;
 use bevy::window::{PresentMode, WindowResolution};
@@ -74,6 +75,7 @@ impl Plugin for AppPlugin {
             theme::plugin,
             framepace::plugin,
             gameplay::plugin,
+            navigation::plugin,
         ));
     }
 }
