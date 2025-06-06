@@ -49,7 +49,6 @@ pub fn spawn_level(
                     asset_server
                         .load(GltfAssetLabel::Scene(0).from_asset("models/Environment.gltf")),
                 ),
-                NavMeshAffector,
                 CollisionLayers::new(
                     GameLayer::Terrain,
                     [

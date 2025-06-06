@@ -17,7 +17,7 @@ pub fn plugin(app: &mut App) {
         )),
     ));
 
-    app.add_systems(Startup, spawn_test_entities);
+    // app.add_systems(Startup, spawn_test_entities);
     app.add_systems(Update, toggle_nav_mesh_debug_draw);
 }
 
