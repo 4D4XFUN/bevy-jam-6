@@ -21,8 +21,8 @@ use tracing::{debug, info, warn};
 // AIM MODE
 // ==================
 use crate::asset_tracking::LoadResource;
-use bevy::prelude::*;
 use crate::gameplay::time_dilation::DilatedTime;
+use bevy::prelude::*;
 
 pub fn plugin(app: &mut App) {
     app.add_systems(
@@ -37,8 +37,14 @@ pub fn plugin(app: &mut App) {
     app.add_observer(enter_aim_mode).add_observer(exit_aim_mode);
 
     // slowdown time while in aim mode
-    app.add_systems(OnEnter(AimModeState::Aiming), |mut t: ResMut<DilatedTime>| {t.scaling_factor = DilatedTime::SLOW_MO_SCALING_FACTOR});
-    app.add_systems(OnExit(AimModeState::Aiming), |mut t: ResMut<DilatedTime>| {t.scaling_factor = 1.0});
+    app.add_systems(
+        OnEnter(AimModeState::Aiming),
+        |mut t: ResMut<DilatedTime>| t.scaling_factor = DilatedTime::SLOW_MO_SCALING_FACTOR,
+    );
+    app.add_systems(
+        OnExit(AimModeState::Aiming),
+        |mut t: ResMut<DilatedTime>| t.scaling_factor = 1.0,
+    );
 
     // sound effect!
     app.load_resource::<AimModeAssets>()

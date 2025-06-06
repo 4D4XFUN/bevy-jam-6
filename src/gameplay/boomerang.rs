@@ -5,9 +5,7 @@ use crate::gameplay::mouse_position::MousePosition;
 use crate::gameplay::time_dilation::{DilatedTime, RotationDilated, VelocityDilated};
 use crate::physics_layers::GameLayer;
 use crate::screens::Screen;
-use avian3d::prelude::{
-    Collider, CollisionEventsEnabled, CollisionLayers, RigidBody,
-};
+use avian3d::prelude::{Collider, CollisionEventsEnabled, CollisionLayers, RigidBody};
 use avian3d::spatial_query::{SpatialQuery, SpatialQueryFilter};
 use bevy::color;
 use bevy::ecs::entity::EntityHashSet;
