@@ -324,37 +324,18 @@ fn update_boomerang_preview_position(
 
     let (origin_entity, origin_transform) = boomerang_origins.into_inner();
 
-    let origin = origin_transform
-        .translation()
-        .with_y(BOOMERANG_FLYING_HEIGHT);
-
-    let Ok(direction) = Dir3::new(mouse_position - origin) else {
-        // We are probably just pointing right at the ThrowOrigin
-        return Ok(());
+    let (mut target_entity, target_location) = match get_raycast_target(&spatial_query, mouse_position, origin_entity, origin_transform.translation()) {
+        Ok(value) => value,
+        Err(_value) => return Ok(()),
     };
 
-    let max_distance = 10.0;
-    let solid = true;
-    let filter = SpatialQueryFilter {
-        excluded_entities: EntityHashSet::from([origin_entity]),
-        ..Default::default()
-    };
-    let (distance_to_target, target_entity) = if let Some(first_hit) =
-        spatial_query.cast_ray(origin, direction, max_distance, solid, &filter)
-    {
-        if potential_origins.get(first_hit.entity).is_ok() {
-            // It's something that can be used as an origin, so we want to home at it!
-            // ...might want to adjust the filter in that query if we ever need to home in on non-boomerang-origins.
-            (first_hit.distance, Some(first_hit.entity))
-        } else {
-            // It's a wall.
-            (first_hit.distance, None)
+
+    if let Some(te) = target_entity {
+        if potential_origins.get(te).is_err() {
+            // If the entity hit isn't one of the targetable ones, we hit a wall.
+            target_entity = None;
         }
-    } else {
-        (max_distance, None)
-    };
-
-    let target_location = origin + direction * distance_to_target;
+    }
 
     if let Ok((mut preview, mut transform)) = previews.single_mut() {
         preview.target_entity = target_entity;
@@ -367,6 +348,33 @@ fn update_boomerang_preview_position(
         ));
     }
     Ok(())
+}
+
+pub fn get_raycast_target(spatial_query: &SpatialQuery, target_position: Vec3, origin_entity: Entity, origin_transform: Vec3) -> Result<(Option<Entity>, Vec3), Result> {
+    let origin = origin_transform
+        .with_y(BOOMERANG_FLYING_HEIGHT);
+
+    let Ok(direction) = Dir3::new(target_position - origin) else {
+        // We are probably just pointing right at the ThrowOrigin
+        return Err(Ok(()));
+    };
+
+    let max_distance = 50.0;
+    let solid = true;
+    let filter = SpatialQueryFilter {
+        excluded_entities: EntityHashSet::from([origin_entity]),
+        ..Default::default()
+    };
+    let (distance_to_target, target_entity) = if let Some(first_hit) =
+        spatial_query.cast_ray(origin, direction, max_distance, solid, &filter)
+    {
+        (first_hit.distance, Some(first_hit.entity))
+    } else {
+        (max_distance, None)
+    };
+
+    let target_location = origin + direction * distance_to_target;
+    Ok((target_entity, target_location))
 }
 
 fn on_fire_action_throw_boomerang(

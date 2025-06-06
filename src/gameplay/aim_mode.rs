@@ -1,5 +1,5 @@
 use crate::audio::sound_effect;
-use crate::gameplay::boomerang::{BoomerangHittable, BoomerangTargetKind, ThrowBoomerangEvent};
+use crate::gameplay::boomerang::{get_raycast_target, BoomerangHittable, BoomerangTargetKind, ThrowBoomerangEvent};
 use crate::gameplay::input::AimModeAction;
 use crate::gameplay::mouse_position::MousePosition;
 use crate::gameplay::player::Player;
@@ -26,7 +26,7 @@ use bevy::prelude::*;
 pub fn plugin(app: &mut App) {
     app.add_systems(
         Update,
-        (draw_crosshair, draw_target_circles).run_if(in_state(AimModeState::Aiming)),
+        (draw_crosshair, draw_target_circles, draw_target_lines).run_if(in_state(AimModeState::Aiming)),
     );
     app.add_systems(Update, record_target_near_mouse);
     app.add_systems(OnEnter(AimModeState::Aiming), initialize_target_list);
@@ -216,10 +216,51 @@ pub fn draw_target_circles(
             gizmos.circle(isometry, 1.5, Color::srgb(0.9, 0.1, 0.1));
         }
     }
-    // todo draw a line from player to first target, first target to second, etc.
 }
 
-// some absolute max that should never be reached during real gameplay (once we implement boomerang energy)
+pub fn draw_target_lines(
+    mut gizmos: Gizmos,
+    hittables: Query<&Transform, With<BoomerangHittable>>,
+    query: Single<&AimModeTargets>,
+    player_single: Single<(Entity, &Transform), With<Player>>,
+    spatial_query: SpatialQuery,
+) -> Result {
+    let targets = query.into_inner();
+    let x = &targets.targets;
+
+    let (mut last_entity_found, mut last_transform_found) = player_single.into_inner();
+
+
+    for e in x.iter() {
+        if let Ok(t) = hittables.get(*e) {
+            let (mut target_entity, target_location) = match get_raycast_target(&spatial_query, t.translation, last_entity_found, last_transform_found.translation) {
+                Ok(value) => value,
+                Err(_value) => continue,
+            };
+
+            if let Some(te) = target_entity {
+                if hittables.get(te).is_err() {
+                    // If the entity hit isn't one of the targetable ones, we hit a wall.
+                    target_entity = None;
+                }
+            }
+
+            // let color = match target_entity {
+            //     Some(_entity) => Color::srgb(0., 1., 0.),
+            //     None => Color::srgb(1., 0.1, 0.1),
+            // };
+
+            // todo use retained mode gizmos to be more efficient (or an instanced mesh of a cool looking crosshair)
+            gizmos.line(last_transform_found.translation, target_location, Color::srgb(1., 0.1, 0.1));
+
+            last_transform_found = t;
+            last_entity_found = *e;
+        }
+    }
+
+    Ok(())
+}
+
 const MAX_TARGETS_SELECTABLE: usize = 3;
 
 pub fn record_target_near_mouse(
