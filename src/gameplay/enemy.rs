@@ -5,7 +5,7 @@ use crate::gameplay::{boomerang::BoomerangHittable, health_and_damage::Health};
 use crate::physics_layers::GameLayer;
 use crate::screens::Screen;
 use avian3d::prelude::{
-    Collider, CollisionEventsEnabled, CollisionLayers, LinearVelocity, Physics, RigidBody,
+    Collider, CollisionEventsEnabled, CollisionLayers, LinearVelocity, Physics, PhysicsLayer, RigidBody,
     SpatialQuery, SpatialQueryFilter,
 };
 use bevy::color;
@@ -79,7 +79,7 @@ fn spawn_enemies_on_enemy_spawn_points(
             StateScoped(Screen::Gameplay),
             BoomerangHittable,
             Collider::capsule(0.5, 1.),
-            CollisionLayers::new(GameLayer::Enemy, GameLayer::ALL),
+            CollisionLayers::new(GameLayer::Enemy, GameLayer::all_bits()),
             RigidBody::Dynamic,
             Health(1),
         ))

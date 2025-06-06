@@ -6,13 +6,10 @@ use avian3d::prelude::PhysicsLayer;
 pub enum GameLayer {
     #[default]
     Default, // Layer 0 - the default layer that all objects are assigned to
-    Enemy,  // Layer 1
-    Player, // Layer 1
-    Bullet, // Layer 1
-    Terrain, // Layer 1
-            //NoCollision, // Layer 1
-}
-
-impl GameLayer {
-    pub const ALL: [GameLayer; 2] = [GameLayer::Default, GameLayer::Enemy];
+    Enemy,   // Layer 1
+    Player,  // Layer 2
+    Bullet,  // Layer 3
+    Terrain, // Layer 4
+    Boomerang, // Layer 5
+             //NoCollision, // Layer ?
 }

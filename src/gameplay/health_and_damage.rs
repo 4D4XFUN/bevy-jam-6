@@ -5,7 +5,7 @@
 
 use crate::gameplay::enemy::CanUseRangedAttack;
 use crate::physics_layers::GameLayer;
-use avian3d::prelude::{CollisionLayers, CollisionStarted};
+use avian3d::prelude::{CollisionLayers, CollisionStarted, PhysicsLayer};
 use bevy::prelude::*;
 
 #[derive(Event)]
@@ -79,7 +79,10 @@ fn on_health_event(
             .remove::<Health>()
             .remove::<CanUseRangedAttack>()
             .trigger(DeathEvent)
-            .insert(CollisionLayers::new(GameLayer::Terrain, GameLayer::ALL));
+            .insert(CollisionLayers::new(
+                GameLayer::Terrain,
+                GameLayer::all_bits(),
+            ));
     }
 }
 
