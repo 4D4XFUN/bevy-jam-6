@@ -1,4 +1,3 @@
-use crate::gameplay::aim_mode::AimModeState;
 use crate::gameplay::boomerang::BounceBoomerangEvent;
 use bevy::app::{App, Startup, Update};
 use bevy::color::Color;
@@ -8,8 +7,8 @@ use bevy::math::{Vec2, Vec3};
 use bevy::prelude::ReflectComponent;
 use bevy::prelude::{
     Camera, Camera3d, Commands, Component, Entity, EventReader, IsDefaultUiCamera, Msaa, Name,
-    OnEnter, OnExit, PerspectiveProjection, Projection, Query, Real, Reflect, Res, Single, Time,
-    Timer, TimerMode, Transform, Window, With, Without, default,
+    PerspectiveProjection, Projection, Query, Real, Reflect, Res, Single, Time, Timer, TimerMode,
+    Transform, Window, With, Without, default,
 };
 use bevy::render::camera::Exposure;
 use rand::Rng;
@@ -18,8 +17,6 @@ pub fn plugin(app: &mut App) {
     // systems
     app.add_systems(Startup, spawn_camera);
     app.add_systems(Update, camera_follow);
-    app.add_systems(OnEnter(AimModeState::Aiming), camera_enter_aim_mode);
-    app.add_systems(OnExit(AimModeState::Aiming), camera_exit_aim_mode);
     app.add_systems(Update, start_shake_on_boomerang_bounce);
     app.add_systems(Update, (update_screen_shake, tick_shake_timers));
 
@@ -105,17 +102,6 @@ fn camera_follow(
     );
 
     Ok(())
-}
-
-// ================
-// AIM MODE
-// ================
-fn camera_enter_aim_mode(camera: Single<&mut Transform, With<Camera>>) {
-    // just a really subtle zoom out when aiming
-    camera.into_inner().scale.z = 0.97;
-}
-fn camera_exit_aim_mode(camera: Single<&mut Transform, With<Camera>>) {
-    camera.into_inner().scale.z = 1.0;
 }
 
 // ===============
