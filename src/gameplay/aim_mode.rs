@@ -143,7 +143,7 @@ pub fn play_enemy_targeted_sound_effect(
         return;
     };
 
-    let random_index = rand::thread_rng().gen_range(1..=5);
+    let random_index = rand::rng().random_range(1..=5);
 
     let sound_asset = match random_index {
         1 => assets.targeting1.clone(),
