@@ -87,11 +87,11 @@
 			"name":"Scene",
 			"nodes":[
 				1,
-				2,
 				3,
-				4,
 				5,
+				6,
 				7,
+				8,
 				9,
 				11,
 				13,
@@ -148,14 +148,7 @@
 				115,
 				117,
 				119,
-				121,
-				123,
-				125,
-				127,
-				129,
-				131,
-				133,
-				134
+				120
 			]
 		}
 	],
@@ -178,6 +171,46 @@
 				5.296098709106445,
 				0.8379693031311035,
 				2.190535068511963
+			]
+		},
+		{
+			"extras":{
+				"skein_two":[],
+				"active_component_index":0,
+				"skein":[]
+			},
+			"mesh":0,
+			"name":"Cube"
+		},
+		{
+			"children":[
+				2
+			],
+			"name":"Collection 2.001",
+			"translation":[
+				5.350049018859863,
+				0,
+				0
+			]
+		},
+		{
+			"extras":{
+				"skein_two":[],
+				"active_component_index":0,
+				"skein":[]
+			},
+			"mesh":1,
+			"name":"Cube.001"
+		},
+		{
+			"children":[
+				4
+			],
+			"name":"Collection 2.002",
+			"translation":[
+				5.350049018859863,
+				0,
+				-2.607532501220703
 			]
 		},
 		{
@@ -257,7 +290,7 @@
 			]
 		},
 		{
-			"mesh":1,
+			"mesh":2,
 			"name":"GroundPlane"
 		},
 		{
@@ -289,116 +322,12 @@
 				"active_component_index":0,
 				"skein":[]
 			},
-			"mesh":2,
-			"name":"Cube.007"
-		},
-		{
-			"children":[
-				6
-			],
-			"name":"Collection 2.001",
-			"rotation":[
-				0,
-				-0.7071067094802856,
-				0,
-				0.7071068286895752
-			],
-			"translation":[
-				1.5,
-				0,
-				-3.5
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
 			"mesh":3,
-			"name":"Cube.008"
-		},
-		{
-			"children":[
-				8
-			],
-			"name":"Collection 2.002",
-			"rotation":[
-				0,
-				-0.7071067094802856,
-				0,
-				0.7071068286895752
-			],
-			"translation":[
-				3.5,
-				0,
-				-3.500000476837158
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":4,
-			"name":"Cube.009"
-		},
-		{
-			"children":[
-				10
-			],
-			"name":"Collection 2.003",
-			"rotation":[
-				0,
-				-0.7071067094802856,
-				0,
-				0.7071068286895752
-			],
-			"translation":[
-				7.5,
-				0,
-				-3.5000009536743164
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":5,
-			"name":"Cube.010"
-		},
-		{
-			"children":[
-				12
-			],
-			"name":"Collection 2.004",
-			"rotation":[
-				0,
-				-0.7071067094802856,
-				0,
-				0.7071068286895752
-			],
-			"translation":[
-				5.5,
-				0,
-				-3.5
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":6,
 			"name":"Cube.011"
 		},
 		{
 			"children":[
-				14
+				10
 			],
 			"name":"Collection 2.005",
 			"rotation":[
@@ -419,12 +348,12 @@
 				"active_component_index":0,
 				"skein":[]
 			},
-			"mesh":7,
+			"mesh":4,
 			"name":"Cube.012"
 		},
 		{
 			"children":[
-				16
+				12
 			],
 			"name":"Collection 2.006",
 			"rotation":[
@@ -445,12 +374,12 @@
 				"active_component_index":0,
 				"skein":[]
 			},
-			"mesh":8,
+			"mesh":5,
 			"name":"Cube.013"
 		},
 		{
 			"children":[
-				18
+				14
 			],
 			"name":"Collection 2.007",
 			"rotation":[
@@ -471,12 +400,12 @@
 				"active_component_index":0,
 				"skein":[]
 			},
-			"mesh":9,
+			"mesh":6,
 			"name":"Cube.014"
 		},
 		{
 			"children":[
-				20
+				16
 			],
 			"name":"Collection 2.008",
 			"rotation":[
@@ -497,72 +426,12 @@
 				"active_component_index":0,
 				"skein":[]
 			},
-			"mesh":10,
-			"name":"Cube.015"
-		},
-		{
-			"children":[
-				22
-			],
-			"name":"Collection 2.009",
-			"translation":[
-				1.5,
-				0,
-				-3.5
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":11,
-			"name":"Cube.016"
-		},
-		{
-			"children":[
-				24
-			],
-			"name":"Collection 2.010",
-			"translation":[
-				1.5,
-				0,
-				-5.5
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":12,
-			"name":"Cube.017"
-		},
-		{
-			"children":[
-				26
-			],
-			"name":"Collection 2.011",
-			"translation":[
-				1.5,
-				0,
-				-7.5
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":13,
+			"mesh":7,
 			"name":"Cube.018"
 		},
 		{
 			"children":[
-				28
+				18
 			],
 			"name":"Collection 2.012",
 			"translation":[
@@ -577,12 +446,12 @@
 				"active_component_index":0,
 				"skein":[]
 			},
-			"mesh":14,
+			"mesh":8,
 			"name":"Cube.019"
 		},
 		{
 			"children":[
-				30
+				20
 			],
 			"name":"Collection 2.013",
 			"translation":[
@@ -597,52 +466,12 @@
 				"active_component_index":0,
 				"skein":[]
 			},
-			"mesh":15,
-			"name":"Cube.020"
-		},
-		{
-			"children":[
-				32
-			],
-			"name":"Collection 2.014",
-			"translation":[
-				1.5,
-				0,
-				-9.5
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":16,
-			"name":"Cube.021"
-		},
-		{
-			"children":[
-				34
-			],
-			"name":"Collection 2.015",
-			"translation":[
-				1.5,
-				0,
-				-11.5
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":17,
+			"mesh":9,
 			"name":"Cube.022"
 		},
 		{
 			"children":[
-				36
+				22
 			],
 			"name":"Collection 2.016",
 			"translation":[
@@ -657,12 +486,12 @@
 				"active_component_index":0,
 				"skein":[]
 			},
-			"mesh":18,
+			"mesh":10,
 			"name":"Cube.023"
 		},
 		{
 			"children":[
-				38
+				24
 			],
 			"name":"Collection 2.017",
 			"rotation":[
@@ -683,12 +512,12 @@
 				"active_component_index":0,
 				"skein":[]
 			},
-			"mesh":19,
+			"mesh":11,
 			"name":"Cube.024"
 		},
 		{
 			"children":[
-				40
+				26
 			],
 			"name":"Collection 2.018",
 			"rotation":[
@@ -709,12 +538,12 @@
 				"active_component_index":0,
 				"skein":[]
 			},
-			"mesh":20,
+			"mesh":12,
 			"name":"Cube.025"
 		},
 		{
 			"children":[
-				42
+				28
 			],
 			"name":"Collection 2.019",
 			"rotation":[
@@ -735,12 +564,12 @@
 				"active_component_index":0,
 				"skein":[]
 			},
-			"mesh":21,
+			"mesh":13,
 			"name":"Cube.026"
 		},
 		{
 			"children":[
-				44
+				30
 			],
 			"name":"Collection 2.020",
 			"rotation":[
@@ -761,12 +590,12 @@
 				"active_component_index":0,
 				"skein":[]
 			},
-			"mesh":22,
+			"mesh":14,
 			"name":"Cube.027"
 		},
 		{
 			"children":[
-				46
+				32
 			],
 			"name":"Collection 2.021",
 			"rotation":[
@@ -787,12 +616,12 @@
 				"active_component_index":0,
 				"skein":[]
 			},
-			"mesh":23,
+			"mesh":15,
 			"name":"Cube.028"
 		},
 		{
 			"children":[
-				48
+				34
 			],
 			"name":"Collection 2.022",
 			"rotation":[
@@ -813,12 +642,12 @@
 				"active_component_index":0,
 				"skein":[]
 			},
-			"mesh":24,
+			"mesh":16,
 			"name":"Cube.029"
 		},
 		{
 			"children":[
-				50
+				36
 			],
 			"name":"Collection 2.023",
 			"rotation":[
@@ -839,12 +668,12 @@
 				"active_component_index":0,
 				"skein":[]
 			},
-			"mesh":25,
+			"mesh":17,
 			"name":"Cube.030"
 		},
 		{
 			"children":[
-				52
+				38
 			],
 			"name":"Collection 2.024",
 			"rotation":[
@@ -865,12 +694,12 @@
 				"active_component_index":0,
 				"skein":[]
 			},
-			"mesh":26,
+			"mesh":18,
 			"name":"Cube.031"
 		},
 		{
 			"children":[
-				54
+				40
 			],
 			"name":"Collection 2.025",
 			"translation":[
@@ -885,12 +714,12 @@
 				"active_component_index":0,
 				"skein":[]
 			},
-			"mesh":27,
+			"mesh":19,
 			"name":"Cube.032"
 		},
 		{
 			"children":[
-				56
+				42
 			],
 			"name":"Collection 2.026",
 			"translation":[
@@ -905,12 +734,12 @@
 				"active_component_index":0,
 				"skein":[]
 			},
-			"mesh":28,
+			"mesh":20,
 			"name":"Cube.033"
 		},
 		{
 			"children":[
-				58
+				44
 			],
 			"name":"Collection 2.027",
 			"translation":[
@@ -925,12 +754,12 @@
 				"active_component_index":0,
 				"skein":[]
 			},
-			"mesh":29,
+			"mesh":21,
 			"name":"Cube.034"
 		},
 		{
 			"children":[
-				60
+				46
 			],
 			"name":"Collection 2.028",
 			"translation":[
@@ -945,12 +774,12 @@
 				"active_component_index":0,
 				"skein":[]
 			},
-			"mesh":30,
+			"mesh":22,
 			"name":"Cube.035"
 		},
 		{
 			"children":[
-				62
+				48
 			],
 			"name":"Collection 2.029",
 			"translation":[
@@ -965,12 +794,12 @@
 				"active_component_index":0,
 				"skein":[]
 			},
-			"mesh":31,
+			"mesh":23,
 			"name":"Cube.036"
 		},
 		{
 			"children":[
-				64
+				50
 			],
 			"name":"Collection 2.030",
 			"translation":[
@@ -985,12 +814,12 @@
 				"active_component_index":0,
 				"skein":[]
 			},
-			"mesh":32,
+			"mesh":24,
 			"name":"Cube.037"
 		},
 		{
 			"children":[
-				66
+				52
 			],
 			"name":"Collection 2.031",
 			"translation":[
@@ -1005,12 +834,12 @@
 				"active_component_index":0,
 				"skein":[]
 			},
-			"mesh":33,
+			"mesh":25,
 			"name":"Cube.038"
 		},
 		{
 			"children":[
-				68
+				54
 			],
 			"name":"Collection 2.032",
 			"translation":[
@@ -1025,12 +854,12 @@
 				"active_component_index":0,
 				"skein":[]
 			},
-			"mesh":34,
+			"mesh":26,
 			"name":"Cube.039"
 		},
 		{
 			"children":[
-				70
+				56
 			],
 			"name":"Collection 2.033",
 			"translation":[
@@ -1045,12 +874,12 @@
 				"active_component_index":0,
 				"skein":[]
 			},
-			"mesh":35,
+			"mesh":27,
 			"name":"Cube.040"
 		},
 		{
 			"children":[
-				72
+				58
 			],
 			"name":"Collection 2.034",
 			"translation":[
@@ -1065,12 +894,12 @@
 				"active_component_index":0,
 				"skein":[]
 			},
-			"mesh":36,
+			"mesh":28,
 			"name":"Cube.041"
 		},
 		{
 			"children":[
-				74
+				60
 			],
 			"name":"Collection 2.035",
 			"translation":[
@@ -1085,12 +914,12 @@
 				"active_component_index":0,
 				"skein":[]
 			},
-			"mesh":37,
+			"mesh":29,
 			"name":"Cube.042"
 		},
 		{
 			"children":[
-				76
+				62
 			],
 			"name":"Collection 2.036",
 			"translation":[
@@ -1105,12 +934,12 @@
 				"active_component_index":0,
 				"skein":[]
 			},
-			"mesh":38,
+			"mesh":30,
 			"name":"Cube.043"
 		},
 		{
 			"children":[
-				78
+				64
 			],
 			"name":"Collection 2.037",
 			"translation":[
@@ -1125,12 +954,12 @@
 				"active_component_index":0,
 				"skein":[]
 			},
-			"mesh":39,
+			"mesh":31,
 			"name":"Cube.044"
 		},
 		{
 			"children":[
-				80
+				66
 			],
 			"name":"Collection 2.038",
 			"translation":[
@@ -1145,12 +974,12 @@
 				"active_component_index":0,
 				"skein":[]
 			},
-			"mesh":40,
+			"mesh":32,
 			"name":"Cube.045"
 		},
 		{
 			"children":[
-				82
+				68
 			],
 			"name":"Collection 2.039",
 			"translation":[
@@ -1165,12 +994,12 @@
 				"active_component_index":0,
 				"skein":[]
 			},
-			"mesh":41,
+			"mesh":33,
 			"name":"Cube.046"
 		},
 		{
 			"children":[
-				84
+				70
 			],
 			"name":"Collection 2.040",
 			"translation":[
@@ -1185,12 +1014,12 @@
 				"active_component_index":0,
 				"skein":[]
 			},
-			"mesh":42,
+			"mesh":34,
 			"name":"Cube.047"
 		},
 		{
 			"children":[
-				86
+				72
 			],
 			"name":"Collection 2.041",
 			"rotation":[
@@ -1211,12 +1040,12 @@
 				"active_component_index":0,
 				"skein":[]
 			},
-			"mesh":43,
+			"mesh":35,
 			"name":"Cube.048"
 		},
 		{
 			"children":[
-				88
+				74
 			],
 			"name":"Collection 2.042",
 			"rotation":[
@@ -1237,12 +1066,12 @@
 				"active_component_index":0,
 				"skein":[]
 			},
-			"mesh":44,
+			"mesh":36,
 			"name":"Cube.049"
 		},
 		{
 			"children":[
-				90
+				76
 			],
 			"name":"Collection 2.043",
 			"rotation":[
@@ -1263,12 +1092,12 @@
 				"active_component_index":0,
 				"skein":[]
 			},
-			"mesh":45,
+			"mesh":37,
 			"name":"Cube.050"
 		},
 		{
 			"children":[
-				92
+				78
 			],
 			"name":"Collection 2.044",
 			"rotation":[
@@ -1289,12 +1118,12 @@
 				"active_component_index":0,
 				"skein":[]
 			},
-			"mesh":46,
+			"mesh":38,
 			"name":"Cube.051"
 		},
 		{
 			"children":[
-				94
+				80
 			],
 			"name":"Collection 2.045",
 			"rotation":[
@@ -1315,12 +1144,12 @@
 				"active_component_index":0,
 				"skein":[]
 			},
-			"mesh":47,
+			"mesh":39,
 			"name":"Cube.052"
 		},
 		{
 			"children":[
-				96
+				82
 			],
 			"name":"Collection 2.046",
 			"rotation":[
@@ -1341,12 +1170,12 @@
 				"active_component_index":0,
 				"skein":[]
 			},
-			"mesh":48,
+			"mesh":40,
 			"name":"Cube.053"
 		},
 		{
 			"children":[
-				98
+				84
 			],
 			"name":"Collection 2.047",
 			"rotation":[
@@ -1367,12 +1196,12 @@
 				"active_component_index":0,
 				"skein":[]
 			},
-			"mesh":49,
+			"mesh":41,
 			"name":"Cube.054"
 		},
 		{
 			"children":[
-				100
+				86
 			],
 			"name":"Collection 2.048",
 			"rotation":[
@@ -1393,12 +1222,12 @@
 				"active_component_index":0,
 				"skein":[]
 			},
-			"mesh":50,
+			"mesh":42,
 			"name":"Cube.055"
 		},
 		{
 			"children":[
-				102
+				88
 			],
 			"name":"Collection 2.049",
 			"rotation":[
@@ -1419,12 +1248,12 @@
 				"active_component_index":0,
 				"skein":[]
 			},
-			"mesh":51,
+			"mesh":43,
 			"name":"Cube.056"
 		},
 		{
 			"children":[
-				104
+				90
 			],
 			"name":"Collection 2.050",
 			"rotation":[
@@ -1445,12 +1274,12 @@
 				"active_component_index":0,
 				"skein":[]
 			},
-			"mesh":52,
+			"mesh":44,
 			"name":"Cube.057"
 		},
 		{
 			"children":[
-				106
+				92
 			],
 			"name":"Collection 2.051",
 			"rotation":[
@@ -1471,12 +1300,12 @@
 				"active_component_index":0,
 				"skein":[]
 			},
-			"mesh":53,
+			"mesh":45,
 			"name":"Cube.058"
 		},
 		{
 			"children":[
-				108
+				94
 			],
 			"name":"Collection 2.052",
 			"rotation":[
@@ -1497,12 +1326,12 @@
 				"active_component_index":0,
 				"skein":[]
 			},
-			"mesh":54,
+			"mesh":46,
 			"name":"Cube.059"
 		},
 		{
 			"children":[
-				110
+				96
 			],
 			"name":"Collection 2.053",
 			"rotation":[
@@ -1523,12 +1352,12 @@
 				"active_component_index":0,
 				"skein":[]
 			},
-			"mesh":55,
+			"mesh":47,
 			"name":"Cube.060"
 		},
 		{
 			"children":[
-				112
+				98
 			],
 			"name":"Collection 2.054",
 			"rotation":[
@@ -1549,12 +1378,12 @@
 				"active_component_index":0,
 				"skein":[]
 			},
-			"mesh":56,
+			"mesh":48,
 			"name":"Cube.061"
 		},
 		{
 			"children":[
-				114
+				100
 			],
 			"name":"Collection 2.055",
 			"rotation":[
@@ -1575,12 +1404,12 @@
 				"active_component_index":0,
 				"skein":[]
 			},
-			"mesh":57,
+			"mesh":49,
 			"name":"Cube.062"
 		},
 		{
 			"children":[
-				116
+				102
 			],
 			"name":"Collection 2.056",
 			"rotation":[
@@ -1601,12 +1430,12 @@
 				"active_component_index":0,
 				"skein":[]
 			},
-			"mesh":58,
+			"mesh":50,
 			"name":"Cube.063"
 		},
 		{
 			"children":[
-				118
+				104
 			],
 			"name":"Collection 2.057",
 			"translation":[
@@ -1621,12 +1450,12 @@
 				"active_component_index":0,
 				"skein":[]
 			},
-			"mesh":59,
+			"mesh":51,
 			"name":"Cube.064"
 		},
 		{
 			"children":[
-				120
+				106
 			],
 			"name":"Collection 2.058",
 			"translation":[
@@ -1641,12 +1470,12 @@
 				"active_component_index":0,
 				"skein":[]
 			},
-			"mesh":60,
+			"mesh":52,
 			"name":"Cube.065"
 		},
 		{
 			"children":[
-				122
+				108
 			],
 			"name":"Collection 2.059",
 			"translation":[
@@ -1661,12 +1490,12 @@
 				"active_component_index":0,
 				"skein":[]
 			},
-			"mesh":61,
+			"mesh":53,
 			"name":"Cube.066"
 		},
 		{
 			"children":[
-				124
+				110
 			],
 			"name":"Collection 2.060",
 			"translation":[
@@ -1681,12 +1510,12 @@
 				"active_component_index":0,
 				"skein":[]
 			},
-			"mesh":62,
+			"mesh":54,
 			"name":"Cube.067"
 		},
 		{
 			"children":[
-				126
+				112
 			],
 			"name":"Collection 2.061",
 			"translation":[
@@ -1701,12 +1530,12 @@
 				"active_component_index":0,
 				"skein":[]
 			},
-			"mesh":63,
+			"mesh":55,
 			"name":"Cube.068"
 		},
 		{
 			"children":[
-				128
+				114
 			],
 			"name":"Collection 2.062",
 			"translation":[
@@ -1721,12 +1550,12 @@
 				"active_component_index":0,
 				"skein":[]
 			},
-			"mesh":64,
+			"mesh":56,
 			"name":"Cube.069"
 		},
 		{
 			"children":[
-				130
+				116
 			],
 			"name":"Collection 2.063",
 			"translation":[
@@ -1741,12 +1570,12 @@
 				"active_component_index":0,
 				"skein":[]
 			},
-			"mesh":65,
+			"mesh":57,
 			"name":"Cube.070"
 		},
 		{
 			"children":[
-				132
+				118
 			],
 			"name":"Collection 2.064",
 			"translation":[
@@ -1776,6 +1605,36 @@
 				1,
 				5.459350109100342
 			]
+		}
+	],
+	"materials":[
+		{
+			"doubleSided":true,
+			"name":"Material",
+			"pbrMetallicRoughness":{
+				"baseColorFactor":[
+					0.8000858426094055,
+					0.023862287402153015,
+					0.01210042368620634,
+					1
+				],
+				"metallicFactor":0,
+				"roughnessFactor":0.5
+			}
+		},
+		{
+			"doubleSided":true,
+			"name":"Material.001",
+			"pbrMetallicRoughness":{
+				"baseColorFactor":[
+					0.8000858426094055,
+					0.023862287402153015,
+					0.01210042368620634,
+					1
+				],
+				"metallicFactor":0,
+				"roughnessFactor":0.5
+			}
 		}
 	],
 	"meshes":[
@@ -1881,7 +1740,115 @@
 						"NORMAL":1,
 						"TEXCOORD_0":2
 					},
-					"indices":3
+					"indices":3,
+					"material":0
+				}
+			]
+		},
+		{
+			"extras":{
+				"skein_two":[
+					{
+						"name":"ColliderConstructor",
+						"selected_type_path":"avian3d::collision::collider::constructor::ColliderConstructor",
+						"avian3d::collision::collider::constructor::ColliderConstructor":{
+							"Sphere":{},
+							"Cuboid":{},
+							"RoundCuboid":{},
+							"Cylinder":{},
+							"Cone":{},
+							"Capsule":{},
+							"CapsuleEndpoints":{
+								"a":{},
+								"b":{}
+							},
+							"HalfSpace":{
+								"outward_normal":{}
+							},
+							"Segment":{
+								"a":{},
+								"b":{}
+							},
+							"Triangle":{
+								"a":{},
+								"b":{},
+								"c":{}
+							},
+							"Polyline":{
+								"indices":{
+									"Some":{}
+								},
+								"vertices":{}
+							},
+							"Trimesh":{
+								"indices":{},
+								"vertices":{}
+							},
+							"TrimeshWithConfig":{
+								"indices":{},
+								"vertices":{}
+							},
+							"ConvexDecomposition":{
+								"indices":{},
+								"vertices":{}
+							},
+							"ConvexDecompositionWithConfig":{
+								"indices":{},
+								"params":{
+									"fill_mode":{
+										"FloodFill":{}
+									}
+								},
+								"vertices":{}
+							},
+							"ConvexHull":{
+								"points":{}
+							},
+							"Heightfield":{
+								"heights":{},
+								"scale":{}
+							},
+							"ConvexDecompositionFromMeshWithConfig":{
+								"fill_mode":{
+									"FloodFill":{}
+								}
+							},
+							"skein_enum_index":17
+						}
+					},
+					{
+						"name":"RigidBody",
+						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
+						"avian3d::dynamics::rigid_body::RigidBody":1
+					},
+					{
+						"name":"NavMeshAffector",
+						"selected_type_path":"oxidized_navigation::NavMeshAffector"
+					}
+				],
+				"active_component_index":2,
+				"skein":[
+					{
+						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
+					},
+					{
+						"avian3d::dynamics::rigid_body::RigidBody":"Static"
+					},
+					{
+						"oxidized_navigation::NavMeshAffector":{}
+					}
+				]
+			},
+			"name":"Cube.001",
+			"primitives":[
+				{
+					"attributes":{
+						"POSITION":4,
+						"NORMAL":5,
+						"TEXCOORD_0":6
+					},
+					"indices":3,
+					"material":1
 				}
 			]
 		},
@@ -1983,11 +1950,11 @@
 			"primitives":[
 				{
 					"attributes":{
-						"POSITION":4,
-						"NORMAL":5,
-						"TEXCOORD_0":6
+						"POSITION":7,
+						"NORMAL":8,
+						"TEXCOORD_0":9
 					},
-					"indices":7
+					"indices":10
 				}
 			]
 		},
@@ -2078,106 +2045,7 @@
 					}
 				]
 			},
-			"name":"Cube.007",
-			"primitives":[
-				{
-					"attributes":{
-						"POSITION":8,
-						"NORMAL":9,
-						"TEXCOORD_0":10
-					},
-					"indices":3
-				}
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[
-					{
-						"name":"ColliderConstructor",
-						"selected_type_path":"avian3d::collision::collider::constructor::ColliderConstructor",
-						"avian3d::collision::collider::constructor::ColliderConstructor":{
-							"Sphere":{},
-							"Cuboid":{},
-							"RoundCuboid":{},
-							"Cylinder":{},
-							"Cone":{},
-							"Capsule":{},
-							"CapsuleEndpoints":{
-								"a":{},
-								"b":{}
-							},
-							"HalfSpace":{
-								"outward_normal":{}
-							},
-							"Segment":{
-								"a":{},
-								"b":{}
-							},
-							"Triangle":{
-								"a":{},
-								"b":{},
-								"c":{}
-							},
-							"Polyline":{
-								"indices":{
-									"Some":{}
-								},
-								"vertices":{}
-							},
-							"Trimesh":{
-								"indices":{},
-								"vertices":{}
-							},
-							"TrimeshWithConfig":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecomposition":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecompositionWithConfig":{
-								"indices":{},
-								"params":{
-									"fill_mode":{
-										"FloodFill":{}
-									}
-								},
-								"vertices":{}
-							},
-							"ConvexHull":{
-								"points":{}
-							},
-							"Heightfield":{
-								"heights":{},
-								"scale":{}
-							},
-							"ConvexDecompositionFromMeshWithConfig":{
-								"fill_mode":{
-									"FloodFill":{}
-								}
-							},
-							"skein_enum_index":17
-						}
-					},
-					{
-						"name":"RigidBody",
-						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
-						"avian3d::dynamics::rigid_body::RigidBody":1
-					}
-				],
-				"active_component_index":0,
-				"skein":[
-					{
-						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
-					},
-					{
-						"avian3d::dynamics::rigid_body::RigidBody":"Static"
-					}
-				]
-			},
-			"name":"Cube.008",
+			"name":"Cube.011",
 			"primitives":[
 				{
 					"attributes":{
@@ -2276,7 +2144,7 @@
 					}
 				]
 			},
-			"name":"Cube.009",
+			"name":"Cube.012",
 			"primitives":[
 				{
 					"attributes":{
@@ -2375,7 +2243,7 @@
 					}
 				]
 			},
-			"name":"Cube.010",
+			"name":"Cube.013",
 			"primitives":[
 				{
 					"attributes":{
@@ -2474,7 +2342,7 @@
 					}
 				]
 			},
-			"name":"Cube.011",
+			"name":"Cube.014",
 			"primitives":[
 				{
 					"attributes":{
@@ -2573,7 +2441,7 @@
 					}
 				]
 			},
-			"name":"Cube.012",
+			"name":"Cube.018",
 			"primitives":[
 				{
 					"attributes":{
@@ -2672,7 +2540,7 @@
 					}
 				]
 			},
-			"name":"Cube.013",
+			"name":"Cube.019",
 			"primitives":[
 				{
 					"attributes":{
@@ -2771,7 +2639,7 @@
 					}
 				]
 			},
-			"name":"Cube.014",
+			"name":"Cube.022",
 			"primitives":[
 				{
 					"attributes":{
@@ -2870,7 +2738,7 @@
 					}
 				]
 			},
-			"name":"Cube.015",
+			"name":"Cube.023",
 			"primitives":[
 				{
 					"attributes":{
@@ -2969,7 +2837,7 @@
 					}
 				]
 			},
-			"name":"Cube.016",
+			"name":"Cube.024",
 			"primitives":[
 				{
 					"attributes":{
@@ -3068,7 +2936,7 @@
 					}
 				]
 			},
-			"name":"Cube.017",
+			"name":"Cube.025",
 			"primitives":[
 				{
 					"attributes":{
@@ -3167,7 +3035,7 @@
 					}
 				]
 			},
-			"name":"Cube.018",
+			"name":"Cube.026",
 			"primitives":[
 				{
 					"attributes":{
@@ -3266,7 +3134,7 @@
 					}
 				]
 			},
-			"name":"Cube.019",
+			"name":"Cube.027",
 			"primitives":[
 				{
 					"attributes":{
@@ -3365,7 +3233,7 @@
 					}
 				]
 			},
-			"name":"Cube.020",
+			"name":"Cube.028",
 			"primitives":[
 				{
 					"attributes":{
@@ -3464,7 +3332,7 @@
 					}
 				]
 			},
-			"name":"Cube.021",
+			"name":"Cube.029",
 			"primitives":[
 				{
 					"attributes":{
@@ -3563,7 +3431,7 @@
 					}
 				]
 			},
-			"name":"Cube.022",
+			"name":"Cube.030",
 			"primitives":[
 				{
 					"attributes":{
@@ -3662,7 +3530,7 @@
 					}
 				]
 			},
-			"name":"Cube.023",
+			"name":"Cube.031",
 			"primitives":[
 				{
 					"attributes":{
@@ -3761,7 +3629,7 @@
 					}
 				]
 			},
-			"name":"Cube.024",
+			"name":"Cube.032",
 			"primitives":[
 				{
 					"attributes":{
@@ -3860,7 +3728,7 @@
 					}
 				]
 			},
-			"name":"Cube.025",
+			"name":"Cube.033",
 			"primitives":[
 				{
 					"attributes":{
@@ -3959,7 +3827,7 @@
 					}
 				]
 			},
-			"name":"Cube.026",
+			"name":"Cube.034",
 			"primitives":[
 				{
 					"attributes":{
@@ -4058,7 +3926,7 @@
 					}
 				]
 			},
-			"name":"Cube.027",
+			"name":"Cube.035",
 			"primitives":[
 				{
 					"attributes":{
@@ -4157,7 +4025,7 @@
 					}
 				]
 			},
-			"name":"Cube.028",
+			"name":"Cube.036",
 			"primitives":[
 				{
 					"attributes":{
@@ -4256,7 +4124,7 @@
 					}
 				]
 			},
-			"name":"Cube.029",
+			"name":"Cube.037",
 			"primitives":[
 				{
 					"attributes":{
@@ -4355,7 +4223,7 @@
 					}
 				]
 			},
-			"name":"Cube.030",
+			"name":"Cube.038",
 			"primitives":[
 				{
 					"attributes":{
@@ -4454,7 +4322,7 @@
 					}
 				]
 			},
-			"name":"Cube.031",
+			"name":"Cube.039",
 			"primitives":[
 				{
 					"attributes":{
@@ -4553,7 +4421,7 @@
 					}
 				]
 			},
-			"name":"Cube.032",
+			"name":"Cube.040",
 			"primitives":[
 				{
 					"attributes":{
@@ -4652,7 +4520,7 @@
 					}
 				]
 			},
-			"name":"Cube.033",
+			"name":"Cube.041",
 			"primitives":[
 				{
 					"attributes":{
@@ -4751,7 +4619,7 @@
 					}
 				]
 			},
-			"name":"Cube.034",
+			"name":"Cube.042",
 			"primitives":[
 				{
 					"attributes":{
@@ -4850,7 +4718,7 @@
 					}
 				]
 			},
-			"name":"Cube.035",
+			"name":"Cube.043",
 			"primitives":[
 				{
 					"attributes":{
@@ -4949,7 +4817,7 @@
 					}
 				]
 			},
-			"name":"Cube.036",
+			"name":"Cube.044",
 			"primitives":[
 				{
 					"attributes":{
@@ -5048,7 +4916,7 @@
 					}
 				]
 			},
-			"name":"Cube.037",
+			"name":"Cube.045",
 			"primitives":[
 				{
 					"attributes":{
@@ -5147,7 +5015,7 @@
 					}
 				]
 			},
-			"name":"Cube.038",
+			"name":"Cube.046",
 			"primitives":[
 				{
 					"attributes":{
@@ -5246,7 +5114,7 @@
 					}
 				]
 			},
-			"name":"Cube.039",
+			"name":"Cube.047",
 			"primitives":[
 				{
 					"attributes":{
@@ -5345,7 +5213,7 @@
 					}
 				]
 			},
-			"name":"Cube.040",
+			"name":"Cube.048",
 			"primitives":[
 				{
 					"attributes":{
@@ -5444,7 +5312,7 @@
 					}
 				]
 			},
-			"name":"Cube.041",
+			"name":"Cube.049",
 			"primitives":[
 				{
 					"attributes":{
@@ -5543,7 +5411,7 @@
 					}
 				]
 			},
-			"name":"Cube.042",
+			"name":"Cube.050",
 			"primitives":[
 				{
 					"attributes":{
@@ -5642,7 +5510,7 @@
 					}
 				]
 			},
-			"name":"Cube.043",
+			"name":"Cube.051",
 			"primitives":[
 				{
 					"attributes":{
@@ -5741,7 +5609,7 @@
 					}
 				]
 			},
-			"name":"Cube.044",
+			"name":"Cube.052",
 			"primitives":[
 				{
 					"attributes":{
@@ -5840,7 +5708,7 @@
 					}
 				]
 			},
-			"name":"Cube.045",
+			"name":"Cube.053",
 			"primitives":[
 				{
 					"attributes":{
@@ -5939,7 +5807,7 @@
 					}
 				]
 			},
-			"name":"Cube.046",
+			"name":"Cube.054",
 			"primitives":[
 				{
 					"attributes":{
@@ -6038,7 +5906,7 @@
 					}
 				]
 			},
-			"name":"Cube.047",
+			"name":"Cube.055",
 			"primitives":[
 				{
 					"attributes":{
@@ -6137,7 +6005,7 @@
 					}
 				]
 			},
-			"name":"Cube.048",
+			"name":"Cube.056",
 			"primitives":[
 				{
 					"attributes":{
@@ -6236,7 +6104,7 @@
 					}
 				]
 			},
-			"name":"Cube.049",
+			"name":"Cube.057",
 			"primitives":[
 				{
 					"attributes":{
@@ -6335,7 +6203,7 @@
 					}
 				]
 			},
-			"name":"Cube.050",
+			"name":"Cube.058",
 			"primitives":[
 				{
 					"attributes":{
@@ -6434,7 +6302,7 @@
 					}
 				]
 			},
-			"name":"Cube.051",
+			"name":"Cube.059",
 			"primitives":[
 				{
 					"attributes":{
@@ -6533,7 +6401,7 @@
 					}
 				]
 			},
-			"name":"Cube.052",
+			"name":"Cube.060",
 			"primitives":[
 				{
 					"attributes":{
@@ -6632,7 +6500,7 @@
 					}
 				]
 			},
-			"name":"Cube.053",
+			"name":"Cube.061",
 			"primitives":[
 				{
 					"attributes":{
@@ -6731,7 +6599,7 @@
 					}
 				]
 			},
-			"name":"Cube.054",
+			"name":"Cube.062",
 			"primitives":[
 				{
 					"attributes":{
@@ -6830,7 +6698,7 @@
 					}
 				]
 			},
-			"name":"Cube.055",
+			"name":"Cube.063",
 			"primitives":[
 				{
 					"attributes":{
@@ -6929,7 +6797,7 @@
 					}
 				]
 			},
-			"name":"Cube.056",
+			"name":"Cube.064",
 			"primitives":[
 				{
 					"attributes":{
@@ -7028,7 +6896,7 @@
 					}
 				]
 			},
-			"name":"Cube.057",
+			"name":"Cube.065",
 			"primitives":[
 				{
 					"attributes":{
@@ -7127,7 +6995,7 @@
 					}
 				]
 			},
-			"name":"Cube.058",
+			"name":"Cube.066",
 			"primitives":[
 				{
 					"attributes":{
@@ -7226,7 +7094,7 @@
 					}
 				]
 			},
-			"name":"Cube.059",
+			"name":"Cube.067",
 			"primitives":[
 				{
 					"attributes":{
@@ -7325,7 +7193,7 @@
 					}
 				]
 			},
-			"name":"Cube.060",
+			"name":"Cube.068",
 			"primitives":[
 				{
 					"attributes":{
@@ -7424,7 +7292,7 @@
 					}
 				]
 			},
-			"name":"Cube.061",
+			"name":"Cube.069",
 			"primitives":[
 				{
 					"attributes":{
@@ -7523,805 +7391,13 @@
 					}
 				]
 			},
-			"name":"Cube.062",
+			"name":"Cube.070",
 			"primitives":[
 				{
 					"attributes":{
 						"POSITION":173,
 						"NORMAL":174,
 						"TEXCOORD_0":175
-					},
-					"indices":3
-				}
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[
-					{
-						"name":"ColliderConstructor",
-						"selected_type_path":"avian3d::collision::collider::constructor::ColliderConstructor",
-						"avian3d::collision::collider::constructor::ColliderConstructor":{
-							"Sphere":{},
-							"Cuboid":{},
-							"RoundCuboid":{},
-							"Cylinder":{},
-							"Cone":{},
-							"Capsule":{},
-							"CapsuleEndpoints":{
-								"a":{},
-								"b":{}
-							},
-							"HalfSpace":{
-								"outward_normal":{}
-							},
-							"Segment":{
-								"a":{},
-								"b":{}
-							},
-							"Triangle":{
-								"a":{},
-								"b":{},
-								"c":{}
-							},
-							"Polyline":{
-								"indices":{
-									"Some":{}
-								},
-								"vertices":{}
-							},
-							"Trimesh":{
-								"indices":{},
-								"vertices":{}
-							},
-							"TrimeshWithConfig":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecomposition":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecompositionWithConfig":{
-								"indices":{},
-								"params":{
-									"fill_mode":{
-										"FloodFill":{}
-									}
-								},
-								"vertices":{}
-							},
-							"ConvexHull":{
-								"points":{}
-							},
-							"Heightfield":{
-								"heights":{},
-								"scale":{}
-							},
-							"ConvexDecompositionFromMeshWithConfig":{
-								"fill_mode":{
-									"FloodFill":{}
-								}
-							},
-							"skein_enum_index":17
-						}
-					},
-					{
-						"name":"RigidBody",
-						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
-						"avian3d::dynamics::rigid_body::RigidBody":1
-					}
-				],
-				"active_component_index":0,
-				"skein":[
-					{
-						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
-					},
-					{
-						"avian3d::dynamics::rigid_body::RigidBody":"Static"
-					}
-				]
-			},
-			"name":"Cube.063",
-			"primitives":[
-				{
-					"attributes":{
-						"POSITION":176,
-						"NORMAL":177,
-						"TEXCOORD_0":178
-					},
-					"indices":3
-				}
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[
-					{
-						"name":"ColliderConstructor",
-						"selected_type_path":"avian3d::collision::collider::constructor::ColliderConstructor",
-						"avian3d::collision::collider::constructor::ColliderConstructor":{
-							"Sphere":{},
-							"Cuboid":{},
-							"RoundCuboid":{},
-							"Cylinder":{},
-							"Cone":{},
-							"Capsule":{},
-							"CapsuleEndpoints":{
-								"a":{},
-								"b":{}
-							},
-							"HalfSpace":{
-								"outward_normal":{}
-							},
-							"Segment":{
-								"a":{},
-								"b":{}
-							},
-							"Triangle":{
-								"a":{},
-								"b":{},
-								"c":{}
-							},
-							"Polyline":{
-								"indices":{
-									"Some":{}
-								},
-								"vertices":{}
-							},
-							"Trimesh":{
-								"indices":{},
-								"vertices":{}
-							},
-							"TrimeshWithConfig":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecomposition":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecompositionWithConfig":{
-								"indices":{},
-								"params":{
-									"fill_mode":{
-										"FloodFill":{}
-									}
-								},
-								"vertices":{}
-							},
-							"ConvexHull":{
-								"points":{}
-							},
-							"Heightfield":{
-								"heights":{},
-								"scale":{}
-							},
-							"ConvexDecompositionFromMeshWithConfig":{
-								"fill_mode":{
-									"FloodFill":{}
-								}
-							},
-							"skein_enum_index":17
-						}
-					},
-					{
-						"name":"RigidBody",
-						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
-						"avian3d::dynamics::rigid_body::RigidBody":1
-					}
-				],
-				"active_component_index":0,
-				"skein":[
-					{
-						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
-					},
-					{
-						"avian3d::dynamics::rigid_body::RigidBody":"Static"
-					}
-				]
-			},
-			"name":"Cube.064",
-			"primitives":[
-				{
-					"attributes":{
-						"POSITION":179,
-						"NORMAL":180,
-						"TEXCOORD_0":181
-					},
-					"indices":3
-				}
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[
-					{
-						"name":"ColliderConstructor",
-						"selected_type_path":"avian3d::collision::collider::constructor::ColliderConstructor",
-						"avian3d::collision::collider::constructor::ColliderConstructor":{
-							"Sphere":{},
-							"Cuboid":{},
-							"RoundCuboid":{},
-							"Cylinder":{},
-							"Cone":{},
-							"Capsule":{},
-							"CapsuleEndpoints":{
-								"a":{},
-								"b":{}
-							},
-							"HalfSpace":{
-								"outward_normal":{}
-							},
-							"Segment":{
-								"a":{},
-								"b":{}
-							},
-							"Triangle":{
-								"a":{},
-								"b":{},
-								"c":{}
-							},
-							"Polyline":{
-								"indices":{
-									"Some":{}
-								},
-								"vertices":{}
-							},
-							"Trimesh":{
-								"indices":{},
-								"vertices":{}
-							},
-							"TrimeshWithConfig":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecomposition":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecompositionWithConfig":{
-								"indices":{},
-								"params":{
-									"fill_mode":{
-										"FloodFill":{}
-									}
-								},
-								"vertices":{}
-							},
-							"ConvexHull":{
-								"points":{}
-							},
-							"Heightfield":{
-								"heights":{},
-								"scale":{}
-							},
-							"ConvexDecompositionFromMeshWithConfig":{
-								"fill_mode":{
-									"FloodFill":{}
-								}
-							},
-							"skein_enum_index":17
-						}
-					},
-					{
-						"name":"RigidBody",
-						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
-						"avian3d::dynamics::rigid_body::RigidBody":1
-					}
-				],
-				"active_component_index":0,
-				"skein":[
-					{
-						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
-					},
-					{
-						"avian3d::dynamics::rigid_body::RigidBody":"Static"
-					}
-				]
-			},
-			"name":"Cube.065",
-			"primitives":[
-				{
-					"attributes":{
-						"POSITION":182,
-						"NORMAL":183,
-						"TEXCOORD_0":184
-					},
-					"indices":3
-				}
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[
-					{
-						"name":"ColliderConstructor",
-						"selected_type_path":"avian3d::collision::collider::constructor::ColliderConstructor",
-						"avian3d::collision::collider::constructor::ColliderConstructor":{
-							"Sphere":{},
-							"Cuboid":{},
-							"RoundCuboid":{},
-							"Cylinder":{},
-							"Cone":{},
-							"Capsule":{},
-							"CapsuleEndpoints":{
-								"a":{},
-								"b":{}
-							},
-							"HalfSpace":{
-								"outward_normal":{}
-							},
-							"Segment":{
-								"a":{},
-								"b":{}
-							},
-							"Triangle":{
-								"a":{},
-								"b":{},
-								"c":{}
-							},
-							"Polyline":{
-								"indices":{
-									"Some":{}
-								},
-								"vertices":{}
-							},
-							"Trimesh":{
-								"indices":{},
-								"vertices":{}
-							},
-							"TrimeshWithConfig":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecomposition":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecompositionWithConfig":{
-								"indices":{},
-								"params":{
-									"fill_mode":{
-										"FloodFill":{}
-									}
-								},
-								"vertices":{}
-							},
-							"ConvexHull":{
-								"points":{}
-							},
-							"Heightfield":{
-								"heights":{},
-								"scale":{}
-							},
-							"ConvexDecompositionFromMeshWithConfig":{
-								"fill_mode":{
-									"FloodFill":{}
-								}
-							},
-							"skein_enum_index":17
-						}
-					},
-					{
-						"name":"RigidBody",
-						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
-						"avian3d::dynamics::rigid_body::RigidBody":1
-					}
-				],
-				"active_component_index":0,
-				"skein":[
-					{
-						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
-					},
-					{
-						"avian3d::dynamics::rigid_body::RigidBody":"Static"
-					}
-				]
-			},
-			"name":"Cube.066",
-			"primitives":[
-				{
-					"attributes":{
-						"POSITION":185,
-						"NORMAL":186,
-						"TEXCOORD_0":187
-					},
-					"indices":3
-				}
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[
-					{
-						"name":"ColliderConstructor",
-						"selected_type_path":"avian3d::collision::collider::constructor::ColliderConstructor",
-						"avian3d::collision::collider::constructor::ColliderConstructor":{
-							"Sphere":{},
-							"Cuboid":{},
-							"RoundCuboid":{},
-							"Cylinder":{},
-							"Cone":{},
-							"Capsule":{},
-							"CapsuleEndpoints":{
-								"a":{},
-								"b":{}
-							},
-							"HalfSpace":{
-								"outward_normal":{}
-							},
-							"Segment":{
-								"a":{},
-								"b":{}
-							},
-							"Triangle":{
-								"a":{},
-								"b":{},
-								"c":{}
-							},
-							"Polyline":{
-								"indices":{
-									"Some":{}
-								},
-								"vertices":{}
-							},
-							"Trimesh":{
-								"indices":{},
-								"vertices":{}
-							},
-							"TrimeshWithConfig":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecomposition":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecompositionWithConfig":{
-								"indices":{},
-								"params":{
-									"fill_mode":{
-										"FloodFill":{}
-									}
-								},
-								"vertices":{}
-							},
-							"ConvexHull":{
-								"points":{}
-							},
-							"Heightfield":{
-								"heights":{},
-								"scale":{}
-							},
-							"ConvexDecompositionFromMeshWithConfig":{
-								"fill_mode":{
-									"FloodFill":{}
-								}
-							},
-							"skein_enum_index":17
-						}
-					},
-					{
-						"name":"RigidBody",
-						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
-						"avian3d::dynamics::rigid_body::RigidBody":1
-					}
-				],
-				"active_component_index":0,
-				"skein":[
-					{
-						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
-					},
-					{
-						"avian3d::dynamics::rigid_body::RigidBody":"Static"
-					}
-				]
-			},
-			"name":"Cube.067",
-			"primitives":[
-				{
-					"attributes":{
-						"POSITION":188,
-						"NORMAL":189,
-						"TEXCOORD_0":190
-					},
-					"indices":3
-				}
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[
-					{
-						"name":"ColliderConstructor",
-						"selected_type_path":"avian3d::collision::collider::constructor::ColliderConstructor",
-						"avian3d::collision::collider::constructor::ColliderConstructor":{
-							"Sphere":{},
-							"Cuboid":{},
-							"RoundCuboid":{},
-							"Cylinder":{},
-							"Cone":{},
-							"Capsule":{},
-							"CapsuleEndpoints":{
-								"a":{},
-								"b":{}
-							},
-							"HalfSpace":{
-								"outward_normal":{}
-							},
-							"Segment":{
-								"a":{},
-								"b":{}
-							},
-							"Triangle":{
-								"a":{},
-								"b":{},
-								"c":{}
-							},
-							"Polyline":{
-								"indices":{
-									"Some":{}
-								},
-								"vertices":{}
-							},
-							"Trimesh":{
-								"indices":{},
-								"vertices":{}
-							},
-							"TrimeshWithConfig":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecomposition":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecompositionWithConfig":{
-								"indices":{},
-								"params":{
-									"fill_mode":{
-										"FloodFill":{}
-									}
-								},
-								"vertices":{}
-							},
-							"ConvexHull":{
-								"points":{}
-							},
-							"Heightfield":{
-								"heights":{},
-								"scale":{}
-							},
-							"ConvexDecompositionFromMeshWithConfig":{
-								"fill_mode":{
-									"FloodFill":{}
-								}
-							},
-							"skein_enum_index":17
-						}
-					},
-					{
-						"name":"RigidBody",
-						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
-						"avian3d::dynamics::rigid_body::RigidBody":1
-					}
-				],
-				"active_component_index":0,
-				"skein":[
-					{
-						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
-					},
-					{
-						"avian3d::dynamics::rigid_body::RigidBody":"Static"
-					}
-				]
-			},
-			"name":"Cube.068",
-			"primitives":[
-				{
-					"attributes":{
-						"POSITION":191,
-						"NORMAL":192,
-						"TEXCOORD_0":193
-					},
-					"indices":3
-				}
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[
-					{
-						"name":"ColliderConstructor",
-						"selected_type_path":"avian3d::collision::collider::constructor::ColliderConstructor",
-						"avian3d::collision::collider::constructor::ColliderConstructor":{
-							"Sphere":{},
-							"Cuboid":{},
-							"RoundCuboid":{},
-							"Cylinder":{},
-							"Cone":{},
-							"Capsule":{},
-							"CapsuleEndpoints":{
-								"a":{},
-								"b":{}
-							},
-							"HalfSpace":{
-								"outward_normal":{}
-							},
-							"Segment":{
-								"a":{},
-								"b":{}
-							},
-							"Triangle":{
-								"a":{},
-								"b":{},
-								"c":{}
-							},
-							"Polyline":{
-								"indices":{
-									"Some":{}
-								},
-								"vertices":{}
-							},
-							"Trimesh":{
-								"indices":{},
-								"vertices":{}
-							},
-							"TrimeshWithConfig":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecomposition":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecompositionWithConfig":{
-								"indices":{},
-								"params":{
-									"fill_mode":{
-										"FloodFill":{}
-									}
-								},
-								"vertices":{}
-							},
-							"ConvexHull":{
-								"points":{}
-							},
-							"Heightfield":{
-								"heights":{},
-								"scale":{}
-							},
-							"ConvexDecompositionFromMeshWithConfig":{
-								"fill_mode":{
-									"FloodFill":{}
-								}
-							},
-							"skein_enum_index":17
-						}
-					},
-					{
-						"name":"RigidBody",
-						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
-						"avian3d::dynamics::rigid_body::RigidBody":1
-					}
-				],
-				"active_component_index":0,
-				"skein":[
-					{
-						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
-					},
-					{
-						"avian3d::dynamics::rigid_body::RigidBody":"Static"
-					}
-				]
-			},
-			"name":"Cube.069",
-			"primitives":[
-				{
-					"attributes":{
-						"POSITION":194,
-						"NORMAL":195,
-						"TEXCOORD_0":196
-					},
-					"indices":3
-				}
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[
-					{
-						"name":"ColliderConstructor",
-						"selected_type_path":"avian3d::collision::collider::constructor::ColliderConstructor",
-						"avian3d::collision::collider::constructor::ColliderConstructor":{
-							"Sphere":{},
-							"Cuboid":{},
-							"RoundCuboid":{},
-							"Cylinder":{},
-							"Cone":{},
-							"Capsule":{},
-							"CapsuleEndpoints":{
-								"a":{},
-								"b":{}
-							},
-							"HalfSpace":{
-								"outward_normal":{}
-							},
-							"Segment":{
-								"a":{},
-								"b":{}
-							},
-							"Triangle":{
-								"a":{},
-								"b":{},
-								"c":{}
-							},
-							"Polyline":{
-								"indices":{
-									"Some":{}
-								},
-								"vertices":{}
-							},
-							"Trimesh":{
-								"indices":{},
-								"vertices":{}
-							},
-							"TrimeshWithConfig":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecomposition":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecompositionWithConfig":{
-								"indices":{},
-								"params":{
-									"fill_mode":{
-										"FloodFill":{}
-									}
-								},
-								"vertices":{}
-							},
-							"ConvexHull":{
-								"points":{}
-							},
-							"Heightfield":{
-								"heights":{},
-								"scale":{}
-							},
-							"ConvexDecompositionFromMeshWithConfig":{
-								"fill_mode":{
-									"FloodFill":{}
-								}
-							},
-							"skein_enum_index":17
-						}
-					},
-					{
-						"name":"RigidBody",
-						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
-						"avian3d::dynamics::rigid_body::RigidBody":1
-					}
-				],
-				"active_component_index":0,
-				"skein":[
-					{
-						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
-					},
-					{
-						"avian3d::dynamics::rigid_body::RigidBody":"Static"
-					}
-				]
-			},
-			"name":"Cube.070",
-			"primitives":[
-				{
-					"attributes":{
-						"POSITION":197,
-						"NORMAL":198,
-						"TEXCOORD_0":199
 					},
 					"indices":3
 				}
@@ -8366,40 +7442,6 @@
 		{
 			"bufferView":4,
 			"componentType":5126,
-			"count":4,
-			"max":[
-				50,
-				0,
-				50
-			],
-			"min":[
-				-50,
-				0,
-				-50
-			],
-			"type":"VEC3"
-		},
-		{
-			"bufferView":5,
-			"componentType":5126,
-			"count":4,
-			"type":"VEC3"
-		},
-		{
-			"bufferView":6,
-			"componentType":5126,
-			"count":4,
-			"type":"VEC2"
-		},
-		{
-			"bufferView":7,
-			"componentType":5123,
-			"count":6,
-			"type":"SCALAR"
-		},
-		{
-			"bufferView":8,
-			"componentType":5126,
 			"count":24,
 			"max":[
 				0,
@@ -8414,16 +7456,50 @@
 			"type":"VEC3"
 		},
 		{
-			"bufferView":9,
+			"bufferView":5,
 			"componentType":5126,
 			"count":24,
 			"type":"VEC3"
 		},
 		{
-			"bufferView":10,
+			"bufferView":6,
 			"componentType":5126,
 			"count":24,
 			"type":"VEC2"
+		},
+		{
+			"bufferView":7,
+			"componentType":5126,
+			"count":4,
+			"max":[
+				50,
+				0,
+				50
+			],
+			"min":[
+				-50,
+				0,
+				-50
+			],
+			"type":"VEC3"
+		},
+		{
+			"bufferView":8,
+			"componentType":5126,
+			"count":4,
+			"type":"VEC3"
+		},
+		{
+			"bufferView":9,
+			"componentType":5126,
+			"count":4,
+			"type":"VEC2"
+		},
+		{
+			"bufferView":10,
+			"componentType":5123,
+			"count":6,
+			"type":"SCALAR"
 		},
 		{
 			"bufferView":11,
@@ -9964,230 +9040,6 @@
 			"componentType":5126,
 			"count":24,
 			"type":"VEC2"
-		},
-		{
-			"bufferView":176,
-			"componentType":5126,
-			"count":24,
-			"max":[
-				0,
-				2,
-				0
-			],
-			"min":[
-				-1,
-				0,
-				-2
-			],
-			"type":"VEC3"
-		},
-		{
-			"bufferView":177,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC3"
-		},
-		{
-			"bufferView":178,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC2"
-		},
-		{
-			"bufferView":179,
-			"componentType":5126,
-			"count":24,
-			"max":[
-				0,
-				2,
-				0
-			],
-			"min":[
-				-1,
-				0,
-				-2
-			],
-			"type":"VEC3"
-		},
-		{
-			"bufferView":180,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC3"
-		},
-		{
-			"bufferView":181,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC2"
-		},
-		{
-			"bufferView":182,
-			"componentType":5126,
-			"count":24,
-			"max":[
-				0,
-				2,
-				0
-			],
-			"min":[
-				-1,
-				0,
-				-2
-			],
-			"type":"VEC3"
-		},
-		{
-			"bufferView":183,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC3"
-		},
-		{
-			"bufferView":184,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC2"
-		},
-		{
-			"bufferView":185,
-			"componentType":5126,
-			"count":24,
-			"max":[
-				0,
-				2,
-				0
-			],
-			"min":[
-				-1,
-				0,
-				-2
-			],
-			"type":"VEC3"
-		},
-		{
-			"bufferView":186,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC3"
-		},
-		{
-			"bufferView":187,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC2"
-		},
-		{
-			"bufferView":188,
-			"componentType":5126,
-			"count":24,
-			"max":[
-				0,
-				2,
-				0
-			],
-			"min":[
-				-1,
-				0,
-				-2
-			],
-			"type":"VEC3"
-		},
-		{
-			"bufferView":189,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC3"
-		},
-		{
-			"bufferView":190,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC2"
-		},
-		{
-			"bufferView":191,
-			"componentType":5126,
-			"count":24,
-			"max":[
-				0,
-				2,
-				0
-			],
-			"min":[
-				-1,
-				0,
-				-2
-			],
-			"type":"VEC3"
-		},
-		{
-			"bufferView":192,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC3"
-		},
-		{
-			"bufferView":193,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC2"
-		},
-		{
-			"bufferView":194,
-			"componentType":5126,
-			"count":24,
-			"max":[
-				0,
-				2,
-				0
-			],
-			"min":[
-				-1,
-				0,
-				-2
-			],
-			"type":"VEC3"
-		},
-		{
-			"bufferView":195,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC3"
-		},
-		{
-			"bufferView":196,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC2"
-		},
-		{
-			"bufferView":197,
-			"componentType":5126,
-			"count":24,
-			"max":[
-				0,
-				2,
-				0
-			],
-			"min":[
-				-1,
-				0,
-				-2
-			],
-			"type":"VEC3"
-		},
-		{
-			"bufferView":198,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC3"
-		},
-		{
-			"bufferView":199,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC2"
 		}
 	],
 	"bufferViews":[
@@ -10217,45 +9069,45 @@
 		},
 		{
 			"buffer":0,
-			"byteLength":48,
+			"byteLength":288,
 			"byteOffset":840,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":48,
-			"byteOffset":888,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":32,
-			"byteOffset":936,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":12,
-			"byteOffset":968,
-			"target":34963
-		},
-		{
-			"buffer":0,
 			"byteLength":288,
-			"byteOffset":980,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":1268,
+			"byteOffset":1128,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":192,
-			"byteOffset":1556,
+			"byteOffset":1416,
 			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":48,
+			"byteOffset":1608,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":48,
+			"byteOffset":1656,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":32,
+			"byteOffset":1704,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":12,
+			"byteOffset":1736,
+			"target":34963
 		},
 		{
 			"buffer":0,
@@ -11246,155 +10098,11 @@
 			"byteLength":192,
 			"byteOffset":43796,
 			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":43988,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":44276,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":192,
-			"byteOffset":44564,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":44756,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":45044,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":192,
-			"byteOffset":45332,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":45524,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":45812,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":192,
-			"byteOffset":46100,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":46292,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":46580,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":192,
-			"byteOffset":46868,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":47060,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":47348,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":192,
-			"byteOffset":47636,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":47828,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":48116,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":192,
-			"byteOffset":48404,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":48596,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":48884,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":192,
-			"byteOffset":49172,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":49364,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":49652,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":192,
-			"byteOffset":49940,
-			"target":34962
 		}
 	],
 	"buffers":[
 		{
-			"byteLength":50132,
+			"byteLength":43988,
 			"uri":"Environment.bin"
 		}
 	]
