@@ -103,18 +103,14 @@ pub struct WeaponTarget {
 #[derive(Resource, Asset, Clone, Reflect)]
 #[reflect(Resource)]
 pub struct BoomerangAssets {
-    pub mesh: Handle<Mesh>,
-    pub material: Handle<StandardMaterial>,
+    pub mesh: Handle<Scene>,
 }
 
 impl FromWorld for BoomerangAssets {
     fn from_world(world: &mut World) -> Self {
         let asset_server = world.resource::<AssetServer>();
         BoomerangAssets {
-            mesh: asset_server.add(Mesh::from(Cuboid::new(1., 0.3, 0.3))),
-            material: asset_server.add(StandardMaterial::from_color(Color::linear_rgb(
-                0.6, 0.6, 0.0,
-            ))),
+            mesh: asset_server.load(GltfAssetLabel::Scene(0).from_asset("models/boomerang.glb")),
         }
     }
 }
@@ -435,8 +431,7 @@ fn on_throw_boomerang_spawn_boomerang(
                     .with_y(BOOMERANG_FLYING_HEIGHT),
             ),
             Flying,
-            Mesh3d(boomerang_assets.mesh.clone()),
-            MeshMaterial3d(boomerang_assets.material.clone()),
+            SceneRoot(boomerang_assets.mesh.clone()),
             Collider::sphere(0.5),
             CollisionLayers::new(GameLayer::Enemy, GameLayer::Enemy),
             RigidBody::Kinematic,
