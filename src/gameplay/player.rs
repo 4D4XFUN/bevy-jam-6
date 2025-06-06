@@ -95,7 +95,7 @@ fn record_player_directional_input(
         (With<Player>, Without<Camera3d>),
     >,
     camera_query: Single<&Transform, With<Camera3d>>,
-    mut time: ResMut<DilatedTime>,
+    time: ResMut<DilatedTime>,
 ) {
     // Rotate input to be on the ground and aligned with camera
     let camera_rotation = camera_query.into_inner().rotation;
@@ -116,7 +116,7 @@ fn record_player_directional_input(
 fn stop_player_directional_input(
     _trigger: Trigger<Completed<PlayerMoveAction>>,
     player: Single<&mut LinearVelocity, With<Player>>,
-    mut time: ResMut<DilatedTime>,
+    time: ResMut<DilatedTime>,
 ) {
     let mut player = player.into_inner();
     player.x = 0.;

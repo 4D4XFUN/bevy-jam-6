@@ -9,7 +9,6 @@ use bevy::asset::{Asset, AssetServer, Handle};
 use bevy::audio::AudioSource;
 use bevy::color::Color;
 use bevy::math::{Dir3, Isometry3d, Quat};
-use bevy::prelude;
 use bevy::prelude::{
     Commands, Component, Entity, Event, EventWriter, FromWorld, Gizmos, NextState, Query, Reflect,
     Res, ResMut, Resource, Single, State, States, Transform, Trigger, With, World,
@@ -22,7 +21,6 @@ use tracing::{debug, info, warn};
 // AIM MODE
 // ==================
 use crate::asset_tracking::LoadResource;
-use crate::gameplay::aim_mode;
 use bevy::prelude::*;
 
 pub fn plugin(app: &mut App) {
