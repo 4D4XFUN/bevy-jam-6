@@ -19,7 +19,7 @@ use bevy::prelude::{
     Res, ResMut, Resource, Single, State, States, Transform, Trigger, With, World,
 };
 use bevy_enhanced_input::events::{Completed, Fired};
-use rand::Rng;
+use rand::{Rng, thread_rng};
 use tracing::{debug, info, warn};
 
 // ===================
@@ -147,7 +147,7 @@ pub fn play_enemy_targeted_sound_effect(
         return;
     };
 
-    let random_index = rand::thread_rng().gen_range(1..=5);
+    let random_index = thread_rng().gen_range(1..=5);
 
     let sound_asset = match random_index {
         1 => assets.targeting1.clone(),

@@ -1,12 +1,14 @@
-use crate::gameplay::boomerang::{BOOMERANG_FLYING_HEIGHT, BoomerangAssets, WeaponTarget};
+use crate::asset_tracking::LoadResource;
+use crate::gameplay::boomerang::{BOOMERANG_FLYING_HEIGHT, WeaponTarget};
 use crate::gameplay::health_and_damage::{CanDamage, DeathEvent};
 use crate::gameplay::player::Player;
 use crate::gameplay::{boomerang::BoomerangHittable, health_and_damage::Health};
 use crate::physics_layers::GameLayer;
 use crate::screens::Screen;
 use avian3d::prelude::{
-    Collider, CollisionEventsEnabled, CollisionLayers, LinearVelocity, Physics, PhysicsLayer,
-    RigidBody, SpatialQuery, SpatialQueryFilter,
+    AngularDamping, Collider, CollisionEventsEnabled, CollisionLayers, Friction, LinearDamping,
+    LinearVelocity, Physics, PhysicsLayer, Restitution, RigidBody, SpatialQuery,
+    SpatialQueryFilter,
 };
 use bevy::color;
 use bevy::ecs::entity::EntityHashSet;
@@ -16,6 +18,7 @@ use rand::{Rng, thread_rng};
 pub fn plugin(app: &mut App) {
     app.register_type::<EnemySpawnPoint>();
     app.init_resource::<EnemySpawningConfig>();
+    app.load_resource::<PistoleroAssets>();
     app.add_observer(create_enemy_spawn_points_around_player_on_spawn)
         .add_observer(spawn_enemies_on_enemy_spawn_points);
     app.init_gizmo_group::<EnemyAimGizmo>();
@@ -163,29 +166,46 @@ fn attack_target_after_delay(
     >,
     time: Res<Time<Physics>>,
     player_query: Single<&Transform, With<Player>>,
-    boomerang_assets: Res<BoomerangAssets>,
+    pistolero_assets: Res<PistoleroAssets>,
 ) {
+    let mut rand = thread_rng();
     let player_transform = player_query.into_inner();
     for (ranged_attack, origin_transform, attacker_target, mut can_delay) in
         attacker_query.iter_mut()
     {
         can_delay.timer.tick(time.delta());
         if can_delay.timer.just_finished() && attacker_target.target_entity.is_some() {
-            let bullet_velocity = (player_transform.translation - origin_transform.translation)
-                .normalize_or_zero()
-                * ranged_attack.speed;
+            let bullet_velocity =
+                (player_transform.translation - origin_transform.translation).normalize_or_zero();
 
             commands.spawn((
                 Name::new("Bullet"),
                 Transform::from_translation(origin_transform.translation),
                 Bullet,
-                SceneRoot(boomerang_assets.mesh.clone()),
+                SceneRoot(pistolero_assets.bullet.clone()),
                 Collider::sphere(0.2),
                 CollisionLayers::new(GameLayer::Bullet, [GameLayer::Player, GameLayer::Terrain]),
                 RigidBody::Kinematic,
-                LinearVelocity(bullet_velocity),
+                LinearVelocity(bullet_velocity * ranged_attack.speed),
                 CanDamage(1),
                 CollisionEventsEnabled,
+            ));
+            let pitch = rand.r#gen::<f32>() * 0.4;
+            commands.spawn((
+                AudioPlayer::new(pistolero_assets.gunshot.clone()),
+                PlaybackSettings::DESPAWN.with_speed(0.8 + pitch),
+            ));
+            commands.spawn((
+                Name::new("ShellCasing"),
+                Transform::from_translation(origin_transform.translation),
+                SceneRoot(pistolero_assets.shell.clone()),
+                Collider::cylinder(0.05, 0.2),
+                RigidBody::Dynamic,
+                LinearVelocity(-bullet_velocity * 3.),
+                Friction::default(),
+                Restitution::default(),
+                LinearDamping(0.5),
+                AngularDamping(0.5),
             ));
         }
     }
@@ -255,4 +275,24 @@ fn create_enemy_spawn_points_around_player_on_spawn(
     }
 
     Ok(())
+}
+
+#[derive(Resource, Asset, Clone, Reflect)]
+#[reflect(Resource)]
+struct PistoleroAssets {
+    gunshot: Handle<AudioSource>,
+    bullet: Handle<Scene>,
+    shell: Handle<Scene>,
+}
+
+impl FromWorld for PistoleroAssets {
+    fn from_world(world: &mut World) -> Self {
+        let asset_server = world.resource::<AssetServer>();
+        PistoleroAssets {
+            gunshot: asset_server.load("audio/sound_effects/213925__diboz__pistol_riccochet.ogg"),
+            bullet: asset_server.load(GltfAssetLabel::Scene(0).from_asset("models/bullet.glb")),
+            shell: asset_server
+                .load(GltfAssetLabel::Scene(0).from_asset("models/bullet_casing.glb")),
+        }
+    }
 }
