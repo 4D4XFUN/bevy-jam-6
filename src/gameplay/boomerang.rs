@@ -435,7 +435,7 @@ fn on_throw_boomerang_spawn_boomerang(
             Flying,
             SceneRoot(boomerang_assets.mesh.clone()),
             Collider::sphere(0.5),
-            CollisionLayers::new(GameLayer::Enemy, GameLayer::Enemy),
+            CollisionLayers::new(GameLayer::Boomerang, GameLayer::Enemy),
             RigidBody::Kinematic,
             CanDamage(1),
             CollisionEventsEnabled,
