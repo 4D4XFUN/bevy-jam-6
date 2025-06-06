@@ -106,7 +106,7 @@ fn record_player_directional_input(
 
     // The entire world moves slower as player slows down.
     // virtual_time.set_relative_speed(velocity.length());
-    time.scaling_factor = velocity.length();
+    // time.scaling_factor = velocity.length();
 
     let (mut linear_velocity, settings) = player_query.into_inner();
     let final_velocity = velocity * settings.walk_speed * time.delta.as_secs_f32();
@@ -122,5 +122,5 @@ fn stop_player_directional_input(
     player.x = 0.;
     player.y = 0.;
     player.z = 0.;
-    time.scaling_factor = DilatedTime::SLOW_MO_SCALING_FACTOR;
+    // time.scaling_factor = DilatedTime::SLOW_MO_SCALING_FACTOR;
 }

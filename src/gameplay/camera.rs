@@ -1,4 +1,5 @@
-use crate::gameplay::boomerang::{AimModeState, BounceBoomerangEvent};
+use crate::gameplay::aim_mode::AimModeState;
+use crate::gameplay::boomerang::BounceBoomerangEvent;
 use bevy::app::{App, Startup, Update};
 use bevy::color::Color;
 use bevy::core_pipeline::bloom::Bloom;
