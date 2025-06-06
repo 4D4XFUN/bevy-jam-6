@@ -1,10 +1,10 @@
 //! Spawn the main level.
 
-use avian3d::prelude::CollisionLayers;
-use bevy::prelude::*;
-
 use crate::physics_layers::GameLayer;
 use crate::{asset_tracking::LoadResource, screens::Screen};
+use avian3d::prelude::CollisionLayers;
+use bevy::prelude::*;
+use oxidized_navigation::NavMeshAffector;
 
 pub(super) fn plugin(app: &mut App) {
     app.register_type::<LevelAssets>();
@@ -49,6 +49,7 @@ pub fn spawn_level(
                     asset_server
                         .load(GltfAssetLabel::Scene(0).from_asset("models/Environment.gltf")),
                 ),
+                NavMeshAffector,
                 CollisionLayers::new(
                     GameLayer::Terrain,
                     [
