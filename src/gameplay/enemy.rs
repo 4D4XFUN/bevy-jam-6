@@ -93,7 +93,7 @@ fn spawn_enemies_on_enemy_spawn_points(
         speed: 20.,
     });
     commands.entity(entity).insert(CanDelayBetweenAttacks {
-        timer: Timer::from_seconds(3., TimerMode::Repeating),
+        timer: Timer::from_seconds(9000., TimerMode::Repeating), // todo revert cooldown when done testing navmesh stuff
     });
     commands.entity(entity).insert(WeaponTarget {
         target_entity: None,
