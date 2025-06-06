@@ -6,8 +6,7 @@ use crate::gameplay::{boomerang::BoomerangHittable, health_and_damage::Health};
 use crate::physics_layers::GameLayer;
 use crate::screens::Screen;
 use avian3d::prelude::{
-    Collider, CollisionEventsEnabled, CollisionLayers, RigidBody, SpatialQuery,
-    SpatialQueryFilter,
+    Collider, CollisionEventsEnabled, CollisionLayers, RigidBody, SpatialQuery, SpatialQueryFilter,
 };
 use bevy::color;
 use bevy::ecs::entity::EntityHashSet;

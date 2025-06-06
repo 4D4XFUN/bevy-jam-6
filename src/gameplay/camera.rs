@@ -4,12 +4,12 @@ use bevy::color::Color;
 use bevy::core_pipeline::bloom::Bloom;
 use bevy::core_pipeline::tonemapping::Tonemapping;
 use bevy::math::{Vec2, Vec3};
+use bevy::prelude::ReflectComponent;
 use bevy::prelude::{
     Camera, Camera3d, Commands, Component, Entity, EventReader, IsDefaultUiCamera, Msaa, Name,
     OnEnter, OnExit, PerspectiveProjection, Projection, Query, Real, Reflect, Res, Single, Time,
     Timer, TimerMode, Transform, Window, With, Without, default,
 };
-use bevy::prelude::{ReflectComponent};
 use bevy::render::camera::Exposure;
 use rand::Rng;
 
