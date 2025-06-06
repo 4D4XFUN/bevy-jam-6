@@ -13,7 +13,7 @@ mod physics_layers;
 mod screens;
 mod theme;
 mod ui_assets;
-mod navigation;
+mod ai;
 
 use avian3d::PhysicsPlugins;
 use bevy::window::{PresentMode, WindowResolution};
@@ -35,6 +35,8 @@ impl Plugin for AppPlugin {
                 AppSystems::PreTickTimers,
                 AppSystems::TickTimers,
                 AppSystems::RecordInput,
+                PrePhysicsAppSystems::UpdateNavmeshPositions,
+                PrePhysicsAppSystems::UpdateNavmeshTargets,
                 AppSystems::Update,
             )
                 .chain(),
@@ -75,9 +77,22 @@ impl Plugin for AppPlugin {
             theme::plugin,
             framepace::plugin,
             gameplay::plugin,
-            navigation::plugin,
+            ai::plugin,
         ));
     }
+}
+
+
+/// High-level groupings of systems for the app in the [`RunFixedMainLoop`] schedule
+/// and the [`RunFixedMainLoopSystem::BeforeFixedMainLoop`] system set.
+/// When adding a new variant, make sure to order it in the `configure_sets`
+/// call above.
+#[derive(SystemSet, Debug, Clone, Copy, Eq, PartialEq, Hash, PartialOrd, Ord)]
+enum PrePhysicsAppSystems {
+    /// Update last valid positions on the navmesh
+    UpdateNavmeshPositions,
+    /// Update agent targets to the last valid navmesh position
+    UpdateNavmeshTargets,
 }
 
 /// High-level groupings of systems for the app in the `Update` schedule.

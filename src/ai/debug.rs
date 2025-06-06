@@ -1,26 +1,34 @@
+use crate::ai::navmesh_position;
 use crate::physics_layers::GameLayer;
 use avian3d::prelude::{Collider, CollisionLayers, RigidBody};
+use bevy::input::common_conditions::input_just_pressed;
 use bevy::math::primitives;
 use bevy::prelude::*;
 use bevy::prelude::*;
+use bevy_landmass::{
+    debug::{EnableLandmassDebug, Landmass3dDebugPlugin},
+    prelude::*,
+};
+use landmass::{AgentId, Archipelago, IslandId, NavigationMesh, XYZ};
+use landmass_oxidized_navigation::{LandmassOxidizedNavigationPlugin, OxidizedArchipelago};
 use oxidized_navigation::debug_draw::DrawNavMesh;
 use oxidized_navigation::{
-    NavMeshAffector, NavMeshSettings, OxidizedNavigationPlugin, colliders::avian::AvianCollider,
-    debug_draw::OxidizedNavigationDebugDrawPlugin,
+    NavMesh, NavMeshAffector, NavMeshSettings, OxidizedNavigationPlugin,
+    colliders::avian::AvianCollider, debug_draw::OxidizedNavigationDebugDrawPlugin,
 };
 
 pub fn plugin(app: &mut App) {
     app.add_plugins((
         OxidizedNavigationDebugDrawPlugin,
-        OxidizedNavigationPlugin::<AvianCollider>::new(NavMeshSettings::from_agent_and_bounds(
-            0.5, 1.9, 250.0, -1.0,
-        )),
+        Landmass3dDebugPlugin::default(),
     ));
 
     // app.add_systems(Startup, spawn_test_entities);
     app.add_systems(Update, toggle_nav_mesh_debug_draw);
+    app.add_systems(Update, toggle_landmass_debug_draw);
 }
 
+/// System for debugging the OxidizedNavigation plugin
 fn toggle_nav_mesh_debug_draw(
     keys: Res<ButtonInput<KeyCode>>,
     mut show_navmesh: ResMut<DrawNavMesh>,
@@ -28,6 +36,17 @@ fn toggle_nav_mesh_debug_draw(
     if keys.just_pressed(KeyCode::KeyM) {
         show_navmesh.0 = !show_navmesh.0;
         info!("show navmesh: {:?}", show_navmesh.0);
+    }
+}
+
+/// System for toggling the `EnableLandmassDebug` resource.
+fn toggle_landmass_debug_draw(
+    keys: Res<ButtonInput<KeyCode>>,
+    mut should_enable_debug: ResMut<EnableLandmassDebug>,
+) {
+    if keys.just_pressed(KeyCode::KeyN) {
+        should_enable_debug.0 = !should_enable_debug.0;
+        info!("debug landmass: {:?}", should_enable_debug.0);
     }
 }
 

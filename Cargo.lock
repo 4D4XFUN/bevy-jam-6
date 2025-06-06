@@ -1159,6 +1159,7 @@ dependencies = [
  "bevy_asset_loader",
  "bevy_enhanced_input",
  "bevy_framepace",
+ "bevy_landmass 0.9.0 (git+https://github.com/janhohenheim/landmass.git?branch=bevy-0.16-oxidized)",
  "bevy_skein",
  "iyes_perf_ui",
  "landmass 0.8.0 (git+https://github.com/janhohenheim/landmass.git?branch=bevy-0.16-oxidized)",
@@ -1187,6 +1188,25 @@ dependencies = [
  "bevy_time",
  "bevy_transform",
  "landmass 0.8.0 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "bevy_landmass"
+version = "0.9.0"
+source = "git+https://github.com/janhohenheim/landmass.git?branch=bevy-0.16-oxidized#904474acb3e85d57f272862076d35c7e431f2e31"
+dependencies = [
+ "bevy_app",
+ "bevy_asset",
+ "bevy_color",
+ "bevy_ecs",
+ "bevy_gizmos",
+ "bevy_math",
+ "bevy_mesh",
+ "bevy_platform",
+ "bevy_reflect",
+ "bevy_time",
+ "bevy_transform",
+ "landmass 0.8.0 (git+https://github.com/janhohenheim/landmass.git?branch=bevy-0.16-oxidized)",
 ]
 
 [[package]]
@@ -3656,7 +3676,7 @@ version = "0.3.0-dev"
 source = "git+https://github.com/janhohenheim/landmass.git?branch=bevy-0.16-oxidized#904474acb3e85d57f272862076d35c7e431f2e31"
 dependencies = [
  "bevy",
- "bevy_landmass",
+ "bevy_landmass 0.9.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "oxidized_navigation",
 ]
 
