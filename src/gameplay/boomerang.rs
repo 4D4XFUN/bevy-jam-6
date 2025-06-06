@@ -4,7 +4,10 @@ use crate::gameplay::input::FireBoomerangAction;
 use crate::gameplay::mouse_position::MousePosition;
 use crate::physics_layers::GameLayer;
 use crate::screens::Screen;
-use avian3d::prelude::{AngularVelocity, Collider, CollisionEventsEnabled, CollisionLayers, LinearVelocity, Physics, RigidBody};
+use avian3d::prelude::{
+    AngularVelocity, Collider, CollisionEventsEnabled, CollisionLayers, LinearVelocity, Physics,
+    RigidBody,
+};
 use avian3d::spatial_query::{SpatialQuery, SpatialQueryFilter};
 use bevy::color;
 use bevy::ecs::entity::EntityHashSet;

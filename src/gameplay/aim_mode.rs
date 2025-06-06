@@ -7,7 +7,9 @@ use crate::gameplay::input::AimModeAction;
 use crate::gameplay::mouse_position::MousePosition;
 use crate::gameplay::player::Player;
 use crate::physics_layers::GameLayer;
-use avian3d::prelude::{Collider, Physics, PhysicsTime, ShapeCastConfig, SpatialQuery, SpatialQueryFilter};
+use avian3d::prelude::{
+    Collider, Physics, PhysicsTime, ShapeCastConfig, SpatialQuery, SpatialQueryFilter,
+};
 use bevy::asset::{Asset, AssetServer, Handle};
 use bevy::audio::AudioSource;
 use bevy::color::Color;
