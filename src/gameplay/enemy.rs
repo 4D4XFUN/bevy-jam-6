@@ -1,4 +1,4 @@
-use crate::gameplay::boomerang::{BOOMERANG_FLYING_HEIGHT, BoomerangAssets, WeaponTarget};
+use crate::gameplay::boomerang::{BoomerangAssets, WeaponTarget, BOOMERANG_FLYING_HEIGHT};
 use crate::gameplay::health_and_damage::{CanDamage, DeathEvent};
 use crate::gameplay::player::Player;
 use crate::gameplay::time_dilation::{DilatedTime, RotationDilated, VelocityDilated};
@@ -11,7 +11,7 @@ use avian3d::prelude::{
 use bevy::color;
 use bevy::ecs::entity::EntityHashSet;
 use bevy::prelude::*;
-use rand::{Rng, thread_rng};
+use rand::{thread_rng, Rng};
 
 pub fn plugin(app: &mut App) {
     app.register_type::<EnemySpawnPoint>();
@@ -139,7 +139,7 @@ fn update_aim_preview_position(
                 let aiming_line_length = 1.;
                 let aim_line_scaled_direction = (target_location - origin_transform.translation).normalize_or_zero() * aiming_line_length;
                 let aim_line_endpoint = origin_transform.translation + aim_line_scaled_direction;
-                
+
                 gizmos.line(
                     origin_transform.translation.with_y(BOOMERANG_FLYING_HEIGHT),
                     aim_line_endpoint,
@@ -213,7 +213,7 @@ pub struct EnemySpawningConfig {
 impl Default for EnemySpawningConfig {
     fn default() -> Self {
         Self {
-            num_enemies: 10,
+            num_enemies: 0,
             min_radius: 5.,
             max_radius: 30.,
         }

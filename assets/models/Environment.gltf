@@ -82,16 +82,18 @@
 	"scenes":[
 		{
 			"extras":{
-				"skein_extension_properties":{}
+				"skein_two":[],
+				"active_component_index":0
 			},
-			"name":"Scene",
+			"name":"Environment",
 			"nodes":[
+				0,
 				1,
+				2,
 				3,
+				4,
 				5,
-				6,
 				7,
-				8,
 				9,
 				11,
 				13,
@@ -115,113 +117,11 @@
 				49,
 				51,
 				53,
-				55,
-				57,
-				59,
-				61,
-				63,
-				65,
-				67,
-				69,
-				71,
-				73,
-				75,
-				77,
-				79,
-				81,
-				83,
-				85,
-				87,
-				89,
-				91,
-				93,
-				95,
-				97,
-				99,
-				101,
-				103,
-				105,
-				107,
-				109,
-				111,
-				113,
-				115,
-				117,
-				119,
-				120
+				55
 			]
 		}
 	],
 	"nodes":[
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":0,
-			"name":"Cube"
-		},
-		{
-			"children":[
-				0
-			],
-			"name":"Collection 2",
-			"translation":[
-				5.296098709106445,
-				0.8379693031311035,
-				2.190535068511963
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":0,
-			"name":"Cube"
-		},
-		{
-			"children":[
-				2
-			],
-			"name":"Collection 2.001",
-			"translation":[
-				5.350049018859863,
-				0,
-				0
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":1,
-			"name":"Cube.001"
-		},
-		{
-			"children":[
-				4
-			],
-			"name":"Collection 2.002",
-			"translation":[
-				5.350049018859863,
-				0,
-				-2.607532501220703
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":0,
-			"name":"Cube"
-		},
 		{
 			"extensions":{
 				"KHR_lights_punctual":{
@@ -290,7 +190,7 @@
 			]
 		},
 		{
-			"mesh":2,
+			"mesh":0,
 			"name":"GroundPlane"
 		},
 		{
@@ -318,1270 +218,24 @@
 		},
 		{
 			"extras":{
-				"skein_two":[],
+				"skein_two":[
+					{
+						"name":"EnemySpawnPoint",
+						"selected_type_path":"bevy_jam_6::gameplay::enemy::EnemySpawnPoint"
+					}
+				],
 				"active_component_index":0,
-				"skein":[]
+				"skein":[
+					{
+						"bevy_jam_6::gameplay::enemy::EnemySpawnPoint":{}
+					}
+				]
 			},
-			"mesh":3,
-			"name":"Cube.011"
-		},
-		{
-			"children":[
-				10
-			],
-			"name":"Collection 2.005",
-			"rotation":[
-				0,
-				-0.7071067094802856,
-				0,
-				0.7071068286895752
-			],
+			"name":"EnemySpawnPoint",
 			"translation":[
-				-6.5,
-				0,
-				-6.499999523162842
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":4,
-			"name":"Cube.012"
-		},
-		{
-			"children":[
-				12
-			],
-			"name":"Collection 2.006",
-			"rotation":[
-				0,
-				-0.7071067094802856,
-				0,
-				0.7071068286895752
-			],
-			"translation":[
-				-4.5,
-				0,
-				-6.5
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":5,
-			"name":"Cube.013"
-		},
-		{
-			"children":[
-				14
-			],
-			"name":"Collection 2.007",
-			"rotation":[
-				0,
-				-0.7071067094802856,
-				0,
-				0.7071068286895752
-			],
-			"translation":[
-				-8.5,
-				0,
-				-6.5
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":6,
-			"name":"Cube.014"
-		},
-		{
-			"children":[
-				16
-			],
-			"name":"Collection 2.008",
-			"rotation":[
-				0,
-				-0.7071067094802856,
-				0,
-				0.7071068286895752
-			],
-			"translation":[
-				-10.5,
-				0,
-				-6.499999046325684
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":7,
-			"name":"Cube.018"
-		},
-		{
-			"children":[
-				18
-			],
-			"name":"Collection 2.012",
-			"translation":[
-				-2.5,
-				0,
-				-7.5
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":8,
-			"name":"Cube.019"
-		},
-		{
-			"children":[
-				20
-			],
-			"name":"Collection 2.013",
-			"translation":[
-				-2.5,
-				0,
-				-9.5
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":9,
-			"name":"Cube.022"
-		},
-		{
-			"children":[
-				22
-			],
-			"name":"Collection 2.016",
-			"translation":[
-				-2.5,
-				0,
-				-11.5
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":10,
-			"name":"Cube.023"
-		},
-		{
-			"children":[
-				24
-			],
-			"name":"Collection 2.017",
-			"rotation":[
-				0,
-				0.7071067094802856,
-				0,
-				0.7071068286895752
-			],
-			"translation":[
-				-15.172033309936523,
-				0,
-				12.189512252807617
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":11,
-			"name":"Cube.024"
-		},
-		{
-			"children":[
-				26
-			],
-			"name":"Collection 2.018",
-			"rotation":[
-				0,
-				0.7071067094802856,
-				0,
-				0.7071068286895752
-			],
-			"translation":[
-				-15.172033309936523,
-				0,
-				8.189512252807617
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":12,
-			"name":"Cube.025"
-		},
-		{
-			"children":[
-				28
-			],
-			"name":"Collection 2.019",
-			"rotation":[
-				0,
-				0.7071067094802856,
-				0,
-				0.7071068286895752
-			],
-			"translation":[
-				-13.172033309936523,
-				0,
-				8.189512252807617
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":13,
-			"name":"Cube.026"
-		},
-		{
-			"children":[
-				30
-			],
-			"name":"Collection 2.020",
-			"rotation":[
-				0,
-				0.7071067094802856,
-				0,
-				0.7071068286895752
-			],
-			"translation":[
-				-13.172033309936523,
-				0,
-				12.189512252807617
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":14,
-			"name":"Cube.027"
-		},
-		{
-			"children":[
-				32
-			],
-			"name":"Collection 2.021",
-			"rotation":[
-				0,
-				0.7071067094802856,
-				0,
-				0.7071068286895752
-			],
-			"translation":[
-				-11.172033309936523,
-				0,
-				12.189512252807617
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":15,
-			"name":"Cube.028"
-		},
-		{
-			"children":[
-				34
-			],
-			"name":"Collection 2.022",
-			"rotation":[
-				0,
-				0.7071067094802856,
-				0,
-				0.7071068286895752
-			],
-			"translation":[
-				-11.172033309936523,
-				0,
-				8.189512252807617
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":16,
-			"name":"Cube.029"
-		},
-		{
-			"children":[
-				36
-			],
-			"name":"Collection 2.023",
-			"rotation":[
-				0,
-				0.7071067094802856,
-				0,
-				0.7071068286895752
-			],
-			"translation":[
-				-9.172033309936523,
-				0,
-				8.189512252807617
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":17,
-			"name":"Cube.030"
-		},
-		{
-			"children":[
-				38
-			],
-			"name":"Collection 2.024",
-			"rotation":[
-				0,
-				0.7071067094802856,
-				0,
-				0.7071068286895752
-			],
-			"translation":[
-				-7.172033309936523,
-				0,
-				8.189512252807617
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":18,
-			"name":"Cube.031"
-		},
-		{
-			"children":[
-				40
-			],
-			"name":"Collection 2.025",
-			"translation":[
-				-10.172033309936523,
-				0,
-				20.189512252807617
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":19,
-			"name":"Cube.032"
-		},
-		{
-			"children":[
-				42
-			],
-			"name":"Collection 2.026",
-			"translation":[
-				-10.172033309936523,
-				0,
-				18.189512252807617
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":20,
-			"name":"Cube.033"
-		},
-		{
-			"children":[
-				44
-			],
-			"name":"Collection 2.027",
-			"translation":[
-				-10.172033309936523,
-				0,
-				14.189512252807617
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":21,
-			"name":"Cube.034"
-		},
-		{
-			"children":[
-				46
-			],
-			"name":"Collection 2.028",
-			"translation":[
-				-10.172033309936523,
-				0,
-				16.189512252807617
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":22,
-			"name":"Cube.035"
-		},
-		{
-			"children":[
-				48
-			],
-			"name":"Collection 2.029",
-			"translation":[
-				-10.69970703125,
-				0,
-				4.189512252807617
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":23,
-			"name":"Cube.036"
-		},
-		{
-			"children":[
-				50
-			],
-			"name":"Collection 2.030",
-			"translation":[
-				-7.172033309936523,
-				0,
-				2.189512252807617
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":24,
-			"name":"Cube.037"
-		},
-		{
-			"children":[
-				52
-			],
-			"name":"Collection 2.031",
-			"translation":[
-				-7.172033309936523,
-				0,
-				6.189512252807617
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":25,
-			"name":"Cube.038"
-		},
-		{
-			"children":[
-				54
-			],
-			"name":"Collection 2.032",
-			"translation":[
-				-7.172033309936523,
-				0,
-				8.189512252807617
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":26,
-			"name":"Cube.039"
-		},
-		{
-			"children":[
-				56
-			],
-			"name":"Collection 2.033",
-			"translation":[
-				8.874351501464844,
-				0,
-				9.202603340148926
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":27,
-			"name":"Cube.040"
-		},
-		{
-			"children":[
-				58
-			],
-			"name":"Collection 2.034",
-			"translation":[
-				8.874351501464844,
-				0,
-				7.202603340148926
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":28,
-			"name":"Cube.041"
-		},
-		{
-			"children":[
-				60
-			],
-			"name":"Collection 2.035",
-			"translation":[
-				8.874351501464844,
-				0,
-				3.202603340148926
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":29,
-			"name":"Cube.042"
-		},
-		{
-			"children":[
-				62
-			],
-			"name":"Collection 2.036",
-			"translation":[
-				8.874351501464844,
-				0,
-				5.202603340148926
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":30,
-			"name":"Cube.043"
-		},
-		{
-			"children":[
-				64
-			],
-			"name":"Collection 2.037",
-			"translation":[
-				5.874351501464844,
-				0,
-				17.20260238647461
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":31,
-			"name":"Cube.044"
-		},
-		{
-			"children":[
-				66
-			],
-			"name":"Collection 2.038",
-			"translation":[
-				5.874351501464844,
-				0,
-				15.202603340148926
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":32,
-			"name":"Cube.045"
-		},
-		{
-			"children":[
-				68
-			],
-			"name":"Collection 2.039",
-			"translation":[
-				5.874351501464844,
-				0,
-				19.20260238647461
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":33,
-			"name":"Cube.046"
-		},
-		{
-			"children":[
-				70
-			],
-			"name":"Collection 2.040",
-			"translation":[
-				5.874351501464844,
-				0,
-				21.20260238647461
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":34,
-			"name":"Cube.047"
-		},
-		{
-			"children":[
-				72
-			],
-			"name":"Collection 2.041",
-			"rotation":[
-				0,
-				0.7071067094802856,
-				0,
-				0.7071068286895752
-			],
-			"translation":[
-				8.874351501464844,
-				0,
-				9.202603340148926
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":35,
-			"name":"Cube.048"
-		},
-		{
-			"children":[
-				74
-			],
-			"name":"Collection 2.042",
-			"rotation":[
-				0,
-				0.7071067094802856,
-				0,
-				0.7071068286895752
-			],
-			"translation":[
-				6.874351501464844,
-				0,
-				9.202603340148926
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":36,
-			"name":"Cube.049"
-		},
-		{
-			"children":[
-				76
-			],
-			"name":"Collection 2.043",
-			"rotation":[
-				0,
-				0.7071067094802856,
-				0,
-				0.7071068286895752
-			],
-			"translation":[
-				4.874351501464844,
-				0,
-				9.202603340148926
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":37,
-			"name":"Cube.050"
-		},
-		{
-			"children":[
-				78
-			],
-			"name":"Collection 2.044",
-			"rotation":[
-				0,
-				0.7071067094802856,
-				0,
-				0.7071068286895752
-			],
-			"translation":[
-				4.874351501464844,
-				0,
-				13.202603340148926
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":38,
-			"name":"Cube.051"
-		},
-		{
-			"children":[
-				80
-			],
-			"name":"Collection 2.045",
-			"rotation":[
-				0,
-				0.7071067094802856,
-				0,
-				0.7071068286895752
-			],
-			"translation":[
-				2.8743515014648438,
-				0,
-				13.202603340148926
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":39,
-			"name":"Cube.052"
-		},
-		{
-			"children":[
-				82
-			],
-			"name":"Collection 2.046",
-			"rotation":[
-				0,
-				0.7071067094802856,
-				0,
-				0.7071068286895752
-			],
-			"translation":[
-				2.8743515014648438,
-				0,
-				9.202603340148926
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":40,
-			"name":"Cube.053"
-		},
-		{
-			"children":[
-				84
-			],
-			"name":"Collection 2.047",
-			"rotation":[
-				0,
-				0.7071067094802856,
-				0,
-				0.7071068286895752
-			],
-			"translation":[
-				0.8743515014648438,
-				0,
-				9.202603340148926
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":41,
-			"name":"Cube.054"
-		},
-		{
-			"children":[
-				86
-			],
-			"name":"Collection 2.048",
-			"rotation":[
-				0,
-				0.7071067094802856,
-				0,
-				0.7071068286895752
-			],
-			"translation":[
-				0.8743515014648438,
-				0,
-				13.202603340148926
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":42,
-			"name":"Cube.055"
-		},
-		{
-			"children":[
-				88
-			],
-			"name":"Collection 2.049",
-			"rotation":[
-				0,
-				0.7071067094802856,
-				0,
-				0.7071068286895752
-			],
-			"translation":[
-				-21.336315155029297,
-				0,
-				-7.22475528717041
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":43,
-			"name":"Cube.056"
-		},
-		{
-			"children":[
-				90
-			],
-			"name":"Collection 2.050",
-			"rotation":[
-				0,
-				0.7071067094802856,
-				0,
-				0.7071068286895752
-			],
-			"translation":[
-				-21.336315155029297,
-				0,
-				-11.22475528717041
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":44,
-			"name":"Cube.057"
-		},
-		{
-			"children":[
-				92
-			],
-			"name":"Collection 2.051",
-			"rotation":[
-				0,
-				0.7071067094802856,
-				0,
-				0.7071068286895752
-			],
-			"translation":[
-				-19.336315155029297,
-				0,
-				-11.22475528717041
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":45,
-			"name":"Cube.058"
-		},
-		{
-			"children":[
-				94
-			],
-			"name":"Collection 2.052",
-			"rotation":[
-				0,
-				0.7071067094802856,
-				0,
-				0.7071068286895752
-			],
-			"translation":[
-				-19.336315155029297,
-				0,
-				-7.22475528717041
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":46,
-			"name":"Cube.059"
-		},
-		{
-			"children":[
-				96
-			],
-			"name":"Collection 2.053",
-			"rotation":[
-				0,
-				0.7071067094802856,
-				0,
-				0.7071068286895752
-			],
-			"translation":[
-				-17.336315155029297,
-				0,
-				-7.22475528717041
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":47,
-			"name":"Cube.060"
-		},
-		{
-			"children":[
-				98
-			],
-			"name":"Collection 2.054",
-			"rotation":[
-				0,
-				0.7071067094802856,
-				0,
-				0.7071068286895752
-			],
-			"translation":[
-				-17.336315155029297,
-				0,
-				-11.22475528717041
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":48,
-			"name":"Cube.061"
-		},
-		{
-			"children":[
-				100
-			],
-			"name":"Collection 2.055",
-			"rotation":[
-				0,
-				0.7071067094802856,
-				0,
-				0.7071068286895752
-			],
-			"translation":[
-				-15.336315155029297,
-				0,
-				-11.22475528717041
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":49,
-			"name":"Cube.062"
-		},
-		{
-			"children":[
-				102
-			],
-			"name":"Collection 2.056",
-			"rotation":[
-				0,
-				0.7071067094802856,
-				0,
-				0.7071068286895752
-			],
-			"translation":[
-				-13.336315155029297,
-				0,
-				-11.22475528717041
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":50,
-			"name":"Cube.063"
-		},
-		{
-			"children":[
-				104
-			],
-			"name":"Collection 2.057",
-			"translation":[
-				-16.336315155029297,
-				0,
-				0.7752437591552734
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":51,
-			"name":"Cube.064"
-		},
-		{
-			"children":[
-				106
-			],
-			"name":"Collection 2.058",
-			"translation":[
-				-16.336315155029297,
-				0,
-				-1.2247562408447266
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":52,
-			"name":"Cube.065"
-		},
-		{
-			"children":[
-				108
-			],
-			"name":"Collection 2.059",
-			"translation":[
-				-16.336315155029297,
-				0,
-				-5.22475528717041
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":53,
-			"name":"Cube.066"
-		},
-		{
-			"children":[
-				110
-			],
-			"name":"Collection 2.060",
-			"translation":[
-				-16.336315155029297,
-				0,
-				-3.2247562408447266
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":54,
-			"name":"Cube.067"
-		},
-		{
-			"children":[
-				112
-			],
-			"name":"Collection 2.061",
-			"translation":[
-				-13.336315155029297,
-				0,
-				-15.22475528717041
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":55,
-			"name":"Cube.068"
-		},
-		{
-			"children":[
-				114
-			],
-			"name":"Collection 2.062",
-			"translation":[
-				-13.336315155029297,
-				0,
-				-17.224754333496094
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":56,
-			"name":"Cube.069"
-		},
-		{
-			"children":[
-				116
-			],
-			"name":"Collection 2.063",
-			"translation":[
-				-13.336315155029297,
-				0,
-				-13.22475528717041
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[],
-				"active_component_index":0,
-				"skein":[]
-			},
-			"mesh":57,
-			"name":"Cube.070"
-		},
-		{
-			"children":[
-				118
-			],
-			"name":"Collection 2.064",
-			"translation":[
-				-13.336315155029297,
-				0,
-				-11.22475528717041
+				5.909200668334961,
+				1,
+				3.92025089263916
 			]
 		},
 		{
@@ -1599,11 +253,599 @@
 					}
 				]
 			},
-			"name":"EnemySpawnPoint",
+			"name":"EnemySpawnPoint.001",
 			"translation":[
-				3.7572460174560547,
+				-12.74161148071289,
+				0.9999998807907104,
+				-7.884322166442871
+			]
+		},
+		{
+			"extras":{
+				"skein_two":[
+					{
+						"name":"EnemySpawnPoint",
+						"selected_type_path":"bevy_jam_6::gameplay::enemy::EnemySpawnPoint"
+					}
+				],
+				"active_component_index":0,
+				"skein":[
+					{
+						"bevy_jam_6::gameplay::enemy::EnemySpawnPoint":{}
+					}
+				]
+			},
+			"name":"EnemySpawnPoint.002",
+			"translation":[
+				1.0569995641708374,
 				1,
-				5.459350109100342
+				-10.408687591552734
+			]
+		},
+		{
+			"extras":{
+				"skein_two":[],
+				"active_component_index":0,
+				"skein":[]
+			},
+			"mesh":1,
+			"name":"Cube.004"
+		},
+		{
+			"children":[
+				6
+			],
+			"name":"2x2",
+			"translation":[
+				-2,
+				0,
+				-5
+			]
+		},
+		{
+			"extras":{
+				"skein_two":[],
+				"active_component_index":0,
+				"skein":[]
+			},
+			"mesh":2,
+			"name":"Cube.079"
+		},
+		{
+			"children":[
+				8
+			],
+			"name":"2x2.001",
+			"translation":[
+				6,
+				0,
+				-1
+			]
+		},
+		{
+			"extras":{
+				"skein_two":[],
+				"active_component_index":0,
+				"skein":[]
+			},
+			"mesh":3,
+			"name":"Cube"
+		},
+		{
+			"children":[
+				10
+			],
+			"name":"_5x1",
+			"rotation":[
+				0,
+				0.7071068286895752,
+				0,
+				0.7071068286895752
+			],
+			"translation":[
+				8,
+				0,
+				-18
+			]
+		},
+		{
+			"extras":{
+				"skein_two":[],
+				"active_component_index":0,
+				"skein":[]
+			},
+			"mesh":4,
+			"name":"Cube.084"
+		},
+		{
+			"children":[
+				12
+			],
+			"name":"_5x1.002",
+			"translation":[
+				9,
+				0,
+				-16
+			]
+		},
+		{
+			"extras":{
+				"skein_two":[],
+				"active_component_index":0,
+				"skein":[]
+			},
+			"mesh":5,
+			"name":"Cube.085"
+		},
+		{
+			"children":[
+				14
+			],
+			"name":"_5x1.003",
+			"translation":[
+				-10,
+				0,
+				-16
+			]
+		},
+		{
+			"extras":{
+				"skein_two":[],
+				"active_component_index":0,
+				"skein":[]
+			},
+			"mesh":6,
+			"name":"Cube.086"
+		},
+		{
+			"children":[
+				16
+			],
+			"name":"_5x1.004",
+			"translation":[
+				-10,
+				0,
+				-14
+			]
+		},
+		{
+			"extras":{
+				"skein_two":[],
+				"active_component_index":0,
+				"skein":[]
+			},
+			"mesh":7,
+			"name":"Cube.087"
+		},
+		{
+			"children":[
+				18
+			],
+			"name":"_5x1.005",
+			"translation":[
+				9,
+				0,
+				-14
+			]
+		},
+		{
+			"extras":{
+				"skein_two":[],
+				"active_component_index":0,
+				"skein":[]
+			},
+			"mesh":8,
+			"name":"Cube.005"
+		},
+		{
+			"children":[
+				20
+			],
+			"name":"_5x4",
+			"translation":[
+				9,
+				0,
+				-2
+			]
+		},
+		{
+			"extras":{
+				"skein_two":[],
+				"active_component_index":0,
+				"skein":[]
+			},
+			"mesh":9,
+			"name":"Cube.003"
+		},
+		{
+			"children":[
+				22
+			],
+			"name":"_5x4.001",
+			"rotation":[
+				0,
+				0.7071068286895752,
+				0,
+				0.7071068286895752
+			],
+			"translation":[
+				9,
+				0,
+				6
+			]
+		},
+		{
+			"extras":{
+				"skein_two":[],
+				"active_component_index":0,
+				"skein":[]
+			},
+			"mesh":10,
+			"name":"Cube.071"
+		},
+		{
+			"children":[
+				24
+			],
+			"name":"_5x4.002",
+			"rotation":[
+				0,
+				0.7071068286895752,
+				0,
+				0.7071068286895752
+			],
+			"translation":[
+				-2,
+				0,
+				-18
+			]
+		},
+		{
+			"extras":{
+				"skein_two":[],
+				"active_component_index":0,
+				"skein":[]
+			},
+			"mesh":11,
+			"name":"Cube.006"
+		},
+		{
+			"children":[
+				26
+			],
+			"name":"_5x4.003",
+			"translation":[
+				-10,
+				0,
+				-2
+			]
+		},
+		{
+			"extras":{
+				"skein_two":[],
+				"active_component_index":0,
+				"skein":[]
+			},
+			"mesh":12,
+			"name":"Cube.072"
+		},
+		{
+			"children":[
+				28
+			],
+			"name":"_5x4.004",
+			"translation":[
+				-10,
+				0,
+				6
+			]
+		},
+		{
+			"extras":{
+				"skein_two":[],
+				"active_component_index":0,
+				"skein":[]
+			},
+			"mesh":13,
+			"name":"Cube.073"
+		},
+		{
+			"children":[
+				30
+			],
+			"name":"_5x4.005",
+			"translation":[
+				9,
+				0,
+				6
+			]
+		},
+		{
+			"extras":{
+				"skein_two":[],
+				"active_component_index":0,
+				"skein":[]
+			},
+			"mesh":14,
+			"name":"Cube.076"
+		},
+		{
+			"children":[
+				32
+			],
+			"name":"_5x4.006",
+			"rotation":[
+				0,
+				0.7071068286895752,
+				0,
+				0.7071068286895752
+			],
+			"translation":[
+				6,
+				0,
+				-6
+			]
+		},
+		{
+			"extras":{
+				"skein_two":[],
+				"active_component_index":0,
+				"skein":[]
+			},
+			"mesh":15,
+			"name":"Cube.080"
+		},
+		{
+			"children":[
+				34
+			],
+			"name":"_5x4.007",
+			"rotation":[
+				0,
+				0.7071068286895752,
+				0,
+				0.7071068286895752
+			],
+			"translation":[
+				6,
+				0,
+				-18
+			]
+		},
+		{
+			"extras":{
+				"skein_two":[],
+				"active_component_index":0,
+				"skein":[]
+			},
+			"mesh":16,
+			"name":"Cube.082"
+		},
+		{
+			"children":[
+				36
+			],
+			"name":"_5x4.008",
+			"rotation":[
+				0,
+				0.7071068286895752,
+				0,
+				0.7071068286895752
+			],
+			"translation":[
+				1,
+				0,
+				6
+			]
+		},
+		{
+			"extras":{
+				"skein_two":[],
+				"active_component_index":0,
+				"skein":[]
+			},
+			"mesh":17,
+			"name":"Cube.088"
+		},
+		{
+			"children":[
+				38
+			],
+			"name":"_5x4.009",
+			"translation":[
+				-10,
+				0,
+				14
+			]
+		},
+		{
+			"extras":{
+				"skein_two":[],
+				"active_component_index":0,
+				"skein":[]
+			},
+			"mesh":18,
+			"name":"Cube.089"
+		},
+		{
+			"children":[
+				40
+			],
+			"name":"_5x4.010",
+			"rotation":[
+				0,
+				0.7071068286895752,
+				0,
+				0.7071068286895752
+			],
+			"translation":[
+				-3,
+				0,
+				14
+			]
+		},
+		{
+			"extras":{
+				"skein_two":[],
+				"active_component_index":0,
+				"skein":[]
+			},
+			"mesh":19,
+			"name":"Cube.090"
+		},
+		{
+			"children":[
+				42
+			],
+			"name":"_5x4.011",
+			"translation":[
+				1,
+				0,
+				15
+			]
+		},
+		{
+			"extras":{
+				"skein_two":[],
+				"active_component_index":0,
+				"skein":[]
+			},
+			"mesh":20,
+			"name":"Cube.091"
+		},
+		{
+			"children":[
+				44
+			],
+			"name":"_5x4.012",
+			"translation":[
+				17,
+				0,
+				-9
+			]
+		},
+		{
+			"extras":{
+				"skein_two":[],
+				"active_component_index":0,
+				"skein":[]
+			},
+			"mesh":21,
+			"name":"Cube.092"
+		},
+		{
+			"children":[
+				46
+			],
+			"name":"_5x4.013",
+			"rotation":[
+				0,
+				0.7071068286895752,
+				0,
+				0.7071068286895752
+			],
+			"translation":[
+				17,
+				0,
+				-5
+			]
+		},
+		{
+			"extras":{
+				"skein_two":[],
+				"active_component_index":0,
+				"skein":[]
+			},
+			"mesh":22,
+			"name":"Cube.093"
+		},
+		{
+			"children":[
+				48
+			],
+			"name":"_5x4.014",
+			"rotation":[
+				0,
+				0.7071068286895752,
+				0,
+				0.7071068286895752
+			],
+			"translation":[
+				17,
+				0,
+				-18
+			]
+		},
+		{
+			"extras":{
+				"skein_two":[],
+				"active_component_index":0,
+				"skein":[]
+			},
+			"mesh":23,
+			"name":"Cube.094"
+		},
+		{
+			"children":[
+				50
+			],
+			"name":"_5x4.015",
+			"rotation":[
+				0,
+				0.7071068286895752,
+				0,
+				0.7071068286895752
+			],
+			"translation":[
+				-11,
+				0,
+				-18
+			]
+		},
+		{
+			"extras":{
+				"skein_two":[],
+				"active_component_index":0,
+				"skein":[]
+			},
+			"mesh":24,
+			"name":"Cube.095"
+		},
+		{
+			"children":[
+				52
+			],
+			"name":"_5x4.016",
+			"rotation":[
+				0,
+				0.7071068286895752,
+				0,
+				0.7071068286895752
+			],
+			"translation":[
+				-11,
+				0,
+				-5
+			]
+		},
+		{
+			"extras":{
+				"skein_two":[],
+				"active_component_index":0,
+				"skein":[]
+			},
+			"mesh":25,
+			"name":"Cube.096"
+		},
+		{
+			"children":[
+				54
+			],
+			"name":"_5x4.017",
+			"translation":[
+				-19,
+				0,
+				-11
 			]
 		}
 	],
@@ -1613,9 +855,9 @@
 			"name":"Material",
 			"pbrMetallicRoughness":{
 				"baseColorFactor":[
-					0.8000858426094055,
-					0.023862287402153015,
-					0.01210042368620634,
+					0.3622890114784241,
+					0.3622890114784241,
+					0.3622890114784241,
 					1
 				],
 				"metallicFactor":0,
@@ -1624,12 +866,306 @@
 		},
 		{
 			"doubleSided":true,
-			"name":"Material.001",
+			"name":"Material.014",
 			"pbrMetallicRoughness":{
 				"baseColorFactor":[
-					0.8000858426094055,
-					0.023862287402153015,
-					0.01210042368620634,
+					0.3622890114784241,
+					0.3622890114784241,
+					0.3622890114784241,
+					1
+				],
+				"metallicFactor":0,
+				"roughnessFactor":0.5
+			}
+		},
+		{
+			"doubleSided":true,
+			"name":"Material.019",
+			"pbrMetallicRoughness":{
+				"baseColorFactor":[
+					0.3622890114784241,
+					0.3622890114784241,
+					0.3622890114784241,
+					1
+				],
+				"metallicFactor":0,
+				"roughnessFactor":0.5
+			}
+		},
+		{
+			"doubleSided":true,
+			"name":"Material.020",
+			"pbrMetallicRoughness":{
+				"baseColorFactor":[
+					0.3622890114784241,
+					0.3622890114784241,
+					0.3622890114784241,
+					1
+				],
+				"metallicFactor":0,
+				"roughnessFactor":0.5
+			}
+		},
+		{
+			"doubleSided":true,
+			"name":"Material.021",
+			"pbrMetallicRoughness":{
+				"baseColorFactor":[
+					0.3622890114784241,
+					0.3622890114784241,
+					0.3622890114784241,
+					1
+				],
+				"metallicFactor":0,
+				"roughnessFactor":0.5
+			}
+		},
+		{
+			"doubleSided":true,
+			"name":"Material.022",
+			"pbrMetallicRoughness":{
+				"baseColorFactor":[
+					0.3622890114784241,
+					0.3622890114784241,
+					0.3622890114784241,
+					1
+				],
+				"metallicFactor":0,
+				"roughnessFactor":0.5
+			}
+		},
+		{
+			"doubleSided":true,
+			"name":"Material.004",
+			"pbrMetallicRoughness":{
+				"baseColorFactor":[
+					0.3622890114784241,
+					0.3622890114784241,
+					0.3622890114784241,
+					1
+				],
+				"metallicFactor":0,
+				"roughnessFactor":0.5
+			}
+		},
+		{
+			"doubleSided":true,
+			"name":"Material.006",
+			"pbrMetallicRoughness":{
+				"baseColorFactor":[
+					0.3622890114784241,
+					0.3622890114784241,
+					0.3622890114784241,
+					1
+				],
+				"metallicFactor":0,
+				"roughnessFactor":0.5
+			}
+		},
+		{
+			"doubleSided":true,
+			"name":"Material.005",
+			"pbrMetallicRoughness":{
+				"baseColorFactor":[
+					0.3622890114784241,
+					0.3622890114784241,
+					0.3622890114784241,
+					1
+				],
+				"metallicFactor":0,
+				"roughnessFactor":0.5
+			}
+		},
+		{
+			"doubleSided":true,
+			"name":"Material.007",
+			"pbrMetallicRoughness":{
+				"baseColorFactor":[
+					0.3622890114784241,
+					0.3622890114784241,
+					0.3622890114784241,
+					1
+				],
+				"metallicFactor":0,
+				"roughnessFactor":0.5
+			}
+		},
+		{
+			"doubleSided":true,
+			"name":"Material.008",
+			"pbrMetallicRoughness":{
+				"baseColorFactor":[
+					0.3622890114784241,
+					0.3622890114784241,
+					0.3622890114784241,
+					1
+				],
+				"metallicFactor":0,
+				"roughnessFactor":0.5
+			}
+		},
+		{
+			"doubleSided":true,
+			"name":"Material.011",
+			"pbrMetallicRoughness":{
+				"baseColorFactor":[
+					0.3622890114784241,
+					0.3622890114784241,
+					0.3622890114784241,
+					1
+				],
+				"metallicFactor":0,
+				"roughnessFactor":0.5
+			}
+		},
+		{
+			"doubleSided":true,
+			"name":"Material.015",
+			"pbrMetallicRoughness":{
+				"baseColorFactor":[
+					0.3622890114784241,
+					0.3622890114784241,
+					0.3622890114784241,
+					1
+				],
+				"metallicFactor":0,
+				"roughnessFactor":0.5
+			}
+		},
+		{
+			"doubleSided":true,
+			"name":"Material.017",
+			"pbrMetallicRoughness":{
+				"baseColorFactor":[
+					0.3622890114784241,
+					0.3622890114784241,
+					0.3622890114784241,
+					1
+				],
+				"metallicFactor":0,
+				"roughnessFactor":0.5
+			}
+		},
+		{
+			"doubleSided":true,
+			"name":"Material.023",
+			"pbrMetallicRoughness":{
+				"baseColorFactor":[
+					0.3622890114784241,
+					0.3622890114784241,
+					0.3622890114784241,
+					1
+				],
+				"metallicFactor":0,
+				"roughnessFactor":0.5
+			}
+		},
+		{
+			"doubleSided":true,
+			"name":"Material.024",
+			"pbrMetallicRoughness":{
+				"baseColorFactor":[
+					0.3622890114784241,
+					0.3622890114784241,
+					0.3622890114784241,
+					1
+				],
+				"metallicFactor":0,
+				"roughnessFactor":0.5
+			}
+		},
+		{
+			"doubleSided":true,
+			"name":"Material.025",
+			"pbrMetallicRoughness":{
+				"baseColorFactor":[
+					0.3622890114784241,
+					0.3622890114784241,
+					0.3622890114784241,
+					1
+				],
+				"metallicFactor":0,
+				"roughnessFactor":0.5
+			}
+		},
+		{
+			"doubleSided":true,
+			"name":"Material.026",
+			"pbrMetallicRoughness":{
+				"baseColorFactor":[
+					0.3622890114784241,
+					0.3622890114784241,
+					0.3622890114784241,
+					1
+				],
+				"metallicFactor":0,
+				"roughnessFactor":0.5
+			}
+		},
+		{
+			"doubleSided":true,
+			"name":"Material.027",
+			"pbrMetallicRoughness":{
+				"baseColorFactor":[
+					0.3622890114784241,
+					0.3622890114784241,
+					0.3622890114784241,
+					1
+				],
+				"metallicFactor":0,
+				"roughnessFactor":0.5
+			}
+		},
+		{
+			"doubleSided":true,
+			"name":"Material.028",
+			"pbrMetallicRoughness":{
+				"baseColorFactor":[
+					0.3622890114784241,
+					0.3622890114784241,
+					0.3622890114784241,
+					1
+				],
+				"metallicFactor":0,
+				"roughnessFactor":0.5
+			}
+		},
+		{
+			"doubleSided":true,
+			"name":"Material.029",
+			"pbrMetallicRoughness":{
+				"baseColorFactor":[
+					0.3622890114784241,
+					0.3622890114784241,
+					0.3622890114784241,
+					1
+				],
+				"metallicFactor":0,
+				"roughnessFactor":0.5
+			}
+		},
+		{
+			"doubleSided":true,
+			"name":"Material.030",
+			"pbrMetallicRoughness":{
+				"baseColorFactor":[
+					0.3622890114784241,
+					0.3622890114784241,
+					0.3622890114784241,
+					1
+				],
+				"metallicFactor":0,
+				"roughnessFactor":0.5
+			}
+		},
+		{
+			"doubleSided":true,
+			"name":"Material.031",
+			"pbrMetallicRoughness":{
+				"baseColorFactor":[
+					0.3622890114784241,
+					0.3622890114784241,
+					0.3622890114784241,
 					1
 				],
 				"metallicFactor":0,
@@ -1638,220 +1174,6 @@
 		}
 	],
 	"meshes":[
-		{
-			"extras":{
-				"skein_two":[
-					{
-						"name":"ColliderConstructor",
-						"selected_type_path":"avian3d::collision::collider::constructor::ColliderConstructor",
-						"avian3d::collision::collider::constructor::ColliderConstructor":{
-							"Sphere":{},
-							"Cuboid":{},
-							"RoundCuboid":{},
-							"Cylinder":{},
-							"Cone":{},
-							"Capsule":{},
-							"CapsuleEndpoints":{
-								"a":{},
-								"b":{}
-							},
-							"HalfSpace":{
-								"outward_normal":{}
-							},
-							"Segment":{
-								"a":{},
-								"b":{}
-							},
-							"Triangle":{
-								"a":{},
-								"b":{},
-								"c":{}
-							},
-							"Polyline":{
-								"indices":{
-									"Some":{}
-								},
-								"vertices":{}
-							},
-							"Trimesh":{
-								"indices":{},
-								"vertices":{}
-							},
-							"TrimeshWithConfig":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecomposition":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecompositionWithConfig":{
-								"indices":{},
-								"params":{
-									"fill_mode":{
-										"FloodFill":{}
-									}
-								},
-								"vertices":{}
-							},
-							"ConvexHull":{
-								"points":{}
-							},
-							"Heightfield":{
-								"heights":{},
-								"scale":{}
-							},
-							"ConvexDecompositionFromMeshWithConfig":{
-								"fill_mode":{
-									"FloodFill":{}
-								}
-							},
-							"skein_enum_index":17
-						}
-					},
-					{
-						"name":"RigidBody",
-						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
-						"avian3d::dynamics::rigid_body::RigidBody":1
-					},
-					{
-						"name":"NavMeshAffector",
-						"selected_type_path":"oxidized_navigation::NavMeshAffector"
-					}
-				],
-				"active_component_index":2,
-				"skein":[
-					{
-						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
-					},
-					{
-						"avian3d::dynamics::rigid_body::RigidBody":"Static"
-					},
-					{
-						"oxidized_navigation::NavMeshAffector":{}
-					}
-				]
-			},
-			"name":"Cube",
-			"primitives":[
-				{
-					"attributes":{
-						"POSITION":0,
-						"NORMAL":1,
-						"TEXCOORD_0":2
-					},
-					"indices":3,
-					"material":0
-				}
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[
-					{
-						"name":"ColliderConstructor",
-						"selected_type_path":"avian3d::collision::collider::constructor::ColliderConstructor",
-						"avian3d::collision::collider::constructor::ColliderConstructor":{
-							"Sphere":{},
-							"Cuboid":{},
-							"RoundCuboid":{},
-							"Cylinder":{},
-							"Cone":{},
-							"Capsule":{},
-							"CapsuleEndpoints":{
-								"a":{},
-								"b":{}
-							},
-							"HalfSpace":{
-								"outward_normal":{}
-							},
-							"Segment":{
-								"a":{},
-								"b":{}
-							},
-							"Triangle":{
-								"a":{},
-								"b":{},
-								"c":{}
-							},
-							"Polyline":{
-								"indices":{
-									"Some":{}
-								},
-								"vertices":{}
-							},
-							"Trimesh":{
-								"indices":{},
-								"vertices":{}
-							},
-							"TrimeshWithConfig":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecomposition":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecompositionWithConfig":{
-								"indices":{},
-								"params":{
-									"fill_mode":{
-										"FloodFill":{}
-									}
-								},
-								"vertices":{}
-							},
-							"ConvexHull":{
-								"points":{}
-							},
-							"Heightfield":{
-								"heights":{},
-								"scale":{}
-							},
-							"ConvexDecompositionFromMeshWithConfig":{
-								"fill_mode":{
-									"FloodFill":{}
-								}
-							},
-							"skein_enum_index":17
-						}
-					},
-					{
-						"name":"RigidBody",
-						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
-						"avian3d::dynamics::rigid_body::RigidBody":1
-					},
-					{
-						"name":"NavMeshAffector",
-						"selected_type_path":"oxidized_navigation::NavMeshAffector"
-					}
-				],
-				"active_component_index":2,
-				"skein":[
-					{
-						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
-					},
-					{
-						"avian3d::dynamics::rigid_body::RigidBody":"Static"
-					},
-					{
-						"oxidized_navigation::NavMeshAffector":{}
-					}
-				]
-			},
-			"name":"Cube.001",
-			"primitives":[
-				{
-					"attributes":{
-						"POSITION":4,
-						"NORMAL":5,
-						"TEXCOORD_0":6
-					},
-					"indices":3,
-					"material":1
-				}
-			]
-		},
 		{
 			"extras":{
 				"skein_two":[
@@ -1950,11 +1272,12 @@
 			"primitives":[
 				{
 					"attributes":{
-						"POSITION":7,
-						"NORMAL":8,
-						"TEXCOORD_0":9
+						"POSITION":0,
+						"NORMAL":1,
+						"TEXCOORD_0":2,
+						"TANGENT":3
 					},
-					"indices":10
+					"indices":4
 				}
 			]
 		},
@@ -2033,27 +1356,36 @@
 						"name":"RigidBody",
 						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
 						"avian3d::dynamics::rigid_body::RigidBody":1
+					},
+					{
+						"name":"NavMeshAffector",
+						"selected_type_path":"oxidized_navigation::NavMeshAffector"
 					}
 				],
-				"active_component_index":0,
+				"active_component_index":2,
 				"skein":[
 					{
 						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
 					},
 					{
 						"avian3d::dynamics::rigid_body::RigidBody":"Static"
+					},
+					{
+						"oxidized_navigation::NavMeshAffector":{}
 					}
 				]
 			},
-			"name":"Cube.011",
+			"name":"Cube.004",
 			"primitives":[
 				{
 					"attributes":{
-						"POSITION":11,
-						"NORMAL":12,
-						"TEXCOORD_0":13
+						"POSITION":5,
+						"NORMAL":6,
+						"TEXCOORD_0":7,
+						"TANGENT":8
 					},
-					"indices":3
+					"indices":9,
+					"material":0
 				}
 			]
 		},
@@ -2132,27 +1464,144 @@
 						"name":"RigidBody",
 						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
 						"avian3d::dynamics::rigid_body::RigidBody":1
+					},
+					{
+						"name":"NavMeshAffector",
+						"selected_type_path":"oxidized_navigation::NavMeshAffector"
 					}
 				],
-				"active_component_index":0,
+				"active_component_index":2,
 				"skein":[
 					{
 						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
 					},
 					{
 						"avian3d::dynamics::rigid_body::RigidBody":"Static"
+					},
+					{
+						"oxidized_navigation::NavMeshAffector":{}
 					}
 				]
 			},
-			"name":"Cube.012",
+			"name":"Cube.080",
+			"primitives":[
+				{
+					"attributes":{
+						"POSITION":10,
+						"NORMAL":11,
+						"TEXCOORD_0":12,
+						"TANGENT":13
+					},
+					"indices":9,
+					"material":1
+				}
+			]
+		},
+		{
+			"extras":{
+				"skein_two":[
+					{
+						"name":"ColliderConstructor",
+						"selected_type_path":"avian3d::collision::collider::constructor::ColliderConstructor",
+						"avian3d::collision::collider::constructor::ColliderConstructor":{
+							"Sphere":{},
+							"Cuboid":{},
+							"RoundCuboid":{},
+							"Cylinder":{},
+							"Cone":{},
+							"Capsule":{},
+							"CapsuleEndpoints":{
+								"a":{},
+								"b":{}
+							},
+							"HalfSpace":{
+								"outward_normal":{}
+							},
+							"Segment":{
+								"a":{},
+								"b":{}
+							},
+							"Triangle":{
+								"a":{},
+								"b":{},
+								"c":{}
+							},
+							"Polyline":{
+								"indices":{
+									"Some":{}
+								},
+								"vertices":{}
+							},
+							"Trimesh":{
+								"indices":{},
+								"vertices":{}
+							},
+							"TrimeshWithConfig":{
+								"indices":{},
+								"vertices":{}
+							},
+							"ConvexDecomposition":{
+								"indices":{},
+								"vertices":{}
+							},
+							"ConvexDecompositionWithConfig":{
+								"indices":{},
+								"params":{
+									"fill_mode":{
+										"FloodFill":{}
+									}
+								},
+								"vertices":{}
+							},
+							"ConvexHull":{
+								"points":{}
+							},
+							"Heightfield":{
+								"heights":{},
+								"scale":{}
+							},
+							"ConvexDecompositionFromMeshWithConfig":{
+								"fill_mode":{
+									"FloodFill":{}
+								}
+							},
+							"skein_enum_index":17
+						}
+					},
+					{
+						"name":"RigidBody",
+						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
+						"avian3d::dynamics::rigid_body::RigidBody":1
+					},
+					{
+						"name":"NavMeshAffector",
+						"selected_type_path":"oxidized_navigation::NavMeshAffector"
+					}
+				],
+				"active_component_index":2,
+				"skein":[
+					{
+						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
+					},
+					{
+						"avian3d::dynamics::rigid_body::RigidBody":"Static"
+					},
+					{
+						"oxidized_navigation::NavMeshAffector":{}
+					}
+				]
+			},
+			"name":"Cube",
 			"primitives":[
 				{
 					"attributes":{
 						"POSITION":14,
 						"NORMAL":15,
-						"TEXCOORD_0":16
+						"TEXCOORD_0":16,
+						"TANGENT":17
 					},
-					"indices":3
+					"indices":9,
+					"material":0
 				}
 			]
 		},
@@ -2231,27 +1680,36 @@
 						"name":"RigidBody",
 						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
 						"avian3d::dynamics::rigid_body::RigidBody":1
+					},
+					{
+						"name":"NavMeshAffector",
+						"selected_type_path":"oxidized_navigation::NavMeshAffector"
 					}
 				],
-				"active_component_index":0,
+				"active_component_index":2,
 				"skein":[
 					{
 						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
 					},
 					{
 						"avian3d::dynamics::rigid_body::RigidBody":"Static"
+					},
+					{
+						"oxidized_navigation::NavMeshAffector":{}
 					}
 				]
 			},
-			"name":"Cube.013",
+			"name":"Cube.085",
 			"primitives":[
 				{
 					"attributes":{
-						"POSITION":17,
-						"NORMAL":18,
-						"TEXCOORD_0":19
+						"POSITION":18,
+						"NORMAL":19,
+						"TEXCOORD_0":20,
+						"TANGENT":21
 					},
-					"indices":3
+					"indices":9,
+					"material":2
 				}
 			]
 		},
@@ -2330,27 +1788,36 @@
 						"name":"RigidBody",
 						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
 						"avian3d::dynamics::rigid_body::RigidBody":1
+					},
+					{
+						"name":"NavMeshAffector",
+						"selected_type_path":"oxidized_navigation::NavMeshAffector"
 					}
 				],
-				"active_component_index":0,
+				"active_component_index":2,
 				"skein":[
 					{
 						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
 					},
 					{
 						"avian3d::dynamics::rigid_body::RigidBody":"Static"
+					},
+					{
+						"oxidized_navigation::NavMeshAffector":{}
 					}
 				]
 			},
-			"name":"Cube.014",
+			"name":"Cube.086",
 			"primitives":[
 				{
 					"attributes":{
-						"POSITION":20,
-						"NORMAL":21,
-						"TEXCOORD_0":22
+						"POSITION":22,
+						"NORMAL":23,
+						"TEXCOORD_0":24,
+						"TANGENT":25
 					},
-					"indices":3
+					"indices":9,
+					"material":3
 				}
 			]
 		},
@@ -2429,126 +1896,36 @@
 						"name":"RigidBody",
 						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
 						"avian3d::dynamics::rigid_body::RigidBody":1
+					},
+					{
+						"name":"NavMeshAffector",
+						"selected_type_path":"oxidized_navigation::NavMeshAffector"
 					}
 				],
-				"active_component_index":0,
+				"active_component_index":2,
 				"skein":[
 					{
 						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
 					},
 					{
 						"avian3d::dynamics::rigid_body::RigidBody":"Static"
+					},
+					{
+						"oxidized_navigation::NavMeshAffector":{}
 					}
 				]
 			},
-			"name":"Cube.018",
-			"primitives":[
-				{
-					"attributes":{
-						"POSITION":23,
-						"NORMAL":24,
-						"TEXCOORD_0":25
-					},
-					"indices":3
-				}
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[
-					{
-						"name":"ColliderConstructor",
-						"selected_type_path":"avian3d::collision::collider::constructor::ColliderConstructor",
-						"avian3d::collision::collider::constructor::ColliderConstructor":{
-							"Sphere":{},
-							"Cuboid":{},
-							"RoundCuboid":{},
-							"Cylinder":{},
-							"Cone":{},
-							"Capsule":{},
-							"CapsuleEndpoints":{
-								"a":{},
-								"b":{}
-							},
-							"HalfSpace":{
-								"outward_normal":{}
-							},
-							"Segment":{
-								"a":{},
-								"b":{}
-							},
-							"Triangle":{
-								"a":{},
-								"b":{},
-								"c":{}
-							},
-							"Polyline":{
-								"indices":{
-									"Some":{}
-								},
-								"vertices":{}
-							},
-							"Trimesh":{
-								"indices":{},
-								"vertices":{}
-							},
-							"TrimeshWithConfig":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecomposition":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecompositionWithConfig":{
-								"indices":{},
-								"params":{
-									"fill_mode":{
-										"FloodFill":{}
-									}
-								},
-								"vertices":{}
-							},
-							"ConvexHull":{
-								"points":{}
-							},
-							"Heightfield":{
-								"heights":{},
-								"scale":{}
-							},
-							"ConvexDecompositionFromMeshWithConfig":{
-								"fill_mode":{
-									"FloodFill":{}
-								}
-							},
-							"skein_enum_index":17
-						}
-					},
-					{
-						"name":"RigidBody",
-						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
-						"avian3d::dynamics::rigid_body::RigidBody":1
-					}
-				],
-				"active_component_index":0,
-				"skein":[
-					{
-						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
-					},
-					{
-						"avian3d::dynamics::rigid_body::RigidBody":"Static"
-					}
-				]
-			},
-			"name":"Cube.019",
+			"name":"Cube.087",
 			"primitives":[
 				{
 					"attributes":{
 						"POSITION":26,
 						"NORMAL":27,
-						"TEXCOORD_0":28
+						"TEXCOORD_0":28,
+						"TANGENT":29
 					},
-					"indices":3
+					"indices":9,
+					"material":4
 				}
 			]
 		},
@@ -2627,27 +2004,36 @@
 						"name":"RigidBody",
 						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
 						"avian3d::dynamics::rigid_body::RigidBody":1
+					},
+					{
+						"name":"NavMeshAffector",
+						"selected_type_path":"oxidized_navigation::NavMeshAffector"
 					}
 				],
-				"active_component_index":0,
+				"active_component_index":2,
 				"skein":[
 					{
 						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
 					},
 					{
 						"avian3d::dynamics::rigid_body::RigidBody":"Static"
+					},
+					{
+						"oxidized_navigation::NavMeshAffector":{}
 					}
 				]
 			},
-			"name":"Cube.022",
+			"name":"Cube.088",
 			"primitives":[
 				{
 					"attributes":{
-						"POSITION":29,
-						"NORMAL":30,
-						"TEXCOORD_0":31
+						"POSITION":30,
+						"NORMAL":31,
+						"TEXCOORD_0":32,
+						"TANGENT":33
 					},
-					"indices":3
+					"indices":9,
+					"material":5
 				}
 			]
 		},
@@ -2726,27 +2112,36 @@
 						"name":"RigidBody",
 						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
 						"avian3d::dynamics::rigid_body::RigidBody":1
+					},
+					{
+						"name":"NavMeshAffector",
+						"selected_type_path":"oxidized_navigation::NavMeshAffector"
 					}
 				],
-				"active_component_index":0,
+				"active_component_index":2,
 				"skein":[
 					{
 						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
 					},
 					{
 						"avian3d::dynamics::rigid_body::RigidBody":"Static"
+					},
+					{
+						"oxidized_navigation::NavMeshAffector":{}
 					}
 				]
 			},
-			"name":"Cube.023",
+			"name":"Cube.005",
 			"primitives":[
 				{
 					"attributes":{
-						"POSITION":32,
-						"NORMAL":33,
-						"TEXCOORD_0":34
+						"POSITION":34,
+						"NORMAL":35,
+						"TEXCOORD_0":36,
+						"TANGENT":37
 					},
-					"indices":3
+					"indices":9,
+					"material":0
 				}
 			]
 		},
@@ -2825,126 +2220,36 @@
 						"name":"RigidBody",
 						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
 						"avian3d::dynamics::rigid_body::RigidBody":1
+					},
+					{
+						"name":"NavMeshAffector",
+						"selected_type_path":"oxidized_navigation::NavMeshAffector"
 					}
 				],
-				"active_component_index":0,
+				"active_component_index":2,
 				"skein":[
 					{
 						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
 					},
 					{
 						"avian3d::dynamics::rigid_body::RigidBody":"Static"
+					},
+					{
+						"oxidized_navigation::NavMeshAffector":{}
 					}
 				]
 			},
-			"name":"Cube.024",
-			"primitives":[
-				{
-					"attributes":{
-						"POSITION":35,
-						"NORMAL":36,
-						"TEXCOORD_0":37
-					},
-					"indices":3
-				}
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[
-					{
-						"name":"ColliderConstructor",
-						"selected_type_path":"avian3d::collision::collider::constructor::ColliderConstructor",
-						"avian3d::collision::collider::constructor::ColliderConstructor":{
-							"Sphere":{},
-							"Cuboid":{},
-							"RoundCuboid":{},
-							"Cylinder":{},
-							"Cone":{},
-							"Capsule":{},
-							"CapsuleEndpoints":{
-								"a":{},
-								"b":{}
-							},
-							"HalfSpace":{
-								"outward_normal":{}
-							},
-							"Segment":{
-								"a":{},
-								"b":{}
-							},
-							"Triangle":{
-								"a":{},
-								"b":{},
-								"c":{}
-							},
-							"Polyline":{
-								"indices":{
-									"Some":{}
-								},
-								"vertices":{}
-							},
-							"Trimesh":{
-								"indices":{},
-								"vertices":{}
-							},
-							"TrimeshWithConfig":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecomposition":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecompositionWithConfig":{
-								"indices":{},
-								"params":{
-									"fill_mode":{
-										"FloodFill":{}
-									}
-								},
-								"vertices":{}
-							},
-							"ConvexHull":{
-								"points":{}
-							},
-							"Heightfield":{
-								"heights":{},
-								"scale":{}
-							},
-							"ConvexDecompositionFromMeshWithConfig":{
-								"fill_mode":{
-									"FloodFill":{}
-								}
-							},
-							"skein_enum_index":17
-						}
-					},
-					{
-						"name":"RigidBody",
-						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
-						"avian3d::dynamics::rigid_body::RigidBody":1
-					}
-				],
-				"active_component_index":0,
-				"skein":[
-					{
-						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
-					},
-					{
-						"avian3d::dynamics::rigid_body::RigidBody":"Static"
-					}
-				]
-			},
-			"name":"Cube.025",
+			"name":"Cube.006",
 			"primitives":[
 				{
 					"attributes":{
 						"POSITION":38,
 						"NORMAL":39,
-						"TEXCOORD_0":40
+						"TEXCOORD_0":40,
+						"TANGENT":41
 					},
-					"indices":3
+					"indices":9,
+					"material":6
 				}
 			]
 		},
@@ -3023,27 +2328,36 @@
 						"name":"RigidBody",
 						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
 						"avian3d::dynamics::rigid_body::RigidBody":1
+					},
+					{
+						"name":"NavMeshAffector",
+						"selected_type_path":"oxidized_navigation::NavMeshAffector"
 					}
 				],
-				"active_component_index":0,
+				"active_component_index":2,
 				"skein":[
 					{
 						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
 					},
 					{
 						"avian3d::dynamics::rigid_body::RigidBody":"Static"
+					},
+					{
+						"oxidized_navigation::NavMeshAffector":{}
 					}
 				]
 			},
-			"name":"Cube.026",
+			"name":"Cube.072",
 			"primitives":[
 				{
 					"attributes":{
-						"POSITION":41,
-						"NORMAL":42,
-						"TEXCOORD_0":43
+						"POSITION":42,
+						"NORMAL":43,
+						"TEXCOORD_0":44,
+						"TANGENT":45
 					},
-					"indices":3
+					"indices":9,
+					"material":7
 				}
 			]
 		},
@@ -3122,27 +2436,36 @@
 						"name":"RigidBody",
 						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
 						"avian3d::dynamics::rigid_body::RigidBody":1
+					},
+					{
+						"name":"NavMeshAffector",
+						"selected_type_path":"oxidized_navigation::NavMeshAffector"
 					}
 				],
-				"active_component_index":0,
+				"active_component_index":2,
 				"skein":[
 					{
 						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
 					},
 					{
 						"avian3d::dynamics::rigid_body::RigidBody":"Static"
+					},
+					{
+						"oxidized_navigation::NavMeshAffector":{}
 					}
 				]
 			},
-			"name":"Cube.027",
+			"name":"Cube.071",
 			"primitives":[
 				{
 					"attributes":{
-						"POSITION":44,
-						"NORMAL":45,
-						"TEXCOORD_0":46
+						"POSITION":46,
+						"NORMAL":47,
+						"TEXCOORD_0":48,
+						"TANGENT":49
 					},
-					"indices":3
+					"indices":9,
+					"material":8
 				}
 			]
 		},
@@ -3221,126 +2544,36 @@
 						"name":"RigidBody",
 						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
 						"avian3d::dynamics::rigid_body::RigidBody":1
+					},
+					{
+						"name":"NavMeshAffector",
+						"selected_type_path":"oxidized_navigation::NavMeshAffector"
 					}
 				],
-				"active_component_index":0,
+				"active_component_index":2,
 				"skein":[
 					{
 						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
 					},
 					{
 						"avian3d::dynamics::rigid_body::RigidBody":"Static"
+					},
+					{
+						"oxidized_navigation::NavMeshAffector":{}
 					}
 				]
 			},
-			"name":"Cube.028",
-			"primitives":[
-				{
-					"attributes":{
-						"POSITION":47,
-						"NORMAL":48,
-						"TEXCOORD_0":49
-					},
-					"indices":3
-				}
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[
-					{
-						"name":"ColliderConstructor",
-						"selected_type_path":"avian3d::collision::collider::constructor::ColliderConstructor",
-						"avian3d::collision::collider::constructor::ColliderConstructor":{
-							"Sphere":{},
-							"Cuboid":{},
-							"RoundCuboid":{},
-							"Cylinder":{},
-							"Cone":{},
-							"Capsule":{},
-							"CapsuleEndpoints":{
-								"a":{},
-								"b":{}
-							},
-							"HalfSpace":{
-								"outward_normal":{}
-							},
-							"Segment":{
-								"a":{},
-								"b":{}
-							},
-							"Triangle":{
-								"a":{},
-								"b":{},
-								"c":{}
-							},
-							"Polyline":{
-								"indices":{
-									"Some":{}
-								},
-								"vertices":{}
-							},
-							"Trimesh":{
-								"indices":{},
-								"vertices":{}
-							},
-							"TrimeshWithConfig":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecomposition":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecompositionWithConfig":{
-								"indices":{},
-								"params":{
-									"fill_mode":{
-										"FloodFill":{}
-									}
-								},
-								"vertices":{}
-							},
-							"ConvexHull":{
-								"points":{}
-							},
-							"Heightfield":{
-								"heights":{},
-								"scale":{}
-							},
-							"ConvexDecompositionFromMeshWithConfig":{
-								"fill_mode":{
-									"FloodFill":{}
-								}
-							},
-							"skein_enum_index":17
-						}
-					},
-					{
-						"name":"RigidBody",
-						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
-						"avian3d::dynamics::rigid_body::RigidBody":1
-					}
-				],
-				"active_component_index":0,
-				"skein":[
-					{
-						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
-					},
-					{
-						"avian3d::dynamics::rigid_body::RigidBody":"Static"
-					}
-				]
-			},
-			"name":"Cube.029",
+			"name":"Cube.073",
 			"primitives":[
 				{
 					"attributes":{
 						"POSITION":50,
 						"NORMAL":51,
-						"TEXCOORD_0":52
+						"TEXCOORD_0":52,
+						"TANGENT":53
 					},
-					"indices":3
+					"indices":9,
+					"material":9
 				}
 			]
 		},
@@ -3419,27 +2652,36 @@
 						"name":"RigidBody",
 						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
 						"avian3d::dynamics::rigid_body::RigidBody":1
+					},
+					{
+						"name":"NavMeshAffector",
+						"selected_type_path":"oxidized_navigation::NavMeshAffector"
 					}
 				],
-				"active_component_index":0,
+				"active_component_index":2,
 				"skein":[
 					{
 						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
 					},
 					{
 						"avian3d::dynamics::rigid_body::RigidBody":"Static"
+					},
+					{
+						"oxidized_navigation::NavMeshAffector":{}
 					}
 				]
 			},
-			"name":"Cube.030",
+			"name":"Cube.074",
 			"primitives":[
 				{
 					"attributes":{
-						"POSITION":53,
-						"NORMAL":54,
-						"TEXCOORD_0":55
+						"POSITION":54,
+						"NORMAL":55,
+						"TEXCOORD_0":56,
+						"TANGENT":57
 					},
-					"indices":3
+					"indices":9,
+					"material":10
 				}
 			]
 		},
@@ -3518,27 +2760,36 @@
 						"name":"RigidBody",
 						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
 						"avian3d::dynamics::rigid_body::RigidBody":1
+					},
+					{
+						"name":"NavMeshAffector",
+						"selected_type_path":"oxidized_navigation::NavMeshAffector"
 					}
 				],
-				"active_component_index":0,
+				"active_component_index":2,
 				"skein":[
 					{
 						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
 					},
 					{
 						"avian3d::dynamics::rigid_body::RigidBody":"Static"
+					},
+					{
+						"oxidized_navigation::NavMeshAffector":{}
 					}
 				]
 			},
-			"name":"Cube.031",
+			"name":"Cube.077",
 			"primitives":[
 				{
 					"attributes":{
-						"POSITION":56,
-						"NORMAL":57,
-						"TEXCOORD_0":58
+						"POSITION":58,
+						"NORMAL":59,
+						"TEXCOORD_0":60,
+						"TANGENT":61
 					},
-					"indices":3
+					"indices":9,
+					"material":11
 				}
 			]
 		},
@@ -3617,126 +2868,36 @@
 						"name":"RigidBody",
 						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
 						"avian3d::dynamics::rigid_body::RigidBody":1
+					},
+					{
+						"name":"NavMeshAffector",
+						"selected_type_path":"oxidized_navigation::NavMeshAffector"
 					}
 				],
-				"active_component_index":0,
+				"active_component_index":2,
 				"skein":[
 					{
 						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
 					},
 					{
 						"avian3d::dynamics::rigid_body::RigidBody":"Static"
+					},
+					{
+						"oxidized_navigation::NavMeshAffector":{}
 					}
 				]
 			},
-			"name":"Cube.032",
-			"primitives":[
-				{
-					"attributes":{
-						"POSITION":59,
-						"NORMAL":60,
-						"TEXCOORD_0":61
-					},
-					"indices":3
-				}
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[
-					{
-						"name":"ColliderConstructor",
-						"selected_type_path":"avian3d::collision::collider::constructor::ColliderConstructor",
-						"avian3d::collision::collider::constructor::ColliderConstructor":{
-							"Sphere":{},
-							"Cuboid":{},
-							"RoundCuboid":{},
-							"Cylinder":{},
-							"Cone":{},
-							"Capsule":{},
-							"CapsuleEndpoints":{
-								"a":{},
-								"b":{}
-							},
-							"HalfSpace":{
-								"outward_normal":{}
-							},
-							"Segment":{
-								"a":{},
-								"b":{}
-							},
-							"Triangle":{
-								"a":{},
-								"b":{},
-								"c":{}
-							},
-							"Polyline":{
-								"indices":{
-									"Some":{}
-								},
-								"vertices":{}
-							},
-							"Trimesh":{
-								"indices":{},
-								"vertices":{}
-							},
-							"TrimeshWithConfig":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecomposition":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecompositionWithConfig":{
-								"indices":{},
-								"params":{
-									"fill_mode":{
-										"FloodFill":{}
-									}
-								},
-								"vertices":{}
-							},
-							"ConvexHull":{
-								"points":{}
-							},
-							"Heightfield":{
-								"heights":{},
-								"scale":{}
-							},
-							"ConvexDecompositionFromMeshWithConfig":{
-								"fill_mode":{
-									"FloodFill":{}
-								}
-							},
-							"skein_enum_index":17
-						}
-					},
-					{
-						"name":"RigidBody",
-						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
-						"avian3d::dynamics::rigid_body::RigidBody":1
-					}
-				],
-				"active_component_index":0,
-				"skein":[
-					{
-						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
-					},
-					{
-						"avian3d::dynamics::rigid_body::RigidBody":"Static"
-					}
-				]
-			},
-			"name":"Cube.033",
+			"name":"Cube.081",
 			"primitives":[
 				{
 					"attributes":{
 						"POSITION":62,
 						"NORMAL":63,
-						"TEXCOORD_0":64
+						"TEXCOORD_0":64,
+						"TANGENT":65
 					},
-					"indices":3
+					"indices":9,
+					"material":12
 				}
 			]
 		},
@@ -3815,27 +2976,36 @@
 						"name":"RigidBody",
 						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
 						"avian3d::dynamics::rigid_body::RigidBody":1
+					},
+					{
+						"name":"NavMeshAffector",
+						"selected_type_path":"oxidized_navigation::NavMeshAffector"
 					}
 				],
-				"active_component_index":0,
+				"active_component_index":2,
 				"skein":[
 					{
 						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
 					},
 					{
 						"avian3d::dynamics::rigid_body::RigidBody":"Static"
+					},
+					{
+						"oxidized_navigation::NavMeshAffector":{}
 					}
 				]
 			},
-			"name":"Cube.034",
+			"name":"Cube.083",
 			"primitives":[
 				{
 					"attributes":{
-						"POSITION":65,
-						"NORMAL":66,
-						"TEXCOORD_0":67
+						"POSITION":66,
+						"NORMAL":67,
+						"TEXCOORD_0":68,
+						"TANGENT":69
 					},
-					"indices":3
+					"indices":9,
+					"material":13
 				}
 			]
 		},
@@ -3914,27 +3084,36 @@
 						"name":"RigidBody",
 						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
 						"avian3d::dynamics::rigid_body::RigidBody":1
+					},
+					{
+						"name":"NavMeshAffector",
+						"selected_type_path":"oxidized_navigation::NavMeshAffector"
 					}
 				],
-				"active_component_index":0,
+				"active_component_index":2,
 				"skein":[
 					{
 						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
 					},
 					{
 						"avian3d::dynamics::rigid_body::RigidBody":"Static"
+					},
+					{
+						"oxidized_navigation::NavMeshAffector":{}
 					}
 				]
 			},
-			"name":"Cube.035",
+			"name":"Cube.089",
 			"primitives":[
 				{
 					"attributes":{
-						"POSITION":68,
-						"NORMAL":69,
-						"TEXCOORD_0":70
+						"POSITION":70,
+						"NORMAL":71,
+						"TEXCOORD_0":72,
+						"TANGENT":73
 					},
-					"indices":3
+					"indices":9,
+					"material":14
 				}
 			]
 		},
@@ -4013,126 +3192,36 @@
 						"name":"RigidBody",
 						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
 						"avian3d::dynamics::rigid_body::RigidBody":1
+					},
+					{
+						"name":"NavMeshAffector",
+						"selected_type_path":"oxidized_navigation::NavMeshAffector"
 					}
 				],
-				"active_component_index":0,
+				"active_component_index":2,
 				"skein":[
 					{
 						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
 					},
 					{
 						"avian3d::dynamics::rigid_body::RigidBody":"Static"
+					},
+					{
+						"oxidized_navigation::NavMeshAffector":{}
 					}
 				]
 			},
-			"name":"Cube.036",
-			"primitives":[
-				{
-					"attributes":{
-						"POSITION":71,
-						"NORMAL":72,
-						"TEXCOORD_0":73
-					},
-					"indices":3
-				}
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[
-					{
-						"name":"ColliderConstructor",
-						"selected_type_path":"avian3d::collision::collider::constructor::ColliderConstructor",
-						"avian3d::collision::collider::constructor::ColliderConstructor":{
-							"Sphere":{},
-							"Cuboid":{},
-							"RoundCuboid":{},
-							"Cylinder":{},
-							"Cone":{},
-							"Capsule":{},
-							"CapsuleEndpoints":{
-								"a":{},
-								"b":{}
-							},
-							"HalfSpace":{
-								"outward_normal":{}
-							},
-							"Segment":{
-								"a":{},
-								"b":{}
-							},
-							"Triangle":{
-								"a":{},
-								"b":{},
-								"c":{}
-							},
-							"Polyline":{
-								"indices":{
-									"Some":{}
-								},
-								"vertices":{}
-							},
-							"Trimesh":{
-								"indices":{},
-								"vertices":{}
-							},
-							"TrimeshWithConfig":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecomposition":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecompositionWithConfig":{
-								"indices":{},
-								"params":{
-									"fill_mode":{
-										"FloodFill":{}
-									}
-								},
-								"vertices":{}
-							},
-							"ConvexHull":{
-								"points":{}
-							},
-							"Heightfield":{
-								"heights":{},
-								"scale":{}
-							},
-							"ConvexDecompositionFromMeshWithConfig":{
-								"fill_mode":{
-									"FloodFill":{}
-								}
-							},
-							"skein_enum_index":17
-						}
-					},
-					{
-						"name":"RigidBody",
-						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
-						"avian3d::dynamics::rigid_body::RigidBody":1
-					}
-				],
-				"active_component_index":0,
-				"skein":[
-					{
-						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
-					},
-					{
-						"avian3d::dynamics::rigid_body::RigidBody":"Static"
-					}
-				]
-			},
-			"name":"Cube.037",
+			"name":"Cube.090",
 			"primitives":[
 				{
 					"attributes":{
 						"POSITION":74,
 						"NORMAL":75,
-						"TEXCOORD_0":76
+						"TEXCOORD_0":76,
+						"TANGENT":77
 					},
-					"indices":3
+					"indices":9,
+					"material":15
 				}
 			]
 		},
@@ -4211,27 +3300,36 @@
 						"name":"RigidBody",
 						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
 						"avian3d::dynamics::rigid_body::RigidBody":1
+					},
+					{
+						"name":"NavMeshAffector",
+						"selected_type_path":"oxidized_navigation::NavMeshAffector"
 					}
 				],
-				"active_component_index":0,
+				"active_component_index":2,
 				"skein":[
 					{
 						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
 					},
 					{
 						"avian3d::dynamics::rigid_body::RigidBody":"Static"
+					},
+					{
+						"oxidized_navigation::NavMeshAffector":{}
 					}
 				]
 			},
-			"name":"Cube.038",
+			"name":"Cube.091",
 			"primitives":[
 				{
 					"attributes":{
-						"POSITION":77,
-						"NORMAL":78,
-						"TEXCOORD_0":79
+						"POSITION":78,
+						"NORMAL":79,
+						"TEXCOORD_0":80,
+						"TANGENT":81
 					},
-					"indices":3
+					"indices":9,
+					"material":16
 				}
 			]
 		},
@@ -4310,27 +3408,36 @@
 						"name":"RigidBody",
 						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
 						"avian3d::dynamics::rigid_body::RigidBody":1
+					},
+					{
+						"name":"NavMeshAffector",
+						"selected_type_path":"oxidized_navigation::NavMeshAffector"
 					}
 				],
-				"active_component_index":0,
+				"active_component_index":2,
 				"skein":[
 					{
 						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
 					},
 					{
 						"avian3d::dynamics::rigid_body::RigidBody":"Static"
+					},
+					{
+						"oxidized_navigation::NavMeshAffector":{}
 					}
 				]
 			},
-			"name":"Cube.039",
+			"name":"Cube.092",
 			"primitives":[
 				{
 					"attributes":{
-						"POSITION":80,
-						"NORMAL":81,
-						"TEXCOORD_0":82
+						"POSITION":82,
+						"NORMAL":83,
+						"TEXCOORD_0":84,
+						"TANGENT":85
 					},
-					"indices":3
+					"indices":9,
+					"material":17
 				}
 			]
 		},
@@ -4409,126 +3516,36 @@
 						"name":"RigidBody",
 						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
 						"avian3d::dynamics::rigid_body::RigidBody":1
+					},
+					{
+						"name":"NavMeshAffector",
+						"selected_type_path":"oxidized_navigation::NavMeshAffector"
 					}
 				],
-				"active_component_index":0,
+				"active_component_index":2,
 				"skein":[
 					{
 						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
 					},
 					{
 						"avian3d::dynamics::rigid_body::RigidBody":"Static"
+					},
+					{
+						"oxidized_navigation::NavMeshAffector":{}
 					}
 				]
 			},
-			"name":"Cube.040",
-			"primitives":[
-				{
-					"attributes":{
-						"POSITION":83,
-						"NORMAL":84,
-						"TEXCOORD_0":85
-					},
-					"indices":3
-				}
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[
-					{
-						"name":"ColliderConstructor",
-						"selected_type_path":"avian3d::collision::collider::constructor::ColliderConstructor",
-						"avian3d::collision::collider::constructor::ColliderConstructor":{
-							"Sphere":{},
-							"Cuboid":{},
-							"RoundCuboid":{},
-							"Cylinder":{},
-							"Cone":{},
-							"Capsule":{},
-							"CapsuleEndpoints":{
-								"a":{},
-								"b":{}
-							},
-							"HalfSpace":{
-								"outward_normal":{}
-							},
-							"Segment":{
-								"a":{},
-								"b":{}
-							},
-							"Triangle":{
-								"a":{},
-								"b":{},
-								"c":{}
-							},
-							"Polyline":{
-								"indices":{
-									"Some":{}
-								},
-								"vertices":{}
-							},
-							"Trimesh":{
-								"indices":{},
-								"vertices":{}
-							},
-							"TrimeshWithConfig":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecomposition":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecompositionWithConfig":{
-								"indices":{},
-								"params":{
-									"fill_mode":{
-										"FloodFill":{}
-									}
-								},
-								"vertices":{}
-							},
-							"ConvexHull":{
-								"points":{}
-							},
-							"Heightfield":{
-								"heights":{},
-								"scale":{}
-							},
-							"ConvexDecompositionFromMeshWithConfig":{
-								"fill_mode":{
-									"FloodFill":{}
-								}
-							},
-							"skein_enum_index":17
-						}
-					},
-					{
-						"name":"RigidBody",
-						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
-						"avian3d::dynamics::rigid_body::RigidBody":1
-					}
-				],
-				"active_component_index":0,
-				"skein":[
-					{
-						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
-					},
-					{
-						"avian3d::dynamics::rigid_body::RigidBody":"Static"
-					}
-				]
-			},
-			"name":"Cube.041",
+			"name":"Cube.093",
 			"primitives":[
 				{
 					"attributes":{
 						"POSITION":86,
 						"NORMAL":87,
-						"TEXCOORD_0":88
+						"TEXCOORD_0":88,
+						"TANGENT":89
 					},
-					"indices":3
+					"indices":9,
+					"material":18
 				}
 			]
 		},
@@ -4607,27 +3624,36 @@
 						"name":"RigidBody",
 						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
 						"avian3d::dynamics::rigid_body::RigidBody":1
+					},
+					{
+						"name":"NavMeshAffector",
+						"selected_type_path":"oxidized_navigation::NavMeshAffector"
 					}
 				],
-				"active_component_index":0,
+				"active_component_index":2,
 				"skein":[
 					{
 						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
 					},
 					{
 						"avian3d::dynamics::rigid_body::RigidBody":"Static"
+					},
+					{
+						"oxidized_navigation::NavMeshAffector":{}
 					}
 				]
 			},
-			"name":"Cube.042",
+			"name":"Cube.094",
 			"primitives":[
 				{
 					"attributes":{
-						"POSITION":89,
-						"NORMAL":90,
-						"TEXCOORD_0":91
+						"POSITION":90,
+						"NORMAL":91,
+						"TEXCOORD_0":92,
+						"TANGENT":93
 					},
-					"indices":3
+					"indices":9,
+					"material":19
 				}
 			]
 		},
@@ -4706,27 +3732,36 @@
 						"name":"RigidBody",
 						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
 						"avian3d::dynamics::rigid_body::RigidBody":1
+					},
+					{
+						"name":"NavMeshAffector",
+						"selected_type_path":"oxidized_navigation::NavMeshAffector"
 					}
 				],
-				"active_component_index":0,
+				"active_component_index":2,
 				"skein":[
 					{
 						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
 					},
 					{
 						"avian3d::dynamics::rigid_body::RigidBody":"Static"
+					},
+					{
+						"oxidized_navigation::NavMeshAffector":{}
 					}
 				]
 			},
-			"name":"Cube.043",
+			"name":"Cube.095",
 			"primitives":[
 				{
 					"attributes":{
-						"POSITION":92,
-						"NORMAL":93,
-						"TEXCOORD_0":94
+						"POSITION":94,
+						"NORMAL":95,
+						"TEXCOORD_0":96,
+						"TANGENT":97
 					},
-					"indices":3
+					"indices":9,
+					"material":20
 				}
 			]
 		},
@@ -4805,126 +3840,36 @@
 						"name":"RigidBody",
 						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
 						"avian3d::dynamics::rigid_body::RigidBody":1
+					},
+					{
+						"name":"NavMeshAffector",
+						"selected_type_path":"oxidized_navigation::NavMeshAffector"
 					}
 				],
-				"active_component_index":0,
+				"active_component_index":2,
 				"skein":[
 					{
 						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
 					},
 					{
 						"avian3d::dynamics::rigid_body::RigidBody":"Static"
+					},
+					{
+						"oxidized_navigation::NavMeshAffector":{}
 					}
 				]
 			},
-			"name":"Cube.044",
-			"primitives":[
-				{
-					"attributes":{
-						"POSITION":95,
-						"NORMAL":96,
-						"TEXCOORD_0":97
-					},
-					"indices":3
-				}
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[
-					{
-						"name":"ColliderConstructor",
-						"selected_type_path":"avian3d::collision::collider::constructor::ColliderConstructor",
-						"avian3d::collision::collider::constructor::ColliderConstructor":{
-							"Sphere":{},
-							"Cuboid":{},
-							"RoundCuboid":{},
-							"Cylinder":{},
-							"Cone":{},
-							"Capsule":{},
-							"CapsuleEndpoints":{
-								"a":{},
-								"b":{}
-							},
-							"HalfSpace":{
-								"outward_normal":{}
-							},
-							"Segment":{
-								"a":{},
-								"b":{}
-							},
-							"Triangle":{
-								"a":{},
-								"b":{},
-								"c":{}
-							},
-							"Polyline":{
-								"indices":{
-									"Some":{}
-								},
-								"vertices":{}
-							},
-							"Trimesh":{
-								"indices":{},
-								"vertices":{}
-							},
-							"TrimeshWithConfig":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecomposition":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecompositionWithConfig":{
-								"indices":{},
-								"params":{
-									"fill_mode":{
-										"FloodFill":{}
-									}
-								},
-								"vertices":{}
-							},
-							"ConvexHull":{
-								"points":{}
-							},
-							"Heightfield":{
-								"heights":{},
-								"scale":{}
-							},
-							"ConvexDecompositionFromMeshWithConfig":{
-								"fill_mode":{
-									"FloodFill":{}
-								}
-							},
-							"skein_enum_index":17
-						}
-					},
-					{
-						"name":"RigidBody",
-						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
-						"avian3d::dynamics::rigid_body::RigidBody":1
-					}
-				],
-				"active_component_index":0,
-				"skein":[
-					{
-						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
-					},
-					{
-						"avian3d::dynamics::rigid_body::RigidBody":"Static"
-					}
-				]
-			},
-			"name":"Cube.045",
+			"name":"Cube.096",
 			"primitives":[
 				{
 					"attributes":{
 						"POSITION":98,
 						"NORMAL":99,
-						"TEXCOORD_0":100
+						"TEXCOORD_0":100,
+						"TANGENT":101
 					},
-					"indices":3
+					"indices":9,
+					"material":21
 				}
 			]
 		},
@@ -5003,2403 +3948,36 @@
 						"name":"RigidBody",
 						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
 						"avian3d::dynamics::rigid_body::RigidBody":1
+					},
+					{
+						"name":"NavMeshAffector",
+						"selected_type_path":"oxidized_navigation::NavMeshAffector"
 					}
 				],
-				"active_component_index":0,
+				"active_component_index":2,
 				"skein":[
 					{
 						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
 					},
 					{
 						"avian3d::dynamics::rigid_body::RigidBody":"Static"
+					},
+					{
+						"oxidized_navigation::NavMeshAffector":{}
 					}
 				]
 			},
-			"name":"Cube.046",
+			"name":"Cube.097",
 			"primitives":[
 				{
 					"attributes":{
-						"POSITION":101,
-						"NORMAL":102,
-						"TEXCOORD_0":103
-					},
-					"indices":3
-				}
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[
-					{
-						"name":"ColliderConstructor",
-						"selected_type_path":"avian3d::collision::collider::constructor::ColliderConstructor",
-						"avian3d::collision::collider::constructor::ColliderConstructor":{
-							"Sphere":{},
-							"Cuboid":{},
-							"RoundCuboid":{},
-							"Cylinder":{},
-							"Cone":{},
-							"Capsule":{},
-							"CapsuleEndpoints":{
-								"a":{},
-								"b":{}
-							},
-							"HalfSpace":{
-								"outward_normal":{}
-							},
-							"Segment":{
-								"a":{},
-								"b":{}
-							},
-							"Triangle":{
-								"a":{},
-								"b":{},
-								"c":{}
-							},
-							"Polyline":{
-								"indices":{
-									"Some":{}
-								},
-								"vertices":{}
-							},
-							"Trimesh":{
-								"indices":{},
-								"vertices":{}
-							},
-							"TrimeshWithConfig":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecomposition":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecompositionWithConfig":{
-								"indices":{},
-								"params":{
-									"fill_mode":{
-										"FloodFill":{}
-									}
-								},
-								"vertices":{}
-							},
-							"ConvexHull":{
-								"points":{}
-							},
-							"Heightfield":{
-								"heights":{},
-								"scale":{}
-							},
-							"ConvexDecompositionFromMeshWithConfig":{
-								"fill_mode":{
-									"FloodFill":{}
-								}
-							},
-							"skein_enum_index":17
-						}
-					},
-					{
-						"name":"RigidBody",
-						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
-						"avian3d::dynamics::rigid_body::RigidBody":1
-					}
-				],
-				"active_component_index":0,
-				"skein":[
-					{
-						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
-					},
-					{
-						"avian3d::dynamics::rigid_body::RigidBody":"Static"
-					}
-				]
-			},
-			"name":"Cube.047",
-			"primitives":[
-				{
-					"attributes":{
-						"POSITION":104,
-						"NORMAL":105,
-						"TEXCOORD_0":106
-					},
-					"indices":3
-				}
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[
-					{
-						"name":"ColliderConstructor",
-						"selected_type_path":"avian3d::collision::collider::constructor::ColliderConstructor",
-						"avian3d::collision::collider::constructor::ColliderConstructor":{
-							"Sphere":{},
-							"Cuboid":{},
-							"RoundCuboid":{},
-							"Cylinder":{},
-							"Cone":{},
-							"Capsule":{},
-							"CapsuleEndpoints":{
-								"a":{},
-								"b":{}
-							},
-							"HalfSpace":{
-								"outward_normal":{}
-							},
-							"Segment":{
-								"a":{},
-								"b":{}
-							},
-							"Triangle":{
-								"a":{},
-								"b":{},
-								"c":{}
-							},
-							"Polyline":{
-								"indices":{
-									"Some":{}
-								},
-								"vertices":{}
-							},
-							"Trimesh":{
-								"indices":{},
-								"vertices":{}
-							},
-							"TrimeshWithConfig":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecomposition":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecompositionWithConfig":{
-								"indices":{},
-								"params":{
-									"fill_mode":{
-										"FloodFill":{}
-									}
-								},
-								"vertices":{}
-							},
-							"ConvexHull":{
-								"points":{}
-							},
-							"Heightfield":{
-								"heights":{},
-								"scale":{}
-							},
-							"ConvexDecompositionFromMeshWithConfig":{
-								"fill_mode":{
-									"FloodFill":{}
-								}
-							},
-							"skein_enum_index":17
-						}
-					},
-					{
-						"name":"RigidBody",
-						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
-						"avian3d::dynamics::rigid_body::RigidBody":1
-					}
-				],
-				"active_component_index":0,
-				"skein":[
-					{
-						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
-					},
-					{
-						"avian3d::dynamics::rigid_body::RigidBody":"Static"
-					}
-				]
-			},
-			"name":"Cube.048",
-			"primitives":[
-				{
-					"attributes":{
-						"POSITION":107,
-						"NORMAL":108,
-						"TEXCOORD_0":109
-					},
-					"indices":3
-				}
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[
-					{
-						"name":"ColliderConstructor",
-						"selected_type_path":"avian3d::collision::collider::constructor::ColliderConstructor",
-						"avian3d::collision::collider::constructor::ColliderConstructor":{
-							"Sphere":{},
-							"Cuboid":{},
-							"RoundCuboid":{},
-							"Cylinder":{},
-							"Cone":{},
-							"Capsule":{},
-							"CapsuleEndpoints":{
-								"a":{},
-								"b":{}
-							},
-							"HalfSpace":{
-								"outward_normal":{}
-							},
-							"Segment":{
-								"a":{},
-								"b":{}
-							},
-							"Triangle":{
-								"a":{},
-								"b":{},
-								"c":{}
-							},
-							"Polyline":{
-								"indices":{
-									"Some":{}
-								},
-								"vertices":{}
-							},
-							"Trimesh":{
-								"indices":{},
-								"vertices":{}
-							},
-							"TrimeshWithConfig":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecomposition":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecompositionWithConfig":{
-								"indices":{},
-								"params":{
-									"fill_mode":{
-										"FloodFill":{}
-									}
-								},
-								"vertices":{}
-							},
-							"ConvexHull":{
-								"points":{}
-							},
-							"Heightfield":{
-								"heights":{},
-								"scale":{}
-							},
-							"ConvexDecompositionFromMeshWithConfig":{
-								"fill_mode":{
-									"FloodFill":{}
-								}
-							},
-							"skein_enum_index":17
-						}
-					},
-					{
-						"name":"RigidBody",
-						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
-						"avian3d::dynamics::rigid_body::RigidBody":1
-					}
-				],
-				"active_component_index":0,
-				"skein":[
-					{
-						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
-					},
-					{
-						"avian3d::dynamics::rigid_body::RigidBody":"Static"
-					}
-				]
-			},
-			"name":"Cube.049",
-			"primitives":[
-				{
-					"attributes":{
-						"POSITION":110,
-						"NORMAL":111,
-						"TEXCOORD_0":112
-					},
-					"indices":3
-				}
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[
-					{
-						"name":"ColliderConstructor",
-						"selected_type_path":"avian3d::collision::collider::constructor::ColliderConstructor",
-						"avian3d::collision::collider::constructor::ColliderConstructor":{
-							"Sphere":{},
-							"Cuboid":{},
-							"RoundCuboid":{},
-							"Cylinder":{},
-							"Cone":{},
-							"Capsule":{},
-							"CapsuleEndpoints":{
-								"a":{},
-								"b":{}
-							},
-							"HalfSpace":{
-								"outward_normal":{}
-							},
-							"Segment":{
-								"a":{},
-								"b":{}
-							},
-							"Triangle":{
-								"a":{},
-								"b":{},
-								"c":{}
-							},
-							"Polyline":{
-								"indices":{
-									"Some":{}
-								},
-								"vertices":{}
-							},
-							"Trimesh":{
-								"indices":{},
-								"vertices":{}
-							},
-							"TrimeshWithConfig":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecomposition":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecompositionWithConfig":{
-								"indices":{},
-								"params":{
-									"fill_mode":{
-										"FloodFill":{}
-									}
-								},
-								"vertices":{}
-							},
-							"ConvexHull":{
-								"points":{}
-							},
-							"Heightfield":{
-								"heights":{},
-								"scale":{}
-							},
-							"ConvexDecompositionFromMeshWithConfig":{
-								"fill_mode":{
-									"FloodFill":{}
-								}
-							},
-							"skein_enum_index":17
-						}
-					},
-					{
-						"name":"RigidBody",
-						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
-						"avian3d::dynamics::rigid_body::RigidBody":1
-					}
-				],
-				"active_component_index":0,
-				"skein":[
-					{
-						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
-					},
-					{
-						"avian3d::dynamics::rigid_body::RigidBody":"Static"
-					}
-				]
-			},
-			"name":"Cube.050",
-			"primitives":[
-				{
-					"attributes":{
-						"POSITION":113,
-						"NORMAL":114,
-						"TEXCOORD_0":115
-					},
-					"indices":3
-				}
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[
-					{
-						"name":"ColliderConstructor",
-						"selected_type_path":"avian3d::collision::collider::constructor::ColliderConstructor",
-						"avian3d::collision::collider::constructor::ColliderConstructor":{
-							"Sphere":{},
-							"Cuboid":{},
-							"RoundCuboid":{},
-							"Cylinder":{},
-							"Cone":{},
-							"Capsule":{},
-							"CapsuleEndpoints":{
-								"a":{},
-								"b":{}
-							},
-							"HalfSpace":{
-								"outward_normal":{}
-							},
-							"Segment":{
-								"a":{},
-								"b":{}
-							},
-							"Triangle":{
-								"a":{},
-								"b":{},
-								"c":{}
-							},
-							"Polyline":{
-								"indices":{
-									"Some":{}
-								},
-								"vertices":{}
-							},
-							"Trimesh":{
-								"indices":{},
-								"vertices":{}
-							},
-							"TrimeshWithConfig":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecomposition":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecompositionWithConfig":{
-								"indices":{},
-								"params":{
-									"fill_mode":{
-										"FloodFill":{}
-									}
-								},
-								"vertices":{}
-							},
-							"ConvexHull":{
-								"points":{}
-							},
-							"Heightfield":{
-								"heights":{},
-								"scale":{}
-							},
-							"ConvexDecompositionFromMeshWithConfig":{
-								"fill_mode":{
-									"FloodFill":{}
-								}
-							},
-							"skein_enum_index":17
-						}
-					},
-					{
-						"name":"RigidBody",
-						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
-						"avian3d::dynamics::rigid_body::RigidBody":1
-					}
-				],
-				"active_component_index":0,
-				"skein":[
-					{
-						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
-					},
-					{
-						"avian3d::dynamics::rigid_body::RigidBody":"Static"
-					}
-				]
-			},
-			"name":"Cube.051",
-			"primitives":[
-				{
-					"attributes":{
-						"POSITION":116,
-						"NORMAL":117,
-						"TEXCOORD_0":118
-					},
-					"indices":3
-				}
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[
-					{
-						"name":"ColliderConstructor",
-						"selected_type_path":"avian3d::collision::collider::constructor::ColliderConstructor",
-						"avian3d::collision::collider::constructor::ColliderConstructor":{
-							"Sphere":{},
-							"Cuboid":{},
-							"RoundCuboid":{},
-							"Cylinder":{},
-							"Cone":{},
-							"Capsule":{},
-							"CapsuleEndpoints":{
-								"a":{},
-								"b":{}
-							},
-							"HalfSpace":{
-								"outward_normal":{}
-							},
-							"Segment":{
-								"a":{},
-								"b":{}
-							},
-							"Triangle":{
-								"a":{},
-								"b":{},
-								"c":{}
-							},
-							"Polyline":{
-								"indices":{
-									"Some":{}
-								},
-								"vertices":{}
-							},
-							"Trimesh":{
-								"indices":{},
-								"vertices":{}
-							},
-							"TrimeshWithConfig":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecomposition":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecompositionWithConfig":{
-								"indices":{},
-								"params":{
-									"fill_mode":{
-										"FloodFill":{}
-									}
-								},
-								"vertices":{}
-							},
-							"ConvexHull":{
-								"points":{}
-							},
-							"Heightfield":{
-								"heights":{},
-								"scale":{}
-							},
-							"ConvexDecompositionFromMeshWithConfig":{
-								"fill_mode":{
-									"FloodFill":{}
-								}
-							},
-							"skein_enum_index":17
-						}
-					},
-					{
-						"name":"RigidBody",
-						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
-						"avian3d::dynamics::rigid_body::RigidBody":1
-					}
-				],
-				"active_component_index":0,
-				"skein":[
-					{
-						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
-					},
-					{
-						"avian3d::dynamics::rigid_body::RigidBody":"Static"
-					}
-				]
-			},
-			"name":"Cube.052",
-			"primitives":[
-				{
-					"attributes":{
-						"POSITION":119,
-						"NORMAL":120,
-						"TEXCOORD_0":121
-					},
-					"indices":3
-				}
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[
-					{
-						"name":"ColliderConstructor",
-						"selected_type_path":"avian3d::collision::collider::constructor::ColliderConstructor",
-						"avian3d::collision::collider::constructor::ColliderConstructor":{
-							"Sphere":{},
-							"Cuboid":{},
-							"RoundCuboid":{},
-							"Cylinder":{},
-							"Cone":{},
-							"Capsule":{},
-							"CapsuleEndpoints":{
-								"a":{},
-								"b":{}
-							},
-							"HalfSpace":{
-								"outward_normal":{}
-							},
-							"Segment":{
-								"a":{},
-								"b":{}
-							},
-							"Triangle":{
-								"a":{},
-								"b":{},
-								"c":{}
-							},
-							"Polyline":{
-								"indices":{
-									"Some":{}
-								},
-								"vertices":{}
-							},
-							"Trimesh":{
-								"indices":{},
-								"vertices":{}
-							},
-							"TrimeshWithConfig":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecomposition":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecompositionWithConfig":{
-								"indices":{},
-								"params":{
-									"fill_mode":{
-										"FloodFill":{}
-									}
-								},
-								"vertices":{}
-							},
-							"ConvexHull":{
-								"points":{}
-							},
-							"Heightfield":{
-								"heights":{},
-								"scale":{}
-							},
-							"ConvexDecompositionFromMeshWithConfig":{
-								"fill_mode":{
-									"FloodFill":{}
-								}
-							},
-							"skein_enum_index":17
-						}
-					},
-					{
-						"name":"RigidBody",
-						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
-						"avian3d::dynamics::rigid_body::RigidBody":1
-					}
-				],
-				"active_component_index":0,
-				"skein":[
-					{
-						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
-					},
-					{
-						"avian3d::dynamics::rigid_body::RigidBody":"Static"
-					}
-				]
-			},
-			"name":"Cube.053",
-			"primitives":[
-				{
-					"attributes":{
-						"POSITION":122,
-						"NORMAL":123,
-						"TEXCOORD_0":124
-					},
-					"indices":3
-				}
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[
-					{
-						"name":"ColliderConstructor",
-						"selected_type_path":"avian3d::collision::collider::constructor::ColliderConstructor",
-						"avian3d::collision::collider::constructor::ColliderConstructor":{
-							"Sphere":{},
-							"Cuboid":{},
-							"RoundCuboid":{},
-							"Cylinder":{},
-							"Cone":{},
-							"Capsule":{},
-							"CapsuleEndpoints":{
-								"a":{},
-								"b":{}
-							},
-							"HalfSpace":{
-								"outward_normal":{}
-							},
-							"Segment":{
-								"a":{},
-								"b":{}
-							},
-							"Triangle":{
-								"a":{},
-								"b":{},
-								"c":{}
-							},
-							"Polyline":{
-								"indices":{
-									"Some":{}
-								},
-								"vertices":{}
-							},
-							"Trimesh":{
-								"indices":{},
-								"vertices":{}
-							},
-							"TrimeshWithConfig":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecomposition":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecompositionWithConfig":{
-								"indices":{},
-								"params":{
-									"fill_mode":{
-										"FloodFill":{}
-									}
-								},
-								"vertices":{}
-							},
-							"ConvexHull":{
-								"points":{}
-							},
-							"Heightfield":{
-								"heights":{},
-								"scale":{}
-							},
-							"ConvexDecompositionFromMeshWithConfig":{
-								"fill_mode":{
-									"FloodFill":{}
-								}
-							},
-							"skein_enum_index":17
-						}
-					},
-					{
-						"name":"RigidBody",
-						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
-						"avian3d::dynamics::rigid_body::RigidBody":1
-					}
-				],
-				"active_component_index":0,
-				"skein":[
-					{
-						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
-					},
-					{
-						"avian3d::dynamics::rigid_body::RigidBody":"Static"
-					}
-				]
-			},
-			"name":"Cube.054",
-			"primitives":[
-				{
-					"attributes":{
-						"POSITION":125,
-						"NORMAL":126,
-						"TEXCOORD_0":127
-					},
-					"indices":3
-				}
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[
-					{
-						"name":"ColliderConstructor",
-						"selected_type_path":"avian3d::collision::collider::constructor::ColliderConstructor",
-						"avian3d::collision::collider::constructor::ColliderConstructor":{
-							"Sphere":{},
-							"Cuboid":{},
-							"RoundCuboid":{},
-							"Cylinder":{},
-							"Cone":{},
-							"Capsule":{},
-							"CapsuleEndpoints":{
-								"a":{},
-								"b":{}
-							},
-							"HalfSpace":{
-								"outward_normal":{}
-							},
-							"Segment":{
-								"a":{},
-								"b":{}
-							},
-							"Triangle":{
-								"a":{},
-								"b":{},
-								"c":{}
-							},
-							"Polyline":{
-								"indices":{
-									"Some":{}
-								},
-								"vertices":{}
-							},
-							"Trimesh":{
-								"indices":{},
-								"vertices":{}
-							},
-							"TrimeshWithConfig":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecomposition":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecompositionWithConfig":{
-								"indices":{},
-								"params":{
-									"fill_mode":{
-										"FloodFill":{}
-									}
-								},
-								"vertices":{}
-							},
-							"ConvexHull":{
-								"points":{}
-							},
-							"Heightfield":{
-								"heights":{},
-								"scale":{}
-							},
-							"ConvexDecompositionFromMeshWithConfig":{
-								"fill_mode":{
-									"FloodFill":{}
-								}
-							},
-							"skein_enum_index":17
-						}
-					},
-					{
-						"name":"RigidBody",
-						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
-						"avian3d::dynamics::rigid_body::RigidBody":1
-					}
-				],
-				"active_component_index":0,
-				"skein":[
-					{
-						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
-					},
-					{
-						"avian3d::dynamics::rigid_body::RigidBody":"Static"
-					}
-				]
-			},
-			"name":"Cube.055",
-			"primitives":[
-				{
-					"attributes":{
-						"POSITION":128,
-						"NORMAL":129,
-						"TEXCOORD_0":130
-					},
-					"indices":3
-				}
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[
-					{
-						"name":"ColliderConstructor",
-						"selected_type_path":"avian3d::collision::collider::constructor::ColliderConstructor",
-						"avian3d::collision::collider::constructor::ColliderConstructor":{
-							"Sphere":{},
-							"Cuboid":{},
-							"RoundCuboid":{},
-							"Cylinder":{},
-							"Cone":{},
-							"Capsule":{},
-							"CapsuleEndpoints":{
-								"a":{},
-								"b":{}
-							},
-							"HalfSpace":{
-								"outward_normal":{}
-							},
-							"Segment":{
-								"a":{},
-								"b":{}
-							},
-							"Triangle":{
-								"a":{},
-								"b":{},
-								"c":{}
-							},
-							"Polyline":{
-								"indices":{
-									"Some":{}
-								},
-								"vertices":{}
-							},
-							"Trimesh":{
-								"indices":{},
-								"vertices":{}
-							},
-							"TrimeshWithConfig":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecomposition":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecompositionWithConfig":{
-								"indices":{},
-								"params":{
-									"fill_mode":{
-										"FloodFill":{}
-									}
-								},
-								"vertices":{}
-							},
-							"ConvexHull":{
-								"points":{}
-							},
-							"Heightfield":{
-								"heights":{},
-								"scale":{}
-							},
-							"ConvexDecompositionFromMeshWithConfig":{
-								"fill_mode":{
-									"FloodFill":{}
-								}
-							},
-							"skein_enum_index":17
-						}
-					},
-					{
-						"name":"RigidBody",
-						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
-						"avian3d::dynamics::rigid_body::RigidBody":1
-					}
-				],
-				"active_component_index":0,
-				"skein":[
-					{
-						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
-					},
-					{
-						"avian3d::dynamics::rigid_body::RigidBody":"Static"
-					}
-				]
-			},
-			"name":"Cube.056",
-			"primitives":[
-				{
-					"attributes":{
-						"POSITION":131,
-						"NORMAL":132,
-						"TEXCOORD_0":133
-					},
-					"indices":3
-				}
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[
-					{
-						"name":"ColliderConstructor",
-						"selected_type_path":"avian3d::collision::collider::constructor::ColliderConstructor",
-						"avian3d::collision::collider::constructor::ColliderConstructor":{
-							"Sphere":{},
-							"Cuboid":{},
-							"RoundCuboid":{},
-							"Cylinder":{},
-							"Cone":{},
-							"Capsule":{},
-							"CapsuleEndpoints":{
-								"a":{},
-								"b":{}
-							},
-							"HalfSpace":{
-								"outward_normal":{}
-							},
-							"Segment":{
-								"a":{},
-								"b":{}
-							},
-							"Triangle":{
-								"a":{},
-								"b":{},
-								"c":{}
-							},
-							"Polyline":{
-								"indices":{
-									"Some":{}
-								},
-								"vertices":{}
-							},
-							"Trimesh":{
-								"indices":{},
-								"vertices":{}
-							},
-							"TrimeshWithConfig":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecomposition":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecompositionWithConfig":{
-								"indices":{},
-								"params":{
-									"fill_mode":{
-										"FloodFill":{}
-									}
-								},
-								"vertices":{}
-							},
-							"ConvexHull":{
-								"points":{}
-							},
-							"Heightfield":{
-								"heights":{},
-								"scale":{}
-							},
-							"ConvexDecompositionFromMeshWithConfig":{
-								"fill_mode":{
-									"FloodFill":{}
-								}
-							},
-							"skein_enum_index":17
-						}
-					},
-					{
-						"name":"RigidBody",
-						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
-						"avian3d::dynamics::rigid_body::RigidBody":1
-					}
-				],
-				"active_component_index":0,
-				"skein":[
-					{
-						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
-					},
-					{
-						"avian3d::dynamics::rigid_body::RigidBody":"Static"
-					}
-				]
-			},
-			"name":"Cube.057",
-			"primitives":[
-				{
-					"attributes":{
-						"POSITION":134,
-						"NORMAL":135,
-						"TEXCOORD_0":136
-					},
-					"indices":3
-				}
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[
-					{
-						"name":"ColliderConstructor",
-						"selected_type_path":"avian3d::collision::collider::constructor::ColliderConstructor",
-						"avian3d::collision::collider::constructor::ColliderConstructor":{
-							"Sphere":{},
-							"Cuboid":{},
-							"RoundCuboid":{},
-							"Cylinder":{},
-							"Cone":{},
-							"Capsule":{},
-							"CapsuleEndpoints":{
-								"a":{},
-								"b":{}
-							},
-							"HalfSpace":{
-								"outward_normal":{}
-							},
-							"Segment":{
-								"a":{},
-								"b":{}
-							},
-							"Triangle":{
-								"a":{},
-								"b":{},
-								"c":{}
-							},
-							"Polyline":{
-								"indices":{
-									"Some":{}
-								},
-								"vertices":{}
-							},
-							"Trimesh":{
-								"indices":{},
-								"vertices":{}
-							},
-							"TrimeshWithConfig":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecomposition":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecompositionWithConfig":{
-								"indices":{},
-								"params":{
-									"fill_mode":{
-										"FloodFill":{}
-									}
-								},
-								"vertices":{}
-							},
-							"ConvexHull":{
-								"points":{}
-							},
-							"Heightfield":{
-								"heights":{},
-								"scale":{}
-							},
-							"ConvexDecompositionFromMeshWithConfig":{
-								"fill_mode":{
-									"FloodFill":{}
-								}
-							},
-							"skein_enum_index":17
-						}
-					},
-					{
-						"name":"RigidBody",
-						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
-						"avian3d::dynamics::rigid_body::RigidBody":1
-					}
-				],
-				"active_component_index":0,
-				"skein":[
-					{
-						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
-					},
-					{
-						"avian3d::dynamics::rigid_body::RigidBody":"Static"
-					}
-				]
-			},
-			"name":"Cube.058",
-			"primitives":[
-				{
-					"attributes":{
-						"POSITION":137,
-						"NORMAL":138,
-						"TEXCOORD_0":139
-					},
-					"indices":3
-				}
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[
-					{
-						"name":"ColliderConstructor",
-						"selected_type_path":"avian3d::collision::collider::constructor::ColliderConstructor",
-						"avian3d::collision::collider::constructor::ColliderConstructor":{
-							"Sphere":{},
-							"Cuboid":{},
-							"RoundCuboid":{},
-							"Cylinder":{},
-							"Cone":{},
-							"Capsule":{},
-							"CapsuleEndpoints":{
-								"a":{},
-								"b":{}
-							},
-							"HalfSpace":{
-								"outward_normal":{}
-							},
-							"Segment":{
-								"a":{},
-								"b":{}
-							},
-							"Triangle":{
-								"a":{},
-								"b":{},
-								"c":{}
-							},
-							"Polyline":{
-								"indices":{
-									"Some":{}
-								},
-								"vertices":{}
-							},
-							"Trimesh":{
-								"indices":{},
-								"vertices":{}
-							},
-							"TrimeshWithConfig":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecomposition":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecompositionWithConfig":{
-								"indices":{},
-								"params":{
-									"fill_mode":{
-										"FloodFill":{}
-									}
-								},
-								"vertices":{}
-							},
-							"ConvexHull":{
-								"points":{}
-							},
-							"Heightfield":{
-								"heights":{},
-								"scale":{}
-							},
-							"ConvexDecompositionFromMeshWithConfig":{
-								"fill_mode":{
-									"FloodFill":{}
-								}
-							},
-							"skein_enum_index":17
-						}
-					},
-					{
-						"name":"RigidBody",
-						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
-						"avian3d::dynamics::rigid_body::RigidBody":1
-					}
-				],
-				"active_component_index":0,
-				"skein":[
-					{
-						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
-					},
-					{
-						"avian3d::dynamics::rigid_body::RigidBody":"Static"
-					}
-				]
-			},
-			"name":"Cube.059",
-			"primitives":[
-				{
-					"attributes":{
-						"POSITION":140,
-						"NORMAL":141,
-						"TEXCOORD_0":142
-					},
-					"indices":3
-				}
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[
-					{
-						"name":"ColliderConstructor",
-						"selected_type_path":"avian3d::collision::collider::constructor::ColliderConstructor",
-						"avian3d::collision::collider::constructor::ColliderConstructor":{
-							"Sphere":{},
-							"Cuboid":{},
-							"RoundCuboid":{},
-							"Cylinder":{},
-							"Cone":{},
-							"Capsule":{},
-							"CapsuleEndpoints":{
-								"a":{},
-								"b":{}
-							},
-							"HalfSpace":{
-								"outward_normal":{}
-							},
-							"Segment":{
-								"a":{},
-								"b":{}
-							},
-							"Triangle":{
-								"a":{},
-								"b":{},
-								"c":{}
-							},
-							"Polyline":{
-								"indices":{
-									"Some":{}
-								},
-								"vertices":{}
-							},
-							"Trimesh":{
-								"indices":{},
-								"vertices":{}
-							},
-							"TrimeshWithConfig":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecomposition":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecompositionWithConfig":{
-								"indices":{},
-								"params":{
-									"fill_mode":{
-										"FloodFill":{}
-									}
-								},
-								"vertices":{}
-							},
-							"ConvexHull":{
-								"points":{}
-							},
-							"Heightfield":{
-								"heights":{},
-								"scale":{}
-							},
-							"ConvexDecompositionFromMeshWithConfig":{
-								"fill_mode":{
-									"FloodFill":{}
-								}
-							},
-							"skein_enum_index":17
-						}
-					},
-					{
-						"name":"RigidBody",
-						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
-						"avian3d::dynamics::rigid_body::RigidBody":1
-					}
-				],
-				"active_component_index":0,
-				"skein":[
-					{
-						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
-					},
-					{
-						"avian3d::dynamics::rigid_body::RigidBody":"Static"
-					}
-				]
-			},
-			"name":"Cube.060",
-			"primitives":[
-				{
-					"attributes":{
-						"POSITION":143,
-						"NORMAL":144,
-						"TEXCOORD_0":145
-					},
-					"indices":3
-				}
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[
-					{
-						"name":"ColliderConstructor",
-						"selected_type_path":"avian3d::collision::collider::constructor::ColliderConstructor",
-						"avian3d::collision::collider::constructor::ColliderConstructor":{
-							"Sphere":{},
-							"Cuboid":{},
-							"RoundCuboid":{},
-							"Cylinder":{},
-							"Cone":{},
-							"Capsule":{},
-							"CapsuleEndpoints":{
-								"a":{},
-								"b":{}
-							},
-							"HalfSpace":{
-								"outward_normal":{}
-							},
-							"Segment":{
-								"a":{},
-								"b":{}
-							},
-							"Triangle":{
-								"a":{},
-								"b":{},
-								"c":{}
-							},
-							"Polyline":{
-								"indices":{
-									"Some":{}
-								},
-								"vertices":{}
-							},
-							"Trimesh":{
-								"indices":{},
-								"vertices":{}
-							},
-							"TrimeshWithConfig":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecomposition":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecompositionWithConfig":{
-								"indices":{},
-								"params":{
-									"fill_mode":{
-										"FloodFill":{}
-									}
-								},
-								"vertices":{}
-							},
-							"ConvexHull":{
-								"points":{}
-							},
-							"Heightfield":{
-								"heights":{},
-								"scale":{}
-							},
-							"ConvexDecompositionFromMeshWithConfig":{
-								"fill_mode":{
-									"FloodFill":{}
-								}
-							},
-							"skein_enum_index":17
-						}
-					},
-					{
-						"name":"RigidBody",
-						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
-						"avian3d::dynamics::rigid_body::RigidBody":1
-					}
-				],
-				"active_component_index":0,
-				"skein":[
-					{
-						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
-					},
-					{
-						"avian3d::dynamics::rigid_body::RigidBody":"Static"
-					}
-				]
-			},
-			"name":"Cube.061",
-			"primitives":[
-				{
-					"attributes":{
-						"POSITION":146,
-						"NORMAL":147,
-						"TEXCOORD_0":148
-					},
-					"indices":3
-				}
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[
-					{
-						"name":"ColliderConstructor",
-						"selected_type_path":"avian3d::collision::collider::constructor::ColliderConstructor",
-						"avian3d::collision::collider::constructor::ColliderConstructor":{
-							"Sphere":{},
-							"Cuboid":{},
-							"RoundCuboid":{},
-							"Cylinder":{},
-							"Cone":{},
-							"Capsule":{},
-							"CapsuleEndpoints":{
-								"a":{},
-								"b":{}
-							},
-							"HalfSpace":{
-								"outward_normal":{}
-							},
-							"Segment":{
-								"a":{},
-								"b":{}
-							},
-							"Triangle":{
-								"a":{},
-								"b":{},
-								"c":{}
-							},
-							"Polyline":{
-								"indices":{
-									"Some":{}
-								},
-								"vertices":{}
-							},
-							"Trimesh":{
-								"indices":{},
-								"vertices":{}
-							},
-							"TrimeshWithConfig":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecomposition":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecompositionWithConfig":{
-								"indices":{},
-								"params":{
-									"fill_mode":{
-										"FloodFill":{}
-									}
-								},
-								"vertices":{}
-							},
-							"ConvexHull":{
-								"points":{}
-							},
-							"Heightfield":{
-								"heights":{},
-								"scale":{}
-							},
-							"ConvexDecompositionFromMeshWithConfig":{
-								"fill_mode":{
-									"FloodFill":{}
-								}
-							},
-							"skein_enum_index":17
-						}
-					},
-					{
-						"name":"RigidBody",
-						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
-						"avian3d::dynamics::rigid_body::RigidBody":1
-					}
-				],
-				"active_component_index":0,
-				"skein":[
-					{
-						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
-					},
-					{
-						"avian3d::dynamics::rigid_body::RigidBody":"Static"
-					}
-				]
-			},
-			"name":"Cube.062",
-			"primitives":[
-				{
-					"attributes":{
-						"POSITION":149,
-						"NORMAL":150,
-						"TEXCOORD_0":151
-					},
-					"indices":3
-				}
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[
-					{
-						"name":"ColliderConstructor",
-						"selected_type_path":"avian3d::collision::collider::constructor::ColliderConstructor",
-						"avian3d::collision::collider::constructor::ColliderConstructor":{
-							"Sphere":{},
-							"Cuboid":{},
-							"RoundCuboid":{},
-							"Cylinder":{},
-							"Cone":{},
-							"Capsule":{},
-							"CapsuleEndpoints":{
-								"a":{},
-								"b":{}
-							},
-							"HalfSpace":{
-								"outward_normal":{}
-							},
-							"Segment":{
-								"a":{},
-								"b":{}
-							},
-							"Triangle":{
-								"a":{},
-								"b":{},
-								"c":{}
-							},
-							"Polyline":{
-								"indices":{
-									"Some":{}
-								},
-								"vertices":{}
-							},
-							"Trimesh":{
-								"indices":{},
-								"vertices":{}
-							},
-							"TrimeshWithConfig":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecomposition":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecompositionWithConfig":{
-								"indices":{},
-								"params":{
-									"fill_mode":{
-										"FloodFill":{}
-									}
-								},
-								"vertices":{}
-							},
-							"ConvexHull":{
-								"points":{}
-							},
-							"Heightfield":{
-								"heights":{},
-								"scale":{}
-							},
-							"ConvexDecompositionFromMeshWithConfig":{
-								"fill_mode":{
-									"FloodFill":{}
-								}
-							},
-							"skein_enum_index":17
-						}
-					},
-					{
-						"name":"RigidBody",
-						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
-						"avian3d::dynamics::rigid_body::RigidBody":1
-					}
-				],
-				"active_component_index":0,
-				"skein":[
-					{
-						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
-					},
-					{
-						"avian3d::dynamics::rigid_body::RigidBody":"Static"
-					}
-				]
-			},
-			"name":"Cube.063",
-			"primitives":[
-				{
-					"attributes":{
-						"POSITION":152,
-						"NORMAL":153,
-						"TEXCOORD_0":154
-					},
-					"indices":3
-				}
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[
-					{
-						"name":"ColliderConstructor",
-						"selected_type_path":"avian3d::collision::collider::constructor::ColliderConstructor",
-						"avian3d::collision::collider::constructor::ColliderConstructor":{
-							"Sphere":{},
-							"Cuboid":{},
-							"RoundCuboid":{},
-							"Cylinder":{},
-							"Cone":{},
-							"Capsule":{},
-							"CapsuleEndpoints":{
-								"a":{},
-								"b":{}
-							},
-							"HalfSpace":{
-								"outward_normal":{}
-							},
-							"Segment":{
-								"a":{},
-								"b":{}
-							},
-							"Triangle":{
-								"a":{},
-								"b":{},
-								"c":{}
-							},
-							"Polyline":{
-								"indices":{
-									"Some":{}
-								},
-								"vertices":{}
-							},
-							"Trimesh":{
-								"indices":{},
-								"vertices":{}
-							},
-							"TrimeshWithConfig":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecomposition":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecompositionWithConfig":{
-								"indices":{},
-								"params":{
-									"fill_mode":{
-										"FloodFill":{}
-									}
-								},
-								"vertices":{}
-							},
-							"ConvexHull":{
-								"points":{}
-							},
-							"Heightfield":{
-								"heights":{},
-								"scale":{}
-							},
-							"ConvexDecompositionFromMeshWithConfig":{
-								"fill_mode":{
-									"FloodFill":{}
-								}
-							},
-							"skein_enum_index":17
-						}
-					},
-					{
-						"name":"RigidBody",
-						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
-						"avian3d::dynamics::rigid_body::RigidBody":1
-					}
-				],
-				"active_component_index":0,
-				"skein":[
-					{
-						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
-					},
-					{
-						"avian3d::dynamics::rigid_body::RigidBody":"Static"
-					}
-				]
-			},
-			"name":"Cube.064",
-			"primitives":[
-				{
-					"attributes":{
-						"POSITION":155,
-						"NORMAL":156,
-						"TEXCOORD_0":157
-					},
-					"indices":3
-				}
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[
-					{
-						"name":"ColliderConstructor",
-						"selected_type_path":"avian3d::collision::collider::constructor::ColliderConstructor",
-						"avian3d::collision::collider::constructor::ColliderConstructor":{
-							"Sphere":{},
-							"Cuboid":{},
-							"RoundCuboid":{},
-							"Cylinder":{},
-							"Cone":{},
-							"Capsule":{},
-							"CapsuleEndpoints":{
-								"a":{},
-								"b":{}
-							},
-							"HalfSpace":{
-								"outward_normal":{}
-							},
-							"Segment":{
-								"a":{},
-								"b":{}
-							},
-							"Triangle":{
-								"a":{},
-								"b":{},
-								"c":{}
-							},
-							"Polyline":{
-								"indices":{
-									"Some":{}
-								},
-								"vertices":{}
-							},
-							"Trimesh":{
-								"indices":{},
-								"vertices":{}
-							},
-							"TrimeshWithConfig":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecomposition":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecompositionWithConfig":{
-								"indices":{},
-								"params":{
-									"fill_mode":{
-										"FloodFill":{}
-									}
-								},
-								"vertices":{}
-							},
-							"ConvexHull":{
-								"points":{}
-							},
-							"Heightfield":{
-								"heights":{},
-								"scale":{}
-							},
-							"ConvexDecompositionFromMeshWithConfig":{
-								"fill_mode":{
-									"FloodFill":{}
-								}
-							},
-							"skein_enum_index":17
-						}
-					},
-					{
-						"name":"RigidBody",
-						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
-						"avian3d::dynamics::rigid_body::RigidBody":1
-					}
-				],
-				"active_component_index":0,
-				"skein":[
-					{
-						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
-					},
-					{
-						"avian3d::dynamics::rigid_body::RigidBody":"Static"
-					}
-				]
-			},
-			"name":"Cube.065",
-			"primitives":[
-				{
-					"attributes":{
-						"POSITION":158,
-						"NORMAL":159,
-						"TEXCOORD_0":160
-					},
-					"indices":3
-				}
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[
-					{
-						"name":"ColliderConstructor",
-						"selected_type_path":"avian3d::collision::collider::constructor::ColliderConstructor",
-						"avian3d::collision::collider::constructor::ColliderConstructor":{
-							"Sphere":{},
-							"Cuboid":{},
-							"RoundCuboid":{},
-							"Cylinder":{},
-							"Cone":{},
-							"Capsule":{},
-							"CapsuleEndpoints":{
-								"a":{},
-								"b":{}
-							},
-							"HalfSpace":{
-								"outward_normal":{}
-							},
-							"Segment":{
-								"a":{},
-								"b":{}
-							},
-							"Triangle":{
-								"a":{},
-								"b":{},
-								"c":{}
-							},
-							"Polyline":{
-								"indices":{
-									"Some":{}
-								},
-								"vertices":{}
-							},
-							"Trimesh":{
-								"indices":{},
-								"vertices":{}
-							},
-							"TrimeshWithConfig":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecomposition":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecompositionWithConfig":{
-								"indices":{},
-								"params":{
-									"fill_mode":{
-										"FloodFill":{}
-									}
-								},
-								"vertices":{}
-							},
-							"ConvexHull":{
-								"points":{}
-							},
-							"Heightfield":{
-								"heights":{},
-								"scale":{}
-							},
-							"ConvexDecompositionFromMeshWithConfig":{
-								"fill_mode":{
-									"FloodFill":{}
-								}
-							},
-							"skein_enum_index":17
-						}
-					},
-					{
-						"name":"RigidBody",
-						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
-						"avian3d::dynamics::rigid_body::RigidBody":1
-					}
-				],
-				"active_component_index":0,
-				"skein":[
-					{
-						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
-					},
-					{
-						"avian3d::dynamics::rigid_body::RigidBody":"Static"
-					}
-				]
-			},
-			"name":"Cube.066",
-			"primitives":[
-				{
-					"attributes":{
-						"POSITION":161,
-						"NORMAL":162,
-						"TEXCOORD_0":163
-					},
-					"indices":3
-				}
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[
-					{
-						"name":"ColliderConstructor",
-						"selected_type_path":"avian3d::collision::collider::constructor::ColliderConstructor",
-						"avian3d::collision::collider::constructor::ColliderConstructor":{
-							"Sphere":{},
-							"Cuboid":{},
-							"RoundCuboid":{},
-							"Cylinder":{},
-							"Cone":{},
-							"Capsule":{},
-							"CapsuleEndpoints":{
-								"a":{},
-								"b":{}
-							},
-							"HalfSpace":{
-								"outward_normal":{}
-							},
-							"Segment":{
-								"a":{},
-								"b":{}
-							},
-							"Triangle":{
-								"a":{},
-								"b":{},
-								"c":{}
-							},
-							"Polyline":{
-								"indices":{
-									"Some":{}
-								},
-								"vertices":{}
-							},
-							"Trimesh":{
-								"indices":{},
-								"vertices":{}
-							},
-							"TrimeshWithConfig":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecomposition":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecompositionWithConfig":{
-								"indices":{},
-								"params":{
-									"fill_mode":{
-										"FloodFill":{}
-									}
-								},
-								"vertices":{}
-							},
-							"ConvexHull":{
-								"points":{}
-							},
-							"Heightfield":{
-								"heights":{},
-								"scale":{}
-							},
-							"ConvexDecompositionFromMeshWithConfig":{
-								"fill_mode":{
-									"FloodFill":{}
-								}
-							},
-							"skein_enum_index":17
-						}
-					},
-					{
-						"name":"RigidBody",
-						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
-						"avian3d::dynamics::rigid_body::RigidBody":1
-					}
-				],
-				"active_component_index":0,
-				"skein":[
-					{
-						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
-					},
-					{
-						"avian3d::dynamics::rigid_body::RigidBody":"Static"
-					}
-				]
-			},
-			"name":"Cube.067",
-			"primitives":[
-				{
-					"attributes":{
-						"POSITION":164,
-						"NORMAL":165,
-						"TEXCOORD_0":166
-					},
-					"indices":3
-				}
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[
-					{
-						"name":"ColliderConstructor",
-						"selected_type_path":"avian3d::collision::collider::constructor::ColliderConstructor",
-						"avian3d::collision::collider::constructor::ColliderConstructor":{
-							"Sphere":{},
-							"Cuboid":{},
-							"RoundCuboid":{},
-							"Cylinder":{},
-							"Cone":{},
-							"Capsule":{},
-							"CapsuleEndpoints":{
-								"a":{},
-								"b":{}
-							},
-							"HalfSpace":{
-								"outward_normal":{}
-							},
-							"Segment":{
-								"a":{},
-								"b":{}
-							},
-							"Triangle":{
-								"a":{},
-								"b":{},
-								"c":{}
-							},
-							"Polyline":{
-								"indices":{
-									"Some":{}
-								},
-								"vertices":{}
-							},
-							"Trimesh":{
-								"indices":{},
-								"vertices":{}
-							},
-							"TrimeshWithConfig":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecomposition":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecompositionWithConfig":{
-								"indices":{},
-								"params":{
-									"fill_mode":{
-										"FloodFill":{}
-									}
-								},
-								"vertices":{}
-							},
-							"ConvexHull":{
-								"points":{}
-							},
-							"Heightfield":{
-								"heights":{},
-								"scale":{}
-							},
-							"ConvexDecompositionFromMeshWithConfig":{
-								"fill_mode":{
-									"FloodFill":{}
-								}
-							},
-							"skein_enum_index":17
-						}
-					},
-					{
-						"name":"RigidBody",
-						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
-						"avian3d::dynamics::rigid_body::RigidBody":1
-					}
-				],
-				"active_component_index":0,
-				"skein":[
-					{
-						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
-					},
-					{
-						"avian3d::dynamics::rigid_body::RigidBody":"Static"
-					}
-				]
-			},
-			"name":"Cube.068",
-			"primitives":[
-				{
-					"attributes":{
-						"POSITION":167,
-						"NORMAL":168,
-						"TEXCOORD_0":169
-					},
-					"indices":3
-				}
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[
-					{
-						"name":"ColliderConstructor",
-						"selected_type_path":"avian3d::collision::collider::constructor::ColliderConstructor",
-						"avian3d::collision::collider::constructor::ColliderConstructor":{
-							"Sphere":{},
-							"Cuboid":{},
-							"RoundCuboid":{},
-							"Cylinder":{},
-							"Cone":{},
-							"Capsule":{},
-							"CapsuleEndpoints":{
-								"a":{},
-								"b":{}
-							},
-							"HalfSpace":{
-								"outward_normal":{}
-							},
-							"Segment":{
-								"a":{},
-								"b":{}
-							},
-							"Triangle":{
-								"a":{},
-								"b":{},
-								"c":{}
-							},
-							"Polyline":{
-								"indices":{
-									"Some":{}
-								},
-								"vertices":{}
-							},
-							"Trimesh":{
-								"indices":{},
-								"vertices":{}
-							},
-							"TrimeshWithConfig":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecomposition":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecompositionWithConfig":{
-								"indices":{},
-								"params":{
-									"fill_mode":{
-										"FloodFill":{}
-									}
-								},
-								"vertices":{}
-							},
-							"ConvexHull":{
-								"points":{}
-							},
-							"Heightfield":{
-								"heights":{},
-								"scale":{}
-							},
-							"ConvexDecompositionFromMeshWithConfig":{
-								"fill_mode":{
-									"FloodFill":{}
-								}
-							},
-							"skein_enum_index":17
-						}
-					},
-					{
-						"name":"RigidBody",
-						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
-						"avian3d::dynamics::rigid_body::RigidBody":1
-					}
-				],
-				"active_component_index":0,
-				"skein":[
-					{
-						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
-					},
-					{
-						"avian3d::dynamics::rigid_body::RigidBody":"Static"
-					}
-				]
-			},
-			"name":"Cube.069",
-			"primitives":[
-				{
-					"attributes":{
-						"POSITION":170,
-						"NORMAL":171,
-						"TEXCOORD_0":172
-					},
-					"indices":3
-				}
-			]
-		},
-		{
-			"extras":{
-				"skein_two":[
-					{
-						"name":"ColliderConstructor",
-						"selected_type_path":"avian3d::collision::collider::constructor::ColliderConstructor",
-						"avian3d::collision::collider::constructor::ColliderConstructor":{
-							"Sphere":{},
-							"Cuboid":{},
-							"RoundCuboid":{},
-							"Cylinder":{},
-							"Cone":{},
-							"Capsule":{},
-							"CapsuleEndpoints":{
-								"a":{},
-								"b":{}
-							},
-							"HalfSpace":{
-								"outward_normal":{}
-							},
-							"Segment":{
-								"a":{},
-								"b":{}
-							},
-							"Triangle":{
-								"a":{},
-								"b":{},
-								"c":{}
-							},
-							"Polyline":{
-								"indices":{
-									"Some":{}
-								},
-								"vertices":{}
-							},
-							"Trimesh":{
-								"indices":{},
-								"vertices":{}
-							},
-							"TrimeshWithConfig":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecomposition":{
-								"indices":{},
-								"vertices":{}
-							},
-							"ConvexDecompositionWithConfig":{
-								"indices":{},
-								"params":{
-									"fill_mode":{
-										"FloodFill":{}
-									}
-								},
-								"vertices":{}
-							},
-							"ConvexHull":{
-								"points":{}
-							},
-							"Heightfield":{
-								"heights":{},
-								"scale":{}
-							},
-							"ConvexDecompositionFromMeshWithConfig":{
-								"fill_mode":{
-									"FloodFill":{}
-								}
-							},
-							"skein_enum_index":17
-						}
-					},
-					{
-						"name":"RigidBody",
-						"selected_type_path":"avian3d::dynamics::rigid_body::RigidBody",
-						"avian3d::dynamics::rigid_body::RigidBody":1
-					}
-				],
-				"active_component_index":0,
-				"skein":[
-					{
-						"avian3d::collision::collider::constructor::ColliderConstructor":"TrimeshFromMesh"
-					},
-					{
-						"avian3d::dynamics::rigid_body::RigidBody":"Static"
-					}
-				]
-			},
-			"name":"Cube.070",
-			"primitives":[
-				{
-					"attributes":{
-						"POSITION":173,
-						"NORMAL":174,
-						"TEXCOORD_0":175
-					},
-					"indices":3
+						"POSITION":102,
+						"NORMAL":103,
+						"TEXCOORD_0":104,
+						"TANGENT":105
+					},
+					"indices":9,
+					"material":22
 				}
 			]
 		}
@@ -7407,68 +3985,6 @@
 	"accessors":[
 		{
 			"bufferView":0,
-			"componentType":5126,
-			"count":24,
-			"max":[
-				0,
-				2,
-				0
-			],
-			"min":[
-				-1,
-				0,
-				-2
-			],
-			"type":"VEC3"
-		},
-		{
-			"bufferView":1,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC3"
-		},
-		{
-			"bufferView":2,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC2"
-		},
-		{
-			"bufferView":3,
-			"componentType":5123,
-			"count":36,
-			"type":"SCALAR"
-		},
-		{
-			"bufferView":4,
-			"componentType":5126,
-			"count":24,
-			"max":[
-				0,
-				2,
-				0
-			],
-			"min":[
-				-1,
-				0,
-				-2
-			],
-			"type":"VEC3"
-		},
-		{
-			"bufferView":5,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC3"
-		},
-		{
-			"bufferView":6,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC2"
-		},
-		{
-			"bufferView":7,
 			"componentType":5126,
 			"count":4,
 			"max":[
@@ -7484,25 +4000,31 @@
 			"type":"VEC3"
 		},
 		{
-			"bufferView":8,
+			"bufferView":1,
 			"componentType":5126,
 			"count":4,
 			"type":"VEC3"
 		},
 		{
-			"bufferView":9,
+			"bufferView":2,
 			"componentType":5126,
 			"count":4,
 			"type":"VEC2"
 		},
 		{
-			"bufferView":10,
+			"bufferView":3,
+			"componentType":5126,
+			"count":4,
+			"type":"VEC4"
+		},
+		{
+			"bufferView":4,
 			"componentType":5123,
 			"count":6,
 			"type":"SCALAR"
 		},
 		{
-			"bufferView":11,
+			"bufferView":5,
 			"componentType":5126,
 			"count":24,
 			"max":[
@@ -7511,23 +4033,69 @@
 				0
 			],
 			"min":[
-				-1,
+				-4,
 				0,
-				-2
+				-4
 			],
+			"type":"VEC3"
+		},
+		{
+			"bufferView":6,
+			"componentType":5126,
+			"count":24,
+			"type":"VEC3"
+		},
+		{
+			"bufferView":7,
+			"componentType":5126,
+			"count":24,
+			"type":"VEC2"
+		},
+		{
+			"bufferView":8,
+			"componentType":5126,
+			"count":24,
+			"type":"VEC4"
+		},
+		{
+			"bufferView":9,
+			"componentType":5123,
+			"count":36,
+			"type":"SCALAR"
+		},
+		{
+			"bufferView":10,
+			"componentType":5126,
+			"count":24,
+			"max":[
+				0,
+				2,
+				0
+			],
+			"min":[
+				-4,
+				0,
+				-4
+			],
+			"type":"VEC3"
+		},
+		{
+			"bufferView":11,
+			"componentType":5126,
+			"count":24,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":12,
 			"componentType":5126,
 			"count":24,
-			"type":"VEC3"
+			"type":"VEC2"
 		},
 		{
 			"bufferView":13,
 			"componentType":5126,
 			"count":24,
-			"type":"VEC2"
+			"type":"VEC4"
 		},
 		{
 			"bufferView":14,
@@ -7561,6 +4129,12 @@
 			"bufferView":17,
 			"componentType":5126,
 			"count":24,
+			"type":"VEC4"
+		},
+		{
+			"bufferView":18,
+			"componentType":5126,
+			"count":24,
 			"max":[
 				0,
 				2,
@@ -7571,50 +4145,28 @@
 				0,
 				-2
 			],
-			"type":"VEC3"
-		},
-		{
-			"bufferView":18,
-			"componentType":5126,
-			"count":24,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":19,
 			"componentType":5126,
 			"count":24,
-			"type":"VEC2"
+			"type":"VEC3"
 		},
 		{
 			"bufferView":20,
 			"componentType":5126,
 			"count":24,
-			"max":[
-				0,
-				2,
-				0
-			],
-			"min":[
-				-1,
-				0,
-				-2
-			],
-			"type":"VEC3"
+			"type":"VEC2"
 		},
 		{
 			"bufferView":21,
 			"componentType":5126,
 			"count":24,
-			"type":"VEC3"
+			"type":"VEC4"
 		},
 		{
 			"bufferView":22,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC2"
-		},
-		{
-			"bufferView":23,
 			"componentType":5126,
 			"count":24,
 			"max":[
@@ -7627,19 +4179,25 @@
 				0,
 				-2
 			],
+			"type":"VEC3"
+		},
+		{
+			"bufferView":23,
+			"componentType":5126,
+			"count":24,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":24,
 			"componentType":5126,
 			"count":24,
-			"type":"VEC3"
+			"type":"VEC2"
 		},
 		{
 			"bufferView":25,
 			"componentType":5126,
 			"count":24,
-			"type":"VEC2"
+			"type":"VEC4"
 		},
 		{
 			"bufferView":26,
@@ -7673,6 +4231,12 @@
 			"bufferView":29,
 			"componentType":5126,
 			"count":24,
+			"type":"VEC4"
+		},
+		{
+			"bufferView":30,
+			"componentType":5126,
+			"count":24,
 			"max":[
 				0,
 				2,
@@ -7683,50 +4247,28 @@
 				0,
 				-2
 			],
-			"type":"VEC3"
-		},
-		{
-			"bufferView":30,
-			"componentType":5126,
-			"count":24,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":31,
 			"componentType":5126,
 			"count":24,
-			"type":"VEC2"
+			"type":"VEC3"
 		},
 		{
 			"bufferView":32,
 			"componentType":5126,
 			"count":24,
-			"max":[
-				0,
-				2,
-				0
-			],
-			"min":[
-				-1,
-				0,
-				-2
-			],
-			"type":"VEC3"
+			"type":"VEC2"
 		},
 		{
 			"bufferView":33,
 			"componentType":5126,
 			"count":24,
-			"type":"VEC3"
+			"type":"VEC4"
 		},
 		{
 			"bufferView":34,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC2"
-		},
-		{
-			"bufferView":35,
 			"componentType":5126,
 			"count":24,
 			"max":[
@@ -7737,21 +4279,27 @@
 			"min":[
 				-1,
 				0,
-				-2
+				-8
 			],
+			"type":"VEC3"
+		},
+		{
+			"bufferView":35,
+			"componentType":5126,
+			"count":24,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":36,
 			"componentType":5126,
 			"count":24,
-			"type":"VEC3"
+			"type":"VEC2"
 		},
 		{
 			"bufferView":37,
 			"componentType":5126,
 			"count":24,
-			"type":"VEC2"
+			"type":"VEC4"
 		},
 		{
 			"bufferView":38,
@@ -7765,7 +4313,7 @@
 			"min":[
 				-1,
 				0,
-				-2
+				-8
 			],
 			"type":"VEC3"
 		},
@@ -7785,6 +4333,12 @@
 			"bufferView":41,
 			"componentType":5126,
 			"count":24,
+			"type":"VEC4"
+		},
+		{
+			"bufferView":42,
+			"componentType":5126,
+			"count":24,
 			"max":[
 				0,
 				2,
@@ -7793,52 +4347,30 @@
 			"min":[
 				-1,
 				0,
-				-2
+				-8
 			],
-			"type":"VEC3"
-		},
-		{
-			"bufferView":42,
-			"componentType":5126,
-			"count":24,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":43,
 			"componentType":5126,
 			"count":24,
-			"type":"VEC2"
+			"type":"VEC3"
 		},
 		{
 			"bufferView":44,
 			"componentType":5126,
 			"count":24,
-			"max":[
-				0,
-				2,
-				0
-			],
-			"min":[
-				-1,
-				0,
-				-2
-			],
-			"type":"VEC3"
+			"type":"VEC2"
 		},
 		{
 			"bufferView":45,
 			"componentType":5126,
 			"count":24,
-			"type":"VEC3"
+			"type":"VEC4"
 		},
 		{
 			"bufferView":46,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC2"
-		},
-		{
-			"bufferView":47,
 			"componentType":5126,
 			"count":24,
 			"max":[
@@ -7849,21 +4381,27 @@
 			"min":[
 				-1,
 				0,
-				-2
+				-8
 			],
+			"type":"VEC3"
+		},
+		{
+			"bufferView":47,
+			"componentType":5126,
+			"count":24,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":48,
 			"componentType":5126,
 			"count":24,
-			"type":"VEC3"
+			"type":"VEC2"
 		},
 		{
 			"bufferView":49,
 			"componentType":5126,
 			"count":24,
-			"type":"VEC2"
+			"type":"VEC4"
 		},
 		{
 			"bufferView":50,
@@ -7877,7 +4415,7 @@
 			"min":[
 				-1,
 				0,
-				-2
+				-8
 			],
 			"type":"VEC3"
 		},
@@ -7897,6 +4435,12 @@
 			"bufferView":53,
 			"componentType":5126,
 			"count":24,
+			"type":"VEC4"
+		},
+		{
+			"bufferView":54,
+			"componentType":5126,
+			"count":24,
 			"max":[
 				0,
 				2,
@@ -7905,52 +4449,30 @@
 			"min":[
 				-1,
 				0,
-				-2
+				-8
 			],
-			"type":"VEC3"
-		},
-		{
-			"bufferView":54,
-			"componentType":5126,
-			"count":24,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":55,
 			"componentType":5126,
 			"count":24,
-			"type":"VEC2"
+			"type":"VEC3"
 		},
 		{
 			"bufferView":56,
 			"componentType":5126,
 			"count":24,
-			"max":[
-				0,
-				2,
-				0
-			],
-			"min":[
-				-1,
-				0,
-				-2
-			],
-			"type":"VEC3"
+			"type":"VEC2"
 		},
 		{
 			"bufferView":57,
 			"componentType":5126,
 			"count":24,
-			"type":"VEC3"
+			"type":"VEC4"
 		},
 		{
 			"bufferView":58,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC2"
-		},
-		{
-			"bufferView":59,
 			"componentType":5126,
 			"count":24,
 			"max":[
@@ -7961,21 +4483,27 @@
 			"min":[
 				-1,
 				0,
-				-2
+				-8
 			],
+			"type":"VEC3"
+		},
+		{
+			"bufferView":59,
+			"componentType":5126,
+			"count":24,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":60,
 			"componentType":5126,
 			"count":24,
-			"type":"VEC3"
+			"type":"VEC2"
 		},
 		{
 			"bufferView":61,
 			"componentType":5126,
 			"count":24,
-			"type":"VEC2"
+			"type":"VEC4"
 		},
 		{
 			"bufferView":62,
@@ -7989,7 +4517,7 @@
 			"min":[
 				-1,
 				0,
-				-2
+				-8
 			],
 			"type":"VEC3"
 		},
@@ -8009,6 +4537,12 @@
 			"bufferView":65,
 			"componentType":5126,
 			"count":24,
+			"type":"VEC4"
+		},
+		{
+			"bufferView":66,
+			"componentType":5126,
+			"count":24,
 			"max":[
 				0,
 				2,
@@ -8017,52 +4551,30 @@
 			"min":[
 				-1,
 				0,
-				-2
+				-8
 			],
-			"type":"VEC3"
-		},
-		{
-			"bufferView":66,
-			"componentType":5126,
-			"count":24,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":67,
 			"componentType":5126,
 			"count":24,
-			"type":"VEC2"
+			"type":"VEC3"
 		},
 		{
 			"bufferView":68,
 			"componentType":5126,
 			"count":24,
-			"max":[
-				0,
-				2,
-				0
-			],
-			"min":[
-				-1,
-				0,
-				-2
-			],
-			"type":"VEC3"
+			"type":"VEC2"
 		},
 		{
 			"bufferView":69,
 			"componentType":5126,
 			"count":24,
-			"type":"VEC3"
+			"type":"VEC4"
 		},
 		{
 			"bufferView":70,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC2"
-		},
-		{
-			"bufferView":71,
 			"componentType":5126,
 			"count":24,
 			"max":[
@@ -8073,21 +4585,27 @@
 			"min":[
 				-1,
 				0,
-				-2
+				-8
 			],
+			"type":"VEC3"
+		},
+		{
+			"bufferView":71,
+			"componentType":5126,
+			"count":24,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":72,
 			"componentType":5126,
 			"count":24,
-			"type":"VEC3"
+			"type":"VEC2"
 		},
 		{
 			"bufferView":73,
 			"componentType":5126,
 			"count":24,
-			"type":"VEC2"
+			"type":"VEC4"
 		},
 		{
 			"bufferView":74,
@@ -8101,7 +4619,7 @@
 			"min":[
 				-1,
 				0,
-				-2
+				-8
 			],
 			"type":"VEC3"
 		},
@@ -8121,6 +4639,12 @@
 			"bufferView":77,
 			"componentType":5126,
 			"count":24,
+			"type":"VEC4"
+		},
+		{
+			"bufferView":78,
+			"componentType":5126,
+			"count":24,
 			"max":[
 				0,
 				2,
@@ -8129,52 +4653,30 @@
 			"min":[
 				-1,
 				0,
-				-2
+				-8
 			],
-			"type":"VEC3"
-		},
-		{
-			"bufferView":78,
-			"componentType":5126,
-			"count":24,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":79,
 			"componentType":5126,
 			"count":24,
-			"type":"VEC2"
+			"type":"VEC3"
 		},
 		{
 			"bufferView":80,
 			"componentType":5126,
 			"count":24,
-			"max":[
-				0,
-				2,
-				0
-			],
-			"min":[
-				-1,
-				0,
-				-2
-			],
-			"type":"VEC3"
+			"type":"VEC2"
 		},
 		{
 			"bufferView":81,
 			"componentType":5126,
 			"count":24,
-			"type":"VEC3"
+			"type":"VEC4"
 		},
 		{
 			"bufferView":82,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC2"
-		},
-		{
-			"bufferView":83,
 			"componentType":5126,
 			"count":24,
 			"max":[
@@ -8185,21 +4687,27 @@
 			"min":[
 				-1,
 				0,
-				-2
+				-8
 			],
+			"type":"VEC3"
+		},
+		{
+			"bufferView":83,
+			"componentType":5126,
+			"count":24,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":84,
 			"componentType":5126,
 			"count":24,
-			"type":"VEC3"
+			"type":"VEC2"
 		},
 		{
 			"bufferView":85,
 			"componentType":5126,
 			"count":24,
-			"type":"VEC2"
+			"type":"VEC4"
 		},
 		{
 			"bufferView":86,
@@ -8213,7 +4721,7 @@
 			"min":[
 				-1,
 				0,
-				-2
+				-8
 			],
 			"type":"VEC3"
 		},
@@ -8233,6 +4741,12 @@
 			"bufferView":89,
 			"componentType":5126,
 			"count":24,
+			"type":"VEC4"
+		},
+		{
+			"bufferView":90,
+			"componentType":5126,
+			"count":24,
 			"max":[
 				0,
 				2,
@@ -8241,52 +4755,30 @@
 			"min":[
 				-1,
 				0,
-				-2
+				-8
 			],
-			"type":"VEC3"
-		},
-		{
-			"bufferView":90,
-			"componentType":5126,
-			"count":24,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":91,
 			"componentType":5126,
 			"count":24,
-			"type":"VEC2"
+			"type":"VEC3"
 		},
 		{
 			"bufferView":92,
 			"componentType":5126,
 			"count":24,
-			"max":[
-				0,
-				2,
-				0
-			],
-			"min":[
-				-1,
-				0,
-				-2
-			],
-			"type":"VEC3"
+			"type":"VEC2"
 		},
 		{
 			"bufferView":93,
 			"componentType":5126,
 			"count":24,
-			"type":"VEC3"
+			"type":"VEC4"
 		},
 		{
 			"bufferView":94,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC2"
-		},
-		{
-			"bufferView":95,
 			"componentType":5126,
 			"count":24,
 			"max":[
@@ -8297,21 +4789,27 @@
 			"min":[
 				-1,
 				0,
-				-2
+				-8
 			],
+			"type":"VEC3"
+		},
+		{
+			"bufferView":95,
+			"componentType":5126,
+			"count":24,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":96,
 			"componentType":5126,
 			"count":24,
-			"type":"VEC3"
+			"type":"VEC2"
 		},
 		{
 			"bufferView":97,
 			"componentType":5126,
 			"count":24,
-			"type":"VEC2"
+			"type":"VEC4"
 		},
 		{
 			"bufferView":98,
@@ -8325,7 +4823,7 @@
 			"min":[
 				-1,
 				0,
-				-2
+				-8
 			],
 			"type":"VEC3"
 		},
@@ -8345,6 +4843,12 @@
 			"bufferView":101,
 			"componentType":5126,
 			"count":24,
+			"type":"VEC4"
+		},
+		{
+			"bufferView":102,
+			"componentType":5126,
+			"count":24,
 			"max":[
 				0,
 				2,
@@ -8353,1756 +4857,670 @@
 			"min":[
 				-1,
 				0,
-				-2
+				-8
 			],
-			"type":"VEC3"
-		},
-		{
-			"bufferView":102,
-			"componentType":5126,
-			"count":24,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":103,
 			"componentType":5126,
 			"count":24,
-			"type":"VEC2"
+			"type":"VEC3"
 		},
 		{
 			"bufferView":104,
 			"componentType":5126,
 			"count":24,
-			"max":[
-				0,
-				2,
-				0
-			],
-			"min":[
-				-1,
-				0,
-				-2
-			],
-			"type":"VEC3"
+			"type":"VEC2"
 		},
 		{
 			"bufferView":105,
 			"componentType":5126,
 			"count":24,
-			"type":"VEC3"
-		},
-		{
-			"bufferView":106,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC2"
-		},
-		{
-			"bufferView":107,
-			"componentType":5126,
-			"count":24,
-			"max":[
-				0,
-				2,
-				0
-			],
-			"min":[
-				-1,
-				0,
-				-2
-			],
-			"type":"VEC3"
-		},
-		{
-			"bufferView":108,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC3"
-		},
-		{
-			"bufferView":109,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC2"
-		},
-		{
-			"bufferView":110,
-			"componentType":5126,
-			"count":24,
-			"max":[
-				0,
-				2,
-				0
-			],
-			"min":[
-				-1,
-				0,
-				-2
-			],
-			"type":"VEC3"
-		},
-		{
-			"bufferView":111,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC3"
-		},
-		{
-			"bufferView":112,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC2"
-		},
-		{
-			"bufferView":113,
-			"componentType":5126,
-			"count":24,
-			"max":[
-				0,
-				2,
-				0
-			],
-			"min":[
-				-1,
-				0,
-				-2
-			],
-			"type":"VEC3"
-		},
-		{
-			"bufferView":114,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC3"
-		},
-		{
-			"bufferView":115,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC2"
-		},
-		{
-			"bufferView":116,
-			"componentType":5126,
-			"count":24,
-			"max":[
-				0,
-				2,
-				0
-			],
-			"min":[
-				-1,
-				0,
-				-2
-			],
-			"type":"VEC3"
-		},
-		{
-			"bufferView":117,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC3"
-		},
-		{
-			"bufferView":118,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC2"
-		},
-		{
-			"bufferView":119,
-			"componentType":5126,
-			"count":24,
-			"max":[
-				0,
-				2,
-				0
-			],
-			"min":[
-				-1,
-				0,
-				-2
-			],
-			"type":"VEC3"
-		},
-		{
-			"bufferView":120,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC3"
-		},
-		{
-			"bufferView":121,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC2"
-		},
-		{
-			"bufferView":122,
-			"componentType":5126,
-			"count":24,
-			"max":[
-				0,
-				2,
-				0
-			],
-			"min":[
-				-1,
-				0,
-				-2
-			],
-			"type":"VEC3"
-		},
-		{
-			"bufferView":123,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC3"
-		},
-		{
-			"bufferView":124,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC2"
-		},
-		{
-			"bufferView":125,
-			"componentType":5126,
-			"count":24,
-			"max":[
-				0,
-				2,
-				0
-			],
-			"min":[
-				-1,
-				0,
-				-2
-			],
-			"type":"VEC3"
-		},
-		{
-			"bufferView":126,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC3"
-		},
-		{
-			"bufferView":127,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC2"
-		},
-		{
-			"bufferView":128,
-			"componentType":5126,
-			"count":24,
-			"max":[
-				0,
-				2,
-				0
-			],
-			"min":[
-				-1,
-				0,
-				-2
-			],
-			"type":"VEC3"
-		},
-		{
-			"bufferView":129,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC3"
-		},
-		{
-			"bufferView":130,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC2"
-		},
-		{
-			"bufferView":131,
-			"componentType":5126,
-			"count":24,
-			"max":[
-				0,
-				2,
-				0
-			],
-			"min":[
-				-1,
-				0,
-				-2
-			],
-			"type":"VEC3"
-		},
-		{
-			"bufferView":132,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC3"
-		},
-		{
-			"bufferView":133,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC2"
-		},
-		{
-			"bufferView":134,
-			"componentType":5126,
-			"count":24,
-			"max":[
-				0,
-				2,
-				0
-			],
-			"min":[
-				-1,
-				0,
-				-2
-			],
-			"type":"VEC3"
-		},
-		{
-			"bufferView":135,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC3"
-		},
-		{
-			"bufferView":136,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC2"
-		},
-		{
-			"bufferView":137,
-			"componentType":5126,
-			"count":24,
-			"max":[
-				0,
-				2,
-				0
-			],
-			"min":[
-				-1,
-				0,
-				-2
-			],
-			"type":"VEC3"
-		},
-		{
-			"bufferView":138,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC3"
-		},
-		{
-			"bufferView":139,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC2"
-		},
-		{
-			"bufferView":140,
-			"componentType":5126,
-			"count":24,
-			"max":[
-				0,
-				2,
-				0
-			],
-			"min":[
-				-1,
-				0,
-				-2
-			],
-			"type":"VEC3"
-		},
-		{
-			"bufferView":141,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC3"
-		},
-		{
-			"bufferView":142,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC2"
-		},
-		{
-			"bufferView":143,
-			"componentType":5126,
-			"count":24,
-			"max":[
-				0,
-				2,
-				0
-			],
-			"min":[
-				-1,
-				0,
-				-2
-			],
-			"type":"VEC3"
-		},
-		{
-			"bufferView":144,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC3"
-		},
-		{
-			"bufferView":145,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC2"
-		},
-		{
-			"bufferView":146,
-			"componentType":5126,
-			"count":24,
-			"max":[
-				0,
-				2,
-				0
-			],
-			"min":[
-				-1,
-				0,
-				-2
-			],
-			"type":"VEC3"
-		},
-		{
-			"bufferView":147,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC3"
-		},
-		{
-			"bufferView":148,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC2"
-		},
-		{
-			"bufferView":149,
-			"componentType":5126,
-			"count":24,
-			"max":[
-				0,
-				2,
-				0
-			],
-			"min":[
-				-1,
-				0,
-				-2
-			],
-			"type":"VEC3"
-		},
-		{
-			"bufferView":150,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC3"
-		},
-		{
-			"bufferView":151,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC2"
-		},
-		{
-			"bufferView":152,
-			"componentType":5126,
-			"count":24,
-			"max":[
-				0,
-				2,
-				0
-			],
-			"min":[
-				-1,
-				0,
-				-2
-			],
-			"type":"VEC3"
-		},
-		{
-			"bufferView":153,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC3"
-		},
-		{
-			"bufferView":154,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC2"
-		},
-		{
-			"bufferView":155,
-			"componentType":5126,
-			"count":24,
-			"max":[
-				0,
-				2,
-				0
-			],
-			"min":[
-				-1,
-				0,
-				-2
-			],
-			"type":"VEC3"
-		},
-		{
-			"bufferView":156,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC3"
-		},
-		{
-			"bufferView":157,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC2"
-		},
-		{
-			"bufferView":158,
-			"componentType":5126,
-			"count":24,
-			"max":[
-				0,
-				2,
-				0
-			],
-			"min":[
-				-1,
-				0,
-				-2
-			],
-			"type":"VEC3"
-		},
-		{
-			"bufferView":159,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC3"
-		},
-		{
-			"bufferView":160,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC2"
-		},
-		{
-			"bufferView":161,
-			"componentType":5126,
-			"count":24,
-			"max":[
-				0,
-				2,
-				0
-			],
-			"min":[
-				-1,
-				0,
-				-2
-			],
-			"type":"VEC3"
-		},
-		{
-			"bufferView":162,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC3"
-		},
-		{
-			"bufferView":163,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC2"
-		},
-		{
-			"bufferView":164,
-			"componentType":5126,
-			"count":24,
-			"max":[
-				0,
-				2,
-				0
-			],
-			"min":[
-				-1,
-				0,
-				-2
-			],
-			"type":"VEC3"
-		},
-		{
-			"bufferView":165,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC3"
-		},
-		{
-			"bufferView":166,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC2"
-		},
-		{
-			"bufferView":167,
-			"componentType":5126,
-			"count":24,
-			"max":[
-				0,
-				2,
-				0
-			],
-			"min":[
-				-1,
-				0,
-				-2
-			],
-			"type":"VEC3"
-		},
-		{
-			"bufferView":168,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC3"
-		},
-		{
-			"bufferView":169,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC2"
-		},
-		{
-			"bufferView":170,
-			"componentType":5126,
-			"count":24,
-			"max":[
-				0,
-				2,
-				0
-			],
-			"min":[
-				-1,
-				0,
-				-2
-			],
-			"type":"VEC3"
-		},
-		{
-			"bufferView":171,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC3"
-		},
-		{
-			"bufferView":172,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC2"
-		},
-		{
-			"bufferView":173,
-			"componentType":5126,
-			"count":24,
-			"max":[
-				0,
-				2,
-				0
-			],
-			"min":[
-				-1,
-				0,
-				-2
-			],
-			"type":"VEC3"
-		},
-		{
-			"bufferView":174,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC3"
-		},
-		{
-			"bufferView":175,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC2"
+			"type":"VEC4"
 		}
 	],
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":288,
+			"byteLength":48,
 			"byteOffset":0,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":288,
-			"byteOffset":288,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":192,
-			"byteOffset":576,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":72,
-			"byteOffset":768,
-			"target":34963
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":840,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":1128,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":192,
-			"byteOffset":1416,
-			"target":34962
-		},
-		{
-			"buffer":0,
 			"byteLength":48,
-			"byteOffset":1608,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":48,
-			"byteOffset":1656,
+			"byteOffset":48,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":32,
-			"byteOffset":1704,
+			"byteOffset":96,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":64,
+			"byteOffset":128,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":12,
-			"byteOffset":1736,
+			"byteOffset":192,
 			"target":34963
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":1748,
+			"byteOffset":204,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":2036,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":192,
-			"byteOffset":2324,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":2516,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":2804,
+			"byteOffset":492,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":192,
-			"byteOffset":3092,
+			"byteOffset":780,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":384,
+			"byteOffset":972,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":72,
+			"byteOffset":1356,
+			"target":34963
+		},
+		{
+			"buffer":0,
+			"byteLength":288,
+			"byteOffset":1428,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":3284,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":3572,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":192,
-			"byteOffset":3860,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":4052,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":4340,
+			"byteOffset":1716,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":192,
-			"byteOffset":4628,
+			"byteOffset":2004,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":384,
+			"byteOffset":2196,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":4820,
+			"byteOffset":2580,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":5108,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":192,
-			"byteOffset":5396,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":5588,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":5876,
+			"byteOffset":2868,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":192,
-			"byteOffset":6164,
+			"byteOffset":3156,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":384,
+			"byteOffset":3348,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":6356,
+			"byteOffset":3732,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":6644,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":192,
-			"byteOffset":6932,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":7124,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":7412,
+			"byteOffset":4020,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":192,
-			"byteOffset":7700,
+			"byteOffset":4308,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":384,
+			"byteOffset":4500,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":7892,
+			"byteOffset":4884,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":8180,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":192,
-			"byteOffset":8468,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":8660,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":8948,
+			"byteOffset":5172,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":192,
-			"byteOffset":9236,
+			"byteOffset":5460,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":384,
+			"byteOffset":5652,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":9428,
+			"byteOffset":6036,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":9716,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":192,
-			"byteOffset":10004,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":10196,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":10484,
+			"byteOffset":6324,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":192,
-			"byteOffset":10772,
+			"byteOffset":6612,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":384,
+			"byteOffset":6804,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":10964,
+			"byteOffset":7188,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":11252,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":192,
-			"byteOffset":11540,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":11732,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":12020,
+			"byteOffset":7476,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":192,
-			"byteOffset":12308,
+			"byteOffset":7764,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":384,
+			"byteOffset":7956,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":12500,
+			"byteOffset":8340,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":12788,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":192,
-			"byteOffset":13076,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":13268,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":13556,
+			"byteOffset":8628,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":192,
-			"byteOffset":13844,
+			"byteOffset":8916,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":384,
+			"byteOffset":9108,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":14036,
+			"byteOffset":9492,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":14324,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":192,
-			"byteOffset":14612,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":14804,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":15092,
+			"byteOffset":9780,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":192,
-			"byteOffset":15380,
+			"byteOffset":10068,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":384,
+			"byteOffset":10260,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":15572,
+			"byteOffset":10644,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":15860,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":192,
-			"byteOffset":16148,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":16340,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":16628,
+			"byteOffset":10932,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":192,
-			"byteOffset":16916,
+			"byteOffset":11220,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":384,
+			"byteOffset":11412,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":17108,
+			"byteOffset":11796,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":17396,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":192,
-			"byteOffset":17684,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":17876,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":18164,
+			"byteOffset":12084,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":192,
-			"byteOffset":18452,
+			"byteOffset":12372,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":384,
+			"byteOffset":12564,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":18644,
+			"byteOffset":12948,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":18932,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":192,
-			"byteOffset":19220,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":19412,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":19700,
+			"byteOffset":13236,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":192,
-			"byteOffset":19988,
+			"byteOffset":13524,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":384,
+			"byteOffset":13716,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":20180,
+			"byteOffset":14100,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":20468,
+			"byteOffset":14388,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":192,
-			"byteOffset":20756,
+			"byteOffset":14676,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":384,
+			"byteOffset":14868,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":20948,
+			"byteOffset":15252,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":21236,
+			"byteOffset":15540,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":192,
-			"byteOffset":21524,
+			"byteOffset":15828,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":384,
+			"byteOffset":16020,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":21716,
+			"byteOffset":16404,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":22004,
+			"byteOffset":16692,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":192,
-			"byteOffset":22292,
+			"byteOffset":16980,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":384,
+			"byteOffset":17172,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":22484,
+			"byteOffset":17556,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":22772,
+			"byteOffset":17844,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":192,
-			"byteOffset":23060,
+			"byteOffset":18132,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":384,
+			"byteOffset":18324,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":23252,
+			"byteOffset":18708,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":23540,
+			"byteOffset":18996,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":192,
-			"byteOffset":23828,
+			"byteOffset":19284,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":384,
+			"byteOffset":19476,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":24020,
+			"byteOffset":19860,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":24308,
+			"byteOffset":20148,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":192,
-			"byteOffset":24596,
+			"byteOffset":20436,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":384,
+			"byteOffset":20628,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":24788,
+			"byteOffset":21012,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":25076,
+			"byteOffset":21300,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":192,
-			"byteOffset":25364,
+			"byteOffset":21588,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":384,
+			"byteOffset":21780,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":25556,
+			"byteOffset":22164,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":25844,
+			"byteOffset":22452,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":192,
-			"byteOffset":26132,
+			"byteOffset":22740,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":384,
+			"byteOffset":22932,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":26324,
+			"byteOffset":23316,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":26612,
+			"byteOffset":23604,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":192,
-			"byteOffset":26900,
+			"byteOffset":23892,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":384,
+			"byteOffset":24084,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":27092,
+			"byteOffset":24468,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":27380,
+			"byteOffset":24756,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":192,
-			"byteOffset":27668,
+			"byteOffset":25044,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":384,
+			"byteOffset":25236,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":27860,
+			"byteOffset":25620,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":28148,
+			"byteOffset":25908,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":192,
-			"byteOffset":28436,
+			"byteOffset":26196,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":384,
+			"byteOffset":26388,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":28628,
+			"byteOffset":26772,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":28916,
+			"byteOffset":27060,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":192,
-			"byteOffset":29204,
+			"byteOffset":27348,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":384,
+			"byteOffset":27540,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":29396,
+			"byteOffset":27924,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":29684,
+			"byteOffset":28212,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":192,
-			"byteOffset":29972,
+			"byteOffset":28500,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":288,
-			"byteOffset":30164,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":30452,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":192,
-			"byteOffset":30740,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":30932,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":31220,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":192,
-			"byteOffset":31508,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":31700,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":31988,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":192,
-			"byteOffset":32276,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":32468,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":32756,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":192,
-			"byteOffset":33044,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":33236,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":33524,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":192,
-			"byteOffset":33812,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":34004,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":34292,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":192,
-			"byteOffset":34580,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":34772,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":35060,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":192,
-			"byteOffset":35348,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":35540,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":35828,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":192,
-			"byteOffset":36116,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":36308,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":36596,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":192,
-			"byteOffset":36884,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":37076,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":37364,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":192,
-			"byteOffset":37652,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":37844,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":38132,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":192,
-			"byteOffset":38420,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":38612,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":38900,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":192,
-			"byteOffset":39188,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":39380,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":39668,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":192,
-			"byteOffset":39956,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":40148,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":40436,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":192,
-			"byteOffset":40724,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":40916,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":41204,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":192,
-			"byteOffset":41492,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":41684,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":41972,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":192,
-			"byteOffset":42260,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":42452,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":42740,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":192,
-			"byteOffset":43028,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":43220,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":288,
-			"byteOffset":43508,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":192,
-			"byteOffset":43796,
+			"byteLength":384,
+			"byteOffset":28692,
 			"target":34962
 		}
 	],
 	"buffers":[
 		{
-			"byteLength":43988,
+			"byteLength":29076,
 			"uri":"Environment.bin"
 		}
 	]
