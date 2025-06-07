@@ -13,7 +13,11 @@ struct FilmGrainSettings {
     vignette_intensity: f32,
     vignette_radius: f32,
     time: f32,
-    artifact_intensity: f32,  // New: controls dust/hair frequency
+    artifact_intensity: f32,
+    scratch_frequency: f32,
+    dust_frequency: f32,
+    hair_frequency: f32,
+    _padding: f32,
 }
 
 // Simple pseudo-random function
@@ -39,14 +43,14 @@ fn vertical_scratch(uv: vec2<f32>, time: f32) -> f32 {
     // Random vertical position that changes occasionally
     let scratch_time = floor(time * 3.0); // Change position ~3 times per second
     let x_pos = hash(vec2<f32>(scratch_time, 0.0));
-    
+
     // Thin vertical line with some wobble
     let wobble = sin(uv.y * 40.0 + time * 10.0) * 0.001;
     let dist = abs(uv.x - x_pos + wobble);
-    
-    // Make it appear/disappear
-    let appear = step(0.95, hash(vec2<f32>(scratch_time, 1.0)));
-    
+
+    // Make it appear/disappear based on frequency setting
+    let appear = step(1.0 - settings.scratch_frequency, hash(vec2<f32>(scratch_time, 1.0)));
+
     return appear * smoothstep(0.002, 0.0, dist);
 }
 
@@ -55,10 +59,10 @@ fn dust_speck(uv: vec2<f32>, time: f32) -> f32 {
     let grid_size = 8.0;
     let cell = floor(uv * grid_size);
     let cell_time = floor(time * 24.0); // Change 24 times per second (film framerate!)
-    
-    // Random chance for dust in each cell
+
+    // Random chance for dust in each cell based on frequency setting
     let dust_chance = hash(cell + cell_time * 17.0);
-    if (dust_chance > 0.98) { // Rare occurrence
+    if (dust_chance > (1.0 - settings.dust_frequency)) {
         let local_uv = fract(uv * grid_size);
         let center = vec2<f32>(
             hash(cell + cell_time * 23.0),
@@ -77,16 +81,16 @@ fn hair_fiber(uv: vec2<f32>, time: f32) -> f32 {
         hash(vec2<f32>(hair_time, 2.0)),
         hash(vec2<f32>(hair_time, 3.0))
     );
-    
+
     // Diagonal line
     let dir = normalize(vec2<f32>(0.7, 1.0));
     let projected = dot(uv - start_pos, dir);
     let closest_point = start_pos + dir * clamp(projected, 0.0, 0.3); // Limited length
     let dist = distance(uv, closest_point);
-    
-    // Make it appear occasionally
-    let appear = step(0.97, hash(vec2<f32>(hair_time, 4.0)));
-    
+
+    // Make it appear based on frequency setting
+    let appear = step(1.0 - settings.hair_frequency, hash(vec2<f32>(hair_time, 4.0)));
+
     return appear * smoothstep(0.003, 0.0, dist) * 0.7;
 }
 
@@ -108,22 +112,22 @@ fn framerate_stutter(color: vec3<f32>, time: f32) -> vec3<f32> {
 fn fragment(in: FullscreenVertexOutput) -> @location(0) vec4<f32> {
     let uv = in.uv;
     var color = textureSample(screen_texture, texture_sampler, uv);
-    
+
     // Apply film grain
     let grain = film_grain(uv, settings.time);
     let grain_effect = mix(1.0, grain, settings.grain_intensity);
     color = color * grain_effect;
-    
+
     // Apply artifacts (dust, scratches, hairs)
     if (settings.artifact_intensity > 0.0) {
         let scratch = vertical_scratch(uv, settings.time);
         let dust = dust_speck(uv, settings.time);
         let hair = hair_fiber(uv, settings.time);
-        
+
         let artifacts = max(max(scratch, dust), hair);
         color = mix(color, vec4<f32>(0.1, 0.1, 0.1, 1.0), artifacts * settings.artifact_intensity);
     }
-    
+
     // Apply yellow/sepia tint
     let sepia = vec3<f32>(
         dot(color.rgb, vec3<f32>(0.393, 0.769, 0.189)),
@@ -131,13 +135,13 @@ fn fragment(in: FullscreenVertexOutput) -> @location(0) vec4<f32> {
         dot(color.rgb, vec3<f32>(0.272, 0.534, 0.131))
     );
     color = vec4<f32>(mix(color.rgb, sepia, settings.tint_intensity), color.a);
-    
+
     // Optional: Apply 24fps stutter effect (subtle)
     // color.rgb = framerate_stutter(color.rgb, settings.time);
-    
+
     // Apply vignette
     let vignette_factor = mix(1.0, vignette(uv), settings.vignette_intensity);
     color = color * vignette_factor;
-    
+
     return color;
 }

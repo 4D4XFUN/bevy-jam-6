@@ -1,4 +1,3 @@
-// film_grain.rs
 use bevy::{
     core_pipeline::{
         core_2d::graph::{Core2d, Node2d},
@@ -7,6 +6,7 @@ use bevy::{
     },
     ecs::query::QueryItem,
     prelude::*,
+    reflect::Reflect,
     render::{
         extract_component::{ExtractComponent, ExtractComponentPlugin},
         render_graph::{Node, NodeRunError, RenderGraphApp, RenderGraphContext, RenderLabel},
@@ -30,7 +30,8 @@ pub struct FilmGrainPlugin;
 
 impl Plugin for FilmGrainPlugin {
     fn build(&self, app: &mut App) {
-        app.add_plugins(ExtractComponentPlugin::<FilmGrainSettings>::default());
+        app.add_plugins(ExtractComponentPlugin::<FilmGrainSettings>::default())
+            .register_type::<FilmGrainSettings>();
 
         let render_app = app.sub_app_mut(RenderApp);
         render_app
@@ -52,8 +53,6 @@ impl Plugin for FilmGrainPlugin {
                     Node2d::EndMainPassPostProcessing,
                 ),
             );
-        
-        app.register_type::<FilmGrainSettings>();
     }
 
     fn finish(&self, app: &mut App) {
@@ -83,19 +82,31 @@ pub struct FilmGrainSettings {
     pub time: f32,
     /// Intensity of film artifacts (scratches, dust, hairs) (0.0 - 1.0)
     pub artifact_intensity: f32,
+    /// How often scratches appear (0.0 = never, 1.0 = always)
+    pub scratch_frequency: f32,
+    /// How often dust specks appear (0.0 = never, 1.0 = always)
+    pub dust_frequency: f32,
+    /// How often hair fibers appear (0.0 = never, 1.0 = always)
+    pub hair_frequency: f32,
+    /// Padding for alignment
+    _padding: f32,
 }
 
 impl Default for FilmGrainSettings {
     fn default() -> Self {
         Self {
             grain_intensity: 0.1,
-            grain_scale: 0.004,  // 1.0 / 250.0 - same as your setting
+            grain_scale: 0.004,
             grain_speed: 20.0,
             tint_intensity: 0.4,
             vignette_intensity: 1.0,
             vignette_radius: 0.7,
             time: 0.0,
-            artifact_intensity: 0.7,  // Moderate amount of artifacts
+            artifact_intensity: 0.7,
+            scratch_frequency: 0.02,  // 2% chance (was 5%)
+            dust_frequency: 0.01,     // 1% chance (was 2%)
+            hair_frequency: 0.015,    // 1.5% chance (was 3%)
+            _padding: 0.0,
         }
     }
 }
