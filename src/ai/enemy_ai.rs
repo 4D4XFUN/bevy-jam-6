@@ -2,6 +2,7 @@ use crate::ai::pathfinding_service::PathfindingState;
 use crate::gameplay::enemy::Enemy;
 use crate::gameplay::player::Player;
 use avian3d::prelude::LinearVelocity;
+#[allow(unused_imports)]
 use bevy::color::palettes;
 use bevy::prelude::*;
 
@@ -73,6 +74,7 @@ impl AiMovementState {
             (With<Enemy>, Without<Player>),
         >,
         mut commands: Commands,
+        #[cfg(feature = "dev")]
         mut gizmos: Gizmos,
     ) {
         let target = player.translation;
