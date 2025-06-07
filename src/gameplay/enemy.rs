@@ -23,8 +23,7 @@ pub fn plugin(app: &mut App) {
     app.register_type::<EnemySpawnPoint>();
     app.init_resource::<EnemySpawningConfig>();
     app.load_resource::<PistoleroAssets>();
-    app.add_observer(create_enemy_spawn_points_around_player_on_spawn)
-        .add_observer(spawn_enemies_on_enemy_spawn_points);
+    app.add_observer(spawn_enemies_on_enemy_spawn_points);
     app.init_gizmo_group::<EnemyAimGizmo>();
     app.add_systems(
         Update,
@@ -63,8 +62,8 @@ pub struct Enemy;
 #[reflect(Component)]
 pub struct Bullet;
 
-#[derive(Component, Reflect)]
-#[reflect(Component)]
+#[derive(Component, Reflect, Copy, Clone, Debug, PartialEq)]
+#[reflect(Default, Component)]
 pub struct EnemySpawnPoint{
     detection_range: f32,
     movement_speed: f32,
@@ -309,54 +308,6 @@ impl Default for EnemySpawningConfig {
             max_radius: 30.,
         }
     }
-}
-
-fn create_enemy_spawn_points_around_player_on_spawn(
-    trigger: Trigger<OnAdd, Player>,
-    query: Query<&Transform, With<Player>>,
-    config: Res<EnemySpawningConfig>,
-    mut commands: Commands,
-) -> Result {
-    let origin = query.get(trigger.target())?;
-    info!(
-        "(dev mode) creating enemy spawners around player at {:?}",
-        origin
-    );
-
-    // GENERATE ENEMY SPAWN POSITIONS
-    let n = config.num_enemies;
-    let mut rng = thread_rng();
-
-    let mut positions = vec![];
-
-    for _ in 0..n {
-        // Generate random angle (0 to 2π)
-        let angle = rng.gen_range(0.0..std::f64::consts::TAU);
-
-        // Generate random radius within the ring
-        // Use sqrt for uniform distribution in the annular area
-        let min_r_squared = config.min_radius * config.min_radius;
-        let max_r_squared = config.max_radius * config.max_radius;
-        let radius_squared = rng.gen_range(min_r_squared..max_r_squared);
-        let radius = radius_squared.sqrt();
-
-        // Convert polar coordinates to cartesian
-        let x = origin.translation.x + (radius * angle.cos()) as f32;
-        let y = origin.translation.y + (radius * angle.sin()) as f32;
-
-        positions.push(Vec2::new(x, y));
-    }
-
-    for p in positions {
-        let translation = Vec3::new(p.x, 1.0, p.y); // i think this is right? z is "forward" on our 2d plane in bevy 3d terms, y is skyward
-        commands.spawn((
-            Name::from("EnemySpawnPoint"),
-            EnemySpawnPoint,
-            Transform::from_translation(translation),
-        ));
-    }
-
-    Ok(())
 }
 
 #[derive(Resource, Asset, Clone, Reflect)]
