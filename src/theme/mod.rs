@@ -13,7 +13,7 @@ pub mod prelude {
     pub use super::{interaction::InteractionPalette, palette as ui_palette, widget};
 }
 
-use crate::theme::film_grain::{FilmGrainPlugin, FilmGrainSettings, update_film_grain_time};
+use crate::theme::film_grain::{FilmGrainPlugin, update_film_grain_time};
 use bevy::prelude::*;
 
 pub(super) fn plugin(app: &mut App) {

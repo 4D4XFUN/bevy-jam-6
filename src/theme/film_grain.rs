@@ -4,7 +4,6 @@ use bevy::{
         core_3d::graph::{Core3d, Node3d},
         fullscreen_vertex_shader::fullscreen_shader_vertex_state,
     },
-    ecs::query::QueryItem,
     prelude::*,
     reflect::Reflect,
     render::{
@@ -12,8 +11,7 @@ use bevy::{
         extract_component::{ExtractComponent, ExtractComponentPlugin},
         render_graph::{Node, NodeRunError, RenderGraphApp, RenderGraphContext, RenderLabel},
         render_resource::{
-            BindGroup, BindGroupEntries, BindGroupLayout, BindGroupLayoutEntry, BindingType,
-            BufferInitDescriptor, BufferUsages, CachedRenderPipelineId, ColorTargetState,
+            BindGroupEntries, BindGroupLayout, BindGroupLayoutEntry, BindingType, CachedRenderPipelineId, ColorTargetState,
             ColorWrites, FragmentState, MultisampleState, Operations, PipelineCache,
             PrimitiveState, RenderPassColorAttachment, RenderPassDescriptor,
             RenderPipelineDescriptor, Sampler, SamplerBindingType, SamplerDescriptor, ShaderStages,
@@ -364,7 +362,7 @@ impl FilmGrainSettingsTween {
     pub fn update(
         mut query: Query<(&mut FilmGrainSettings, &mut FilmGrainSettingsTween)>,
         time: Res<Time>,
-        mut commands: Commands,
+        commands: Commands,
     ) {
         for (mut settings, mut settings_tween) in query.iter_mut() {
             // tick the timer
@@ -372,7 +370,7 @@ impl FilmGrainSettingsTween {
 
             // save the original if we haven't already
             if settings_tween._original.is_none() {
-                settings_tween._original = Some(settings.clone());
+                settings_tween._original = Some(*settings);
             }
 
             // sample our easing function
