@@ -101,7 +101,9 @@ pub struct MovementSettings {
     pub walk_speed: f32,
 }
 impl Default for MovementSettings {
-    fn default() -> Self {Self {walk_speed: 4.}}
+    fn default() -> Self {
+        Self { walk_speed: 4. }
+    }
 }
 
 fn add_player_movement_on_spawn(

@@ -78,7 +78,6 @@ impl AiMovementState {
             (With<Enemy>, Without<Player>),
         >,
         mut commands: Commands,
-        #[cfg(feature = "dev")] mut gizmos: Gizmos,
     ) {
         let target = player.translation;
         for (e, t, state, behavior, mut linear_velocity, pathfinding) in enemies.iter_mut() {

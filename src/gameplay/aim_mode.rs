@@ -12,7 +12,7 @@ use avian3d::prelude::{
 };
 use bevy::asset::{Asset, AssetServer, Handle};
 use bevy::audio::AudioSource;
-use bevy::color::{palettes, Color};
+use bevy::color::Color;
 use bevy::ecs::entity::EntityHashSet;
 use bevy::math::{Dir3, Isometry3d, Quat};
 use bevy::prelude::{
@@ -37,7 +37,10 @@ pub fn plugin(app: &mut App) {
     app.init_resource::<AimModeAssets>();
     app.add_systems(
         Update,
-        (draw_crosshair, draw_target_circles, /*draw_target_lines*/)
+        (
+            draw_crosshair,
+            draw_target_circles, /*draw_target_lines*/
+        )
             .run_if(in_state(AimModeState::Aiming)),
     );
     app.add_systems(Update, record_target_near_mouse);
@@ -235,7 +238,7 @@ pub fn draw_target_circles(
     }
 }
 
-pub fn draw_target_lines(
+pub fn _draw_target_lines(
     mut gizmos: Gizmos,
     hittables: Query<&Transform, With<BoomerangHittable>>,
     query: Single<&AimModeTargets>,
@@ -291,7 +294,6 @@ pub fn record_target_near_mouse(
     current_throw_origin: Single<(Entity, &Transform), With<CurrentBoomerangThrowOrigin>>,
     enemies_query: Query<Entity, With<Enemy>>,
     mut commands: Commands,
-    mut gizmos: Gizmos,
 ) -> Result {
     // target list is full, don't add any more targets
     if current_target_list.targets.len() >= MAX_TARGETS_SELECTABLE {
@@ -320,15 +322,18 @@ pub fn record_target_near_mouse(
         &ShapeCastConfig::from_max_distance(
             origin_transform.translation.distance(mouse_position) + AUTOTARGETING_RADIUS / 2.,
         ),
-        &SpatialQueryFilter::from_mask(GameLayer::Enemy).with_excluded_entities(vec![origin_entity]),
-        &|e| {enemies_query.contains(e)},
+        &SpatialQueryFilter::from_mask(GameLayer::Enemy)
+            .with_excluded_entities(vec![origin_entity]),
+        &|e| enemies_query.contains(e),
     ) else {
         // info!("record_target_near_mouse:: no target near cursor at {:?}", mouse_position);
         return Ok(());
     };
 
     {
-        let dist = target_near_cursor.point1.distance(origin_transform.translation);
+        let _dist = target_near_cursor
+            .point1
+            .distance(origin_transform.translation);
         // info!("record_target_near_mouse:: target near cursor {:?} away from origin of throw", dist);
     }
 
@@ -336,8 +341,9 @@ pub fn record_target_near_mouse(
     // Enemies only - if we hit a wall before hitting our target, we don't add
     // it to the list of targeted entities.
     {
-        let Ok(ray_direction) = Dir3::new((target_near_cursor.point1 - origin_transform.translation).normalize_or_zero())
-        else {
+        let Ok(ray_direction) = Dir3::new(
+            (target_near_cursor.point1 - origin_transform.translation).normalize_or_zero(),
+        ) else {
             // info!("record_target_near_mouse:: couldn't raycast to painted target");
             return Ok(());
         };
@@ -350,7 +356,7 @@ pub fn record_target_near_mouse(
                 excluded_entities: EntityHashSet::from([origin_entity]),
                 ..Default::default()
             },
-            &|e| {origin_entity != e},
+            &|e| origin_entity != e,
         );
         // info!("record_target_near_mouse:: cast ray from {:?} to {:?}. Direction {:?}", origin_transform.translation, target_near_cursor.point1, ray_direction);
         // gizmos.line(origin_transform.translation, target_near_cursor.point1, palettes::css::BLUE_VIOLET);

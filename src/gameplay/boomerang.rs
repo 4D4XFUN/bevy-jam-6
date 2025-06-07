@@ -499,7 +499,7 @@ fn handle_boomerang_sfx(
 #[derive(Default, Reflect, GizmoConfigGroup)]
 struct BoomerangPreviewGizmos;
 
-fn draw_preview_gizmo(
+fn _draw_preview_gizmo(
     mut gizmos: Gizmos<BoomerangPreviewGizmos>,
     boomerang_holders: Query<&GlobalTransform, With<CurrentBoomerangThrowOrigin>>,
     boomerang_target_preview: Query<&GlobalTransform, (With<WeaponTarget>, Without<Enemy>)>,
