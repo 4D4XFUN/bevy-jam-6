@@ -18,12 +18,18 @@ pub fn plugin(app: &mut App) {
     app.register_type::<Score>()
         .add_systems(
             OnEnter(Gameplay::GameOver),
-            (setup, FilmGrainSettingsTween::tween_close_vignette_to_black_screen),
+            (
+                setup,
+                FilmGrainSettingsTween::tween_close_vignette_to_black_screen,
+            ),
         )
         .add_systems(OnEnter(Screen::Retry), retry)
         .add_systems(
             OnEnter(Gameplay::Normal),
-            (setup_scoreboard, FilmGrainSettingsTween::tween_to_default_camera_settings),
+            (
+                setup_scoreboard,
+                FilmGrainSettingsTween::tween_to_default_camera_settings,
+            ),
         )
         .add_systems(
             Update,
