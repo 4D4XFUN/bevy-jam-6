@@ -158,7 +158,10 @@ pub fn play_enemy_targeted_sound_effect(
         _ => unreachable!(),
     };
 
-    commands.spawn((Name::from("EnemyTargetSoundEffect"), sound_effect(sound_asset)));
+    commands.spawn((
+        Name::from("EnemyTargetSoundEffect"),
+        sound_effect(sound_asset),
+    ));
 }
 
 // ===================

@@ -8,7 +8,8 @@ use crate::gameplay::input::{PlayerActions, PlayerMoveAction};
 use crate::physics_layers::GameLayer;
 use crate::screens::Screen;
 use avian3d::prelude::{
-    AngularVelocity, CoefficientCombine, Collider, CollisionLayers, Friction, LinearVelocity, LockedAxes, RigidBody
+    AngularVelocity, CoefficientCombine, Collider, CollisionLayers, Friction, LinearVelocity,
+    LockedAxes, RigidBody,
 };
 use bevy::prelude::*;
 use bevy_enhanced_input::events::Completed;

@@ -319,7 +319,11 @@ fn create_enemy_spawn_points_around_player_on_spawn(
 
     for p in positions {
         let translation = Vec3::new(p.x, 1.0, p.y); // i think this is right? z is "forward" on our 2d plane in bevy 3d terms, y is skyward
-        commands.spawn((Name::from("EnemySpawnPoint"), EnemySpawnPoint, Transform::from_translation(translation)));
+        commands.spawn((
+            Name::from("EnemySpawnPoint"),
+            EnemySpawnPoint,
+            Transform::from_translation(translation),
+        ));
     }
 
     Ok(())

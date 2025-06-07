@@ -1,12 +1,15 @@
 use bevy::prelude::*;
 
 use crate::{
-    gameplay::Gameplay, screens::Screen, theme::widget, ui_assets::{FontAssets, PanelAssets}
+    gameplay::Gameplay,
+    screens::Screen,
+    theme::widget,
+    ui_assets::{FontAssets, PanelAssets},
 };
 
 pub fn plugin(app: &mut App) {
     app.add_systems(OnEnter(Gameplay::GameOver), setup)
-    .add_systems(OnEnter(Screen::Retry), retry);
+        .add_systems(OnEnter(Screen::Retry), retry);
 }
 
 fn setup(panel: Res<PanelAssets>, font_assets: Res<FontAssets>, mut commands: Commands) {
