@@ -332,12 +332,11 @@ fn update_boomerang_preview_position(
         Err(_value) => return Ok(()),
     };
 
-    if let Some(te) = target_entity {
-        if potential_origins.get(te).is_err() {
+    if let Some(te) = target_entity
+        && potential_origins.get(te).is_err() {
             // If the entity hit isn't one of the targetable ones, we hit a wall.
             target_entity = None;
         }
-    }
 
     if let Ok((mut preview, mut transform)) = previews.single_mut() {
         preview.target_entity = target_entity;
