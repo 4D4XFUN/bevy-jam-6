@@ -117,6 +117,7 @@ impl Default for FilmGrainSettings {
 pub enum FilmGrainSettingsPresets {
     Default,
     VignetteClosed,
+    EagleFocus,
 }
 impl FilmGrainSettingsPresets {
     pub fn get(&self) -> FilmGrainSettings {
@@ -127,6 +128,15 @@ impl FilmGrainSettingsPresets {
                 vignette_radius: 0.0,
                 ..default()
             },
+            FilmGrainSettingsPresets::EagleFocus => {
+                let d = FilmGrainSettings::default();
+                FilmGrainSettings {
+                    vignette_radius: d.vignette_radius * 1.1,
+                    grain_intensity: d.grain_intensity * 0.9,
+                    tint_intensity: d.tint_intensity * 0.9,
+                    ..default()
+                }
+            }
         }
     }
 }
@@ -361,6 +371,8 @@ impl FilmGrainSettingsTween {
             // interpolate all the values
             settings.vignette_radius = settings_tween.tween(|s| s.vignette_radius);
             settings.vignette_intensity = settings_tween.tween(|s| s.vignette_intensity);
+            settings.grain_intensity = settings_tween.tween(|s| s.grain_intensity);
+            settings.tint_intensity = settings_tween.tween(|s| s.tint_intensity);
             // todo do the rest if we need them
         }
     }
@@ -371,5 +383,44 @@ impl FilmGrainSettingsTween {
                 commands.entity(e).remove::<FilmGrainSettingsTween>();
             }
         }
+    }
+
+    pub fn tween_tunnel_vision_focus(
+        camera: Single<(Entity, &FilmGrainSettings), With<Camera>>,
+        mut commands: Commands,
+    ) {
+        let (e, original_settings) = camera.into_inner();
+        commands.entity(e).insert(FilmGrainSettingsTween::new(
+            0.2,
+            EaseFunction::CircularIn,
+            FilmGrainSettingsPresets::EagleFocus,
+            *original_settings,
+        ));
+    }
+
+    pub fn tween_close_vignette_to_black_screen(
+        camera: Single<(Entity, &FilmGrainSettings), With<Camera>>,
+        mut commands: Commands,
+    ) {
+        let (e, original_settings) = camera.into_inner();
+        commands.entity(e).insert(FilmGrainSettingsTween::new(
+            2.,
+            EaseFunction::CircularIn,
+            FilmGrainSettingsPresets::VignetteClosed,
+            *original_settings,
+        ));
+    }
+
+    pub fn tween_to_default_camera_settings(
+        camera: Single<(Entity, &FilmGrainSettings), With<Camera>>,
+        mut commands: Commands,
+    ) {
+        let (e, original_settings) = camera.into_inner();
+        commands.entity(e).insert(FilmGrainSettingsTween::new(
+            0.5,
+            EaseFunction::CircularIn,
+            FilmGrainSettingsPresets::Default,
+            *original_settings,
+        ));
     }
 }

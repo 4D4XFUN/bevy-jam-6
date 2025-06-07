@@ -18,12 +18,12 @@ pub fn plugin(app: &mut App) {
     app.register_type::<Score>()
         .add_systems(
             OnEnter(Gameplay::GameOver),
-            (setup, close_vignette_on_death),
+            (setup, FilmGrainSettingsTween::tween_close_vignette_to_black_screen),
         )
         .add_systems(OnEnter(Screen::Retry), retry)
         .add_systems(
             OnEnter(Gameplay::Normal),
-            (setup_scoreboard, tween_to_default_camera_settings),
+            (setup_scoreboard, FilmGrainSettingsTween::tween_to_default_camera_settings),
         )
         .add_systems(
             Update,
@@ -81,32 +81,6 @@ fn setup(
                 &font_assets.header,
             ));
         });
-}
-
-fn close_vignette_on_death(
-    camera: Single<(Entity, &FilmGrainSettings), With<Camera>>,
-    mut commands: Commands,
-) {
-    let (e, original_settings) = camera.into_inner();
-    commands.entity(e).insert(FilmGrainSettingsTween::new(
-        2.,
-        EaseFunction::CircularIn,
-        FilmGrainSettingsPresets::VignetteClosed,
-        *original_settings,
-    ));
-}
-
-fn tween_to_default_camera_settings(
-    camera: Single<(Entity, &FilmGrainSettings), With<Camera>>,
-    mut commands: Commands,
-) {
-    let (e, original_settings) = camera.into_inner();
-    commands.entity(e).insert(FilmGrainSettingsTween::new(
-        0.5,
-        EaseFunction::CircularIn,
-        FilmGrainSettingsPresets::Default,
-        *original_settings,
-    ));
 }
 
 fn retry_level(_trigger: Trigger<Pointer<Click>>, mut next_state: ResMut<NextState<Screen>>) {
