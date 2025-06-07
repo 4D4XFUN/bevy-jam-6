@@ -64,7 +64,7 @@ pub struct Bullet;
 
 #[derive(Component, Reflect, Copy, Clone, Debug, PartialEq)]
 #[reflect(Default, Component)]
-pub struct EnemySpawnPoint{
+pub struct EnemySpawnPoint {
     detection_range: f32,
     movement_speed: f32,
     attacks_per_second: f32,
@@ -99,7 +99,8 @@ fn spawn_enemies_on_enemy_spawn_points(
             FollowPlayerBehavior {
                 detection_range: spawn_point.detection_range,
                 movement_speed: spawn_point.movement_speed,
-                ..default()},
+                ..default()
+            },
             *position,
             Mesh3d(meshes.add(Capsule3d::default())),
             MeshMaterial3d(materials.add(Color::srgb_u8(124, 32, 32))),
