@@ -25,6 +25,7 @@ use tracing::{debug, info, warn};
 // ===================
 // AIM MODE
 // ==================
+use crate::theme::film_grain::FilmGrainSettingsTween;
 use bevy::prelude::*;
 
 /// The "minimum possible" speed time can go. We never fully pause the game during slo-mo.
@@ -37,11 +38,20 @@ pub fn plugin(app: &mut App) {
             .run_if(in_state(AimModeState::Aiming)),
     );
     app.add_systems(Update, record_target_near_mouse);
-    app.add_systems(OnEnter(AimModeState::Aiming), initialize_target_list);
+    app.add_systems(
+        OnEnter(AimModeState::Aiming),
+        (
+            initialize_target_list,
+            FilmGrainSettingsTween::tween_tunnel_vision_focus,
+        ),
+    );
     app.add_systems(OnExit(AimModeState::Aiming), cleanup_target_list);
     app.add_systems(
         OnExit(AimModeState::Aiming),
-        reset_current_boomerang_throw_origin_to_player,
+        (
+            reset_current_boomerang_throw_origin_to_player,
+            FilmGrainSettingsTween::tween_to_default_camera_settings,
+        ),
     );
 
     app.init_state::<AimModeState>();
@@ -108,29 +118,17 @@ pub struct AimModeAssets {
     #[dependency]
     entering_aim_mode: Handle<AudioSource>,
     #[dependency]
-    targeting1: Handle<AudioSource>,
-    #[dependency]
-    targeting2: Handle<AudioSource>,
-    #[dependency]
-    targeting3: Handle<AudioSource>,
-    #[dependency]
-    targeting4: Handle<AudioSource>,
-    #[dependency]
-    targeting5: Handle<AudioSource>,
+    targeting: Vec<Handle<AudioSource>>,
 }
 
 impl FromWorld for AimModeAssets {
     fn from_world(world: &mut World) -> Self {
         let assets = world.resource::<AssetServer>();
+        let targeting = vec![assets.load("audio/sound_effects/spurs/spur1.ogg")];
         Self {
             entering_aim_mode: assets
                 .load("audio/sound_effects/571273__princeofworms__hawkeagle-cry-distant.ogg"),
-
-            targeting1: assets.load("audio/sound_effects/spurs/spur1.ogg"),
-            targeting2: assets.load("audio/sound_effects/spurs/spur1.ogg"),
-            targeting3: assets.load("audio/sound_effects/spurs/spur1.ogg"),
-            targeting4: assets.load("audio/sound_effects/spurs/spur1.ogg"),
-            targeting5: assets.load("audio/sound_effects/spurs/spur1.ogg"),
+            targeting,
         }
     }
 }
@@ -147,20 +145,11 @@ pub fn play_enemy_targeted_sound_effect(
         return;
     };
 
-    let random_index = thread_rng().gen_range(1..=5);
-
-    let sound_asset = match random_index {
-        1 => assets.targeting1.clone(),
-        2 => assets.targeting2.clone(),
-        3 => assets.targeting3.clone(),
-        4 => assets.targeting4.clone(),
-        5 => assets.targeting5.clone(),
-        _ => unreachable!(),
-    };
+    let random_index = thread_rng().gen_range(0..assets.targeting.len());
 
     commands.spawn((
         Name::from("EnemyTargetSoundEffect"),
-        sound_effect(sound_asset),
+        sound_effect(assets.targeting[random_index].clone()),
     ));
 }
 
@@ -191,12 +180,14 @@ pub fn cleanup_target_list(
         .iter()
         .map(|e| BoomerangTargetKind::Entity(*e))
         .collect();
-    let player = player_single.into_inner(); // todo not why we nee this or how to handle multiple such entities. just assuming throws always originate from the player for now.
-
-    event_writer.write(ThrowBoomerangEvent {
-        thrower_entity: player,
-        target: v,
-    });
+    // todo not why we nee this or how to handle multiple such entities. just assuming throws always originate from the player for now.
+    let player = player_single.into_inner();
+    if !v.is_empty() {
+        event_writer.write(ThrowBoomerangEvent {
+            thrower_entity: player,
+            target: v,
+        });
+    }
     commands.entity(e).despawn();
 }
 

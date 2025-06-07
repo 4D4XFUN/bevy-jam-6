@@ -1,5 +1,6 @@
 use crate::gameplay::Gameplay;
 use crate::gameplay::boomerang::BounceBoomerangEvent;
+use crate::theme::film_grain::FilmGrainSettings;
 use bevy::app::{App, Startup, Update};
 use bevy::color::Color;
 use bevy::core_pipeline::bloom::Bloom;
@@ -73,6 +74,7 @@ pub fn spawn_camera(mut commands: Commands) {
         Exposure::INDOOR,
         Tonemapping::TonyMcMapface,
         Bloom::NATURAL,
+        FilmGrainSettings::default(),
     ));
 }
 

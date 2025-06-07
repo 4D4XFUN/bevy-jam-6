@@ -5,6 +5,7 @@ use crate::gameplay::boomerang::CurrentBoomerangThrowOrigin;
 use crate::gameplay::camera::CameraFollowTarget;
 use crate::gameplay::health_and_damage::{DeathEvent, Health};
 use crate::gameplay::input::{PlayerActions, PlayerMoveAction};
+use crate::gameplay::score::ScoreEvent;
 use crate::physics_layers::GameLayer;
 use crate::screens::Screen;
 use avian3d::prelude::{
@@ -86,9 +87,8 @@ fn teardown(player: Single<Entity, With<Player>>, mut commands: Commands) {
         .remove::<AngularVelocity>();
 }
 
-fn on_player_death(_trigger: Trigger<DeathEvent>, mut next_state: ResMut<NextState<Gameplay>>) {
-    info!("game over");
-    next_state.set(Gameplay::GameOver);
+fn on_player_death(_trigger: Trigger<DeathEvent>, mut commands: Commands) {
+    commands.trigger(ScoreEvent::PlayerDeath);
 }
 
 #[derive(Component, Debug, Clone, Copy, PartialEq, Eq, Default, Reflect)]

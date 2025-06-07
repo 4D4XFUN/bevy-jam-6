@@ -12,13 +12,15 @@ use rand::{Rng, thread_rng};
 
 use crate::{asset_tracking::LoadResource, physics_layers::GameLayer, screens::Screen};
 
+use crate::gameplay::boomerang::Boomerang;
+
 #[derive(Event)]
 pub enum HealthEvent {
-    Damage(u32),
+    Damage(u32, usize),
 }
 
 #[derive(Event)]
-pub struct DeathEvent;
+pub struct DeathEvent(pub usize);
 
 #[derive(Component, Reflect)]
 #[reflect(Component)]
@@ -103,32 +105,39 @@ fn on_health_event(
     let Ok(mut health) = health.get_mut(trigger.target()) else {
         return;
     };
-    match trigger.event() {
-        HealthEvent::Damage(dmg) => health.0 -= *dmg as i32,
-    }
+    let bounces = match trigger.event() {
+        HealthEvent::Damage(dmg, bounces) => {
+            health.0 -= *dmg as i32;
+            bounces
+        }
+    };
     if health.0 <= 0 {
         commands
             .entity(trigger.target())
             .remove::<Health>()
-            .trigger(DeathEvent);
+            .trigger(DeathEvent(*bounces));
     }
 }
 
 fn on_damage_event(
     mut collision_event: EventReader<CollisionStarted>,
     health_query: Query<Entity, With<Health>>,
-    damager_query: Query<(Entity, &CanDamage)>,
+    damager_query: Query<(Entity, &CanDamage, Option<&Boomerang>)>,
     mut commands: Commands,
 ) {
     for CollisionStarted(entity1, entity2) in collision_event.read() {
         for health_entity in health_query.iter() {
-            for (damager_entity, damager) in damager_query.iter() {
+            for (damager_entity, damager, boomerang) in damager_query.iter() {
                 if (*entity1 == health_entity || *entity2 == health_entity)
                     && (*entity1 == damager_entity || *entity2 == damager_entity)
                 {
+                    let bounces = match boomerang {
+                        Some(boomerang) => boomerang.path_index + 1,
+                        None => 0,
+                    };
                     commands
                         .entity(health_entity)
-                        .trigger(HealthEvent::Damage(damager.0));
+                        .trigger(HealthEvent::Damage(damager.0, bounces));
                 }
             }
         }
