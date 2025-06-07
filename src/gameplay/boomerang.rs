@@ -1,9 +1,9 @@
+use crate::gameplay::Gameplay;
 use crate::gameplay::enemy::Enemy;
 use crate::gameplay::health_and_damage::{CanDamage, Health, HealthEvent};
 use crate::gameplay::input::FireBoomerangAction;
 use crate::gameplay::mouse_position::MousePosition;
 use crate::physics_layers::GameLayer;
-use crate::screens::Screen;
 use avian3d::prelude::{
     AngularVelocity, Collider, CollisionEventsEnabled, CollisionLayers, LinearVelocity, Physics,
     RigidBody,
@@ -159,7 +159,7 @@ pub fn plugin(app: &mut App) {
             move_falling_boomerangs,
             on_boomerang_fallen_despawn_boomerang.after(move_falling_boomerangs),
         )
-            .run_if(in_state(Screen::Gameplay)),
+            .run_if(in_state(Gameplay::Normal)),
     );
 
     app.add_observer(on_fire_action_throw_boomerang)
@@ -359,6 +359,7 @@ fn update_boomerang_preview_position(
     } else {
         // TODO: Preview needs to be despawned after throw
         commands.spawn((
+            Name::from("WeaponTarget"),
             WeaponTarget { target_entity },
             Transform::from_translation(target_location),
         ));
@@ -453,6 +454,7 @@ fn on_throw_boomerang_spawn_boomerang(
                         .translation
                         .with_y(BOOMERANG_FLYING_HEIGHT),
                 ),
+                StateScoped(Gameplay::Normal),
                 Flying,
                 SceneRoot(boomerang_assets.mesh.clone()),
                 Collider::sphere(0.5),
@@ -482,7 +484,7 @@ fn handle_boomerang_sfx(
     let mut rng = thread_rng();
     if boomerang_sfx.contains(trigger.target()) {
         let pitch = rng.r#gen::<f32>() * 0.4;
-        commands.entity(trigger.target()).insert((
+        commands.entity(trigger.target()).try_insert((
             AudioPlayer::new(boomerang_assets.loop_sfx.clone()),
             PlaybackSettings::REMOVE.with_speed(0.8 + pitch),
             BoomerangSfx,

@@ -1,5 +1,6 @@
 use crate::ai::enemy_ai::{AiMovementState, FollowPlayerBehavior};
 use crate::asset_tracking::LoadResource;
+use crate::gameplay::Gameplay;
 use crate::gameplay::boomerang::{BOOMERANG_FLYING_HEIGHT, WeaponTarget};
 use crate::gameplay::health_and_damage::{CanDamage, DeathEvent};
 use crate::gameplay::player::Player;
@@ -23,8 +24,10 @@ pub fn plugin(app: &mut App) {
     app.add_observer(create_enemy_spawn_points_around_player_on_spawn)
         .add_observer(spawn_enemies_on_enemy_spawn_points);
     app.init_gizmo_group::<EnemyAimGizmo>();
-    app.add_systems(Update, update_aim_preview_position);
-    app.add_systems(Update, attack_target_after_delay);
+    app.add_systems(
+        Update,
+        (update_aim_preview_position, attack_target_after_delay).run_if(in_state(Gameplay::Normal)),
+    );
 }
 
 #[derive(Component, Debug, Clone, Reflect)]
@@ -211,9 +214,11 @@ fn attack_target_after_delay(
                 LinearVelocity(bullet_velocity * ranged_attack.speed),
                 CanDamage(1),
                 CollisionEventsEnabled,
+                StateScoped(Screen::Gameplay),
             ));
             let pitch = rand.r#gen::<f32>() * 0.4;
             commands.spawn((
+                Name::from("Gunshot SFX"),
                 AudioPlayer::new(pistolero_assets.gunshot.clone()),
                 PlaybackSettings::DESPAWN.with_speed(0.8 + pitch),
             ));
@@ -229,6 +234,7 @@ fn attack_target_after_delay(
                 Restitution::default(),
                 LinearDamping(0.5),
                 AngularDamping(0.5),
+                StateScoped(Screen::Gameplay),
             ));
         }
     }
@@ -313,7 +319,7 @@ fn create_enemy_spawn_points_around_player_on_spawn(
 
     for p in positions {
         let translation = Vec3::new(p.x, 1.0, p.y); // i think this is right? z is "forward" on our 2d plane in bevy 3d terms, y is skyward
-        commands.spawn((EnemySpawnPoint, Transform::from_translation(translation)));
+        commands.spawn((Name::from("EnemySpawnPoint"), EnemySpawnPoint, Transform::from_translation(translation)));
     }
 
     Ok(())

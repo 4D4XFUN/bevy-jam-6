@@ -2,9 +2,14 @@ use bevy::prelude::*;
 use oxidized_navigation::query::{find_polygon_path, perform_string_pulling_on_path};
 use oxidized_navigation::{NavMesh, NavMeshSettings};
 
+use crate::gameplay::Gameplay;
+
 pub fn plugin(app: &mut App) {
     app.init_resource::<PathfindingService>();
-    app.add_systems(Update, PathfindingService::run_blocking_pathfinding);
+    app.add_systems(
+        Update,
+        PathfindingService::run_blocking_pathfinding.run_if(in_state(Gameplay::Normal)),
+    );
 }
 
 #[derive(Component)]
