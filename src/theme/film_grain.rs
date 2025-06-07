@@ -33,7 +33,7 @@ impl Plugin for FilmGrainPlugin {
             ExtractComponentPlugin::<FilmGrainSettings>::default(),
             FilmGrainSettingsTween::plugin,
         ))
-            .register_type::<FilmGrainSettings>();
+        .register_type::<FilmGrainSettings>();
 
         let render_app = app.sub_app_mut(RenderApp);
         render_app
@@ -355,7 +355,7 @@ impl FilmGrainSettingsTween {
                 extractor(&self._target),
                 self.ease_function,
             )
-                .sample(progress)
+            .sample(progress)
         } else {
             None
         }
@@ -391,7 +391,7 @@ impl FilmGrainSettingsTween {
         }
     }
 
-    fn cleanup(query: Query<(Entity,  &FilmGrainSettingsTween )>, mut commands: Commands) {
+    fn cleanup(query: Query<(Entity, &FilmGrainSettingsTween)>, mut commands: Commands) {
         for (e, f) in query {
             if f.timer.finished() {
                 commands.entity(e).remove::<FilmGrainSettingsTween>();

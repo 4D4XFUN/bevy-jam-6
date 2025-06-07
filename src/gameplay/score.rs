@@ -16,9 +16,15 @@ use crate::{
 
 pub fn plugin(app: &mut App) {
     app.register_type::<Score>()
-        .add_systems(OnEnter(Gameplay::GameOver), (setup, close_vignette_on_death))
+        .add_systems(
+            OnEnter(Gameplay::GameOver),
+            (setup, close_vignette_on_death),
+        )
         .add_systems(OnEnter(Screen::Retry), retry)
-        .add_systems(OnEnter(Gameplay::Normal), (setup_scoreboard, tween_to_default_camera_settings))
+        .add_systems(
+            OnEnter(Gameplay::Normal),
+            (setup_scoreboard, tween_to_default_camera_settings),
+        )
         .add_systems(
             Update,
             update_score.run_if(in_state(Screen::Gameplay).and(resource_changed::<Score>)),
