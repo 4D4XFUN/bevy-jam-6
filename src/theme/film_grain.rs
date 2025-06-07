@@ -321,7 +321,7 @@ pub struct FilmGrainSettingsTween {
     pub timer: Timer,
     pub ease_function: EaseFunction,
     _target: FilmGrainSettings,
-    _original: Option<FilmGrainSettings>,
+    _original: FilmGrainSettings,
 }
 
 impl FilmGrainSettingsTween {
@@ -329,12 +329,13 @@ impl FilmGrainSettingsTween {
         seconds: f32,
         ease_function: EaseFunction,
         preset: FilmGrainSettingsPresets,
+        original: FilmGrainSettings,
     ) -> Self {
         Self {
             timer: Timer::from_seconds(seconds, TimerMode::Once),
             ease_function,
             _target: FilmGrainSettingsPresets::get(&preset),
-            _original: None,
+            _original: original,
         }
     }
 
@@ -343,21 +344,16 @@ impl FilmGrainSettingsTween {
         app.register_type::<Self>();
     }
 
-    fn tween<F>(&self, extractor: F) -> Option<f32>
+    fn tween<F>(&self, extractor: F) -> f32
     where
         F: Fn(&FilmGrainSettings) -> f32,
     {
-        if let Some(original) = &self._original {
-            let progress = self.timer.fraction();
-            EasingCurve::new(
-                extractor(original),
-                extractor(&self._target),
-                self.ease_function,
-            )
+        let progress = self.timer.fraction();
+        let start = extractor(&self._original);
+        let end = extractor(&self._target);
+        EasingCurve::new(start, end, self.ease_function)
             .sample(progress)
-        } else {
-            None
-        }
+            .unwrap_or(end)
     }
 
     pub fn update(
@@ -369,23 +365,13 @@ impl FilmGrainSettingsTween {
             // tick the timer
             settings_tween.timer.tick(time.delta());
 
-            // save the original if we haven't already
-            if settings_tween._original.is_none() {
-                settings_tween._original = Some(*settings);
-            }
-
             // sample our easing function
             let progress = settings_tween.timer.fraction();
             let f = settings_tween.ease_function;
-            let tween = f.sample_clamped(progress);
 
             // interpolate all the values
-            settings_tween
-                .tween(|s| s.vignette_radius)
-                .map(|new_val| settings.vignette_radius = new_val);
-            settings_tween
-                .tween(|s| s.vignette_intensity)
-                .map(|new_val| settings.vignette_intensity = new_val);
+            settings.vignette_radius = settings_tween.tween(|s| s.vignette_radius);
+            settings.vignette_intensity = settings_tween.tween(|s| s.vignette_intensity);
             // todo do the rest if we need them
         }
     }

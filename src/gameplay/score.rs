@@ -84,28 +84,32 @@ fn setup(
 }
 
 fn close_vignette_on_death(
-    camera: Single<Entity, (With<Camera>, With<FilmGrainSettings>)>,
+    camera: Single<(Entity, &FilmGrainSettings), (With<Camera>)>,
     mut commands: Commands,
 ) {
+    let (e, original_settings) = camera.into_inner();
     commands
-        .entity(camera.into_inner())
+        .entity(e)
         .insert(FilmGrainSettingsTween::new(
             2.,
             EaseFunction::CircularIn,
             FilmGrainSettingsPresets::VignetteClosed,
+            *original_settings,
         ));
 }
 
 fn tween_to_default_camera_settings(
-    camera: Single<Entity, (With<Camera>, With<FilmGrainSettings>)>,
+    camera: Single<(Entity, &FilmGrainSettings), (With<Camera>)>,
     mut commands: Commands,
 ) {
+    let (e, original_settings) = camera.into_inner();
     commands
-        .entity(camera.into_inner())
+        .entity(e)
         .insert(FilmGrainSettingsTween::new(
             0.5,
             EaseFunction::CircularIn,
             FilmGrainSettingsPresets::Default,
+            *original_settings,
         ));
 }
 
