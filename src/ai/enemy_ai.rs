@@ -78,7 +78,6 @@ impl AiMovementState {
             (With<Enemy>, Without<Player>),
         >,
         mut commands: Commands,
-        #[cfg(feature = "dev")] mut gizmos: Gizmos,
     ) {
         let target = player.translation;
         for (e, t, state, behavior, mut linear_velocity, pathfinding) in enemies.iter_mut() {
@@ -122,12 +121,12 @@ impl AiMovementState {
                     linear_velocity.x = dir.x;
                     linear_velocity.z = dir.z;
 
-                    // debug visualization
-                    #[cfg(feature = "dev")]
-                    gizmos.linestrip(
-                        path.clone().iter().map(|v| v.with_y(0.2)),
-                        palettes::css::BLUE,
-                    );
+                    // // debug visualization
+                    // #[cfg(feature = "dev")]
+                    // gizmos.linestrip(
+                    //     path.clone().iter().map(|v| v.with_y(0.2)),
+                    //     palettes::css::BLUE,
+                    // );
 
                     // We've reached a waypoint, increment the index to the next one
                     if dist < 1. {

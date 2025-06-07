@@ -1,5 +1,5 @@
 use crate::gameplay::health_and_damage::Health;
-use crate::gameplay::player::Player;
+use crate::gameplay::player::{MovementSettings, Player};
 use avian3d::prelude::RigidBody;
 use bevy::input::common_conditions::input_just_pressed;
 use bevy::prelude::*;
@@ -38,11 +38,13 @@ fn enable_god_mode(player: Single<Entity, With<Player>>, mut commands: Commands)
     commands
         .entity(player.into_inner())
         .insert(RigidBody::Kinematic)
+        .insert(MovementSettings { walk_speed: 40. })
         .insert(Health(9000));
 }
 fn disable_god_mode(player: Single<Entity, With<Player>>, mut commands: Commands) {
     commands
         .entity(player.into_inner())
         .insert(RigidBody::Dynamic)
+        .insert(MovementSettings::default())
         .insert(Health::default());
 }
