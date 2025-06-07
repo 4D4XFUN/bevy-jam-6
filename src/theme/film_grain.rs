@@ -98,7 +98,7 @@ impl Default for FilmGrainSettings {
             grain_intensity: 0.1,
             grain_scale: 0.004,
             grain_speed: 20.0,
-            tint_intensity: 0.4,
+            tint_intensity: 0.6,
             vignette_intensity: 1.0,
             vignette_radius: 0.7,
             time: 0.0,
