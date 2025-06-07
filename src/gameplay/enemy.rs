@@ -1,11 +1,11 @@
 use crate::ai::enemy_ai::{AiMovementState, FollowPlayerBehavior};
 use crate::asset_tracking::LoadResource;
 use crate::audio::TimeDilatedPitch;
-use crate::gameplay::boomerang::{WeaponTarget, BOOMERANG_FLYING_HEIGHT};
+use crate::gameplay::Gameplay;
+use crate::gameplay::boomerang::{BOOMERANG_FLYING_HEIGHT, WeaponTarget};
 use crate::gameplay::health_and_damage::{CanDamage, DeathEvent};
 use crate::gameplay::player::Player;
 use crate::gameplay::score::ScoreEvent;
-use crate::gameplay::Gameplay;
 use crate::gameplay::{boomerang::BoomerangHittable, health_and_damage::Health};
 use crate::physics_layers::GameLayer;
 use crate::screens::Screen;
@@ -17,7 +17,7 @@ use avian3d::prelude::{
 use bevy::color;
 use bevy::ecs::entity::EntityHashSet;
 use bevy::prelude::*;
-use rand::{thread_rng, Rng};
+use rand::{Rng, thread_rng};
 
 pub fn plugin(app: &mut App) {
     app.register_type::<EnemySpawnPoint>();
@@ -225,7 +225,15 @@ fn attack_target_after_delay(
                 SceneRoot(pistolero_assets.bullet.clone()),
                 MeshMaterial3d(materials.add(Color::srgb_u8(50, 0, 0))),
                 Collider::sphere(0.1),
-                CollisionLayers::new(GameLayer::Bullet, [GameLayer::Player, GameLayer::Terrain, GameLayer::Enemy, GameLayer::Default]),
+                CollisionLayers::new(
+                    GameLayer::Bullet,
+                    [
+                        GameLayer::Player,
+                        GameLayer::Terrain,
+                        GameLayer::Enemy,
+                        GameLayer::Default,
+                    ],
+                ),
                 RigidBody::Kinematic,
                 LinearVelocity(bullet_velocity * ranged_attack.speed),
                 CanDamage(1),
@@ -241,7 +249,8 @@ fn attack_target_after_delay(
             ));
             commands.spawn((
                 Name::new("ShellCasing"),
-                Transform::from_translation(origin_transform.translation).with_scale(Vec3::new(2., 2., 2.)),
+                Transform::from_translation(origin_transform.translation)
+                    .with_scale(Vec3::new(2., 2., 2.)),
                 SceneRoot(pistolero_assets.shell.clone()),
                 Collider::cylinder(0.05, 0.2),
                 CollisionLayers::new(GameLayer::DeadEnemy, GameLayer::all_bits()),

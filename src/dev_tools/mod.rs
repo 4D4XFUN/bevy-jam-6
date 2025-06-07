@@ -11,9 +11,9 @@ use bevy::dev_tools::states::log_transitions;
 use bevy::prelude::*;
 use bevy_inspector_egui::bevy_egui::EguiPlugin;
 use bevy_inspector_egui::quick::WorldInspectorPlugin;
+use iyes_perf_ui::PerfUiPlugin;
 use iyes_perf_ui::entries::{PerfUiFramerateEntries, PerfUiWindowEntries};
 use iyes_perf_ui::prelude::{PerfUiPosition, PerfUiRoot};
-use iyes_perf_ui::PerfUiPlugin;
 
 pub(super) fn plugin(app: &mut App) {
     app.add_plugins((
@@ -31,14 +31,14 @@ pub(super) fn plugin(app: &mut App) {
         boomerang_dev_tools_plugin,
         god_mode::plugin,
     ))
-        .insert_gizmo_config(
-            PhysicsGizmos {
-                shapecast_color: Some(palettes::css::AQUAMARINE.into()),
-                raycast_color: Some(palettes::css::BLUE_VIOLET.into()),
-                ..default()
-            },
-            GizmoConfig::default(),
-        );
+    .insert_gizmo_config(
+        PhysicsGizmos {
+            shapecast_color: Some(palettes::css::AQUAMARINE.into()),
+            raycast_color: Some(palettes::css::BLUE_VIOLET.into()),
+            ..default()
+        },
+        GizmoConfig::default(),
+    );
 
     // Log `Screen` state transitions.
     app.add_systems(Update, log_transitions::<Screen>);

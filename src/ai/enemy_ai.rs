@@ -1,7 +1,7 @@
 use crate::ai::pathfinding_service::PathfindingState;
+use crate::gameplay::Gameplay;
 use crate::gameplay::enemy::Enemy;
 use crate::gameplay::player::Player;
-use crate::gameplay::Gameplay;
 use avian3d::prelude::LinearVelocity;
 use bevy::prelude::*;
 
