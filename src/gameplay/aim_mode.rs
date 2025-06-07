@@ -1,4 +1,4 @@
-use crate::audio::sound_effect;
+use crate::audio::{sound_effect, sound_effect_non_dilated};
 use crate::gameplay::boomerang::{
     BoomerangHittable, BoomerangTargetKind, CurrentBoomerangThrowOrigin, ThrowBoomerangEvent,
     get_raycast_target,
@@ -32,6 +32,7 @@ use bevy::prelude::*;
 pub const SLOW_MO_SCALING_FACTOR: f32 = 0.1;
 
 pub fn plugin(app: &mut App) {
+    app.init_resource::<AimModeAssets>();
     app.add_systems(
         Update,
         (draw_crosshair, draw_target_circles, draw_target_lines)
@@ -124,7 +125,13 @@ pub struct AimModeAssets {
 impl FromWorld for AimModeAssets {
     fn from_world(world: &mut World) -> Self {
         let assets = world.resource::<AssetServer>();
-        let targeting = vec![assets.load("audio/sound_effects/spurs/spur1.ogg")];
+        let targeting = vec![
+            assets.load("audio/sound_effects/spurs/spur1.ogg"),
+            assets.load("audio/sound_effects/spurs/spur2.ogg"),
+            assets.load("audio/sound_effects/spurs/spur3.ogg"),
+            assets.load("audio/sound_effects/spurs/spur4.ogg"),
+            assets.load("audio/sound_effects/spurs/spur5.ogg"),
+        ];
         Self {
             entering_aim_mode: assets
                 .load("audio/sound_effects/571273__princeofworms__hawkeagle-cry-distant.ogg"),
@@ -146,10 +153,10 @@ pub fn play_enemy_targeted_sound_effect(
     };
 
     let random_index = thread_rng().gen_range(0..assets.targeting.len());
-
+    
     commands.spawn((
         Name::from("EnemyTargetSoundEffect"),
-        sound_effect(assets.targeting[random_index].clone()),
+        sound_effect_non_dilated(assets.targeting[random_index].clone(), -12.),
     ));
 }
 
@@ -303,6 +310,7 @@ pub fn record_target_near_mouse(
     ) else {
         return Ok(());
     };
+
 
     let last_target = current_target_list.targets.last();
 
