@@ -1,5 +1,6 @@
 use crate::ai::enemy_ai::{AiMovementState, FollowPlayerBehavior};
 use crate::asset_tracking::LoadResource;
+use crate::audio::TimeDilatedPitch;
 use crate::gameplay::Gameplay;
 use crate::gameplay::boomerang::{BOOMERANG_FLYING_HEIGHT, WeaponTarget};
 use crate::gameplay::health_and_damage::{CanDamage, DeathEvent};
@@ -221,7 +222,8 @@ fn attack_target_after_delay(
             commands.spawn((
                 Name::from("Gunshot SFX"),
                 AudioPlayer::new(pistolero_assets.gunshot.clone()),
-                PlaybackSettings::DESPAWN.with_speed(0.8 + pitch),
+                PlaybackSettings::DESPAWN,
+                TimeDilatedPitch(0.8 + pitch),
             ));
             commands.spawn((
                 Name::new("ShellCasing"),
@@ -243,6 +245,7 @@ fn attack_target_after_delay(
 
 fn on_death(
     trigger: Trigger<DeathEvent>,
+    pistolero_assets: Res<PistoleroAssets>,
     mut commands: Commands,
     mut materials: ResMut<Assets<StandardMaterial>>,
 ) {
@@ -263,6 +266,13 @@ fn on_death(
             GameLayer::all_bits(),
         ));
     commands.trigger(ScoreEvent(100.));
+    let rand = thread_rng().gen_range(0..pistolero_assets.death_screams.len());
+    commands.spawn((
+        Name::from("DeathScream"),
+        AudioPlayer::new(pistolero_assets.death_screams[rand].clone()),
+        PlaybackSettings::DESPAWN,
+        TimeDilatedPitch(1.0),
+    ));
 }
 
 #[derive(Resource, Debug, Clone, Reflect)]
@@ -337,16 +347,26 @@ struct PistoleroAssets {
     gunshot: Handle<AudioSource>,
     bullet: Handle<Scene>,
     shell: Handle<Scene>,
+    death_screams: Vec<Handle<AudioSource>>,
 }
 
 impl FromWorld for PistoleroAssets {
     fn from_world(world: &mut World) -> Self {
         let asset_server = world.resource::<AssetServer>();
+        let death_scream = vec![
+            asset_server.load("audio/sound_effects/Wilhelm-ScreamSFX/Wilhelm 1.ogg"),
+            asset_server.load("audio/sound_effects/Wilhelm-ScreamSFX/Wilhelm 2.ogg"),
+            asset_server.load("audio/sound_effects/Wilhelm-ScreamSFX/Wilhelm 3.ogg"),
+            asset_server.load("audio/sound_effects/Wilhelm-ScreamSFX/Wilhelm 4.ogg"),
+            asset_server.load("audio/sound_effects/Wilhelm-ScreamSFX/Wilhelm 5.ogg"),
+            asset_server.load("audio/sound_effects/Wilhelm-ScreamSFX/Wilhelm 6.ogg"),
+        ];
         PistoleroAssets {
             gunshot: asset_server.load("audio/sound_effects/213925__diboz__pistol_riccochet.ogg"),
             bullet: asset_server.load(GltfAssetLabel::Scene(0).from_asset("models/bullet.glb")),
             shell: asset_server
                 .load(GltfAssetLabel::Scene(0).from_asset("models/bullet_casing.glb")),
+            death_screams: death_scream,
         }
     }
 }

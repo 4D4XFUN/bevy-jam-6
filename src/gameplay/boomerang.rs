@@ -1,3 +1,4 @@
+use crate::audio::TimeDilatedPitch;
 use crate::gameplay::Gameplay;
 use crate::gameplay::enemy::Enemy;
 use crate::gameplay::health_and_damage::{CanDamage, Health, HealthEvent};
@@ -6,7 +7,7 @@ use crate::gameplay::mouse_position::MousePosition;
 use crate::physics_layers::GameLayer;
 use avian3d::prelude::{
     AngularVelocity, Collider, CollisionEventsEnabled, CollisionLayers, LinearVelocity, Physics,
-    PhysicsTime, RigidBody,
+    RigidBody,
 };
 use avian3d::spatial_query::{SpatialQuery, SpatialQueryFilter};
 use bevy::color;
@@ -158,7 +159,6 @@ pub fn plugin(app: &mut App) {
                 .chain(),
             move_falling_boomerangs,
             on_boomerang_fallen_despawn_boomerang.after(move_falling_boomerangs),
-            update_sfx_speed,
         )
             .run_if(in_state(Gameplay::Normal)),
     );
@@ -426,7 +426,7 @@ fn on_fire_action_throw_boomerang(
 }
 
 #[derive(Component)]
-struct BoomerangSfx(f32);
+struct BoomerangSfx;
 
 fn on_throw_boomerang_spawn_boomerang(
     mut event_reader: EventReader<ThrowBoomerangEvent>,
@@ -469,7 +469,8 @@ fn on_throw_boomerang_spawn_boomerang(
             .insert((
                 AudioPlayer::new(random_sfx.clone()),
                 PlaybackSettings::REMOVE,
-                BoomerangSfx(1.0),
+                BoomerangSfx,
+                TimeDilatedPitch(1.0),
             ));
     }
 
@@ -487,15 +488,10 @@ fn handle_boomerang_sfx(
         let pitch = rng.r#gen::<f32>() * 0.4;
         commands.entity(trigger.target()).try_insert((
             AudioPlayer::new(boomerang_assets.loop_sfx.clone()),
-            PlaybackSettings::REMOVE.with_speed(0.8 + pitch),
-            BoomerangSfx(0.8 + pitch),
+            PlaybackSettings::REMOVE,
+            BoomerangSfx,
+            TimeDilatedPitch(0.8 + pitch),
         ));
-    }
-}
-
-fn update_sfx_speed(time: Res<Time<Physics>>, query: Query<(&AudioSink, &BoomerangSfx)>) {
-    for (sink, sfx) in &query {
-        sink.set_speed(time.relative_speed() * sfx.0);
     }
 }
 

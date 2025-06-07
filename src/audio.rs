@@ -1,6 +1,9 @@
+use avian3d::prelude::{Physics, PhysicsTime};
 use bevy::asset::Handle;
-use bevy::audio::{AudioPlayer, AudioSource, PlaybackSettings};
+use bevy::audio::{AudioPlayer, AudioSink, AudioSinkPlayback, AudioSource, PlaybackSettings};
+use bevy::ecs::system::{Query, Res};
 use bevy::prelude::{Bundle, Component};
+use bevy::time::Time;
 
 /// An organizational marker component that should be added to a spawned [`AudioPlayer`] if it's in the
 /// general "music" category (e.g. global background music, soundtrack).
@@ -23,5 +26,18 @@ pub struct SoundEffect;
 
 /// A sound effect audio instance.
 pub fn sound_effect(handle: Handle<AudioSource>) -> impl Bundle {
-    (AudioPlayer(handle), PlaybackSettings::DESPAWN, SoundEffect)
+    (
+        AudioPlayer(handle),
+        PlaybackSettings::DESPAWN,
+        TimeDilatedPitch(1.0),
+    )
+}
+
+#[derive(Component)]
+pub struct TimeDilatedPitch(pub f32);
+
+pub fn update_sfx_speed(time: Res<Time<Physics>>, query: Query<(&AudioSink, &TimeDilatedPitch)>) {
+    for (sink, sfx) in &query {
+        sink.set_speed(time.relative_speed() * sfx.0);
+    }
 }

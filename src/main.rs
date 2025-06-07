@@ -90,6 +90,8 @@ impl Plugin for AppPlugin {
             gameplay::plugin,
             ai::plugin,
         ));
+
+        app.add_systems(Update, audio::update_sfx_speed);
     }
 }
 
