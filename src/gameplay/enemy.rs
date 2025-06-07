@@ -369,9 +369,12 @@ impl FromWorld for PistoleroAssets {
             asset_server.load("audio/sound_effects/Wilhelm-ScreamSFX/enemy_death/enemy_death7.ogg"),
             asset_server.load("audio/sound_effects/Wilhelm-ScreamSFX/enemy_death/enemy_death8.ogg"),
             asset_server.load("audio/sound_effects/Wilhelm-ScreamSFX/enemy_death/enemy_death9.ogg"),
-            asset_server.load("audio/sound_effects/Wilhelm-ScreamSFX/enemy_death/enemy_death10.ogg"),
-            asset_server.load("audio/sound_effects/Wilhelm-ScreamSFX/enemy_death/enemy_death11.ogg"),
-            asset_server.load("audio/sound_effects/Wilhelm-ScreamSFX/enemy_death/enemy_death12.ogg"),
+            asset_server
+                .load("audio/sound_effects/Wilhelm-ScreamSFX/enemy_death/enemy_death10.ogg"),
+            asset_server
+                .load("audio/sound_effects/Wilhelm-ScreamSFX/enemy_death/enemy_death11.ogg"),
+            asset_server
+                .load("audio/sound_effects/Wilhelm-ScreamSFX/enemy_death/enemy_death12.ogg"),
         ];
         PistoleroAssets {
             gunshot: asset_server.load("audio/sound_effects/213925__diboz__pistol_riccochet.ogg"),
