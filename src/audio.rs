@@ -1,6 +1,8 @@
 use avian3d::prelude::{Physics, PhysicsTime};
 use bevy::asset::Handle;
-use bevy::audio::{AudioPlayer, AudioSink, AudioSinkPlayback, AudioSource, PlaybackSettings};
+use bevy::audio::{
+    AudioPlayer, AudioSink, AudioSinkPlayback, AudioSource, PlaybackSettings, Volume,
+};
 use bevy::ecs::system::{Query, Res};
 use bevy::prelude::{Bundle, Component};
 use bevy::time::Time;
@@ -30,6 +32,13 @@ pub fn sound_effect(handle: Handle<AudioSource>) -> impl Bundle {
         AudioPlayer(handle),
         PlaybackSettings::DESPAWN,
         TimeDilatedPitch(1.0),
+    )
+}
+
+pub fn sound_effect_non_dilated(handle: Handle<AudioSource>, decibels: f32) -> impl Bundle {
+    (
+        AudioPlayer(handle),
+        PlaybackSettings::DESPAWN.with_volume(Volume::Decibels(decibels)),
     )
 }
 
