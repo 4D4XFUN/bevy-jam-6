@@ -300,16 +300,22 @@ pub fn record_target_near_mouse(
     };
     let (origin_entity, origin_transform) = current_throw_origin.into_inner();
 
-    let Ok(direction_from_thrower_to_cursor) = Dir3::new(mouse_position - origin_transform.translation) else { return Ok(()); };
+    let Ok(direction_from_thrower_to_cursor) =
+        Dir3::new(mouse_position - origin_transform.translation)
+    else {
+        return Ok(());
+    };
 
     // Cast a sphere from the thrower to the cursor, returning the first enemy hit (this is what we're targeting).
     // The reason it's a sphere is to allow for some "auto-aim" functionality - you don't need to mouse over the target exactly.
     let Some(target_near_cursor) = spatial_query.cast_shape(
         &Collider::sphere(AUTOTARGETING_RADIUS), // Shape
-        origin_transform.translation,                          // Shape position
+        origin_transform.translation,            // Shape position
         Quat::default(),                         // Shape rotation
         direction_from_thrower_to_cursor,
-        &ShapeCastConfig::from_max_distance(origin_transform.translation.distance(mouse_position) + AUTOTARGETING_RADIUS/2.),
+        &ShapeCastConfig::from_max_distance(
+            origin_transform.translation.distance(mouse_position) + AUTOTARGETING_RADIUS / 2.,
+        ),
         &SpatialQueryFilter::from_mask(GameLayer::Enemy),
     ) else {
         return Ok(());
@@ -319,7 +325,8 @@ pub fn record_target_near_mouse(
     // Enemies only - if we hit a wall before hitting our target, we don't add
     // it to the list of targeted entities.
     {
-        let Ok(ray_direction) = Dir3::new(target_near_cursor.point1 - origin_transform.translation) else {
+        let Ok(ray_direction) = Dir3::new(target_near_cursor.point1 - origin_transform.translation)
+        else {
             return Ok(());
         };
         let line_of_sight_ray = spatial_query.cast_ray(
@@ -348,7 +355,11 @@ pub fn record_target_near_mouse(
             return Ok(());
         }
         _ => {
-            swap_boomerang_throw_origin(origin_entity, target_near_cursor.entity, commands.reborrow());
+            swap_boomerang_throw_origin(
+                origin_entity,
+                target_near_cursor.entity,
+                commands.reborrow(),
+            );
             current_target_list.targets.push(target_near_cursor.entity);
             commands.trigger(PlayEnemyTargetedSound); // play a sound when an enemy is targeted
         }
