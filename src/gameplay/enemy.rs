@@ -4,6 +4,7 @@ use crate::gameplay::Gameplay;
 use crate::gameplay::boomerang::{BOOMERANG_FLYING_HEIGHT, WeaponTarget};
 use crate::gameplay::health_and_damage::{CanDamage, DeathEvent};
 use crate::gameplay::player::Player;
+use crate::gameplay::score::ScoreEvent;
 use crate::gameplay::{boomerang::BoomerangHittable, health_and_damage::Health};
 use crate::physics_layers::GameLayer;
 use crate::screens::Screen;
@@ -261,6 +262,7 @@ fn on_death(
             GameLayer::DeadEnemy,
             GameLayer::all_bits(),
         ));
+    commands.trigger(ScoreEvent(100.));
 }
 
 #[derive(Resource, Debug, Clone, Reflect)]
