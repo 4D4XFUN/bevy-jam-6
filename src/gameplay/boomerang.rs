@@ -13,20 +13,21 @@ use bevy::color;
 use bevy::ecs::entity::EntityHashSet;
 use bevy::prelude::*;
 use bevy_enhanced_input::prelude::Fired;
+use rand::{Rng, thread_rng};
 
 pub const BOOMERANG_FLYING_HEIGHT: f32 = 0.5;
 
 /// Component used to describe boomerang entities.
 #[derive(Component, Debug, Default, Reflect)]
 #[reflect(Component)]
-pub struct Boomerang {
+struct Boomerang {
     /// The path this boomerang is following.
     path: Vec<BoomerangTargetKind>,
     path_index: usize,
     progress_on_current_segment: f32, // value from 0.0 to 1.0
 }
 impl Boomerang {
-    pub fn new(path: Vec<BoomerangTargetKind>) -> Self {
+    fn new(path: Vec<BoomerangTargetKind>) -> Self {
         Self {
             path,
             path_index: 0,
@@ -34,7 +35,7 @@ impl Boomerang {
         }
     }
 
-    pub fn _is_last_segment(&self) -> bool {
+    fn _is_last_segment(&self) -> bool {
         self.path_index >= self.path.len() - 2
     }
 }
@@ -104,15 +105,25 @@ pub struct WeaponTarget {
 
 #[derive(Resource, Asset, Clone, Reflect)]
 #[reflect(Resource)]
-pub struct BoomerangAssets {
-    pub mesh: Handle<Scene>,
+struct BoomerangAssets {
+    mesh: Handle<Scene>,
+    toss_sfx: Vec<Handle<AudioSource>>,
+    loop_sfx: Handle<AudioSource>,
 }
 
 impl FromWorld for BoomerangAssets {
     fn from_world(world: &mut World) -> Self {
         let asset_server = world.resource::<AssetServer>();
+        let toss_sfx = vec![
+            asset_server.load("audio/sound_effects/boomerang_sfx/boomerang_toss1.ogg"),
+            asset_server.load("audio/sound_effects/boomerang_sfx/boomerang_toss2.ogg"),
+            asset_server.load("audio/sound_effects/boomerang_sfx/boomerang_toss3.ogg"),
+        ];
         BoomerangAssets {
             mesh: asset_server.load(GltfAssetLabel::Scene(0).from_asset("models/boomerang.glb")),
+            toss_sfx,
+            loop_sfx: asset_server
+                .load("audio/sound_effects/boomerang_sfx/boomerang_loop_single_short.ogg"),
         }
     }
 }
@@ -151,7 +162,8 @@ pub fn plugin(app: &mut App) {
             .run_if(in_state(Screen::Gameplay)),
     );
 
-    app.add_observer(on_fire_action_throw_boomerang);
+    app.add_observer(on_fire_action_throw_boomerang)
+        .add_observer(handle_boomerang_sfx);
 }
 
 /// Moves boomerangs along their paths.
@@ -289,7 +301,9 @@ fn on_boomerang_bounce_advance_to_next_pathing_step_or_fall_down(
             commands
                 .entity(event.boomerang_entity)
                 .remove::<Flying>()
+                .remove::<BoomerangSfx>()
                 .insert(Falling);
+            info!("falling");
         }
     }
 
@@ -409,12 +423,16 @@ fn on_fire_action_throw_boomerang(
     });
 }
 
+#[derive(Component)]
+struct BoomerangSfx;
+
 fn on_throw_boomerang_spawn_boomerang(
     mut event_reader: EventReader<ThrowBoomerangEvent>,
     mut commands: Commands,
     all_transforms: Query<&Transform>,
     boomerang_assets: Res<BoomerangAssets>,
 ) -> Result {
+    let mut rng = thread_rng();
     for event in event_reader.read() {
         // add the thrower as both the first and last node on the path
         let thrower = BoomerangTargetKind::Entity(event.thrower_entity);
@@ -422,29 +440,54 @@ fn on_throw_boomerang_spawn_boomerang(
         path.append(&mut event.target.clone());
         path.push(thrower);
 
+        let random_index = rng.gen_range(0..boomerang_assets.toss_sfx.len());
+        let random_sfx = &boomerang_assets.toss_sfx[random_index];
         // spawn the 'rang
-        commands.spawn((
-            Name::new("Boomerang"),
-            Boomerang::new(path),
-            Transform::from_translation(
-                all_transforms
-                    .get(event.thrower_entity)?
-                    .translation
-                    .with_y(BOOMERANG_FLYING_HEIGHT),
-            ),
-            Flying,
-            SceneRoot(boomerang_assets.mesh.clone()),
-            Collider::sphere(0.5),
-            CollisionLayers::new(GameLayer::Boomerang, GameLayer::Enemy),
-            RigidBody::Kinematic,
-            CanDamage(1),
-            CollisionEventsEnabled,
-            LinearVelocity(Vec3::ZERO),
-            AngularVelocity(Vec3::ZERO),
-        ));
+        commands
+            .spawn((
+                Name::new("Boomerang"),
+                Boomerang::new(path),
+                Transform::from_translation(
+                    all_transforms
+                        .get(event.thrower_entity)?
+                        .translation
+                        .with_y(BOOMERANG_FLYING_HEIGHT),
+                ),
+                Flying,
+                SceneRoot(boomerang_assets.mesh.clone()),
+                Collider::sphere(0.5),
+                CollisionLayers::new(GameLayer::Boomerang, GameLayer::Enemy),
+                RigidBody::Kinematic,
+                CanDamage(1),
+                CollisionEventsEnabled,
+                LinearVelocity(Vec3::ZERO),
+                AngularVelocity(Vec3::ZERO),
+            ))
+            .insert((
+                AudioPlayer::new(random_sfx.clone()),
+                PlaybackSettings::REMOVE,
+                BoomerangSfx,
+            ));
     }
 
     Ok(())
+}
+
+fn handle_boomerang_sfx(
+    trigger: Trigger<OnRemove, PlaybackSettings>,
+    boomerang_assets: Res<BoomerangAssets>,
+    boomerang_sfx: Query<Entity, With<BoomerangSfx>>,
+    mut commands: Commands,
+) {
+    let mut rng = thread_rng();
+    if boomerang_sfx.contains(trigger.target()) {
+        let pitch = rng.r#gen::<f32>() * 0.4;
+        commands.entity(trigger.target()).insert((
+            AudioPlayer::new(boomerang_assets.loop_sfx.clone()),
+            PlaybackSettings::REMOVE.with_speed(0.8 + pitch),
+            BoomerangSfx,
+        ));
+    }
 }
 
 fn on_boomerang_collision(
@@ -494,7 +537,7 @@ pub fn boomerang_dev_tools_plugin(app: &mut App) {
 /// Current set of stats of our boomerang
 #[derive(Resource, Debug, Reflect)]
 #[reflect(Resource)]
-pub struct BoomerangSettings {
+struct BoomerangSettings {
     pub min_movement_speed: f32,
     pub max_movement_speed: f32,
     pub min_rotation_speed: f32,
@@ -517,10 +560,10 @@ impl Default for BoomerangSettings {
 }
 
 impl BoomerangSettings {
-    pub fn tween_movement_speed(&self, progress: f32) -> f32 {
+    fn tween_movement_speed(&self, progress: f32) -> f32 {
         self.tween_values(self.min_movement_speed, self.max_movement_speed, progress)
     }
-    pub fn tween_rotation_speed(&self, progress: f32) -> f32 {
+    fn tween_rotation_speed(&self, progress: f32) -> f32 {
         self.tween_values(self.min_rotation_speed, self.max_rotation_speed, progress)
     }
 
