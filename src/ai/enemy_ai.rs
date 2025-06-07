@@ -81,7 +81,8 @@ impl AiMovementState {
         mut gizmos: Gizmos,
     ) {
         let target = player.translation;
-        for (e, mut t, mut state, behavior, mut linear_velocity, pathfinding) in enemies.iter_mut() {
+        for (e, mut t, mut state, behavior, mut linear_velocity, pathfinding) in enemies.iter_mut()
+        {
             let me = t.translation;
             let state = state.into_inner();
             match state {
@@ -100,17 +101,18 @@ impl AiMovementState {
                         commands
                             .entity(e)
                             .insert(AiMovementState::Moving {
-                                index: 0,
+                                index: 1,
                                 path: found_path.clone(),
                             })
                             .remove::<PathfindingState>();
                     }
                 }
                 AiMovementState::Moving { path, index } => {
+                    let me = me.with_y(0.0); // our capsules' y are 1.0, while the pathfinding nodes are at 0.0
                     let next = path.get(index.clone()).unwrap_or(&target);
                     let dist = (next - me).length();
-                    let dir = (next - me).normalize_or_zero() * behavior.movement_speed;
-                    // TODO this doesn't seem to move anyone
+                    let dir =
+                        (next - me).normalize_or_zero() * behavior.movement_speed;
                     linear_velocity.x = dir.x;
                     linear_velocity.z = dir.z;
 
@@ -118,11 +120,16 @@ impl AiMovementState {
                     #[cfg(feature = "dev")]
                     gizmos.linestrip(path.clone(), palettes::css::BLUE);
 
-                    if dist < 0.1 {
-                        *index += 1;
+                    if dist < 1. {
+                        // seems wild to do it this way but i can't get the index to increment, i.e.
+                        // *index += 1; // doesn't work
+                        commands.entity(e).insert(AiMovementState::Moving {
+                            path: path.clone(),
+                            index: *index + 1,
+                        });
                     }
 
-                    if (*index >= path.len() && dist < behavior.distance_to_keep) {
+                    if (*index >= path.len()) {
                         commands.entity(e).insert(AiMovementState::Observing);
                     }
                 }

@@ -5,11 +5,7 @@ use crate::gameplay::player::Player;
 use crate::gameplay::{boomerang::BoomerangHittable, health_and_damage::Health};
 use crate::physics_layers::GameLayer;
 use crate::screens::Screen;
-use avian3d::prelude::{
-    AngularDamping, Collider, CollisionEventsEnabled, CollisionLayers, Friction, LinearDamping,
-    LinearVelocity, Physics, PhysicsLayer, Restitution, RigidBody, SpatialQuery,
-    SpatialQueryFilter,
-};
+use avian3d::prelude::{AngularDamping, Collider, CollisionEventsEnabled, CollisionLayers, Friction, LinearDamping, LinearVelocity, LockedAxes, Physics, PhysicsLayer, Restitution, RigidBody, SpatialQuery, SpatialQueryFilter};
 use bevy::color;
 use bevy::ecs::entity::EntityHashSet;
 use bevy::prelude::*;
@@ -84,7 +80,9 @@ fn spawn_enemies_on_enemy_spawn_points(
             StateScoped(Screen::Gameplay),
             BoomerangHittable,
             Collider::capsule(0.5, 1.),
-            CollisionLayers::new(GameLayer::Enemy, GameLayer::all_bits()),
+            CollisionLayers::ALL,
+            LinearVelocity::ZERO,
+            LockedAxes::ROTATION_LOCKED.lock_translation_y(),
             RigidBody::Dynamic,
             Health(1),
         ))
