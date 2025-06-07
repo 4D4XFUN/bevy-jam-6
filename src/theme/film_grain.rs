@@ -270,12 +270,6 @@ impl FromWorld for FilmGrainPipeline {
             .resource::<AssetServer>()
             .load("shaders/film_grain.wgsl");
 
-        // Alternative: Try embedding the shader directly for testing
-        // let shader = world.resource_mut::<Assets<Shader>>().add(Shader::from_wgsl(
-        //     include_str!("../assets/shaders/film_grain.wgsl"),
-        //     "shaders/film_grain.wgsl"
-        // ));
-
         let pipeline_id =
             world
                 .resource_mut::<PipelineCache>()
