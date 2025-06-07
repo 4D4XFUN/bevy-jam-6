@@ -15,7 +15,7 @@ pub fn plugin(app: &mut App) {
         enemy_ai::plugin,
         debug::plugin,
         OxidizedNavigationPlugin::<AvianCollider>::new(NavMeshSettings::from_agent_and_bounds(
-            1.1, 1.9, 250.0, -1.0,
+            1.1, 1.9, 1000.0, -1.0,
         )),
     ));
 }
