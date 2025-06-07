@@ -10,28 +10,32 @@ pub(super) fn plugin(app: &mut App) {
     app.load_resource::<LevelAssets>();
 }
 
+/// Todo: maybe add a pub enum LevelSelection
+/// and change levels vec into a hashmap of <LevelSelection, Handle<Scene> ?
 #[derive(Resource, Asset, Clone, Reflect)]
 #[reflect(Resource)]
 pub struct LevelAssets {
     #[dependency]
     music: Handle<AudioSource>,
+    #[dependency]
+    levels: Vec<Handle<Scene>>,
 }
 
 impl FromWorld for LevelAssets {
     fn from_world(world: &mut World) -> Self {
-        let assets = world.resource::<AssetServer>();
+        let asset_server = world.resource::<AssetServer>();
+        // add new levels here
+        let levels =
+            vec![asset_server.load(GltfAssetLabel::Scene(0).from_asset("models/Environment.gltf"))];
         Self {
-            music: assets.load("audio/music/Fluffing A Duck.ogg"),
+            music: asset_server.load("audio/music/Fluffing A Duck.ogg"),
+            levels,
         }
     }
 }
 
 /// A system that spawns the main level.
-pub fn spawn_level(
-    mut commands: Commands,
-    _level_assets: Res<LevelAssets>,
-    asset_server: Res<AssetServer>,
-) {
+pub fn spawn_level(mut commands: Commands, level_assets: Res<LevelAssets>) {
     commands.spawn((
         Name::new("Level"),
         Transform::default(),
@@ -44,10 +48,7 @@ pub fn spawn_level(
             ),
             (
                 Name::new("Environment"),
-                SceneRoot(
-                    asset_server
-                        .load(GltfAssetLabel::Scene(0).from_asset("models/Environment.gltf")),
-                ),
+                SceneRoot(level_assets.levels[0].clone(),),
                 CollisionLayers::new(
                     GameLayer::Terrain,
                     [
