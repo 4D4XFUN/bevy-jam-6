@@ -1,11 +1,11 @@
 //! Player-specific behavior.
 
+use crate::gameplay::Gameplay;
 use crate::gameplay::boomerang::CurrentBoomerangThrowOrigin;
 use crate::gameplay::camera::CameraFollowTarget;
 use crate::gameplay::health_and_damage::{DeathEvent, Health};
 use crate::gameplay::input::{PlayerActions, PlayerMoveAction};
 use crate::gameplay::score::ScoreEvent;
-use crate::gameplay::Gameplay;
 use crate::physics_layers::GameLayer;
 use crate::screens::Screen;
 use avian3d::prelude::{

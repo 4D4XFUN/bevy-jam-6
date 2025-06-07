@@ -1,7 +1,7 @@
 use crate::audio::sound_effect_non_dilated;
 use crate::gameplay::boomerang::{
-    BoomerangHittable, BoomerangTargetKind, CurrentBoomerangThrowOrigin, ThrowBoomerangEvent,
-    get_raycast_target,
+    get_raycast_target, BoomerangHittable, BoomerangTargetKind, CurrentBoomerangThrowOrigin,
+    ThrowBoomerangEvent,
 };
 use crate::gameplay::input::AimModeAction;
 use crate::gameplay::mouse_position::MousePosition;
@@ -12,7 +12,7 @@ use avian3d::prelude::{
 };
 use bevy::asset::{Asset, AssetServer, Handle};
 use bevy::audio::AudioSource;
-use bevy::color::Color;
+use bevy::color::{palettes, Color};
 use bevy::ecs::entity::EntityHashSet;
 use bevy::math::{Dir3, Isometry3d, Quat};
 use bevy::prelude::{
@@ -20,7 +20,7 @@ use bevy::prelude::{
     Res, ResMut, Resource, Single, State, States, Transform, Trigger, With, World,
 };
 use bevy_enhanced_input::events::{Completed, Fired};
-use rand::{Rng, thread_rng};
+use rand::{thread_rng, Rng};
 use tracing::{debug, info, warn};
 
 // ===================
@@ -37,10 +37,7 @@ pub fn plugin(app: &mut App) {
     app.init_resource::<AimModeAssets>();
     app.add_systems(
         Update,
-        (
-            draw_crosshair,
-            draw_target_circles, /*draw_target_lines*/
-        )
+        (draw_crosshair, draw_target_circles, draw_target_lines)
             .run_if(in_state(AimModeState::Aiming)),
     );
     app.add_systems(Update, record_target_near_mouse);
@@ -238,7 +235,7 @@ pub fn draw_target_circles(
     }
 }
 
-pub fn _draw_target_lines(
+pub fn draw_target_lines(
     mut gizmos: Gizmos,
     hittables: Query<&Transform, With<BoomerangHittable>>,
     query: Single<&AimModeTargets>,
@@ -294,6 +291,7 @@ pub fn record_target_near_mouse(
     current_throw_origin: Single<(Entity, &Transform), With<CurrentBoomerangThrowOrigin>>,
     enemies_query: Query<Entity, With<Enemy>>,
     mut commands: Commands,
+    mut gizmos: Gizmos,
 ) -> Result {
     // target list is full, don't add any more targets
     if current_target_list.targets.len() >= MAX_TARGETS_SELECTABLE {
@@ -359,36 +357,36 @@ pub fn record_target_near_mouse(
             &|e| origin_entity != e,
         );
         // info!("record_target_near_mouse:: cast ray from {:?} to {:?}. Direction {:?}", origin_transform.translation, target_near_cursor.point1, ray_direction);
-        // gizmos.line(origin_transform.translation, target_near_cursor.point1, palettes::css::BLUE_VIOLET);
+        gizmos.line(
+            origin_transform.translation,
+            target_near_cursor.point1,
+            palettes::css::BLUE_VIOLET,
+        );
         let Some(ray_hit) = line_of_sight_ray else {
             // info!("record_target_near_mouse:: no ray hits");
             return Ok(());
         };
         if ray_hit.entity != target_near_cursor.entity {
-            info!(
-                "record_target_near_mouse:: ray hit a different target {:?} than the mouse cursor: {:?}",
-                ray_hit.entity, target_near_cursor.entity
-            );
+            // info!(
+            //     "record_target_near_mouse:: ray hit a different target {:?} than the mouse cursor: {:?}",
+            //     ray_hit.entity, target_near_cursor.entity
+            // );
             return Ok(());
         }
     }
 
-    // Finally, check if the targeted entity is already the last thing in our
-    // list. If so, then we don't add it again.
-    let last_target = current_target_list.targets.last();
-    match last_target {
-        Some(&e) if e == target_near_cursor.entity => {
-            return Ok(());
-        }
-        _ => {
-            swap_boomerang_throw_origin(
-                origin_entity,
-                target_near_cursor.entity,
-                commands.reborrow(),
-            );
-            current_target_list.targets.push(target_near_cursor.entity);
-            commands.trigger(PlayEnemyTargetedSound); // play a sound when an enemy is targeted
-        }
+    // Finally, check if the targeted entity has already been targeted
+    // If so, then we don't add it again.
+    if current_target_list.targets.contains(&target_near_cursor.entity) {
+        return Ok(());
+    } else {
+        swap_boomerang_throw_origin(
+            origin_entity,
+            target_near_cursor.entity,
+            commands.reborrow(),
+        );
+        current_target_list.targets.push(target_near_cursor.entity);
+        commands.trigger(PlayEnemyTargetedSound); // play a sound when an enemy is targeted
     }
 
     Ok(())
