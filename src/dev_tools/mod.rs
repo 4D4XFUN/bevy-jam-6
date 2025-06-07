@@ -1,5 +1,7 @@
 //! Development tools for the game. This plugin is only enabled in dev builds.
 
+mod god_mode;
+
 use crate::gameplay::boomerang::boomerang_dev_tools_plugin;
 use crate::screens::Screen;
 use bevy::dev_tools::states::log_transitions;
@@ -24,6 +26,7 @@ pub(super) fn plugin(app: &mut App) {
         },
         WorldInspectorPlugin::new(),
         boomerang_dev_tools_plugin,
+        god_mode::plugin,
     ));
 
     // Log `Screen` state transitions.
