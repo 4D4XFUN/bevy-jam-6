@@ -154,7 +154,6 @@ pub fn plugin(app: &mut App) {
             (
                 move_flying_boomerangs,
                 on_boomerang_bounce_advance_to_next_pathing_step_or_fall_down,
-                on_boomerang_collision,
             )
                 .chain(),
             move_falling_boomerangs,
@@ -495,20 +494,6 @@ fn handle_boomerang_sfx(
     }
 }
 
-fn on_boomerang_collision(
-    mut events: EventReader<BounceBoomerangEvent>,
-    healths: Query<Entity, (With<Health>, With<Enemy>)>,
-    mut commands: Commands,
-) {
-    for event in events.read() {
-        let BoomerangTargetKind::Entity(target) = event._bounce_on else {
-            continue;
-        };
-        if healths.contains(target) {
-            commands.entity(target).trigger(HealthEvent::Damage(1));
-        }
-    }
-}
 
 #[derive(Default, Reflect, GizmoConfigGroup)]
 struct BoomerangPreviewGizmos;
