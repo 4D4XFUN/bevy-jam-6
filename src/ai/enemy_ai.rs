@@ -129,13 +129,9 @@ impl AiMovementState {
                         palettes::css::BLUE,
                     );
 
+                    // We've reached a waypoint, increment the index to the next one
                     if dist < 1. {
-                        // seems wild to do it this way but i can't get the index to increment, i.e.
-                        // *index += 1; // doesn't work
-                        commands.entity(e).insert(AiMovementState::Moving {
-                            path: path.clone(),
-                            index: *index + 1,
-                        });
+                        *index += 1; // doesn't work
                     }
 
                     if *index >= path.len() {
