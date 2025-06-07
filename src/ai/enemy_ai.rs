@@ -68,7 +68,7 @@ impl AiMovementState {
         mut enemies: Query<
             (
                 Entity,
-                &Transform,
+                &mut Transform,
                 &mut AiMovementState,
                 &FollowPlayerBehavior,
                 &mut LinearVelocity,
@@ -76,10 +76,12 @@ impl AiMovementState {
             ),
             (With<Enemy>, Without<Player>),
         >,
+        time: Res<Time<Physics>>,
         mut commands: Commands,
+        mut gizmos: Gizmos,
     ) {
         let target = player.translation;
-        for (e, t, mut state, behavior, mut linear_velocity, pathfinding) in enemies.iter_mut() {
+        for (e, mut t, mut state, behavior, mut linear_velocity, pathfinding) in enemies.iter_mut() {
             let me = t.translation;
             let state = state.into_inner();
             match state {
@@ -95,12 +97,6 @@ impl AiMovementState {
                 }
                 AiMovementState::FindingPath => {
                     if let Some(PathfindingState::Completed(found_path)) = pathfinding {
-
-                        commands.spawn(DrawPath {
-                            timer: Some(Timer::from_seconds(4.0, TimerMode::Once)),
-                            pulled_path: found_path.clone(),
-                            color: palettes::css::BLUE.into(),
-                        });
                         commands
                             .entity(e)
                             .insert(AiMovementState::Moving {
@@ -113,9 +109,14 @@ impl AiMovementState {
                 AiMovementState::Moving { path, index } => {
                     let next = path.get(index.clone()).unwrap_or(&target);
                     let dist = (next - me).length();
-                    let dir = (next - me).normalize_or_zero();
-                    linear_velocity.x = dir.x * behavior.movement_speed;
-                    linear_velocity.y = dir.y * behavior.movement_speed;
+                    let dir = (next - me).normalize_or_zero() * behavior.movement_speed;
+                    // TODO this doesn't seem to move anyone
+                    linear_velocity.x = dir.x;
+                    linear_velocity.z = dir.z;
+
+                    // debug visualization
+                    #[cfg(feature = "dev")]
+                    gizmos.linestrip(path.clone(), palettes::css::BLUE);
 
                     if dist < 0.1 {
                         *index += 1;

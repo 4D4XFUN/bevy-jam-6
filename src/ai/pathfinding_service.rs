@@ -33,10 +33,7 @@ pub enum PathfindingState {
 }
 impl PathfindingState {
     pub fn new(a: Vec3, b: Vec3) -> Self {
-        Self::Requested {
-            a,
-            b,
-        }
+        Self::Requested { a, b }
     }
 }
 
