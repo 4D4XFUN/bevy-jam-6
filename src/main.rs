@@ -3,6 +3,10 @@
 // Disable console on Windows for non-dev builds.
 #![cfg_attr(not(feature = "dev"), windows_subsystem = "windows")]
 
+// clippy inconsistencies
+#![allow(clippy::collapsible_if)]
+
+
 mod ai;
 mod asset_tracking;
 mod audio;
