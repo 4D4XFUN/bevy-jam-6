@@ -24,7 +24,7 @@ pub fn plugin(app: &mut App) {
         // Landmass3dPlugin::default(),
         // LandmassOxidizedNavigationPlugin::default(),
         OxidizedNavigationPlugin::<AvianCollider>::new(NavMeshSettings::from_agent_and_bounds(
-            1.0,
+            1.1,
             1.9,
             250.0,
             -1.0,
