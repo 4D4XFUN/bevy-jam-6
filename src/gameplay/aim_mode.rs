@@ -108,29 +108,17 @@ pub struct AimModeAssets {
     #[dependency]
     entering_aim_mode: Handle<AudioSource>,
     #[dependency]
-    targeting1: Handle<AudioSource>,
-    #[dependency]
-    targeting2: Handle<AudioSource>,
-    #[dependency]
-    targeting3: Handle<AudioSource>,
-    #[dependency]
-    targeting4: Handle<AudioSource>,
-    #[dependency]
-    targeting5: Handle<AudioSource>,
+    targeting: Vec<Handle<AudioSource>>,
 }
 
 impl FromWorld for AimModeAssets {
     fn from_world(world: &mut World) -> Self {
         let assets = world.resource::<AssetServer>();
+        let targeting = vec![assets.load("audio/sound_effects/spurs/spur1.ogg")];
         Self {
             entering_aim_mode: assets
                 .load("audio/sound_effects/571273__princeofworms__hawkeagle-cry-distant.ogg"),
-
-            targeting1: assets.load("audio/sound_effects/spurs/spur1.ogg"),
-            targeting2: assets.load("audio/sound_effects/spurs/spur1.ogg"),
-            targeting3: assets.load("audio/sound_effects/spurs/spur1.ogg"),
-            targeting4: assets.load("audio/sound_effects/spurs/spur1.ogg"),
-            targeting5: assets.load("audio/sound_effects/spurs/spur1.ogg"),
+            targeting,
         }
     }
 }
@@ -147,20 +135,11 @@ pub fn play_enemy_targeted_sound_effect(
         return;
     };
 
-    let random_index = thread_rng().gen_range(1..=5);
-
-    let sound_asset = match random_index {
-        1 => assets.targeting1.clone(),
-        2 => assets.targeting2.clone(),
-        3 => assets.targeting3.clone(),
-        4 => assets.targeting4.clone(),
-        5 => assets.targeting5.clone(),
-        _ => unreachable!(),
-    };
+    let random_index = thread_rng().gen_range(0..assets.targeting.len());
 
     commands.spawn((
         Name::from("EnemyTargetSoundEffect"),
-        sound_effect(sound_asset),
+        sound_effect(assets.targeting[random_index].clone()),
     ));
 }
 
