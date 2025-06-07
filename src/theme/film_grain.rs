@@ -70,7 +70,7 @@ pub struct FilmGrainSettings {
     /// Intensity of the grain effect (0.0 - 1.0)
     pub grain_intensity: f32,
     /// Size of the grain particles
-    pub grain_size: f32,
+    pub grain_scale: f32,
     /// Speed of grain animation
     pub grain_speed: f32,
     /// Intensity of the yellow/sepia tint (0.0 - 1.0)
@@ -89,7 +89,7 @@ impl Default for FilmGrainSettings {
     fn default() -> Self {
         Self {
             grain_intensity: 0.1,
-            grain_size: 250.,
+            grain_scale: 250.,
             grain_speed: 20.0,
             tint_intensity: 0.4,
             vignette_intensity: 1.0,
