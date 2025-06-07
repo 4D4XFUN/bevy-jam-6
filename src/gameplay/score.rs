@@ -4,6 +4,9 @@ use bevy::{
     prelude::*,
 };
 
+use crate::theme::film_grain::{
+    FilmGrainSettings, FilmGrainSettingsPresets, FilmGrainSettingsTween,
+};
 use crate::{
     gameplay::Gameplay,
     screens::Screen,
@@ -13,9 +16,9 @@ use crate::{
 
 pub fn plugin(app: &mut App) {
     app.register_type::<Score>()
-        .add_systems(OnEnter(Gameplay::GameOver), setup)
+        .add_systems(OnEnter(Gameplay::GameOver), (setup, close_vignette_on_death))
         .add_systems(OnEnter(Screen::Retry), retry)
-        .add_systems(OnEnter(Gameplay::Normal), setup_scoreboard)
+        .add_systems(OnEnter(Gameplay::Normal), (setup_scoreboard, tween_to_default_camera_settings))
         .add_systems(
             Update,
             update_score.run_if(in_state(Screen::Gameplay).and(resource_changed::<Score>)),
@@ -37,6 +40,32 @@ fn setup(panel: Res<PanelAssets>, font_assets: Res<FontAssets>, mut commands: Co
             widget::paneled_button("Main Menu", main_menu, &panel, &font_assets.header),
         ],
     ));
+}
+
+fn close_vignette_on_death(
+    camera: Single<Entity, (With<Camera>, With<FilmGrainSettings>)>,
+    mut commands: Commands,
+) {
+    commands
+        .entity(camera.into_inner())
+        .insert(FilmGrainSettingsTween::new(
+            2.,
+            EaseFunction::CircularIn,
+            FilmGrainSettingsPresets::VignetteClosed,
+        ));
+}
+
+fn tween_to_default_camera_settings(
+    camera: Single<Entity, (With<Camera>, With<FilmGrainSettings>)>,
+    mut commands: Commands,
+) {
+    commands
+        .entity(camera.into_inner())
+        .insert(FilmGrainSettingsTween::new(
+            0.5,
+            EaseFunction::CircularIn,
+            FilmGrainSettingsPresets::Default,
+        ));
 }
 
 fn retry_level(_trigger: Trigger<Pointer<Click>>, mut next_state: ResMut<NextState<Screen>>) {

@@ -8,20 +8,19 @@ use bevy::{
     prelude::*,
     reflect::Reflect,
     render::{
+        RenderApp,
         extract_component::{ExtractComponent, ExtractComponentPlugin},
         render_graph::{Node, NodeRunError, RenderGraphApp, RenderGraphContext, RenderLabel},
         render_resource::{
-            BindGroup, BindGroupEntries, BindGroupLayout, BindGroupLayoutEntry,
-            BindingType, BufferInitDescriptor, BufferUsages,
-            CachedRenderPipelineId, ColorTargetState, ColorWrites, FragmentState,
-            MultisampleState, Operations, PipelineCache, PrimitiveState,
-            RenderPassColorAttachment, RenderPassDescriptor, RenderPipelineDescriptor,
-            Sampler, SamplerBindingType, SamplerDescriptor, ShaderStages, ShaderType,
-            TextureFormat, TextureSampleType, TextureViewDimension,
+            BindGroup, BindGroupEntries, BindGroupLayout, BindGroupLayoutEntry, BindingType,
+            BufferInitDescriptor, BufferUsages, CachedRenderPipelineId, ColorTargetState,
+            ColorWrites, FragmentState, MultisampleState, Operations, PipelineCache,
+            PrimitiveState, RenderPassColorAttachment, RenderPassDescriptor,
+            RenderPipelineDescriptor, Sampler, SamplerBindingType, SamplerDescriptor, ShaderStages,
+            ShaderType, TextureFormat, TextureSampleType, TextureViewDimension,
         },
         renderer::{RenderContext, RenderDevice},
         view::{ExtractedView, ViewTarget},
-        RenderApp,
     },
 };
 
@@ -30,7 +29,10 @@ pub struct FilmGrainPlugin;
 
 impl Plugin for FilmGrainPlugin {
     fn build(&self, app: &mut App) {
-        app.add_plugins(ExtractComponentPlugin::<FilmGrainSettings>::default())
+        app.add_plugins((
+            ExtractComponentPlugin::<FilmGrainSettings>::default(),
+            FilmGrainSettingsTween::plugin,
+        ))
             .register_type::<FilmGrainSettings>();
 
         let render_app = app.sub_app_mut(RenderApp);
@@ -62,7 +64,9 @@ impl Plugin for FilmGrainPlugin {
 }
 
 // Settings component that controls the effect
-#[derive(Component, Clone, Copy, ExtractComponent, Reflect, ShaderType, bytemuck::Pod, bytemuck::Zeroable)]
+#[derive(
+    Component, Clone, Copy, ExtractComponent, Reflect, ShaderType, bytemuck::Pod, bytemuck::Zeroable,
+)]
 #[reflect(Component)]
 #[repr(C)]
 pub struct FilmGrainSettings {
@@ -103,10 +107,27 @@ impl Default for FilmGrainSettings {
             vignette_radius: 0.7,
             time: 0.0,
             artifact_intensity: 0.7,
-            scratch_frequency: 0.02,  // 2% chance (was 5%)
-            dust_frequency: 0.01,     // 1% chance (was 2%)
-            hair_frequency: 0.015,    // 1.5% chance (was 3%)
+            scratch_frequency: 0.02,
+            dust_frequency: 0.01,
+            hair_frequency: 0.015,
             _padding: 0.0,
+        }
+    }
+}
+
+pub enum FilmGrainSettingsPresets {
+    Default,
+    VignetteClosed,
+}
+impl FilmGrainSettingsPresets {
+    pub fn get(&self) -> FilmGrainSettings {
+        match self {
+            FilmGrainSettingsPresets::Default => FilmGrainSettings::default(),
+            FilmGrainSettingsPresets::VignetteClosed => FilmGrainSettings {
+                vignette_intensity: 1.0,
+                vignette_radius: 0.0,
+                ..default()
+            },
         }
     }
 }
@@ -161,13 +182,14 @@ impl Node for FilmGrainNode {
 
         let post_process = view_target.post_process_write();
 
-        let settings_uniform = render_context
-            .render_device()
-            .create_buffer_with_data(&bevy::render::render_resource::BufferInitDescriptor {
+        let settings_uniform = render_context.render_device().create_buffer_with_data(
+            &bevy::render::render_resource::BufferInitDescriptor {
                 label: Some("film_grain_settings"),
                 contents: bytemuck::cast_slice(&[*settings]),
-                usage: bevy::render::render_resource::BufferUsages::UNIFORM | bevy::render::render_resource::BufferUsages::COPY_DST,
-            });
+                usage: bevy::render::render_resource::BufferUsages::UNIFORM
+                    | bevy::render::render_resource::BufferUsages::COPY_DST,
+            },
+        );
 
         let bind_group = render_context.render_device().create_bind_group(
             "film_grain_bind_group",
@@ -288,11 +310,92 @@ impl FromWorld for FilmGrainPipeline {
 }
 
 // Helper system to update time
-pub fn update_film_grain_time(
-    time: Res<Time>,
-    mut query: Query<&mut FilmGrainSettings>,
-) {
+pub fn update_film_grain_time(time: Res<Time>, mut query: Query<&mut FilmGrainSettings>) {
     for mut settings in &mut query {
         settings.time += time.delta_secs() * settings.grain_speed;
+    }
+}
+
+#[derive(Component, Reflect)]
+#[reflect(Component)]
+pub struct FilmGrainSettingsTween {
+    pub timer: Timer,
+    pub ease_function: EaseFunction,
+    _target: FilmGrainSettings,
+    _original: Option<FilmGrainSettings>,
+}
+
+impl FilmGrainSettingsTween {
+    pub fn new(
+        seconds: f32,
+        ease_function: EaseFunction,
+        preset: FilmGrainSettingsPresets,
+    ) -> Self {
+        Self {
+            timer: Timer::from_seconds(seconds, TimerMode::Once),
+            ease_function,
+            _target: FilmGrainSettingsPresets::get(&preset),
+            _original: None,
+        }
+    }
+
+    fn plugin(app: &mut App) {
+        app.add_systems(Update, Self::update);
+        app.register_type::<Self>();
+    }
+
+    fn tween<F>(&self, extractor: F) -> Option<f32>
+    where
+        F: Fn(&FilmGrainSettings) -> f32,
+    {
+        if let Some(original) = &self._original {
+            let progress = self.timer.fraction();
+            EasingCurve::new(
+                extractor(original),
+                extractor(&self._target),
+                self.ease_function,
+            )
+                .sample(progress)
+        } else {
+            None
+        }
+    }
+
+    pub fn update(
+        mut query: Query<(&mut FilmGrainSettings, &mut FilmGrainSettingsTween)>,
+        time: Res<Time>,
+        mut commands: Commands,
+    ) {
+        for (mut settings, mut settings_tween) in query.iter_mut() {
+            // tick the timer
+            settings_tween.timer.tick(time.delta());
+
+            // save the original if we haven't already
+            if settings_tween._original.is_none() {
+                settings_tween._original = Some(settings.clone());
+            }
+
+            // sample our easing function
+            let progress = settings_tween.timer.fraction();
+            let f = settings_tween.ease_function;
+            let tween = f.sample_clamped(progress);
+
+            // interpolate all the values
+            settings_tween
+                .tween(|s| s.vignette_radius)
+                .map(|new_val| settings.vignette_radius = new_val);
+            settings_tween
+                .tween(|s| s.vignette_intensity)
+                .map(|new_val| settings.vignette_intensity = new_val);
+            // todo do the rest if we need them
+        }
+    }
+
+    fn cleanup(query: Query<(Entity,  &FilmGrainSettingsTween )>, mut commands: Commands) {
+        for (e, f) in query {
+            if f.timer.finished() {
+                commands.entity(e).remove::<FilmGrainSettingsTween>();
+            }
+        }
     }
 }
