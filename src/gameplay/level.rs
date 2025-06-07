@@ -11,7 +11,7 @@ pub(super) fn plugin(app: &mut App) {
 }
 
 /// Todo: maybe add a pub enum LevelSelection
-/// and change levels vec into a hashmap of <LevelSelection, Handle<Scene> ?
+/// and change levels vec into a hashmap of levelSelection and Scene Handles ?
 #[derive(Resource, Asset, Clone, Reflect)]
 #[reflect(Resource)]
 pub struct LevelAssets {
