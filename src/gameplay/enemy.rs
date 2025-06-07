@@ -248,7 +248,7 @@ fn attack_target_after_delay(
                 Transform::from_translation(origin_transform.translation),
                 SceneRoot(pistolero_assets.shell.clone()),
                 Collider::cylinder(0.05, 0.2),
-                CollisionLayers::new(GameLayer::DeadEnemy, GameLayer::Terrain),
+                CollisionLayers::new(GameLayer::DeadEnemy, GameLayer::all_bits()),
                 RigidBody::Dynamic,
                 LinearVelocity(-bullet_velocity * 3.),
                 Friction::default(),
