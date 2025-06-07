@@ -10,7 +10,6 @@ use crate::physics_layers::GameLayer;
 use avian3d::prelude::{
     Collider, Physics, PhysicsTime, ShapeCastConfig, SpatialQuery, SpatialQueryFilter,
 };
-use bevy::asset::io::memory::Dir;
 use bevy::asset::{Asset, AssetServer, Handle};
 use bevy::audio::AudioSource;
 use bevy::color::Color;
