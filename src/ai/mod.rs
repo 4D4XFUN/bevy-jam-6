@@ -1,7 +1,7 @@
 mod debug;
+pub mod enemy_ai;
 pub mod navmesh_position;
 pub mod pathfinding_service;
-pub mod enemy_ai;
 
 use bevy::ecs::error::info;
 use bevy::prelude::*;
@@ -14,7 +14,6 @@ use oxidized_navigation::{
 };
 
 pub fn plugin(app: &mut App) {
-
     // plugins
     app.add_plugins((
         // navmesh_position::plugin,
@@ -24,10 +23,7 @@ pub fn plugin(app: &mut App) {
         // Landmass3dPlugin::default(),
         // LandmassOxidizedNavigationPlugin::default(),
         OxidizedNavigationPlugin::<AvianCollider>::new(NavMeshSettings::from_agent_and_bounds(
-            1.1,
-            1.9,
-            250.0,
-            -1.0,
+            1.1, 1.9, 250.0, -1.0,
         )),
     ));
 

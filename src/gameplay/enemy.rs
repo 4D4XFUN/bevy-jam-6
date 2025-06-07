@@ -1,3 +1,4 @@
+use crate::ai::enemy_ai::FollowPlayerBehavior;
 use crate::asset_tracking::LoadResource;
 use crate::gameplay::boomerang::{BOOMERANG_FLYING_HEIGHT, WeaponTarget};
 use crate::gameplay::health_and_damage::{CanDamage, DeathEvent};
@@ -5,12 +6,15 @@ use crate::gameplay::player::Player;
 use crate::gameplay::{boomerang::BoomerangHittable, health_and_damage::Health};
 use crate::physics_layers::GameLayer;
 use crate::screens::Screen;
-use avian3d::prelude::{AngularDamping, Collider, CollisionEventsEnabled, CollisionLayers, Friction, LinearDamping, LinearVelocity, LockedAxes, Physics, PhysicsLayer, Restitution, RigidBody, SpatialQuery, SpatialQueryFilter};
+use avian3d::prelude::{
+    AngularDamping, Collider, CollisionEventsEnabled, CollisionLayers, Friction, LinearDamping,
+    LinearVelocity, LockedAxes, Physics, PhysicsLayer, Restitution, RigidBody, SpatialQuery,
+    SpatialQueryFilter,
+};
 use bevy::color;
 use bevy::ecs::entity::EntityHashSet;
 use bevy::prelude::*;
-use rand::{thread_rng, Rng};
-use crate::ai::enemy_ai::FollowPlayerBehavior;
+use rand::{Rng, thread_rng};
 
 pub fn plugin(app: &mut App) {
     app.register_type::<EnemySpawnPoint>();
@@ -140,7 +144,9 @@ fn update_aim_preview_position(
                 let target_location = origin + direction * first_hit.distance;
 
                 let aiming_line_length = 1.;
-                let aim_line_scaled_direction = (target_location - origin_transform.translation).normalize_or_zero() * aiming_line_length;
+                let aim_line_scaled_direction = (target_location - origin_transform.translation)
+                    .normalize_or_zero()
+                    * aiming_line_length;
                 let aim_line_endpoint = origin_transform.translation + aim_line_scaled_direction;
 
                 gizmos.line(

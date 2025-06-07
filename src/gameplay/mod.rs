@@ -5,8 +5,8 @@
 
 use bevy::prelude::*;
 
-pub(crate) mod boomerang;
 pub mod aim_mode;
+pub(crate) mod boomerang;
 pub mod camera;
 pub mod enemy;
 pub mod health_and_damage;

@@ -113,20 +113,22 @@ impl AiMovementState {
                     if target_deviation > behavior.staleness_range {
                         info!("target moved! recalculating...");
                         commands.entity(e).insert(AiMovementState::Observing);
-                        continue
+                        continue;
                     }
 
                     let me = me.with_y(0.0); // our capsules' y are 1.0, while the pathfinding nodes are at 0.0
                     let next = path.get(index.clone()).unwrap_or(&target);
                     let dist = (next - me).length();
-                    let dir =
-                        (next - me).normalize_or_zero() * behavior.movement_speed;
+                    let dir = (next - me).normalize_or_zero() * behavior.movement_speed;
                     linear_velocity.x = dir.x;
                     linear_velocity.z = dir.z;
 
                     // debug visualization
                     #[cfg(feature = "dev")]
-                    gizmos.linestrip(path.clone().iter().map(|v|v.with_y(0.2)), palettes::css::BLUE);
+                    gizmos.linestrip(
+                        path.clone().iter().map(|v| v.with_y(0.2)),
+                        palettes::css::BLUE,
+                    );
 
                     if dist < 1. {
                         // seems wild to do it this way but i can't get the index to increment, i.e.

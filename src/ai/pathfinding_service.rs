@@ -20,7 +20,6 @@ pub fn plugin(app: &mut App) {
         (
             // blocking works
             PathfindingService::run_blocking_pathfinding,
-
             // async broken
             // PathfindingService::run_async_pathfinding,
             // PathfindingService::poll_running_pathfinding_tasks,
@@ -146,7 +145,6 @@ impl PathfindingService {
         }
     }
 
-
     // Couldn't get async to work without crashing, so blocking it is
     fn run_blocking_pathfinding(
         mut commands: Commands,
@@ -156,9 +154,6 @@ impl PathfindingService {
     ) {
         // Get the underlying nav_mesh.
         if let Ok(nav_mesh) = nav_mesh.get().read() {
-
-
-
             for (entity, state) in query.iter() {
                 match state {
                     PathfindingState::Requested { a, b } => {
@@ -179,7 +174,9 @@ impl PathfindingService {
                                 // info!("Path found (BLOCKING): {:?}", path);
 
                                 // Convert polygon path to a path of Vec3s.
-                                match perform_string_pulling_on_path(&nav_mesh, start_pos, end_pos, &path) {
+                                match perform_string_pulling_on_path(
+                                    &nav_mesh, start_pos, end_pos, &path,
+                                ) {
                                     Ok(string_path) => {
                                         commands
                                             .entity(entity)
@@ -194,9 +191,6 @@ impl PathfindingService {
                     _ => continue,
                 }
             }
-
-
-
         }
     }
 }
