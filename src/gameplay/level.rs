@@ -1,10 +1,9 @@
 //! Spawn the main level.
 
-use avian3d::prelude::CollisionLayers;
-use bevy::prelude::*;
-
 use crate::physics_layers::GameLayer;
 use crate::{asset_tracking::LoadResource, screens::Screen};
+use avian3d::prelude::CollisionLayers;
+use bevy::prelude::*;
 
 pub(super) fn plugin(app: &mut App) {
     app.register_type::<LevelAssets>();

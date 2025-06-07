@@ -2,7 +2,10 @@
 #![cfg_attr(bevy_lint, feature(register_tool), register_tool(bevy))]
 // Disable console on Windows for non-dev builds.
 #![cfg_attr(not(feature = "dev"), windows_subsystem = "windows")]
+// clippy inconsistencies
+#![allow(clippy::collapsible_if)]
 
+mod ai;
 mod asset_tracking;
 mod audio;
 #[cfg(feature = "dev")]
@@ -18,6 +21,7 @@ use avian3d::PhysicsPlugins;
 use bevy::window::{PresentMode, WindowResolution};
 use bevy::{asset::AssetMetaCheck, prelude::*};
 use bevy_skein::SkeinPlugin;
+use oxidized_navigation::OxidizedNavigation;
 
 fn main() -> AppExit {
     App::new().add_plugins(AppPlugin).run()
@@ -37,6 +41,16 @@ impl Plugin for AppPlugin {
                 AppSystems::Update,
             )
                 .chain(),
+        );
+
+        app.configure_sets(
+            RunFixedMainLoop,
+            (
+                OxidizedNavigation::RemovedComponent,
+                OxidizedNavigation::Main,
+            )
+                .chain()
+                .in_set(RunFixedMainLoopSystem::BeforeFixedMainLoop),
         );
 
         // Add Bevy plugins.
@@ -74,6 +88,7 @@ impl Plugin for AppPlugin {
             theme::plugin,
             framepace::plugin,
             gameplay::plugin,
+            ai::plugin,
         ));
     }
 }

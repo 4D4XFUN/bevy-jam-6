@@ -1,3 +1,4 @@
+use crate::ai::enemy_ai::FollowPlayerBehavior;
 use crate::asset_tracking::LoadResource;
 use crate::gameplay::boomerang::{BOOMERANG_FLYING_HEIGHT, WeaponTarget};
 use crate::gameplay::health_and_damage::{CanDamage, DeathEvent};
@@ -7,8 +8,7 @@ use crate::physics_layers::GameLayer;
 use crate::screens::Screen;
 use avian3d::prelude::{
     AngularDamping, Collider, CollisionEventsEnabled, CollisionLayers, Friction, LinearDamping,
-    LinearVelocity, Physics, PhysicsLayer, Restitution, RigidBody, SpatialQuery,
-    SpatialQueryFilter,
+    LinearVelocity, LockedAxes, Physics, Restitution, RigidBody, SpatialQuery, SpatialQueryFilter,
 };
 use bevy::color;
 use bevy::ecs::entity::EntityHashSet;
@@ -76,13 +76,16 @@ fn spawn_enemies_on_enemy_spawn_points(
         .spawn((
             Enemy,
             Name::new("Ranged Enemy"),
+            FollowPlayerBehavior::default(),
             *position,
             Mesh3d(meshes.add(Capsule3d::default())),
             MeshMaterial3d(materials.add(Color::srgb_u8(124, 32, 32))),
             StateScoped(Screen::Gameplay),
             BoomerangHittable,
             Collider::capsule(0.5, 1.),
-            CollisionLayers::new(GameLayer::Enemy, GameLayer::all_bits()),
+            CollisionLayers::ALL,
+            LinearVelocity::ZERO,
+            LockedAxes::ROTATION_LOCKED.lock_translation_y(),
             RigidBody::Dynamic,
             Health(1),
         ))
@@ -96,7 +99,7 @@ fn spawn_enemies_on_enemy_spawn_points(
         speed: 20.,
     });
     commands.entity(entity).insert(CanDelayBetweenAttacks {
-        timer: Timer::from_seconds(3., TimerMode::Repeating),
+        timer: Timer::from_seconds(9000., TimerMode::Repeating), // todo revert cooldown when done testing navmesh stuff
     });
     commands.entity(entity).insert(WeaponTarget {
         target_entity: None,
@@ -138,10 +141,17 @@ fn update_aim_preview_position(
         ) {
             if first_hit.entity == player_entity {
                 let target_location = origin + direction * first_hit.distance;
+
+                let aiming_line_length = 1.;
+                let aim_line_scaled_direction = (target_location - origin_transform.translation)
+                    .normalize_or_zero()
+                    * aiming_line_length;
+                let aim_line_endpoint = origin_transform.translation + aim_line_scaled_direction;
+
                 gizmos.line(
                     origin_transform.translation.with_y(BOOMERANG_FLYING_HEIGHT),
-                    target_location.with_y(BOOMERANG_FLYING_HEIGHT),
-                    color::palettes::css::RED,
+                    aim_line_endpoint,
+                    color::palettes::css::RED.with_alpha(0.5),
                 );
                 weapon_target.target_entity = Some(player_entity);
             } else {
@@ -226,7 +236,7 @@ pub struct EnemySpawningConfig {
 impl Default for EnemySpawningConfig {
     fn default() -> Self {
         Self {
-            num_enemies: 10,
+            num_enemies: 0,
             min_radius: 5.,
             max_radius: 30.,
         }

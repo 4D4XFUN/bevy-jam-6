@@ -5,15 +5,15 @@
 
 use bevy::prelude::*;
 
-mod aim_mode;
+pub mod aim_mode;
 pub(crate) mod boomerang;
-mod camera;
-mod enemy;
-mod health_and_damage;
-mod input;
+pub mod camera;
+pub mod enemy;
+pub mod health_and_damage;
+pub mod input;
 pub mod level;
-mod mouse_position;
-mod player;
+pub mod mouse_position;
+pub mod player;
 
 pub(super) fn plugin(app: &mut App) {
     app.add_plugins((

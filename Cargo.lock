@@ -1162,6 +1162,7 @@ dependencies = [
  "bevy_skein",
  "iyes_perf_ui",
  "log",
+ "oxidized_navigation",
  "rand",
  "tracing",
 ]
@@ -4372,6 +4373,19 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "22ec719bbf3b2a81c109a4e20b1f129b5566b7dce654bc3872f6a05abf82b2c4"
 dependencies = [
  "ttf-parser 0.25.1",
+]
+
+[[package]]
+name = "oxidized_navigation"
+version = "0.12.0"
+source = "git+https://github.com/janhohenheim/oxidized_navigation.git?branch=bevy-0.16#e18b3a318579e9dbe4f414525243982a76c063f0"
+dependencies = [
+ "avian3d",
+ "bevy",
+ "cfg-if",
+ "nalgebra",
+ "parry3d",
+ "smallvec",
 ]
 
 [[package]]
