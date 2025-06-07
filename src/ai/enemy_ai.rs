@@ -23,12 +23,12 @@ pub fn plugin(app: &mut App) {
 #[derive(Component, Debug, Reflect)]
 #[reflect(Component)]
 pub struct FollowPlayerBehavior {
-    detection_range: f32,
+    pub detection_range: f32,
     /// How close to get before we stop moving
-    distance_to_keep: f32,
+    pub distance_to_keep: f32,
     /// If player moves this far, we'll recalculate our path
-    staleness_range: f32,
-    movement_speed: f32,
+    pub staleness_range: f32,
+    pub movement_speed: f32,
 }
 impl Default for FollowPlayerBehavior {
     fn default() -> Self {
