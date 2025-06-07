@@ -1,0 +1,123 @@
+use crate::ai::pathfinding_service::PathfindingState;
+use crate::gameplay::enemy::Enemy;
+use crate::gameplay::player::Player;
+use avian3d::prelude::{LinearVelocity, Physics};
+use bevy::asset::AssetContainer;
+use bevy::math::NormedVectorSpace;
+use bevy::prelude::*;
+use bevy_inspector_egui::egui::emath::easing::linear;
+
+pub fn plugin(app: &mut App) {
+    app.register_type::<FollowPlayerBehavior>();
+    app.add_plugins(AiMovementState::plugin);
+}
+
+/// Example usage:
+/// ```
+/// commands.spawn((
+///     Enemy,
+///     Transform::from_translation(...),
+///     AiMovementBehavior::follow_player(),
+/// ));
+/// ```
+#[derive(Component, Debug, Reflect)]
+#[reflect(Component)]
+pub struct FollowPlayerBehavior {
+    detection_range: f32,
+    /// How close to get before we stop moving
+    distance_to_keep: f32,
+    /// If player moves this far, we'll recalculate our path
+    staleness_range: f32,
+    movement_speed: f32,
+}
+impl Default for FollowPlayerBehavior {
+    fn default() -> Self {
+        Self {
+            distance_to_keep: 0.0,
+            detection_range: 9000.0,
+            staleness_range: 0.0,
+            movement_speed: 5.,
+        }
+    }
+}
+
+#[derive(Component, Debug, Reflect)]
+#[reflect(Component)]
+enum AiMovementState {
+    Observing,
+    FindingPath,
+    Moving { path: Vec<Vec3>, index: usize },
+}
+impl AiMovementState {
+    pub fn plugin(app: &mut App) {
+        app.add_observer(
+            |t: Trigger<OnAdd, FollowPlayerBehavior>, mut commands: Commands| {
+                commands
+                    .entity(t.target())
+                    .insert(AiMovementState::Observing);
+            },
+        );
+        app.add_systems(Update, Self::following_player_state_machine);
+        app.register_type::<AiMovementState>();
+    }
+
+    fn following_player_state_machine(
+        player: Single<&Transform, (With<Player>, Without<Enemy>)>,
+        mut enemies: Query<
+            (
+                Entity,
+                &Transform,
+                &mut AiMovementState,
+                &FollowPlayerBehavior,
+                &mut LinearVelocity,
+                Option<&PathfindingState>,
+            ),
+            (With<Enemy>, Without<Player>),
+        >,
+        mut commands: Commands,
+    ) {
+        let target = player.translation;
+        for (e, t, mut state, behavior, mut linear_velocity, pathfinding) in enemies.iter_mut() {
+            let me = t.translation;
+            let state = state.into_inner();
+            match state {
+                AiMovementState::Observing => {
+                    if target.distance(me) < behavior.detection_range
+                        && target.distance(me) > behavior.distance_to_keep
+                    {
+                        commands
+                            .entity(e)
+                            .insert(PathfindingState::new(t.translation, target))
+                            .insert(AiMovementState::FindingPath);
+                    }
+                }
+                AiMovementState::FindingPath => {
+                    if let Some(PathfindingState::Completed(found_path)) = pathfinding {
+                        commands
+                            .entity(e)
+                            .insert(AiMovementState::Moving {
+                                index: 0,
+                                path: found_path.clone(),
+                            })
+                            .remove::<PathfindingState>();
+                    }
+                }
+                AiMovementState::Moving { path, index } => {
+                    let next = path.get(*index).unwrap_or(&target);
+                    let dist = (next - me).length();
+                    let dir = (next - me).normalize_or_zero();
+                    linear_velocity.x = dir.x * behavior.movement_speed;
+                    linear_velocity.y = dir.y * behavior.movement_speed;
+
+                    if dist < 0.1 {
+                        *index += 1;
+                    }
+
+                    if (*index >= path.len() && dist < behavior.distance_to_keep) {
+                        commands.entity(e).insert(AiMovementState::Observing);
+                    }
+                }
+            }
+        }
+    }
+}

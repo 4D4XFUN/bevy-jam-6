@@ -12,6 +12,7 @@ use bevy::color;
 use bevy::ecs::entity::EntityHashSet;
 use bevy::prelude::*;
 use rand::{thread_rng, Rng};
+use crate::ai::enemy_ai::FollowPlayerBehavior;
 
 pub fn plugin(app: &mut App) {
     app.register_type::<EnemySpawnPoint>();
@@ -73,6 +74,7 @@ fn spawn_enemies_on_enemy_spawn_points(
         .spawn((
             Enemy,
             Name::new("Ranged Enemy"),
+            FollowPlayerBehavior::default(),
             *position,
             Mesh3d(meshes.add(Capsule3d::default())),
             MeshMaterial3d(materials.add(Color::srgb_u8(124, 32, 32))),
