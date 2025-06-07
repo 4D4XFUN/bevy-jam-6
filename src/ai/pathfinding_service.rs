@@ -130,6 +130,7 @@ impl PathfindingService {
                 PathfindingState::Pending(id) => {
                     if let Some(t) = pathfinding_task.tasks.get_mut(&id) {
                         if let Some(string_path) = block_on(future::poll_once(t)).unwrap_or(None) {
+                            pathfinding_task.tasks.remove(&id);
                             commands
                                 .entity(entity)
                                 .insert(PathfindingState::Completed(string_path));

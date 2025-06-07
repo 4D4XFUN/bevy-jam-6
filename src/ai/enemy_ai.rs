@@ -3,9 +3,11 @@ use crate::gameplay::enemy::Enemy;
 use crate::gameplay::player::Player;
 use avian3d::prelude::{LinearVelocity, Physics};
 use bevy::asset::AssetContainer;
+use bevy::color::palettes;
 use bevy::math::NormedVectorSpace;
 use bevy::prelude::*;
 use bevy_inspector_egui::egui::emath::easing::linear;
+use oxidized_navigation::debug_draw::DrawPath;
 
 pub fn plugin(app: &mut App) {
     app.register_type::<FollowPlayerBehavior>();
@@ -93,6 +95,12 @@ impl AiMovementState {
                 }
                 AiMovementState::FindingPath => {
                     if let Some(PathfindingState::Completed(found_path)) = pathfinding {
+
+                        commands.spawn(DrawPath {
+                            timer: Some(Timer::from_seconds(4.0, TimerMode::Once)),
+                            pulled_path: found_path.clone(),
+                            color: palettes::css::BLUE.into(),
+                        });
                         commands
                             .entity(e)
                             .insert(AiMovementState::Moving {
