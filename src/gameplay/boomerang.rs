@@ -98,7 +98,8 @@ pub enum BoomerangTargetKind {
 }
 
 /// Component for the preview entity for the next boomerang target location.
-#[derive(Component, Default)]
+#[derive(Component, Reflect, Default)]
+#[reflect(Component)]
 pub struct WeaponTarget {
     /// The entity that's being targeted, if there is any.
     pub target_entity: Option<Entity>,
@@ -132,6 +133,7 @@ impl FromWorld for BoomerangAssets {
 pub fn plugin(app: &mut App) {
     app.init_resource::<BoomerangSettings>();
     app.register_type::<BoomerangSettings>();
+    app.register_type::<WeaponTarget>();
 
     app.init_gizmo_group::<BoomerangPreviewGizmos>();
     app.add_event::<ThrowBoomerangEvent>();

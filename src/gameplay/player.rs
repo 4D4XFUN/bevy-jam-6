@@ -75,7 +75,7 @@ fn spawn_player_to_point(
             // also solves problem with weird wall slides
             Friction::ZERO.with_combine_rule(CoefficientCombine::Min),
         ))
-        .insert(Health(1))
+        .insert(Health::default())
         .observe(on_player_death);
 }
 

@@ -25,6 +25,11 @@ pub struct DeathEvent(pub usize);
 #[derive(Component, Reflect)]
 #[reflect(Component)]
 pub struct Health(pub i32);
+impl Default for Health {
+    fn default() -> Self {
+        Self(1)
+    }
+}
 
 #[derive(Component, Reflect)]
 #[reflect(Component)]

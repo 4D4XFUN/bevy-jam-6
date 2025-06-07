@@ -1,4 +1,4 @@
-use crate::audio::sound_effect;
+use crate::audio::sound_effect_non_dilated;
 use crate::gameplay::boomerang::{
     BoomerangHittable, BoomerangTargetKind, CurrentBoomerangThrowOrigin, ThrowBoomerangEvent,
     get_raycast_target,
@@ -13,6 +13,7 @@ use avian3d::prelude::{
 use bevy::asset::{Asset, AssetServer, Handle};
 use bevy::audio::AudioSource;
 use bevy::color::Color;
+use bevy::ecs::entity::EntityHashSet;
 use bevy::math::{Dir3, Isometry3d, Quat};
 use bevy::prelude::{
     Commands, Component, Entity, Event, EventWriter, FromWorld, Gizmos, NextState, Query, Reflect,
@@ -32,6 +33,7 @@ use bevy::prelude::*;
 pub const SLOW_MO_SCALING_FACTOR: f32 = 0.1;
 
 pub fn plugin(app: &mut App) {
+    app.init_resource::<AimModeAssets>();
     app.add_systems(
         Update,
         (draw_crosshair, draw_target_circles, draw_target_lines)
@@ -124,7 +126,13 @@ pub struct AimModeAssets {
 impl FromWorld for AimModeAssets {
     fn from_world(world: &mut World) -> Self {
         let assets = world.resource::<AssetServer>();
-        let targeting = vec![assets.load("audio/sound_effects/spurs/spur1.ogg")];
+        let targeting = vec![
+            assets.load("audio/sound_effects/spurs/spur1.ogg"),
+            assets.load("audio/sound_effects/spurs/spur2.ogg"),
+            assets.load("audio/sound_effects/spurs/spur3.ogg"),
+            assets.load("audio/sound_effects/spurs/spur4.ogg"),
+            assets.load("audio/sound_effects/spurs/spur5.ogg"),
+        ];
         Self {
             entering_aim_mode: assets
                 .load("audio/sound_effects/571273__princeofworms__hawkeagle-cry-distant.ogg"),
@@ -149,7 +157,7 @@ pub fn play_enemy_targeted_sound_effect(
 
     commands.spawn((
         Name::from("EnemyTargetSoundEffect"),
-        sound_effect(assets.targeting[random_index].clone()),
+        sound_effect_non_dilated(assets.targeting[random_index].clone(), -12.),
     ));
 }
 
@@ -277,7 +285,7 @@ pub fn record_target_near_mouse(
     mouse_position: Res<MousePosition>,
     spatial_query: SpatialQuery,
     mut current_target_list: Single<&mut AimModeTargets>,
-    current_throw_origin: Single<Entity, With<CurrentBoomerangThrowOrigin>>,
+    current_throw_origin: Single<(Entity, &Transform), With<CurrentBoomerangThrowOrigin>>,
     mut commands: Commands,
 ) -> Result {
     // target list is full, don't add any more targets
@@ -289,35 +297,70 @@ pub fn record_target_near_mouse(
         warn!("No mouse position found");
         return Ok(());
     };
+    let (origin_entity, origin_transform) = current_throw_origin.into_inner();
 
-    let direction = Dir3::X;
-    let config = ShapeCastConfig::from_max_distance(0.0);
-    let filter = SpatialQueryFilter::from_mask(GameLayer::Enemy);
-    let Some(hit) = spatial_query.cast_shape(
+    let Ok(direction_from_thrower_to_cursor) =
+        Dir3::new(mouse_position - origin_transform.translation)
+    else {
+        return Ok(());
+    };
+
+    // Cast a sphere from the thrower to the cursor, returning the first enemy hit (this is what we're targeting).
+    // The reason it's a sphere is to allow for some "auto-aim" functionality - you don't need to mouse over the target exactly.
+    let Some(target_near_cursor) = spatial_query.cast_shape(
         &Collider::sphere(AUTOTARGETING_RADIUS), // Shape
-        mouse_position,                          // Shape position
+        origin_transform.translation,            // Shape position
         Quat::default(),                         // Shape rotation
-        direction,
-        &config,
-        &filter,
+        direction_from_thrower_to_cursor,
+        &ShapeCastConfig::from_max_distance(
+            origin_transform.translation.distance(mouse_position) + AUTOTARGETING_RADIUS / 2.,
+        ),
+        &SpatialQueryFilter::from_mask(GameLayer::Enemy),
     ) else {
         return Ok(());
     };
 
-    let last_target = current_target_list.targets.last();
+    // Check for intervening walls with a ray cast. This time, we don't filter to
+    // Enemies only - if we hit a wall before hitting our target, we don't add
+    // it to the list of targeted entities.
+    {
+        let Ok(ray_direction) = Dir3::new(target_near_cursor.point1 - origin_transform.translation)
+        else {
+            return Ok(());
+        };
+        let line_of_sight_ray = spatial_query.cast_ray(
+            origin_transform.translation,
+            ray_direction,
+            900.,
+            true,
+            &SpatialQueryFilter {
+                excluded_entities: EntityHashSet::from([origin_entity]),
+                ..Default::default()
+            },
+        );
+        let Some(ray_hit) = line_of_sight_ray else {
+            return Ok(());
+        };
+        if ray_hit.entity != target_near_cursor.entity {
+            return Ok(());
+        }
+    }
 
+    // Finally, check if the targeted entity is already the last thing in our
+    // list. If so, then we don't add it again.
+    let last_target = current_target_list.targets.last();
     match last_target {
-        Some(&e) if e == hit.entity => {
+        Some(&e) if e == target_near_cursor.entity => {
             return Ok(());
         }
         _ => {
-            swap_boomerang_throw_origin(*current_throw_origin, hit.entity, commands.reborrow());
-            current_target_list.targets.push(hit.entity);
+            swap_boomerang_throw_origin(
+                origin_entity,
+                target_near_cursor.entity,
+                commands.reborrow(),
+            );
+            current_target_list.targets.push(target_near_cursor.entity);
             commands.trigger(PlayEnemyTargetedSound); // play a sound when an enemy is targeted
-            // info!(
-            //     "Adding target to list {:?}. List after addition: {:?}",
-            //     hit.entity, &current_target_list.targets
-            // );
         }
     }
 
