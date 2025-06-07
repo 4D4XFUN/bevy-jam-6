@@ -69,7 +69,7 @@ impl Plugin for FilmGrainPlugin {
 pub struct FilmGrainSettings {
     /// Intensity of the grain effect (0.0 - 1.0)
     pub grain_intensity: f32,
-    /// Size of the grain particles
+    /// Grain scale - smaller values = finer grain (default: 0.004)
     pub grain_scale: f32,
     /// Speed of grain animation
     pub grain_speed: f32,
@@ -81,21 +81,21 @@ pub struct FilmGrainSettings {
     pub vignette_radius: f32,
     /// Time for animation
     pub time: f32,
-    // Padding for shader alignment
-    pub _padding: f32,
+    /// Intensity of film artifacts (scratches, dust, hairs) (0.0 - 1.0)
+    pub artifact_intensity: f32,
 }
 
 impl Default for FilmGrainSettings {
     fn default() -> Self {
         Self {
             grain_intensity: 0.1,
-            grain_scale: 250.,
+            grain_scale: 0.004,  // 1.0 / 250.0 - same as your setting
             grain_speed: 20.0,
             tint_intensity: 0.4,
             vignette_intensity: 1.0,
             vignette_radius: 0.7,
             time: 0.0,
-            _padding: 0.0,
+            artifact_intensity: 0.7,  // Moderate amount of artifacts
         }
     }
 }
