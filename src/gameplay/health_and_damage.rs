@@ -3,8 +3,14 @@
 //! Damage an enemy, player or obj by triggering the [`HealthEvent`] on an entity, e.g. `HealthEvent::Damage(1)` to reduce health by one.
 //! Listen to the [`DeathEvent`] on the entity to handle special cases, like Game Over screen, ragdolling or exploding.
 
-use avian3d::prelude::CollisionStarted;
+use avian3d::prelude::{
+    AngularVelocity, Collider, CollisionLayers, CollisionStarted, LinearVelocity, PhysicsLayer,
+    RigidBody,
+};
 use bevy::prelude::*;
+use rand::{Rng, thread_rng};
+
+use crate::{asset_tracking::LoadResource, physics_layers::GameLayer, screens::Screen};
 
 use crate::gameplay::boomerang::Boomerang;
 
@@ -36,34 +42,63 @@ pub fn plugin(app: &mut App) {
     app.register_type::<Health>()
         .add_event::<HealthEvent>()
         .add_event::<DeathEvent>()
+        .load_resource::<HealthAsset>()
         .add_systems(Update, on_damage_event)
-        .add_systems(PostUpdate, update_health_ui)
+        .add_systems(PostUpdate, move_ui)
         .add_observer(add_health_ui)
         .add_observer(remove_health_ui)
         .add_observer(on_health_event);
 }
 
-fn add_health_ui(trigger: Trigger<OnAdd, Health>, mut commands: Commands) {
-    commands.entity(trigger.target()).with_children(|parent| {
-        parent.spawn((Name::from("HealthUi"), HealthUi(trigger.target())));
-    });
+fn add_health_ui(
+    trigger: Trigger<OnAdd, Health>,
+    health_asset: Res<HealthAsset>,
+    health_carriers: Query<&Transform, With<Health>>,
+    mut commands: Commands,
+) {
+    let Ok(transform) = health_carriers.get(trigger.target()) else {
+        return;
+    };
+    commands.spawn((
+        Name::from("Hat"),
+        StateScoped(Screen::Gameplay),
+        SceneRoot(health_asset.0.clone()),
+        HealthUi(trigger.target()),
+        Transform::from_translation(transform.translation + Vec3::Y),
+    ));
 }
 
 fn remove_health_ui(
     trigger: Trigger<OnRemove, Health>,
-    uis: Query<(Entity, &HealthUi)>,
+    health_uis: Query<(Entity, &HealthUi)>,
     mut commands: Commands,
 ) {
-    if let Some((target, _)) = uis.iter().find(|(_, ui)| ui.0 == trigger.target()) {
-        commands.entity(target).despawn();
+    let mut rand = thread_rng();
+    let random_velocity: Vec3 = rand.r#gen();
+    if let Some((entity, _)) = health_uis.iter().find(|(_, ui)| ui.0 == trigger.target()) {
+        commands
+            .entity(entity)
+            .insert((
+                LinearVelocity(Vec3::Y * 5.),
+                AngularVelocity(random_velocity.normalize() * 5.0),
+                RigidBody::Dynamic,
+                Collider::cuboid(1.6, 0.4, 1.6),
+                CollisionLayers::new(GameLayer::DeadEnemy, GameLayer::all_bits()),
+            ))
+            .remove::<HealthUi>();
     }
 }
 
-fn update_health_ui(healths: Query<(Entity, &Health), Changed<Health>>, uis: Query<&HealthUi>) {
-    for (entity, _health) in &healths {
-        let Some(_health_ui) = uis.iter().find(|ui| ui.0 == entity) else {
+fn move_ui(
+    healths: Query<&Transform, Without<HealthUi>>,
+    mut uis: Query<(&mut Transform, &HealthUi)>,
+) {
+    for (mut transform, health_ui) in &mut uis {
+        let Ok(health_transform) = healths.get(health_ui.0) else {
             continue;
         };
+        transform.translation = health_transform.translation + Vec3::Y;
+        transform.rotation = health_transform.rotation;
     }
 }
 
@@ -111,5 +146,18 @@ fn on_damage_event(
                 }
             }
         }
+    }
+}
+
+#[derive(Resource, Asset, Clone, Reflect)]
+#[reflect(Resource)]
+struct HealthAsset(Handle<Scene>);
+
+impl FromWorld for HealthAsset {
+    fn from_world(world: &mut World) -> Self {
+        let asset_server = world.resource::<AssetServer>();
+        HealthAsset(
+            asset_server.load(GltfAssetLabel::Scene(0).from_asset("models/hat_stetson.glb")),
+        )
     }
 }

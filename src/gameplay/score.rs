@@ -44,7 +44,7 @@ fn setup(
     mut commands: Commands,
 ) {
     let text = match *winner {
-        Winner::Player => format!("You claimed $ {:05} as bounty", score.actual_score),
+        Winner::Player => format!("You claimed $ {} as bounty", score.actual_score),
         Winner::Enemy => "You been took t' an early grave, pardner".to_string(),
     };
     commands
@@ -148,7 +148,7 @@ fn update_score(
         .old_score
         .lerp(score.actual_score, score.current_t)
         .ceil();
-    text.0 = format!("$ {current_score:05}");
+    text.0 = format!("$ {current_score}");
     score.current_displayed_score = current_score;
 }
 
