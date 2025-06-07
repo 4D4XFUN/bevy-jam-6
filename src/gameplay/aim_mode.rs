@@ -12,7 +12,7 @@ use avian3d::prelude::{
 };
 use bevy::asset::{Asset, AssetServer, Handle};
 use bevy::audio::AudioSource;
-use bevy::color::Color;
+use bevy::color::{palettes, Color};
 use bevy::ecs::entity::EntityHashSet;
 use bevy::math::{Dir3, Isometry3d, Quat};
 use bevy::prelude::{
@@ -26,6 +26,7 @@ use tracing::{debug, info, warn};
 // ===================
 // AIM MODE
 // ==================
+use crate::gameplay::enemy::Enemy;
 use crate::theme::film_grain::FilmGrainSettingsTween;
 use bevy::prelude::*;
 
@@ -36,7 +37,7 @@ pub fn plugin(app: &mut App) {
     app.init_resource::<AimModeAssets>();
     app.add_systems(
         Update,
-        (draw_crosshair, draw_target_circles, draw_target_lines)
+        (draw_crosshair, draw_target_circles, /*draw_target_lines*/)
             .run_if(in_state(AimModeState::Aiming)),
     );
     app.add_systems(Update, record_target_near_mouse);
@@ -70,6 +71,7 @@ pub fn plugin(app: &mut App) {
     );
 
     app.add_observer(play_enemy_targeted_sound_effect);
+    app.register_type::<AimModeTargets>();
 }
 
 // =====================
@@ -166,7 +168,8 @@ pub fn play_enemy_targeted_sound_effect(
 // ===================
 const AUTOTARGETING_RADIUS: f32 = 2.0;
 
-#[derive(Component, Default, Debug, Clone)]
+#[derive(Component, Default, Debug, Clone, Reflect)]
+#[reflect(Component)]
 pub struct AimModeTargets {
     targets: Vec<Entity>,
     // todo when aim mode exits, despawn this entity and fire a single boomerang with the list of targets we painted
@@ -286,7 +289,9 @@ pub fn record_target_near_mouse(
     spatial_query: SpatialQuery,
     mut current_target_list: Single<&mut AimModeTargets>,
     current_throw_origin: Single<(Entity, &Transform), With<CurrentBoomerangThrowOrigin>>,
+    enemies_query: Query<Entity, With<Enemy>>,
     mut commands: Commands,
+    mut gizmos: Gizmos,
 ) -> Result {
     // target list is full, don't add any more targets
     if current_target_list.targets.len() >= MAX_TARGETS_SELECTABLE {
@@ -300,14 +305,14 @@ pub fn record_target_near_mouse(
     let (origin_entity, origin_transform) = current_throw_origin.into_inner();
 
     let Ok(direction_from_thrower_to_cursor) =
-        Dir3::new(mouse_position - origin_transform.translation)
+        Dir3::new((mouse_position - origin_transform.translation).normalize_or_zero())
     else {
         return Ok(());
     };
 
     // Cast a sphere from the thrower to the cursor, returning the first enemy hit (this is what we're targeting).
     // The reason it's a sphere is to allow for some "auto-aim" functionality - you don't need to mouse over the target exactly.
-    let Some(target_near_cursor) = spatial_query.cast_shape(
+    let Some(target_near_cursor) = spatial_query.cast_shape_predicate(
         &Collider::sphere(AUTOTARGETING_RADIUS), // Shape
         origin_transform.translation,            // Shape position
         Quat::default(),                         // Shape rotation
@@ -315,20 +320,28 @@ pub fn record_target_near_mouse(
         &ShapeCastConfig::from_max_distance(
             origin_transform.translation.distance(mouse_position) + AUTOTARGETING_RADIUS / 2.,
         ),
-        &SpatialQueryFilter::from_mask(GameLayer::Enemy),
+        &SpatialQueryFilter::from_mask(GameLayer::Enemy).with_excluded_entities(vec![origin_entity]),
+        &|e| {enemies_query.contains(e)},
     ) else {
+        // info!("record_target_near_mouse:: no target near cursor at {:?}", mouse_position);
         return Ok(());
     };
+
+    {
+        let dist = target_near_cursor.point1.distance(origin_transform.translation);
+        // info!("record_target_near_mouse:: target near cursor {:?} away from origin of throw", dist);
+    }
 
     // Check for intervening walls with a ray cast. This time, we don't filter to
     // Enemies only - if we hit a wall before hitting our target, we don't add
     // it to the list of targeted entities.
     {
-        let Ok(ray_direction) = Dir3::new(target_near_cursor.point1 - origin_transform.translation)
+        let Ok(ray_direction) = Dir3::new((target_near_cursor.point1 - origin_transform.translation).normalize_or_zero())
         else {
+            // info!("record_target_near_mouse:: couldn't raycast to painted target");
             return Ok(());
         };
-        let line_of_sight_ray = spatial_query.cast_ray(
+        let line_of_sight_ray = spatial_query.cast_ray_predicate(
             origin_transform.translation,
             ray_direction,
             900.,
@@ -337,11 +350,19 @@ pub fn record_target_near_mouse(
                 excluded_entities: EntityHashSet::from([origin_entity]),
                 ..Default::default()
             },
+            &|e| {origin_entity != e},
         );
+        // info!("record_target_near_mouse:: cast ray from {:?} to {:?}. Direction {:?}", origin_transform.translation, target_near_cursor.point1, ray_direction);
+        // gizmos.line(origin_transform.translation, target_near_cursor.point1, palettes::css::BLUE_VIOLET);
         let Some(ray_hit) = line_of_sight_ray else {
+            // info!("record_target_near_mouse:: no ray hits");
             return Ok(());
         };
         if ray_hit.entity != target_near_cursor.entity {
+            info!(
+                "record_target_near_mouse:: ray hit a different target {:?} than the mouse cursor: {:?}",
+                ray_hit.entity, target_near_cursor.entity
+            );
             return Ok(());
         }
     }

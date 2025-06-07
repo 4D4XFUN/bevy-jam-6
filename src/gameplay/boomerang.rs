@@ -147,7 +147,7 @@ pub fn plugin(app: &mut App) {
             (
                 update_boomerang_preview_position,
                 (
-                    draw_preview_gizmo,
+                    // draw_preview_gizmo,
                     on_throw_boomerang_spawn_boomerang.run_if(on_event::<ThrowBoomerangEvent>),
                 ),
             )
