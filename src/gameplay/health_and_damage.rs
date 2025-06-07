@@ -3,9 +3,7 @@
 //! Damage an enemy, player or obj by triggering the [`HealthEvent`] on an entity, e.g. `HealthEvent::Damage(1)` to reduce health by one.
 //! Listen to the [`DeathEvent`] on the entity to handle special cases, like Game Over screen, ragdolling or exploding.
 
-use crate::gameplay::enemy::CanUseRangedAttack;
-use crate::physics_layers::GameLayer;
-use avian3d::prelude::{CollisionLayers, CollisionStarted, PhysicsLayer};
+use avian3d::prelude::CollisionStarted;
 use bevy::prelude::*;
 
 #[derive(Event)]
@@ -77,12 +75,7 @@ fn on_health_event(
         commands
             .entity(trigger.target())
             .remove::<Health>()
-            .remove::<CanUseRangedAttack>()
-            .trigger(DeathEvent)
-            .insert(CollisionLayers::new(
-                GameLayer::Terrain,
-                GameLayer::all_bits(),
-            ));
+            .trigger(DeathEvent);
     }
 }
 
