@@ -509,7 +509,7 @@ fn draw_preview_gizmo(
             gizmos.line(
                 from.translation().with_y(BOOMERANG_FLYING_HEIGHT),
                 to.translation().with_y(BOOMERANG_FLYING_HEIGHT),
-                color::palettes::css::ORANGE,
+                color::palettes::css::BLACK.with_alpha(0.5),
             );
         }
     }
