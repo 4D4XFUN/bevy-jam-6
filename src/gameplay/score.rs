@@ -5,7 +5,7 @@ use bevy::{
 };
 
 use crate::{
-    gameplay::Gameplay,
+    gameplay::{Gameplay, enemy::Enemy, health_and_damage::Health},
     screens::Screen,
     theme::widget,
     ui_assets::{FontAssets, PanelAssets},
@@ -23,20 +23,55 @@ pub fn plugin(app: &mut App) {
         .add_observer(on_score_event);
 }
 
-fn setup(panel: Res<PanelAssets>, font_assets: Res<FontAssets>, mut commands: Commands) {
-    commands.spawn((
-        widget::ui_root("Game Over Screen"),
-        StateScoped(Gameplay::GameOver),
-        BackgroundColor(Color::srgba(0., 0., 0., 0.7)),
-        children![
-            widget::label_with_font(
-                "You been took t' an early grave, pardner",
-                &font_assets.header
-            ),
-            widget::paneled_button("Retry", retry_level, &panel, &font_assets.header),
-            widget::paneled_button("Main Menu", main_menu, &panel, &font_assets.header),
-        ],
-    ));
+fn setup(
+    panel: Res<PanelAssets>,
+    score: Res<Score>,
+    winner: Res<Winner>,
+    font_assets: Res<FontAssets>,
+    mut commands: Commands,
+) {
+    let text = match *winner {
+        Winner::Player => format!("You claimed $ {:05} as bounty", score.actual_score),
+        Winner::Enemy => "You been took t' an early grave, pardner".to_string(),
+    };
+    commands
+        .spawn((
+            widget::ui_root("Game Over Screen"),
+            StateScoped(Gameplay::GameOver),
+            BackgroundColor(Color::srgba(0., 0., 0., 0.7)),
+        ))
+        .with_children(|parent| {
+            parent.spawn((
+                Name::new("Label"),
+                Text::new("GAME OVER"),
+                TextFont::from_font_size(40.0).with_font(font_assets.header.clone()),
+            ));
+            parent.spawn((
+                Name::new("Label"),
+                Text(text),
+                TextFont::from_font_size(24.0).with_font(font_assets.content.clone()),
+            ));
+            if Winner::Player == *winner {
+                parent.spawn(widget::paneled_button(
+                    "Next Level",
+                    retry_level,
+                    &panel,
+                    &font_assets.header,
+                ));
+            }
+            parent.spawn(widget::paneled_button(
+                "Retry",
+                retry_level,
+                &panel,
+                &font_assets.header,
+            ));
+            parent.spawn(widget::paneled_button(
+                "Main Menu",
+                main_menu,
+                &panel,
+                &font_assets.header,
+            ));
+        });
 }
 
 fn retry_level(_trigger: Trigger<Pointer<Click>>, mut next_state: ResMut<NextState<Screen>>) {
@@ -104,14 +139,45 @@ fn update_score(
     score.current_displayed_score = current_score;
 }
 
-fn on_score_event(trigger: Trigger<ScoreEvent>, mut score: ResMut<Score>) {
-    score.current_t = 0.0;
-    score.actual_score += trigger.event().0;
-    score.old_score = score.current_displayed_score;
+fn on_score_event(
+    trigger: Trigger<ScoreEvent>,
+    mut score: ResMut<Score>,
+    mut next_state: ResMut<NextState<Gameplay>>,
+    enemies: Query<&Health, With<Enemy>>,
+    mut commands: Commands,
+) {
+    match trigger.event() {
+        ScoreEvent::AddScore(dollars) => {
+            score.current_t = 0.0;
+            score.actual_score += dollars;
+            score.old_score = score.current_displayed_score;
+        }
+        ScoreEvent::EnemyDeath => {
+            if enemies.is_empty() {
+                commands.insert_resource(Winner::Player);
+                next_state.set(Gameplay::GameOver);
+            }
+        }
+        ScoreEvent::PlayerDeath => {
+            commands.insert_resource(Winner::Enemy);
+            next_state.set(Gameplay::GameOver);
+        }
+    };
 }
 
 #[derive(Event)]
-pub struct ScoreEvent(pub f32);
+pub enum ScoreEvent {
+    AddScore(f32),
+    EnemyDeath,
+    PlayerDeath,
+}
+
+#[derive(PartialEq, Reflect, Resource)]
+#[reflect(Resource)]
+pub enum Winner {
+    Player,
+    Enemy,
+}
 
 #[derive(Default, Reflect, Resource)]
 #[reflect(Resource)]
