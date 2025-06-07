@@ -25,6 +25,7 @@ use tracing::{debug, info, warn};
 // ===================
 // AIM MODE
 // ==================
+use crate::theme::film_grain::FilmGrainSettingsTween;
 use bevy::prelude::*;
 
 /// The "minimum possible" speed time can go. We never fully pause the game during slo-mo.
@@ -37,11 +38,20 @@ pub fn plugin(app: &mut App) {
             .run_if(in_state(AimModeState::Aiming)),
     );
     app.add_systems(Update, record_target_near_mouse);
-    app.add_systems(OnEnter(AimModeState::Aiming), initialize_target_list);
+    app.add_systems(
+        OnEnter(AimModeState::Aiming),
+        (
+            initialize_target_list,
+            FilmGrainSettingsTween::tween_tunnel_vision_focus,
+        ),
+    );
     app.add_systems(OnExit(AimModeState::Aiming), cleanup_target_list);
     app.add_systems(
         OnExit(AimModeState::Aiming),
-        reset_current_boomerang_throw_origin_to_player,
+        (
+            reset_current_boomerang_throw_origin_to_player,
+            FilmGrainSettingsTween::tween_to_default_camera_settings,
+        ),
     );
 
     app.init_state::<AimModeState>();

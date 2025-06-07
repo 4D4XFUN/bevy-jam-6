@@ -4,6 +4,7 @@ use bevy::{
     prelude::*,
 };
 
+use crate::theme::film_grain::FilmGrainSettingsTween;
 use crate::{
     gameplay::{Gameplay, enemy::Enemy, health_and_damage::Health},
     screens::Screen,
@@ -13,9 +14,21 @@ use crate::{
 
 pub fn plugin(app: &mut App) {
     app.register_type::<Score>()
-        .add_systems(OnEnter(Gameplay::GameOver), setup)
+        .add_systems(
+            OnEnter(Gameplay::GameOver),
+            (
+                setup,
+                FilmGrainSettingsTween::tween_close_vignette_to_black_screen,
+            ),
+        )
         .add_systems(OnEnter(Screen::Retry), retry)
-        .add_systems(OnEnter(Gameplay::Normal), setup_scoreboard)
+        .add_systems(
+            OnEnter(Gameplay::Normal),
+            (
+                setup_scoreboard,
+                FilmGrainSettingsTween::tween_to_default_camera_settings,
+            ),
+        )
         .add_systems(
             Update,
             update_score.run_if(in_state(Screen::Gameplay).and(resource_changed::<Score>)),
@@ -31,7 +44,7 @@ fn setup(
     mut commands: Commands,
 ) {
     let text = match *winner {
-        Winner::Player => format!("You claimed $ {:05} as bounty", score.actual_score),
+        Winner::Player => format!("You claimed $ {} as bounty", score.actual_score),
         Winner::Enemy => "You been took t' an early grave, pardner".to_string(),
     };
     commands
@@ -135,7 +148,7 @@ fn update_score(
         .old_score
         .lerp(score.actual_score, score.current_t)
         .ceil();
-    text.0 = format!("$ {current_score:05}");
+    text.0 = format!("$ {current_score}");
     score.current_displayed_score = current_score;
 }
 
