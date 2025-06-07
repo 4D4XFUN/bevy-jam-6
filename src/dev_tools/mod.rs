@@ -37,6 +37,7 @@ pub struct PerfUiMarker;
 
 fn setup_perf_ui(mut commands: Commands) {
     commands.spawn((
+        Name::from("PerfUi"),
         PerfUiMarker,
         PerfUiRoot {
             position: PerfUiPosition::TopRight,

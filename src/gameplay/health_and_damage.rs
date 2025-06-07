@@ -38,7 +38,7 @@ pub fn plugin(app: &mut App) {
 
 fn add_health_ui(trigger: Trigger<OnAdd, Health>, mut commands: Commands) {
     commands.entity(trigger.target()).with_children(|parent| {
-        parent.spawn(HealthUi(trigger.target()));
+        parent.spawn((Name::from("HealthUi"), HealthUi(trigger.target())));
     });
 }
 
