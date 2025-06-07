@@ -6,8 +6,6 @@ use bevy::asset::AssetContainer;
 use bevy::color::palettes;
 use bevy::math::NormedVectorSpace;
 use bevy::prelude::*;
-use bevy_inspector_egui::egui::emath::easing::linear;
-use oxidized_navigation::debug_draw::DrawPath;
 
 pub fn plugin(app: &mut App) {
     app.register_type::<FollowPlayerBehavior>();
@@ -81,7 +79,7 @@ impl AiMovementState {
         mut gizmos: Gizmos,
     ) {
         let target = player.translation;
-        for (e, mut t, mut state, behavior, mut linear_velocity, pathfinding) in enemies.iter_mut()
+        for (e, t, state, behavior, mut linear_velocity, pathfinding) in enemies.iter_mut()
         {
             let me = t.translation;
             let state = state.into_inner();
@@ -117,7 +115,7 @@ impl AiMovementState {
                     }
 
                     let me = me.with_y(0.0); // our capsules' y are 1.0, while the pathfinding nodes are at 0.0
-                    let next = path.get(index.clone()).unwrap_or(&target);
+                    let next = path.get(*index).unwrap_or(&target);
                     let dist = (next - me).length();
                     let dir = (next - me).normalize_or_zero() * behavior.movement_speed;
                     linear_velocity.x = dir.x;
@@ -139,7 +137,7 @@ impl AiMovementState {
                         });
                     }
 
-                    if (*index >= path.len()) {
+                    if *index >= path.len() {
                         commands.entity(e).insert(AiMovementState::Observing);
                     }
                 }

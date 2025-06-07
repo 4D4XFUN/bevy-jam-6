@@ -1,20 +1,11 @@
-use crate::ai::navmesh_position;
 use crate::physics_layers::GameLayer;
 use avian3d::prelude::{Collider, CollisionLayers, RigidBody};
-use bevy::input::common_conditions::input_just_pressed;
 use bevy::math::primitives;
 use bevy::prelude::*;
-use bevy::prelude::*;
-use bevy_landmass::{
-    debug::{EnableLandmassDebug, Landmass3dDebugPlugin},
-    prelude::*,
-};
-use landmass::{AgentId, Archipelago, IslandId, NavigationMesh, XYZ};
-use landmass_oxidized_navigation::{LandmassOxidizedNavigationPlugin, OxidizedArchipelago};
+use bevy_landmass::debug::{EnableLandmassDebug, Landmass3dDebugPlugin};
 use oxidized_navigation::debug_draw::DrawNavMesh;
 use oxidized_navigation::{
-    NavMesh, NavMeshAffector, NavMeshSettings, OxidizedNavigationPlugin,
-    colliders::avian::AvianCollider, debug_draw::OxidizedNavigationDebugDrawPlugin,
+    NavMeshAffector, debug_draw::OxidizedNavigationDebugDrawPlugin,
 };
 
 pub fn plugin(app: &mut App) {

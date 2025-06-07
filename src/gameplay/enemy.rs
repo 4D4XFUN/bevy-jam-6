@@ -8,7 +8,7 @@ use crate::physics_layers::GameLayer;
 use crate::screens::Screen;
 use avian3d::prelude::{
     AngularDamping, Collider, CollisionEventsEnabled, CollisionLayers, Friction, LinearDamping,
-    LinearVelocity, LockedAxes, Physics, PhysicsLayer, Restitution, RigidBody, SpatialQuery,
+    LinearVelocity, LockedAxes, Physics, Restitution, RigidBody, SpatialQuery,
     SpatialQueryFilter,
 };
 use bevy::color;

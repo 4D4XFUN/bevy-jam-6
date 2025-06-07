@@ -4,7 +4,6 @@ use crate::physics_layers::GameLayer;
 use crate::{asset_tracking::LoadResource, screens::Screen};
 use avian3d::prelude::CollisionLayers;
 use bevy::prelude::*;
-use oxidized_navigation::NavMeshAffector;
 
 pub(super) fn plugin(app: &mut App) {
     app.register_type::<LevelAssets>();

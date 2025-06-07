@@ -1,17 +1,12 @@
-use crate::gameplay::enemy::Enemy;
-use crate::gameplay::player::Player;
-use bevy::color::palettes;
 use bevy::prelude::*;
 use bevy::tasks::futures_lite::future;
 use bevy::tasks::{AsyncComputeTaskPool, Task, block_on};
-use oxidized_navigation::debug_draw::DrawPath;
 use oxidized_navigation::query::{find_path, find_polygon_path, perform_string_pulling_on_path};
 use oxidized_navigation::tiles::NavMeshTiles;
 use oxidized_navigation::{NavMesh, NavMeshSettings};
-use rand::{Rng, random};
+use rand::random;
 use std::collections::HashMap;
 use std::sync::{Arc, RwLock};
-use std::task::Poll;
 
 pub fn plugin(app: &mut App) {
     app.init_resource::<PathfindingService>();
@@ -128,12 +123,12 @@ impl PathfindingService {
         for (entity, state) in query.iter() {
             match state {
                 PathfindingState::Pending(id) => {
-                    if let Some(t) = pathfinding_task.tasks.get_mut(&id) {
+                    if let Some(t) = pathfinding_task.tasks.get_mut(id) {
                         if !t.is_finished() {
                             continue;
                         }
                         if let Some(string_path) = block_on(future::poll_once(t)).unwrap_or(None) {
-                            pathfinding_task.tasks.remove(&id);
+                            pathfinding_task.tasks.remove(id);
                             commands
                                 .entity(entity)
                                 .insert(PathfindingState::Completed(string_path));
@@ -158,8 +153,8 @@ impl PathfindingService {
                 match state {
                     PathfindingState::Requested { a, b } => {
                         // execute the sync pathfinding job
-                        let start_pos = a.clone();
-                        let end_pos = b.clone();
+                        let start_pos = *a;
+                        let end_pos = *b;
 
                         // Run pathfinding to get a polygon path.
                         match find_polygon_path(
