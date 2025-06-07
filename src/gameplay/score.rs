@@ -4,9 +4,7 @@ use bevy::{
     prelude::*,
 };
 
-use crate::theme::film_grain::{
-    FilmGrainSettings, FilmGrainSettingsPresets, FilmGrainSettingsTween,
-};
+use crate::theme::film_grain::FilmGrainSettingsTween;
 use crate::{
     gameplay::{Gameplay, enemy::Enemy, health_and_damage::Health},
     screens::Screen,
