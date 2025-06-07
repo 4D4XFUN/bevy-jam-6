@@ -1,10 +1,8 @@
 use crate::ai::pathfinding_service::PathfindingState;
 use crate::gameplay::enemy::Enemy;
 use crate::gameplay::player::Player;
-use avian3d::prelude::{LinearVelocity, Physics};
-use bevy::asset::AssetContainer;
+use avian3d::prelude::LinearVelocity;
 use bevy::color::palettes;
-use bevy::math::NormedVectorSpace;
 use bevy::prelude::*;
 
 pub fn plugin(app: &mut App) {
@@ -74,13 +72,11 @@ impl AiMovementState {
             ),
             (With<Enemy>, Without<Player>),
         >,
-        time: Res<Time<Physics>>,
         mut commands: Commands,
         mut gizmos: Gizmos,
     ) {
         let target = player.translation;
-        for (e, t, state, behavior, mut linear_velocity, pathfinding) in enemies.iter_mut()
-        {
+        for (e, t, state, behavior, mut linear_velocity, pathfinding) in enemies.iter_mut() {
             let me = t.translation;
             let state = state.into_inner();
             match state {

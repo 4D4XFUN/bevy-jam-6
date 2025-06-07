@@ -18,7 +18,6 @@ mod ui_assets;
 use avian3d::PhysicsPlugins;
 use bevy::window::{PresentMode, WindowResolution};
 use bevy::{asset::AssetMetaCheck, prelude::*};
-use bevy_landmass::LandmassSystemSet;
 use bevy_skein::SkeinPlugin;
 use oxidized_navigation::OxidizedNavigation;
 
@@ -45,11 +44,8 @@ impl Plugin for AppPlugin {
         app.configure_sets(
             RunFixedMainLoop,
             (
-                PrePhysicsAppSystems::UpdateNavmeshPositions,
-                PrePhysicsAppSystems::UpdateNavmeshTargets,
                 OxidizedNavigation::RemovedComponent,
                 OxidizedNavigation::Main,
-                LandmassSystemSet::SyncExistence,
             )
                 .chain()
                 .in_set(RunFixedMainLoopSystem::BeforeFixedMainLoop),
@@ -93,18 +89,6 @@ impl Plugin for AppPlugin {
             ai::plugin,
         ));
     }
-}
-
-/// High-level groupings of systems for the app in the [`RunFixedMainLoop`] schedule
-/// and the [`RunFixedMainLoopSystem::BeforeFixedMainLoop`] system set.
-/// When adding a new variant, make sure to order it in the `configure_sets`
-/// call above.
-#[derive(SystemSet, Debug, Clone, Copy, Eq, PartialEq, Hash, PartialOrd, Ord)]
-enum PrePhysicsAppSystems {
-    /// Update last valid positions on the navmesh
-    UpdateNavmeshPositions,
-    /// Update agent targets to the last valid navmesh position
-    UpdateNavmeshTargets,
 }
 
 /// High-level groupings of systems for the app in the `Update` schedule.
