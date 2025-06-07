@@ -103,7 +103,7 @@ impl AiMovementState {
                     }
                 }
                 AiMovementState::Moving { path, index } => {
-                    let next = path.get(*index).unwrap_or(&target);
+                    let next = path.get(index.clone()).unwrap_or(&target);
                     let dist = (next - me).length();
                     let dir = (next - me).normalize_or_zero();
                     linear_velocity.x = dir.x * behavior.movement_speed;
