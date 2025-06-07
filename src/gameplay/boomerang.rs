@@ -1,7 +1,7 @@
 use crate::audio::TimeDilatedPitch;
 use crate::gameplay::Gameplay;
 use crate::gameplay::enemy::Enemy;
-use crate::gameplay::health_and_damage::{CanDamage, Health, HealthEvent};
+use crate::gameplay::health_and_damage::CanDamage;
 use crate::gameplay::input::FireBoomerangAction;
 use crate::gameplay::mouse_position::MousePosition;
 use crate::physics_layers::GameLayer;
@@ -21,10 +21,10 @@ pub const BOOMERANG_FLYING_HEIGHT: f32 = 0.5;
 /// Component used to describe boomerang entities.
 #[derive(Component, Debug, Default, Reflect)]
 #[reflect(Component)]
-struct Boomerang {
+pub struct Boomerang {
     /// The path this boomerang is following.
     path: Vec<BoomerangTargetKind>,
-    path_index: usize,
+    pub path_index: usize,
     progress_on_current_segment: f32, // value from 0.0 to 1.0
 }
 impl Boomerang {
@@ -493,7 +493,6 @@ fn handle_boomerang_sfx(
         ));
     }
 }
-
 
 #[derive(Default, Reflect, GizmoConfigGroup)]
 struct BoomerangPreviewGizmos;
