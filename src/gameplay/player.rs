@@ -102,7 +102,7 @@ pub struct MovementSettings {
 }
 impl Default for MovementSettings {
     fn default() -> Self {
-        Self { walk_speed: 4. }
+        Self { walk_speed: 6. }
     }
 }
 

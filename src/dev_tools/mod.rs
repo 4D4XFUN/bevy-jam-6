@@ -5,6 +5,7 @@ mod god_mode;
 use crate::gameplay::boomerang::boomerang_dev_tools_plugin;
 use crate::screens::Screen;
 use avian3d::prelude::PhysicsGizmos;
+use bevy::audio::Volume;
 use bevy::color::palettes;
 use bevy::dev_tools::states::log_transitions;
 use bevy::prelude::*;
@@ -42,11 +43,15 @@ pub(super) fn plugin(app: &mut App) {
     // Log `Screen` state transitions.
     app.add_systems(Update, log_transitions::<Screen>);
 
-    app.add_systems(Startup, setup_perf_ui);
+    app.add_systems(Startup, (setup_perf_ui, lower_starting_audio_volume));
 }
 
 #[derive(Component)]
 pub struct PerfUiMarker;
+
+fn lower_starting_audio_volume(mut global_volume: ResMut<GlobalVolume>) {
+    global_volume.volume = Volume::Linear(0.5);
+}
 
 fn setup_perf_ui(mut commands: Commands) {
     commands.spawn((

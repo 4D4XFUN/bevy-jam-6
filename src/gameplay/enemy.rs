@@ -34,7 +34,6 @@ pub fn plugin(app: &mut App) {
 #[derive(Component, Debug, Clone, Reflect)]
 #[reflect(Component)]
 pub struct CanUseRangedAttack {
-    entity: Entity,
     damage: usize,
     max_range: f32,
     min_range: f32,
@@ -87,10 +86,8 @@ fn spawn_enemies_on_enemy_spawn_points(
     mut commands: Commands,
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<StandardMaterial>>,
-    player_query: Query<Entity, With<Player>>,
 ) -> Result {
     let (position, spawn_point) = spawn_points.get(trigger.target())?;
-    let player = player_query.single()?;
 
     let entity = commands
         .spawn((
@@ -118,17 +115,16 @@ fn spawn_enemies_on_enemy_spawn_points(
             ),
             LinearVelocity::ZERO,
             LockedAxes::ROTATION_LOCKED.lock_translation_y(),
-            RigidBody::Dynamic,
+            RigidBody::Kinematic,
             Health(1),
         ))
         .observe(on_death)
         .id();
     commands.entity(entity).insert(CanUseRangedAttack {
-        entity: player,
         damage: 1,
-        max_range: 17.,
+        max_range: 15.,
         min_range: 2.,
-        speed: 20.,
+        speed: 15.,
     });
     commands.entity(entity).insert(CanDelayBetweenAttacks {
         timer: Timer::from_seconds(1.0 / spawn_point.attacks_per_second, TimerMode::Repeating), // todo revert cooldown when done testing navmesh stuff
@@ -174,16 +170,10 @@ fn update_aim_preview_position(
             if first_hit.entity == player_entity {
                 let target_location = origin + direction * first_hit.distance;
 
-                let aiming_line_length = 1.;
-                let aim_line_scaled_direction = (target_location - origin_transform.translation)
-                    .normalize_or_zero()
-                    * aiming_line_length;
-                let aim_line_endpoint = origin_transform.translation + aim_line_scaled_direction;
-
                 gizmos.line(
                     origin_transform.translation.with_y(BOOMERANG_FLYING_HEIGHT),
-                    aim_line_endpoint,
-                    color::palettes::css::RED.with_alpha(0.5),
+                    target_location,
+                    color::palettes::css::RED,
                 );
                 weapon_target.target_entity = Some(player_entity);
             } else {
@@ -229,7 +219,15 @@ fn attack_target_after_delay(
                 SceneRoot(pistolero_assets.bullet.clone()),
                 MeshMaterial3d(materials.add(Color::srgb_u8(50, 0, 0))),
                 Collider::sphere(0.1),
-                CollisionLayers::new(GameLayer::Bullet, [GameLayer::Player, GameLayer::Terrain]),
+                CollisionLayers::new(
+                    GameLayer::Bullet,
+                    [
+                        GameLayer::Player,
+                        GameLayer::Terrain,
+                        GameLayer::Enemy,
+                        GameLayer::Default,
+                    ],
+                ),
                 RigidBody::Kinematic,
                 LinearVelocity(bullet_velocity * ranged_attack.speed),
                 CanDamage(1),
@@ -332,12 +330,18 @@ impl FromWorld for PistoleroAssets {
             asset_server.load("audio/sound_effects/Wilhelm-ScreamSFX/Wilhelm 4.ogg"),
             asset_server.load("audio/sound_effects/Wilhelm-ScreamSFX/Wilhelm 5.ogg"),
             asset_server.load("audio/sound_effects/Wilhelm-ScreamSFX/Wilhelm 6.ogg"),
+            asset_server.load("audio/sound_effects/Wilhelm-ScreamSFX/Wilhelm 1.ogg"),
+            asset_server.load("audio/sound_effects/Wilhelm-ScreamSFX/Wilhelm 2.ogg"),
+            asset_server.load("audio/sound_effects/Wilhelm-ScreamSFX/Wilhelm 3.ogg"),
+            asset_server.load("audio/sound_effects/Wilhelm-ScreamSFX/Wilhelm 4.ogg"),
+            asset_server.load("audio/sound_effects/Wilhelm-ScreamSFX/Wilhelm 5.ogg"),
+            asset_server.load("audio/sound_effects/Wilhelm-ScreamSFX/Wilhelm 6.ogg"),
             asset_server.load("audio/sound_effects/Wilhelm-ScreamSFX/enemy_death/enemy_death1.ogg"),
             asset_server.load("audio/sound_effects/Wilhelm-ScreamSFX/enemy_death/enemy_death2.ogg"),
-            asset_server.load("audio/sound_effects/Wilhelm-ScreamSFX/enemy_death/enemy_death3.ogg"),
-            asset_server.load("audio/sound_effects/Wilhelm-ScreamSFX/enemy_death/enemy_death4.ogg"),
+            // asset_server.load("audio/sound_effects/Wilhelm-ScreamSFX/enemy_death/enemy_death3.ogg"),
+            // asset_server.load("audio/sound_effects/Wilhelm-ScreamSFX/enemy_death/enemy_death4.ogg"),
             asset_server.load("audio/sound_effects/Wilhelm-ScreamSFX/enemy_death/enemy_death5.ogg"),
-            asset_server.load("audio/sound_effects/Wilhelm-ScreamSFX/enemy_death/enemy_death6.ogg"),
+            // asset_server.load("audio/sound_effects/Wilhelm-ScreamSFX/enemy_death/enemy_death6.ogg"),
             asset_server.load("audio/sound_effects/Wilhelm-ScreamSFX/enemy_death/enemy_death7.ogg"),
             asset_server.load("audio/sound_effects/Wilhelm-ScreamSFX/enemy_death/enemy_death8.ogg"),
             asset_server.load("audio/sound_effects/Wilhelm-ScreamSFX/enemy_death/enemy_death9.ogg"),
@@ -345,8 +349,8 @@ impl FromWorld for PistoleroAssets {
                 .load("audio/sound_effects/Wilhelm-ScreamSFX/enemy_death/enemy_death10.ogg"),
             asset_server
                 .load("audio/sound_effects/Wilhelm-ScreamSFX/enemy_death/enemy_death11.ogg"),
-            asset_server
-                .load("audio/sound_effects/Wilhelm-ScreamSFX/enemy_death/enemy_death12.ogg"),
+            // asset_server
+            //     .load("audio/sound_effects/Wilhelm-ScreamSFX/enemy_death/enemy_death12.ogg"),
         ];
         PistoleroAssets {
             gunshot: asset_server.load("audio/sound_effects/213925__diboz__pistol_riccochet.ogg"),

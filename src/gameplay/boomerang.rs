@@ -16,7 +16,7 @@ use bevy::prelude::*;
 use bevy_enhanced_input::prelude::Fired;
 use rand::{Rng, thread_rng};
 
-pub const BOOMERANG_FLYING_HEIGHT: f32 = 0.5;
+pub const BOOMERANG_FLYING_HEIGHT: f32 = 1.5;
 
 /// Component used to describe boomerang entities.
 #[derive(Component, Debug, Default, Reflect)]
@@ -147,7 +147,7 @@ pub fn plugin(app: &mut App) {
             (
                 update_boomerang_preview_position,
                 (
-                    // draw_preview_gizmo,
+                    draw_preview_gizmo,
                     on_throw_boomerang_spawn_boomerang.run_if(on_event::<ThrowBoomerangEvent>),
                 ),
             )
@@ -499,7 +499,7 @@ fn handle_boomerang_sfx(
 #[derive(Default, Reflect, GizmoConfigGroup)]
 struct BoomerangPreviewGizmos;
 
-fn _draw_preview_gizmo(
+fn draw_preview_gizmo(
     mut gizmos: Gizmos<BoomerangPreviewGizmos>,
     boomerang_holders: Query<&GlobalTransform, With<CurrentBoomerangThrowOrigin>>,
     boomerang_target_preview: Query<&GlobalTransform, (With<WeaponTarget>, Without<Enemy>)>,
@@ -509,7 +509,7 @@ fn _draw_preview_gizmo(
             gizmos.line(
                 from.translation().with_y(BOOMERANG_FLYING_HEIGHT),
                 to.translation().with_y(BOOMERANG_FLYING_HEIGHT),
-                color::palettes::css::ORANGE,
+                color::palettes::css::BLACK.with_alpha(0.5),
             );
         }
     }

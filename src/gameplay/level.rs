@@ -1,5 +1,6 @@
 //! Spawn the main level.
 
+use crate::audio::music;
 use crate::physics_layers::GameLayer;
 use crate::{asset_tracking::LoadResource, screens::Screen};
 use avian3d::prelude::CollisionLayers;
@@ -26,9 +27,9 @@ impl FromWorld for LevelAssets {
         let asset_server = world.resource::<AssetServer>();
         // add new levels here
         let levels =
-            vec![asset_server.load(GltfAssetLabel::Scene(0).from_asset("models/Environment.gltf"))];
+            vec![asset_server.load(GltfAssetLabel::Scene(0).from_asset("models/Environment.glb"))];
         Self {
-            music: asset_server.load("audio/music/Fluffing A Duck.ogg"),
+            music: asset_server.load("audio/music/BoomerangTheme.ogg"),
             levels,
         }
     }
@@ -44,7 +45,7 @@ pub fn spawn_level(mut commands: Commands, level_assets: Res<LevelAssets>) {
         children![
             (
                 Name::new("Gameplay Music"),
-                // music(_level_assets.music.clone()), // TODO: uncomment to add music back in
+                music(level_assets.music.clone()),
             ),
             (
                 Name::new("Environment"),
