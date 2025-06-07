@@ -37,7 +37,7 @@ impl Default for FollowPlayerBehavior {
         Self {
             distance_to_keep: 0.0,
             detection_range: 9000.0,
-            staleness_range: 0.0,
+            staleness_range: 10.,
             movement_speed: 5.,
         }
     }
@@ -108,6 +108,14 @@ impl AiMovementState {
                     }
                 }
                 AiMovementState::Moving { path, index } => {
+                    // first, a staleness check - if player has moved too far from the original path we want to recompute it instead.
+                    let target_deviation = path.last().map(|v| v.distance(target)).unwrap_or(0.);
+                    if target_deviation > behavior.staleness_range {
+                        info!("target moved! recalculating...");
+                        commands.entity(e).insert(AiMovementState::Observing);
+                        continue
+                    }
+
                     let me = me.with_y(0.0); // our capsules' y are 1.0, while the pathfinding nodes are at 0.0
                     let next = path.get(index.clone()).unwrap_or(&target);
                     let dist = (next - me).length();
@@ -118,7 +126,7 @@ impl AiMovementState {
 
                     // debug visualization
                     #[cfg(feature = "dev")]
-                    gizmos.linestrip(path.clone(), palettes::css::BLUE);
+                    gizmos.linestrip(path.clone().iter().map(|v|v.with_y(0.2)), palettes::css::BLUE);
 
                     if dist < 1. {
                         // seems wild to do it this way but i can't get the index to increment, i.e.

@@ -20,7 +20,7 @@ pub fn plugin(app: &mut App) {
         (
             // blocking works
             PathfindingService::run_blocking_pathfinding,
-            
+
             // async broken
             // PathfindingService::run_async_pathfinding,
             // PathfindingService::poll_running_pathfinding_tasks,
