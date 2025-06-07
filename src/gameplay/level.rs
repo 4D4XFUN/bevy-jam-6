@@ -26,7 +26,7 @@ impl FromWorld for LevelAssets {
         let asset_server = world.resource::<AssetServer>();
         // add new levels here
         let levels =
-            vec![asset_server.load(GltfAssetLabel::Scene(0).from_asset("models/Environment.gltf"))];
+            vec![asset_server.load(GltfAssetLabel::Scene(0).from_asset("models/Environment.glb"))];
         Self {
             music: asset_server.load("audio/music/Fluffing A Duck.ogg"),
             levels,

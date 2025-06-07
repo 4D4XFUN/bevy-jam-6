@@ -16,7 +16,7 @@ use bevy::prelude::*;
 use bevy_enhanced_input::prelude::Fired;
 use rand::{Rng, thread_rng};
 
-pub const BOOMERANG_FLYING_HEIGHT: f32 = 0.5;
+pub const BOOMERANG_FLYING_HEIGHT: f32 = 1.5;
 
 /// Component used to describe boomerang entities.
 #[derive(Component, Debug, Default, Reflect)]

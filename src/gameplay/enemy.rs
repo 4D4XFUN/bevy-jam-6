@@ -34,7 +34,6 @@ pub fn plugin(app: &mut App) {
 #[derive(Component, Debug, Clone, Reflect)]
 #[reflect(Component)]
 pub struct CanUseRangedAttack {
-    entity: Entity,
     damage: usize,
     max_range: f32,
     min_range: f32,
@@ -87,10 +86,8 @@ fn spawn_enemies_on_enemy_spawn_points(
     mut commands: Commands,
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<StandardMaterial>>,
-    player_query: Query<Entity, With<Player>>,
 ) -> Result {
     let (position, spawn_point) = spawn_points.get(trigger.target())?;
-    let player = player_query.single()?;
 
     let entity = commands
         .spawn((
@@ -118,13 +115,12 @@ fn spawn_enemies_on_enemy_spawn_points(
             ),
             LinearVelocity::ZERO,
             LockedAxes::ROTATION_LOCKED.lock_translation_y(),
-            RigidBody::Dynamic,
+            RigidBody::Kinematic,
             Health(1),
         ))
         .observe(on_death)
         .id();
     commands.entity(entity).insert(CanUseRangedAttack {
-        entity: player,
         damage: 1,
         max_range: 17.,
         min_range: 2.,

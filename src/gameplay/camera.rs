@@ -85,7 +85,7 @@ fn camera_follow(
     let (mut camera_transform, properties) = camera.into_inner();
 
     //calculate bounds
-    let level_width = 50.0f32;
+    let level_width = 200.0f32;
     let level_height = 50.0f32;
     let min_x = -level_width / 2.0;
     let max_x = level_width / 2.0;

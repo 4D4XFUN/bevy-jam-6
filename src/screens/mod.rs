@@ -3,7 +3,7 @@
 mod credits;
 mod gameplay;
 mod loading;
-mod settings;
+pub mod settings;
 mod splash;
 mod title;
 
