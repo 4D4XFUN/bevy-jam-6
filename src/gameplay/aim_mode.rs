@@ -170,12 +170,14 @@ pub fn cleanup_target_list(
         .iter()
         .map(|e| BoomerangTargetKind::Entity(*e))
         .collect();
-    let player = player_single.into_inner(); // todo not why we nee this or how to handle multiple such entities. just assuming throws always originate from the player for now.
-
-    event_writer.write(ThrowBoomerangEvent {
-        thrower_entity: player,
-        target: v,
-    });
+    // todo not why we nee this or how to handle multiple such entities. just assuming throws always originate from the player for now.
+    let player = player_single.into_inner();
+    if !v.is_empty() {
+        event_writer.write(ThrowBoomerangEvent {
+            thrower_entity: player,
+            target: v,
+        });
+    }
     commands.entity(e).despawn();
 }
 
