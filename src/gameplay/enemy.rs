@@ -65,24 +65,42 @@ pub struct Bullet;
 
 #[derive(Component, Reflect)]
 #[reflect(Component)]
-pub struct EnemySpawnPoint;
+pub struct EnemySpawnPoint{
+    detection_range: f32,
+    movement_speed: f32,
+    attacks_per_second: f32,
+}
+
+impl Default for EnemySpawnPoint {
+    fn default() -> Self {
+        let default_ai = FollowPlayerBehavior::default();
+        Self {
+            detection_range: default_ai.detection_range,
+            movement_speed: default_ai.movement_speed,
+            attacks_per_second: 1.0,
+        }
+    }
+}
 
 fn spawn_enemies_on_enemy_spawn_points(
     trigger: Trigger<OnAdd, EnemySpawnPoint>,
-    spawn_points: Query<&Transform, With<EnemySpawnPoint>>,
+    spawn_points: Query<(&Transform, &EnemySpawnPoint)>,
     mut commands: Commands,
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<StandardMaterial>>,
     player_query: Query<Entity, With<Player>>,
 ) -> Result {
-    let position = spawn_points.get(trigger.target())?;
+    let (position, spawn_point) = spawn_points.get(trigger.target())?;
     let player = player_query.single()?;
 
     let entity = commands
         .spawn((
             Enemy,
             Name::new("Ranged Enemy"),
-            FollowPlayerBehavior::default(),
+            FollowPlayerBehavior {
+                detection_range: spawn_point.detection_range,
+                movement_speed: spawn_point.movement_speed,
+                ..default()},
             *position,
             Mesh3d(meshes.add(Capsule3d::default())),
             MeshMaterial3d(materials.add(Color::srgb_u8(124, 32, 32))),
@@ -113,7 +131,7 @@ fn spawn_enemies_on_enemy_spawn_points(
         speed: 20.,
     });
     commands.entity(entity).insert(CanDelayBetweenAttacks {
-        timer: Timer::from_seconds(2., TimerMode::Repeating), // todo revert cooldown when done testing navmesh stuff
+        timer: Timer::from_seconds(1.0 / spawn_point.attacks_per_second, TimerMode::Repeating), // todo revert cooldown when done testing navmesh stuff
     });
     commands.entity(entity).insert(WeaponTarget {
         target_entity: None,
