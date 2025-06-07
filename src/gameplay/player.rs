@@ -48,7 +48,7 @@ fn spawn_player_to_point(
             Mesh3d(meshes.add(Capsule3d::default())),
             MeshMaterial3d(materials.add(Color::srgb_u8(124, 124, 0))),
             StateScoped(Screen::Gameplay),
-            MovementSettings { walk_speed: 10. },
+            MovementSettings { walk_speed: 4. },
             CurrentBoomerangThrowOrigin,
             CameraFollowTarget,
         ))

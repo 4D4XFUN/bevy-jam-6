@@ -35,14 +35,14 @@ impl Default for FollowPlayerBehavior {
             distance_to_keep: 0.0,
             detection_range: 9000.0,
             staleness_range: 10.,
-            movement_speed: 5.,
+            movement_speed: 2.,
         }
     }
 }
 
 #[derive(Component, Debug, Reflect)]
 #[reflect(Component)]
-enum AiMovementState {
+pub enum AiMovementState {
     Observing,
     FindingPath,
     Moving { path: Vec<Vec3>, index: usize },

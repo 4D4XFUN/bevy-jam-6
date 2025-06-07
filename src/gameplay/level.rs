@@ -54,7 +54,9 @@ pub fn spawn_level(
                         GameLayer::Terrain,
                         GameLayer::Player,
                         GameLayer::Default,
-                        GameLayer::Bullet
+                        GameLayer::Bullet,
+                        GameLayer::Enemy,
+                        GameLayer::DeadEnemy
                     ]
                 ),
             ),

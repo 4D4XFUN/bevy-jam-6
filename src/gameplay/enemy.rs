@@ -1,4 +1,4 @@
-use crate::ai::enemy_ai::FollowPlayerBehavior;
+use crate::ai::enemy_ai::{AiMovementState, FollowPlayerBehavior};
 use crate::asset_tracking::LoadResource;
 use crate::gameplay::boomerang::{BOOMERANG_FLYING_HEIGHT, WeaponTarget};
 use crate::gameplay::health_and_damage::{CanDamage, DeathEvent};
@@ -7,8 +7,9 @@ use crate::gameplay::{boomerang::BoomerangHittable, health_and_damage::Health};
 use crate::physics_layers::GameLayer;
 use crate::screens::Screen;
 use avian3d::prelude::{
-    AngularDamping, Collider, CollisionEventsEnabled, CollisionLayers, Friction, LinearDamping,
-    LinearVelocity, LockedAxes, Physics, Restitution, RigidBody, SpatialQuery, SpatialQueryFilter,
+    AngularDamping, AngularVelocity, Collider, CollisionEventsEnabled, CollisionLayers, Friction,
+    LinearDamping, LinearVelocity, LockedAxes, Physics, PhysicsLayer, Restitution, RigidBody,
+    SpatialQuery, SpatialQueryFilter,
 };
 use bevy::color;
 use bevy::ecs::entity::EntityHashSet;
@@ -83,7 +84,15 @@ fn spawn_enemies_on_enemy_spawn_points(
             StateScoped(Screen::Gameplay),
             BoomerangHittable,
             Collider::capsule(0.5, 1.),
-            CollisionLayers::ALL,
+            CollisionLayers::new(
+                GameLayer::Enemy,
+                [
+                    GameLayer::Player,
+                    GameLayer::Boomerang,
+                    GameLayer::Terrain,
+                    GameLayer::Default,
+                ],
+            ),
             LinearVelocity::ZERO,
             LockedAxes::ROTATION_LOCKED.lock_translation_y(),
             RigidBody::Dynamic,
@@ -99,7 +108,7 @@ fn spawn_enemies_on_enemy_spawn_points(
         speed: 20.,
     });
     commands.entity(entity).insert(CanDelayBetweenAttacks {
-        timer: Timer::from_seconds(9000., TimerMode::Repeating), // todo revert cooldown when done testing navmesh stuff
+        timer: Timer::from_seconds(2., TimerMode::Repeating), // todo revert cooldown when done testing navmesh stuff
     });
     commands.entity(entity).insert(WeaponTarget {
         target_entity: None,
@@ -177,6 +186,7 @@ fn attack_target_after_delay(
     time: Res<Time<Physics>>,
     player_query: Single<&Transform, With<Player>>,
     pistolero_assets: Res<PistoleroAssets>,
+    mut materials: ResMut<Assets<StandardMaterial>>,
 ) {
     let mut rand = thread_rng();
     let player_transform = player_query.into_inner();
@@ -190,10 +200,12 @@ fn attack_target_after_delay(
 
             commands.spawn((
                 Name::new("Bullet"),
-                Transform::from_translation(origin_transform.translation),
+                Transform::from_translation(origin_transform.translation)
+                    .with_scale(Vec3::new(2., 2., 2.)),
                 Bullet,
                 SceneRoot(pistolero_assets.bullet.clone()),
-                Collider::sphere(0.2),
+                MeshMaterial3d(materials.add(Color::srgb_u8(50, 0, 0))),
+                Collider::sphere(0.1),
                 CollisionLayers::new(GameLayer::Bullet, [GameLayer::Player, GameLayer::Terrain]),
                 RigidBody::Kinematic,
                 LinearVelocity(bullet_velocity * ranged_attack.speed),
@@ -210,6 +222,7 @@ fn attack_target_after_delay(
                 Transform::from_translation(origin_transform.translation),
                 SceneRoot(pistolero_assets.shell.clone()),
                 Collider::cylinder(0.05, 0.2),
+                CollisionLayers::new(GameLayer::DeadEnemy, GameLayer::Terrain),
                 RigidBody::Dynamic,
                 LinearVelocity(-bullet_velocity * 3.),
                 Friction::default(),
@@ -221,8 +234,27 @@ fn attack_target_after_delay(
     }
 }
 
-fn on_death(_trigger: Trigger<DeathEvent>) {
-    info!("ouch! but maybe it'd hurt more if I'd actually die");
+fn on_death(
+    trigger: Trigger<DeathEvent>,
+    mut commands: Commands,
+    mut materials: ResMut<Assets<StandardMaterial>>,
+) {
+    commands
+        .entity(trigger.target())
+        .remove::<CanUseRangedAttack>()
+        .remove::<FollowPlayerBehavior>()
+        .remove::<AiMovementState>()
+        .remove::<LockedAxes>()
+        .insert(RigidBody::Dynamic)
+        .insert(MeshMaterial3d(materials.add(Color::srgb_u8(240, 200, 200))))
+        .insert(LinearVelocity::from(Vec3::new(3., 3., 3.))) // This is temp, we should move the dead thing in the opposite direction of the hit.
+        .insert(AngularVelocity::from(Vec3::new(3., 3., 3.))) // This is temp, we should move the dead thing in the opposite direction of the hit.
+        .insert(LinearDamping(0.5))
+        .insert(AngularDamping(0.5))
+        .insert(CollisionLayers::new(
+            GameLayer::DeadEnemy,
+            GameLayer::all_bits(),
+        ));
 }
 
 #[derive(Resource, Debug, Clone, Reflect)]
