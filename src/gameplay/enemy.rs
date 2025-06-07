@@ -265,7 +265,9 @@ fn on_death(
             GameLayer::DeadEnemy,
             GameLayer::all_bits(),
         ));
-    commands.trigger(ScoreEvent(100.));
+    let multiplicator = trigger.event().0 as f32;
+    commands.trigger(ScoreEvent::AddScore(100. * multiplicator));
+    commands.trigger(ScoreEvent::EnemyDeath);
     let rand = thread_rng().gen_range(0..pistolero_assets.death_screams.len());
     commands.spawn((
         Name::from("DeathScream"),
