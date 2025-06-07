@@ -18,8 +18,8 @@ pub fn plugin(app: &mut App) {
 
 #[derive(Clone, Debug, Default, Eq, Hash, PartialEq, States)]
 pub enum GodModeState {
-    Normal,
     #[default]
+    Normal,
     God,
 }
 fn toggle_god_mode(
