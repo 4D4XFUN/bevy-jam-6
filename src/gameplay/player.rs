@@ -1,12 +1,13 @@
 //! Player-specific behavior.
 
-use crate::gameplay::boomerang::ActiveBoomerangThrowOrigin;
+use crate::gameplay::boomerang::CurrentBoomerangThrowOrigin;
 use crate::gameplay::camera::CameraFollowTarget;
 use crate::gameplay::input::{PlayerActions, PlayerMoveAction};
-use crate::gameplay::time_dilation::DilatedTime;
 use crate::physics_layers::GameLayer;
 use crate::screens::Screen;
-use avian3d::prelude::{Collider, CollisionLayers, LinearVelocity, LockedAxes, RigidBody};
+use avian3d::prelude::{
+    CoefficientCombine, Collider, CollisionLayers, Friction, LinearVelocity, LockedAxes, RigidBody,
+};
 use bevy::prelude::*;
 use bevy_enhanced_input::events::Completed;
 use bevy_enhanced_input::prelude::{Actions, Fired};
@@ -38,30 +39,37 @@ fn spawn_player_to_point(
         return;
     };
     info!("spawn point at {:?} added", spawn_point);
-    commands.spawn((
-        Name::new("Player"),
-        Player,
-        Transform::from_translation(spawn_point.translation + Vec3::Y),
-        Visibility::Inherited,
-        Mesh3d(meshes.add(Capsule3d::default())),
-        MeshMaterial3d(materials.add(Color::srgb_u8(124, 124, 0))),
-        Collider::capsule(0.5, 1.),
-        StateScoped(Screen::Gameplay),
-        RigidBody::Dynamic,
-        LockedAxes::ROTATION_LOCKED.lock_translation_y(),
-        MovementSettings { walk_speed: 400. },
-        ActiveBoomerangThrowOrigin,
-        CollisionLayers::new(
-            GameLayer::Player,
-            [
-                GameLayer::Enemy,
-                GameLayer::Bullet,
-                GameLayer::Terrain,
-                GameLayer::Default,
-            ],
-        ),
-        CameraFollowTarget, // Can't add more components to this tuple, it is at max capacity, we should use the insert component command on the entity
-    ));
+    commands
+        .spawn((
+            Name::new("Player"),
+            Player,
+            Transform::from_translation(spawn_point.translation + Vec3::Y),
+            Visibility::Inherited,
+            Mesh3d(meshes.add(Capsule3d::default())),
+            MeshMaterial3d(materials.add(Color::srgb_u8(124, 124, 0))),
+            StateScoped(Screen::Gameplay),
+            MovementSettings { walk_speed: 10. },
+            CurrentBoomerangThrowOrigin,
+            CameraFollowTarget,
+        ))
+        .insert((
+            // add all physics stuff
+            Collider::capsule(0.5, 1.),
+            RigidBody::Dynamic,
+            LockedAxes::ROTATION_LOCKED.lock_translation_y(),
+            CollisionLayers::new(
+                GameLayer::Player,
+                [
+                    GameLayer::Enemy,
+                    GameLayer::Bullet,
+                    GameLayer::Terrain,
+                    GameLayer::Default,
+                ],
+            ),
+            // We remove friction because we set the velocity each frame anyway
+            // also solves problem with weird wall slides
+            Friction::ZERO.with_combine_rule(CoefficientCombine::Min),
+        ));
 }
 
 #[derive(Component, Debug, Clone, Copy, PartialEq, Eq, Default, Reflect)]
@@ -95,7 +103,6 @@ fn record_player_directional_input(
         (With<Player>, Without<Camera3d>),
     >,
     camera_query: Single<&Transform, With<Camera3d>>,
-    time: ResMut<DilatedTime>,
 ) {
     // Rotate input to be on the ground and aligned with camera
     let camera_rotation = camera_query.into_inner().rotation;
@@ -105,7 +112,7 @@ fn record_player_directional_input(
         .normalize_or_zero();
 
     let (mut linear_velocity, settings) = player_query.into_inner();
-    let final_velocity = velocity * settings.walk_speed * time.delta.as_secs_f32();
+    let final_velocity = velocity * settings.walk_speed;
     linear_velocity.0 = final_velocity;
 }
 

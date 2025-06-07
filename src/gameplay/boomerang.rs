@@ -2,10 +2,12 @@ use crate::gameplay::enemy::Enemy;
 use crate::gameplay::health_and_damage::{CanDamage, Health, HealthEvent};
 use crate::gameplay::input::FireBoomerangAction;
 use crate::gameplay::mouse_position::MousePosition;
-use crate::gameplay::time_dilation::{DilatedTime, RotationDilated, VelocityDilated};
 use crate::physics_layers::GameLayer;
 use crate::screens::Screen;
-use avian3d::prelude::{Collider, CollisionEventsEnabled, CollisionLayers, RigidBody};
+use avian3d::prelude::{
+    AngularVelocity, Collider, CollisionEventsEnabled, CollisionLayers, LinearVelocity, Physics,
+    RigidBody,
+};
 use avian3d::spatial_query::{SpatialQuery, SpatialQueryFilter};
 use bevy::color;
 use bevy::ecs::entity::EntityHashSet;
@@ -50,16 +52,16 @@ struct Falling;
 #[derive(Component, Default)]
 pub struct BoomerangHittable;
 
-/// Entities with this component will allow the user to redirect the boomerang bounce when they are hit by becoming an [ActiveBoomerangThrowOrigin]
+/// Entities with this component will allow the user to redirect the boomerang bounce when they are hit by becoming a [CurrentBoomerangThrowOrigin]
 #[derive(Component, Default)]
 #[require(BoomerangHittable)]
 pub struct PotentialBoomerangOrigin;
 
 /// Component which should be added to the entity the boomerang is currently "attached" to.
-/// Used to mark the origin for the next bounce direction.
+/// Used to mark the origin for the next bounce direction. There should always be one (and exactly one) entity with this component during a running game.
 #[derive(Component)]
 #[require(PotentialBoomerangOrigin)]
-pub struct ActiveBoomerangThrowOrigin;
+pub struct CurrentBoomerangThrowOrigin;
 
 // An event which gets fired whenever the player throws their boomerang.
 #[derive(Event)]
@@ -103,18 +105,14 @@ pub struct WeaponTarget {
 #[derive(Resource, Asset, Clone, Reflect)]
 #[reflect(Resource)]
 pub struct BoomerangAssets {
-    pub mesh: Handle<Mesh>,
-    pub material: Handle<StandardMaterial>,
+    pub mesh: Handle<Scene>,
 }
 
 impl FromWorld for BoomerangAssets {
     fn from_world(world: &mut World) -> Self {
         let asset_server = world.resource::<AssetServer>();
         BoomerangAssets {
-            mesh: asset_server.add(Mesh::from(Cuboid::new(1., 0.3, 0.3))),
-            material: asset_server.add(StandardMaterial::from_color(Color::linear_rgb(
-                0.6, 0.6, 0.0,
-            ))),
+            mesh: asset_server.load(GltfAssetLabel::Scene(0).from_asset("models/boomerang.glb")),
         }
     }
 }
@@ -162,7 +160,7 @@ fn move_flying_boomerangs(
     mut flying_boomerangs: Query<(Entity, &mut Boomerang, &mut Transform), With<Flying>>,
     all_other_transforms: Query<&Transform, Without<Boomerang>>,
     boomerang_settings: Res<BoomerangSettings>,
-    time: Res<DilatedTime>,
+    time: Res<Time<Physics>>,
     mut bounce_event_writer: EventWriter<BounceBoomerangEvent>,
 ) -> Result {
     for (boomerang_entity, mut boomerang, mut transform) in flying_boomerangs.iter_mut() {
@@ -300,17 +298,17 @@ fn on_boomerang_bounce_advance_to_next_pathing_step_or_fall_down(
 
 /// Rotates our boomerangs at constant speed.
 fn set_boomerang_rotation_speed_based_on_velocity(
-    mut boomerangs: Query<(&mut RotationDilated, &Boomerang), With<Flying>>,
+    mut boomerangs: Query<(&mut AngularVelocity, &Boomerang), With<Flying>>,
     settings: Res<BoomerangSettings>,
 ) {
     for (mut rotation, boomerang) in boomerangs.iter_mut() {
         let rotation_speed = settings.tween_rotation_speed(boomerang.progress_on_current_segment);
-        rotation.0 = rotation_speed;
+        rotation.0 = Vec3::new(0.0, rotation_speed, 0.0);
     }
 }
 
 fn update_boomerang_preview_position(
-    boomerang_origins: Single<(Entity, &GlobalTransform), With<ActiveBoomerangThrowOrigin>>,
+    boomerang_origins: Single<(Entity, &GlobalTransform), With<CurrentBoomerangThrowOrigin>>,
     potential_origins: Query<(), With<PotentialBoomerangOrigin>>,
     mut previews: Query<(&mut WeaponTarget, &mut Transform), Without<Enemy>>,
     mouse_position: Res<MousePosition>,
@@ -324,37 +322,22 @@ fn update_boomerang_preview_position(
 
     let (origin_entity, origin_transform) = boomerang_origins.into_inner();
 
-    let origin = origin_transform
-        .translation()
-        .with_y(BOOMERANG_FLYING_HEIGHT);
-
-    let Ok(direction) = Dir3::new(mouse_position - origin) else {
-        // We are probably just pointing right at the ThrowOrigin
-        return Ok(());
+    let (mut target_entity, target_location) = match get_raycast_target(
+        &spatial_query,
+        mouse_position,
+        origin_entity,
+        origin_transform.translation(),
+    ) {
+        Ok(value) => value,
+        Err(_value) => return Ok(()),
     };
 
-    let max_distance = 10.0;
-    let solid = true;
-    let filter = SpatialQueryFilter {
-        excluded_entities: EntityHashSet::from([origin_entity]),
-        ..Default::default()
-    };
-    let (distance_to_target, target_entity) = if let Some(first_hit) =
-        spatial_query.cast_ray(origin, direction, max_distance, solid, &filter)
-    {
-        if potential_origins.get(first_hit.entity).is_ok() {
-            // It's something that can be used as an origin, so we want to home at it!
-            // ...might want to adjust the filter in that query if we ever need to home in on non-boomerang-origins.
-            (first_hit.distance, Some(first_hit.entity))
-        } else {
-            // It's a wall.
-            (first_hit.distance, None)
+    if let Some(te) = target_entity {
+        if potential_origins.get(te).is_err() {
+            // If the entity hit isn't one of the targetable ones, we hit a wall.
+            target_entity = None;
         }
-    } else {
-        (max_distance, None)
-    };
-
-    let target_location = origin + direction * distance_to_target;
+    }
 
     if let Ok((mut preview, mut transform)) = previews.single_mut() {
         preview.target_entity = target_entity;
@@ -369,9 +352,40 @@ fn update_boomerang_preview_position(
     Ok(())
 }
 
+pub fn get_raycast_target(
+    spatial_query: &SpatialQuery,
+    target_position: Vec3,
+    origin_entity: Entity,
+    origin_transform: Vec3,
+) -> Result<(Option<Entity>, Vec3), Result> {
+    let origin = origin_transform.with_y(BOOMERANG_FLYING_HEIGHT);
+
+    let Ok(direction) = Dir3::new(target_position - origin) else {
+        // We are probably just pointing right at the ThrowOrigin
+        return Err(Ok(()));
+    };
+
+    let max_distance = 50.0;
+    let solid = true;
+    let filter = SpatialQueryFilter {
+        excluded_entities: EntityHashSet::from([origin_entity]),
+        ..Default::default()
+    };
+    let (distance_to_target, target_entity) = if let Some(first_hit) =
+        spatial_query.cast_ray(origin, direction, max_distance, solid, &filter)
+    {
+        (first_hit.distance, Some(first_hit.entity))
+    } else {
+        (max_distance, None)
+    };
+
+    let target_location = origin + direction * distance_to_target;
+    Ok((target_entity, target_location))
+}
+
 fn on_fire_action_throw_boomerang(
     _trigger: Trigger<Fired<FireBoomerangAction>>,
-    boomerang_holders: Query<Entity, With<ActiveBoomerangThrowOrigin>>,
+    boomerang_holders: Query<Entity, With<CurrentBoomerangThrowOrigin>>,
     boomerang_previews: Query<(&WeaponTarget, &GlobalTransform), Without<Enemy>>,
     mut event_writer: EventWriter<ThrowBoomerangEvent>,
 ) {
@@ -419,15 +433,14 @@ fn on_throw_boomerang_spawn_boomerang(
                     .with_y(BOOMERANG_FLYING_HEIGHT),
             ),
             Flying,
-            Mesh3d(boomerang_assets.mesh.clone()),
-            MeshMaterial3d(boomerang_assets.material.clone()),
+            SceneRoot(boomerang_assets.mesh.clone()),
             Collider::sphere(0.5),
-            CollisionLayers::new(GameLayer::Enemy, GameLayer::Enemy),
+            CollisionLayers::new(GameLayer::Boomerang, GameLayer::Enemy),
             RigidBody::Kinematic,
             CanDamage(1),
             CollisionEventsEnabled,
-            VelocityDilated(Vec3::ZERO),
-            RotationDilated(0.0),
+            LinearVelocity(Vec3::ZERO),
+            AngularVelocity(Vec3::ZERO),
         ));
     }
 
@@ -454,7 +467,7 @@ struct BoomerangPreviewGizmos;
 
 fn draw_preview_gizmo(
     mut gizmos: Gizmos<BoomerangPreviewGizmos>,
-    boomerang_holders: Query<&GlobalTransform, With<ActiveBoomerangThrowOrigin>>,
+    boomerang_holders: Query<&GlobalTransform, With<CurrentBoomerangThrowOrigin>>,
     boomerang_target_preview: Query<&GlobalTransform, (With<WeaponTarget>, Without<Enemy>)>,
 ) {
     for from in boomerang_holders {

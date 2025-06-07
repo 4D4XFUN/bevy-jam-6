@@ -1,10 +1,15 @@
 use crate::audio::sound_effect;
-use crate::gameplay::boomerang::{BoomerangHittable, BoomerangTargetKind, ThrowBoomerangEvent};
+use crate::gameplay::boomerang::{
+    BoomerangHittable, BoomerangTargetKind, CurrentBoomerangThrowOrigin, ThrowBoomerangEvent,
+    get_raycast_target,
+};
 use crate::gameplay::input::AimModeAction;
 use crate::gameplay::mouse_position::MousePosition;
 use crate::gameplay::player::Player;
 use crate::physics_layers::GameLayer;
-use avian3d::prelude::{Collider, ShapeCastConfig, SpatialQuery, SpatialQueryFilter};
+use avian3d::prelude::{
+    Collider, Physics, PhysicsTime, ShapeCastConfig, SpatialQuery, SpatialQueryFilter,
+};
 use bevy::asset::{Asset, AssetServer, Handle};
 use bevy::audio::AudioSource;
 use bevy::color::Color;
@@ -14,23 +19,30 @@ use bevy::prelude::{
     Res, ResMut, Resource, Single, State, States, Transform, Trigger, With, World,
 };
 use bevy_enhanced_input::events::{Completed, Fired};
-use rand::Rng;
+use rand::{Rng, thread_rng};
 use tracing::{debug, info, warn};
 
 // ===================
 // AIM MODE
 // ==================
-use crate::gameplay::time_dilation::DilatedTime;
 use bevy::prelude::*;
+
+/// The "minimum possible" speed time can go. We never fully pause the game during slo-mo.
+pub const SLOW_MO_SCALING_FACTOR: f32 = 0.1;
 
 pub fn plugin(app: &mut App) {
     app.add_systems(
         Update,
-        (draw_crosshair, draw_target_circles).run_if(in_state(AimModeState::Aiming)),
+        (draw_crosshair, draw_target_circles, draw_target_lines)
+            .run_if(in_state(AimModeState::Aiming)),
     );
     app.add_systems(Update, record_target_near_mouse);
     app.add_systems(OnEnter(AimModeState::Aiming), initialize_target_list);
     app.add_systems(OnExit(AimModeState::Aiming), cleanup_target_list);
+    app.add_systems(
+        OnExit(AimModeState::Aiming),
+        reset_current_boomerang_throw_origin_to_player,
+    );
 
     app.init_state::<AimModeState>();
     app.add_observer(enter_aim_mode).add_observer(exit_aim_mode);
@@ -38,11 +50,11 @@ pub fn plugin(app: &mut App) {
     // slowdown time while in aim mode
     app.add_systems(
         OnEnter(AimModeState::Aiming),
-        |mut t: ResMut<DilatedTime>| t.scaling_factor = DilatedTime::SLOW_MO_SCALING_FACTOR,
+        |mut t: ResMut<Time<Physics>>| t.set_relative_speed(SLOW_MO_SCALING_FACTOR),
     );
     app.add_systems(
         OnExit(AimModeState::Aiming),
-        |mut t: ResMut<DilatedTime>| t.scaling_factor = 1.0,
+        |mut t: ResMut<Time<Physics>>| t.set_relative_speed(1.0),
     );
 
     app.add_observer(play_enemy_targeted_sound_effect);
@@ -135,7 +147,7 @@ pub fn play_enemy_targeted_sound_effect(
         return;
     };
 
-    let random_index = rand::thread_rng().gen_range(1..=5);
+    let random_index = thread_rng().gen_range(1..=5);
 
     let sound_asset = match random_index {
         1 => assets.targeting1.clone(),
@@ -216,20 +228,66 @@ pub fn draw_target_circles(
             gizmos.circle(isometry, 1.5, Color::srgb(0.9, 0.1, 0.1));
         }
     }
-    // todo draw a line from player to first target, first target to second, etc.
 }
 
-// some absolute max that should never be reached during real gameplay (once we implement boomerang energy)
-const MAX_TARGETS_SELECTABLE: usize = 30;
+pub fn draw_target_lines(
+    mut gizmos: Gizmos,
+    hittables: Query<&Transform, With<BoomerangHittable>>,
+    query: Single<&AimModeTargets>,
+    player_single: Single<(Entity, &Transform), With<Player>>,
+    spatial_query: SpatialQuery,
+) -> Result {
+    let targets = query.into_inner();
+    let x = &targets.targets;
+
+    let (mut last_entity_found, mut last_transform_found) = player_single.into_inner();
+
+    for e in x.iter() {
+        if let Ok(t) = hittables.get(*e) {
+            let (mut target_entity, target_location) = match get_raycast_target(
+                &spatial_query,
+                t.translation,
+                last_entity_found,
+                last_transform_found.translation,
+            ) {
+                Ok(value) => value,
+                Err(_value) => continue,
+            };
+
+            if let Some(te) = target_entity {
+                if hittables.get(te).is_err() {
+                    // If the entity hit isn't one of the targetable ones, we hit a wall.
+                    target_entity = None;
+                }
+            }
+
+            let color = match target_entity {
+                Some(_entity) => Color::srgb(0., 1., 0.),
+                None => Color::srgb(1., 0.1, 0.1),
+            };
+
+            // todo use retained mode gizmos to be more efficient (or an instanced mesh of a cool looking crosshair)
+            gizmos.line(last_transform_found.translation, target_location, color);
+
+            last_transform_found = t;
+            last_entity_found = *e;
+        }
+    }
+
+    Ok(())
+}
+
+const MAX_TARGETS_SELECTABLE: usize = 3;
 
 pub fn record_target_near_mouse(
     mouse_position: Res<MousePosition>,
     spatial_query: SpatialQuery,
     mut current_target_list: Single<&mut AimModeTargets>,
+    current_throw_origin: Single<Entity, With<CurrentBoomerangThrowOrigin>>,
     mut commands: Commands,
 ) -> Result {
     // target list is full, don't add any more targets
-    if current_target_list.targets.len() > MAX_TARGETS_SELECTABLE {
+    if current_target_list.targets.len() >= MAX_TARGETS_SELECTABLE {
         return Ok(());
     }
 
@@ -259,6 +317,7 @@ pub fn record_target_near_mouse(
             return Ok(());
         }
         _ => {
+            swap_boomerang_throw_origin(*current_throw_origin, hit.entity, commands.reborrow());
             current_target_list.targets.push(hit.entity);
             commands.trigger(PlayEnemyTargetedSound); // play a sound when an enemy is targeted
             // info!(
@@ -269,4 +328,20 @@ pub fn record_target_near_mouse(
     }
 
     Ok(())
+}
+
+fn reset_current_boomerang_throw_origin_to_player(
+    player: Single<Entity, With<Player>>,
+    current_throw_origin: Single<Entity, With<CurrentBoomerangThrowOrigin>>,
+    commands: Commands,
+) {
+    swap_boomerang_throw_origin(*current_throw_origin, *player, commands);
+}
+
+/// Moves the boomerang throw origin component from one entity to another
+fn swap_boomerang_throw_origin(from: Entity, to: Entity, mut commands: Commands) {
+    commands
+        .entity(from)
+        .remove::<CurrentBoomerangThrowOrigin>();
+    commands.entity(to).insert(CurrentBoomerangThrowOrigin);
 }

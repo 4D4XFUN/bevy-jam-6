@@ -11,7 +11,7 @@ use bevy::prelude::{
     Transform, Window, With, Without, default,
 };
 use bevy::render::camera::Exposure;
-use rand::Rng;
+use rand::{Rng, thread_rng};
 
 pub fn plugin(app: &mut App) {
     // systems
@@ -136,7 +136,7 @@ fn update_screen_shake(
     mut camera_query: Single<&mut Transform, With<Camera>>,
     windows: Query<&Window>,
 ) {
-    let mut rng = rand::thread_rng();
+    let mut rng = thread_rng();
 
     // Get viewport dimensions for scaling
     let viewport_size = windows
