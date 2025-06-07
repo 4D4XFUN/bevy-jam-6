@@ -1160,6 +1160,7 @@ dependencies = [
  "bevy_enhanced_input",
  "bevy_framepace",
  "bevy_skein",
+ "bytemuck",
  "iyes_perf_ui",
  "log",
  "oxidized_navigation",
