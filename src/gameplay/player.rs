@@ -1,11 +1,11 @@
 //! Player-specific behavior.
 
-use crate::gameplay::Gameplay;
 use crate::gameplay::boomerang::CurrentBoomerangThrowOrigin;
 use crate::gameplay::camera::CameraFollowTarget;
 use crate::gameplay::health_and_damage::{DeathEvent, Health};
 use crate::gameplay::input::{PlayerActions, PlayerMoveAction};
 use crate::gameplay::score::ScoreEvent;
+use crate::gameplay::Gameplay;
 use crate::physics_layers::GameLayer;
 use crate::screens::Screen;
 use avian3d::prelude::{
@@ -53,7 +53,7 @@ fn spawn_player_to_point(
             Mesh3d(meshes.add(Capsule3d::default())),
             MeshMaterial3d(materials.add(Color::srgb_u8(124, 124, 0))),
             StateScoped(Screen::Gameplay),
-            MovementSettings { walk_speed: 4. },
+            MovementSettings { walk_speed: 6. },
             CurrentBoomerangThrowOrigin,
             CameraFollowTarget,
         ))
