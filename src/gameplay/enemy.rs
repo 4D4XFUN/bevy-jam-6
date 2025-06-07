@@ -94,8 +94,8 @@ fn spawn_enemies_on_enemy_spawn_points(
                 [
                     GameLayer::Player,
                     GameLayer::Boomerang,
-                    GameLayer::Terrain,
-                    GameLayer::Default,
+                    // GameLayer::Terrain,
+                    // GameLayer::Default,
                 ],
             ),
             LinearVelocity::ZERO,
