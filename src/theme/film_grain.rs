@@ -359,15 +359,10 @@ impl FilmGrainSettingsTween {
     pub fn update(
         mut query: Query<(&mut FilmGrainSettings, &mut FilmGrainSettingsTween)>,
         time: Res<Time>,
-        commands: Commands,
     ) {
         for (mut settings, mut settings_tween) in query.iter_mut() {
             // tick the timer
             settings_tween.timer.tick(time.delta());
-
-            // sample our easing function
-            let progress = settings_tween.timer.fraction();
-            let f = settings_tween.ease_function;
 
             // interpolate all the values
             settings.vignette_radius = settings_tween.tween(|s| s.vignette_radius);
