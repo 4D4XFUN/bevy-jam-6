@@ -15,6 +15,7 @@ use bevy::prelude::{
 use bevy::render::camera::Exposure;
 use bevy::state::condition::in_state;
 use rand::{Rng, thread_rng};
+use crate::theme::film_grain::FilmGrainSettings;
 
 pub fn plugin(app: &mut App) {
     // systems
@@ -73,6 +74,7 @@ pub fn spawn_camera(mut commands: Commands) {
         Exposure::INDOOR,
         Tonemapping::TonyMcMapface,
         Bloom::NATURAL,
+        FilmGrainSettings::default(),
     ));
 }
 

@@ -3,7 +3,7 @@
 // Unused utilities may trigger this lints undesirably.
 #![allow(dead_code)]
 
-mod film_grain;
+pub mod film_grain;
 pub mod interaction;
 pub mod palette;
 pub mod widget;
@@ -13,7 +13,7 @@ pub mod prelude {
     pub use super::{interaction::InteractionPalette, palette as ui_palette, widget};
 }
 
-use crate::theme::film_grain::{update_film_grain_time, FilmGrainPlugin};
+use crate::theme::film_grain::{update_film_grain_time, FilmGrainPlugin, FilmGrainSettings};
 use bevy::prelude::*;
 
 pub(super) fn plugin(app: &mut App) {
@@ -22,4 +22,5 @@ pub(super) fn plugin(app: &mut App) {
     // grain
     app.add_plugins(FilmGrainPlugin);
     app.add_systems(Update, update_film_grain_time);
+    
 }

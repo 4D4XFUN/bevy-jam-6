@@ -52,6 +52,8 @@ impl Plugin for FilmGrainPlugin {
                     Node2d::EndMainPassPostProcessing,
                 ),
             );
+        
+        app.register_type::<FilmGrainSettings>();
     }
 
     fn finish(&self, app: &mut App) {
@@ -61,7 +63,8 @@ impl Plugin for FilmGrainPlugin {
 }
 
 // Settings component that controls the effect
-#[derive(Component, Clone, Copy, ExtractComponent, ShaderType, bytemuck::Pod, bytemuck::Zeroable)]
+#[derive(Component, Clone, Copy, ExtractComponent, Reflect, ShaderType, bytemuck::Pod, bytemuck::Zeroable)]
+#[reflect(Component)]
 #[repr(C)]
 pub struct FilmGrainSettings {
     /// Intensity of the grain effect (0.0 - 1.0)
@@ -79,18 +82,18 @@ pub struct FilmGrainSettings {
     /// Time for animation
     pub time: f32,
     // Padding for shader alignment
-    _padding: f32,
+    pub _padding: f32,
 }
 
 impl Default for FilmGrainSettings {
     fn default() -> Self {
         Self {
-            grain_intensity: 0.15,
-            grain_size: 2.0,
-            grain_speed: 1.0,
-            tint_intensity: 0.1,
-            vignette_intensity: 0.3,
-            vignette_radius: 0.8,
+            grain_intensity: 0.1,
+            grain_size: 250.,
+            grain_speed: 20.0,
+            tint_intensity: 0.4,
+            vignette_intensity: 1.0,
+            vignette_radius: 0.7,
             time: 0.0,
             _padding: 0.0,
         }
@@ -130,12 +133,19 @@ impl Node for FilmGrainNode {
 
         let (view_target, settings) = match self.query.get_manual(world, view_entity) {
             Ok(result) => result,
-            Err(_) => return Ok(()), // No settings, skip
+            Err(_) => {
+                // Debug: No settings found
+                return Ok(());
+            }
         };
 
         let pipeline = match pipeline_cache.get_render_pipeline(film_grain_pipeline.pipeline_id) {
             Some(pipeline) => pipeline,
-            None => return Ok(()), // Pipeline not ready
+            None => {
+                // Debug: Pipeline not ready
+                bevy::log::warn!("Film grain pipeline not ready yet");
+                return Ok(());
+            }
         };
 
         let post_process = view_target.post_process_write();
@@ -228,6 +238,12 @@ impl FromWorld for FilmGrainPipeline {
             .resource::<AssetServer>()
             .load("shaders/film_grain.wgsl");
 
+        // Alternative: Try embedding the shader directly for testing
+        // let shader = world.resource_mut::<Assets<Shader>>().add(Shader::from_wgsl(
+        //     include_str!("../assets/shaders/film_grain.wgsl"),
+        //     "shaders/film_grain.wgsl"
+        // ));
+
         let pipeline_id =
             world
                 .resource_mut::<PipelineCache>()
@@ -240,7 +256,7 @@ impl FromWorld for FilmGrainPipeline {
                         shader_defs: vec![],
                         entry_point: "fragment".into(),
                         targets: vec![Some(ColorTargetState {
-                            format: TextureFormat::bevy_default(),
+                            format: TextureFormat::Rgba16Float, // HDR format for post-processing
                             blend: None,
                             write_mask: ColorWrites::ALL,
                         })],
