@@ -135,7 +135,7 @@ fn update_score(
         .old_score
         .lerp(score.actual_score, score.current_t)
         .ceil();
-    text.0 = format!("$ {:05}", current_score);
+    text.0 = format!("$ {current_score:05}");
     score.current_displayed_score = current_score;
 }
 
