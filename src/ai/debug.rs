@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 use oxidized_navigation::debug_draw::DrawNavMesh;
-use oxidized_navigation::{debug_draw::OxidizedNavigationDebugDrawPlugin};
+use oxidized_navigation::debug_draw::OxidizedNavigationDebugDrawPlugin;
 
 pub fn plugin(app: &mut App) {
     app.add_plugins((OxidizedNavigationDebugDrawPlugin,));

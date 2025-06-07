@@ -255,10 +255,11 @@ pub fn draw_target_lines(
             };
 
             if let Some(te) = target_entity
-                && hittables.get(te).is_err() {
-                    // If the entity hit isn't one of the targetable ones, we hit a wall.
-                    target_entity = None;
-                }
+                && hittables.get(te).is_err()
+            {
+                // If the entity hit isn't one of the targetable ones, we hit a wall.
+                target_entity = None;
+            }
 
             let color = match target_entity {
                 Some(_entity) => Color::srgb(0., 1., 0.),
