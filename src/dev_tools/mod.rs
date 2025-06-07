@@ -4,6 +4,8 @@ mod god_mode;
 
 use crate::gameplay::boomerang::boomerang_dev_tools_plugin;
 use crate::screens::Screen;
+use avian3d::prelude::PhysicsGizmos;
+use bevy::color::palettes;
 use bevy::audio::Volume;
 use bevy::dev_tools::states::log_transitions;
 use bevy::prelude::*;
@@ -28,12 +30,20 @@ pub(super) fn plugin(app: &mut App) {
         WorldInspectorPlugin::new(),
         boomerang_dev_tools_plugin,
         god_mode::plugin,
-    ));
+    ))
+    .insert_gizmo_config(
+        PhysicsGizmos {
+            shapecast_color: Some(palettes::css::AQUAMARINE.into()),
+            raycast_color: Some(palettes::css::BLUE_VIOLET.into()),
+            ..default()
+        },
+        GizmoConfig::default(),
+    );
 
     // Log `Screen` state transitions.
     app.add_systems(Update, log_transitions::<Screen>);
 
-    app.add_systems(Startup, (setup_perf_ui, lower_starting_audio_volume));
+    app.add_systems(Startup, setup_perf_ui);
 }
 
 #[derive(Component)]

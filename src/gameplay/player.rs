@@ -53,7 +53,7 @@ fn spawn_player_to_point(
             Mesh3d(meshes.add(Capsule3d::default())),
             MeshMaterial3d(materials.add(Color::srgb_u8(124, 124, 0))),
             StateScoped(Screen::Gameplay),
-            MovementSettings { walk_speed: 6. },
+            MovementSettings::default(),
             CurrentBoomerangThrowOrigin,
             CameraFollowTarget,
         ))
@@ -97,8 +97,13 @@ pub struct Player;
 
 #[derive(Component, Reflect)]
 #[reflect(Component)]
-struct MovementSettings {
-    walk_speed: f32,
+pub struct MovementSettings {
+    pub walk_speed: f32,
+}
+impl Default for MovementSettings {
+    fn default() -> Self {
+        Self { walk_speed: 6. }
+    }
 }
 
 fn add_player_movement_on_spawn(
