@@ -1,12 +1,15 @@
 //! Player-specific behavior.
 
+use crate::gameplay::Gameplay;
 use crate::gameplay::boomerang::CurrentBoomerangThrowOrigin;
 use crate::gameplay::camera::CameraFollowTarget;
+use crate::gameplay::health_and_damage::{DeathEvent, Health};
 use crate::gameplay::input::{PlayerActions, PlayerMoveAction};
 use crate::physics_layers::GameLayer;
 use crate::screens::Screen;
 use avian3d::prelude::{
-    CoefficientCombine, Collider, CollisionLayers, Friction, LinearVelocity, LockedAxes, RigidBody,
+    AngularVelocity, CoefficientCombine, Collider, CollisionLayers, Friction, LinearVelocity,
+    LockedAxes, RigidBody,
 };
 use bevy::prelude::*;
 use bevy_enhanced_input::events::Completed;
@@ -25,6 +28,7 @@ pub(super) fn plugin(app: &mut App) {
     // get despawned when the player does. That way, movement happens only while
     // playing, not while e.g. in a menu or splash screen.
     app.add_observer(add_player_movement_on_spawn);
+    app.add_systems(OnExit(Gameplay::Normal), teardown);
 }
 
 fn spawn_player_to_point(
@@ -69,7 +73,22 @@ fn spawn_player_to_point(
             // We remove friction because we set the velocity each frame anyway
             // also solves problem with weird wall slides
             Friction::ZERO.with_combine_rule(CoefficientCombine::Min),
-        ));
+        ))
+        .insert(Health(1))
+        .observe(on_player_death);
+}
+
+fn teardown(player: Single<Entity, With<Player>>, mut commands: Commands) {
+    commands
+        .entity(player.into_inner())
+        .remove::<Actions<PlayerActions>>()
+        .remove::<LinearVelocity>()
+        .remove::<AngularVelocity>();
+}
+
+fn on_player_death(_trigger: Trigger<DeathEvent>, mut next_state: ResMut<NextState<Gameplay>>) {
+    info!("game over");
+    next_state.set(Gameplay::GameOver);
 }
 
 #[derive(Component, Debug, Clone, Copy, PartialEq, Eq, Default, Reflect)]

@@ -158,7 +158,10 @@ pub fn play_enemy_targeted_sound_effect(
         _ => unreachable!(),
     };
 
-    commands.spawn(sound_effect(sound_asset));
+    commands.spawn((
+        Name::from("EnemyTargetSoundEffect"),
+        sound_effect(sound_asset),
+    ));
 }
 
 // ===================
@@ -173,7 +176,7 @@ pub struct AimModeTargets {
 }
 
 pub fn initialize_target_list(mut commands: Commands) {
-    commands.spawn(AimModeTargets::default());
+    commands.spawn((Name::from("AimModeTargets"), AimModeTargets::default()));
 }
 
 pub fn cleanup_target_list(

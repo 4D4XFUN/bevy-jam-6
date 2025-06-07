@@ -1,4 +1,5 @@
 use crate::ai::pathfinding_service::PathfindingState;
+use crate::gameplay::Gameplay;
 use crate::gameplay::enemy::Enemy;
 use crate::gameplay::player::Player;
 use avian3d::prelude::LinearVelocity;
@@ -56,7 +57,10 @@ impl AiMovementState {
                     .insert(AiMovementState::Observing);
             },
         );
-        app.add_systems(Update, Self::following_player_state_machine);
+        app.add_systems(
+            Update,
+            Self::following_player_state_machine.run_if(in_state(Gameplay::Normal)),
+        );
         app.register_type::<AiMovementState>();
     }
 

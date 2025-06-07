@@ -1,8 +1,10 @@
+use crate::gameplay::Gameplay;
 use crate::gameplay::boomerang::BounceBoomerangEvent;
 use bevy::app::{App, Startup, Update};
 use bevy::color::Color;
 use bevy::core_pipeline::bloom::Bloom;
 use bevy::core_pipeline::tonemapping::Tonemapping;
+use bevy::ecs::schedule::IntoScheduleConfigs;
 use bevy::math::{Vec2, Vec3};
 use bevy::prelude::ReflectComponent;
 use bevy::prelude::{
@@ -11,14 +13,22 @@ use bevy::prelude::{
     Transform, Window, With, Without, default,
 };
 use bevy::render::camera::Exposure;
+use bevy::state::condition::in_state;
 use rand::{Rng, thread_rng};
 
 pub fn plugin(app: &mut App) {
     // systems
     app.add_systems(Startup, spawn_camera);
-    app.add_systems(Update, camera_follow);
-    app.add_systems(Update, start_shake_on_boomerang_bounce);
-    app.add_systems(Update, (update_screen_shake, tick_shake_timers));
+    app.add_systems(
+        Update,
+        (
+            camera_follow,
+            start_shake_on_boomerang_bounce,
+            update_screen_shake,
+            tick_shake_timers,
+        )
+            .run_if(in_state(Gameplay::Normal)),
+    );
 
     // reflection
     app.register_type::<CameraProperties>();

@@ -33,4 +33,6 @@ pub enum Screen {
     #[default]
     Loading,
     Gameplay,
+    /// This state exists to make retrying a level easier
+    Retry,
 }
