@@ -8,6 +8,7 @@ use bevy::prelude::*;
 use crate::screens::Screen;
 
 pub mod aim_mode;
+mod ammo;
 pub(crate) mod boomerang;
 pub mod camera;
 pub mod enemy;
@@ -30,6 +31,7 @@ pub(super) fn plugin(app: &mut App) {
         enemy::plugin,
         health_and_damage::plugin,
         score::plugin,
+        ammo::plugin,
     ));
 }
 

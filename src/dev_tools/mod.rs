@@ -2,15 +2,12 @@
 
 mod god_mode;
 
-use crate::gameplay::boomerang::boomerang_dev_tools_plugin;
 use crate::screens::Screen;
 use avian3d::prelude::PhysicsGizmos;
 use bevy::audio::Volume;
 use bevy::color::palettes;
 use bevy::dev_tools::states::log_transitions;
 use bevy::prelude::*;
-use bevy_inspector_egui::bevy_egui::EguiPlugin;
-use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use iyes_perf_ui::PerfUiPlugin;
 use iyes_perf_ui::entries::{PerfUiFramerateEntries, PerfUiWindowEntries};
 use iyes_perf_ui::prelude::{PerfUiPosition, PerfUiRoot};
@@ -24,11 +21,12 @@ pub(super) fn plugin(app: &mut App) {
         // bevy::diagnostic::SystemInformationDiagnosticsPlugin,
         bevy::render::diagnostic::RenderDiagnosticsPlugin,
         avian3d::debug_render::PhysicsDebugPlugin::new(FixedUpdate),
-        EguiPlugin {
-            enable_multipass_for_primary_context: true,
-        },
-        WorldInspectorPlugin::new(),
-        boomerang_dev_tools_plugin,
+        // EguiPlugin {
+        //     enable_multipass_for_primary_context: true,
+        // },
+        // WorldInspectorPlugin::new(),
+        // boomerang_dev_tools_plugin,
+        #[cfg(feature = "dev")]
         god_mode::plugin,
     ))
     .insert_gizmo_config(

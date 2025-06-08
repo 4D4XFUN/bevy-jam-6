@@ -26,6 +26,7 @@ use tracing::{debug, info, warn};
 // ===================
 // AIM MODE
 // ==================
+use crate::gameplay::ammo::{GiveAmmo, HasLimitedAmmo};
 use crate::gameplay::enemy::Enemy;
 use crate::theme::film_grain::FilmGrainSettingsTween;
 use bevy::prelude::*;
@@ -88,10 +89,16 @@ pub enum AimModeState {
 pub fn enter_aim_mode(
     _trigger: Trigger<Fired<AimModeAction>>,
     state: Res<State<AimModeState>>,
+    has_limited_ammo: Single<Option<&HasLimitedAmmo>, With<Player>>,
     mut next_state: ResMut<NextState<AimModeState>>,
 ) {
     // don't enter aim mode if we're already in it
     if state.get() == &AimModeState::Aiming {
+        return;
+    }
+
+    if !has_limited_ammo.map(|o| o.0 > 0).unwrap_or(false) {
+        // info!("No ammo!");
         return;
     }
 
@@ -185,8 +192,8 @@ pub fn cleanup_target_list(
     player_single: Single<Entity, With<Player>>,
     mut event_writer: EventWriter<ThrowBoomerangEvent>,
 ) {
-    let (e, targets) = query.into_inner();
-    let v: Vec<_> = targets
+    let (target_list_entity, target_list) = query.into_inner();
+    let v: Vec<_> = target_list
         .targets
         .iter()
         .map(|e| BoomerangTargetKind::Entity(*e))
@@ -198,8 +205,9 @@ pub fn cleanup_target_list(
             thrower_entity: player,
             target: v,
         });
+        commands.entity(player).trigger(GiveAmmo(-1));
     }
-    commands.entity(e).despawn();
+    commands.entity(target_list_entity).despawn();
 }
 
 pub fn draw_crosshair(mut gizmos: Gizmos, mouse_position: Res<MousePosition>) {
@@ -282,7 +290,7 @@ pub fn draw_target_lines(
     Ok(())
 }
 
-const MAX_TARGETS_SELECTABLE: usize = 3;
+const MAX_TARGETS_SELECTABLE: usize = 300;
 
 pub fn record_target_near_mouse(
     mouse_position: Res<MousePosition>,

@@ -1,9 +1,11 @@
 use crate::audio::TimeDilatedPitch;
 use crate::gameplay::Gameplay;
+use crate::gameplay::ammo::GiveAmmo;
 use crate::gameplay::enemy::Enemy;
 use crate::gameplay::health_and_damage::CanDamage;
 use crate::gameplay::input::FireBoomerangAction;
 use crate::gameplay::mouse_position::MousePosition;
+use crate::gameplay::player::Player;
 use crate::physics_layers::GameLayer;
 use avian3d::prelude::{
     AngularVelocity, Collider, CollisionEventsEnabled, CollisionLayers, LinearVelocity, Physics,
@@ -266,10 +268,15 @@ fn move_falling_boomerangs(
 
 fn on_boomerang_fallen_despawn_boomerang(
     mut fallen_events: EventReader<BoomerangHasFallenOnGroundEvent>,
+    player: Single<Entity, With<Player>>,
     mut commands: Commands,
 ) -> Result {
+    let player_entity = player.into_inner();
     for event in fallen_events.read() {
         commands.entity(event.boomerang_entity).despawn();
+
+        // TODO this assumes booms only fall next to player (they always return, no picking up)
+        commands.entity(player_entity).trigger(GiveAmmo(1));
     }
 
     Ok(())
@@ -520,7 +527,7 @@ fn draw_preview_gizmo(
 // ===============
 
 #[cfg(feature = "dev")]
-pub fn boomerang_dev_tools_plugin(app: &mut App) {
+pub fn _boomerang_dev_tools_plugin(app: &mut App) {
     use bevy_inspector_egui::quick::ResourceInspectorPlugin;
     app.add_plugins(ResourceInspectorPlugin::<BoomerangSettings>::default());
 }
