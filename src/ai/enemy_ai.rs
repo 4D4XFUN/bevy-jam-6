@@ -33,7 +33,7 @@ impl Default for FollowPlayerBehavior {
         Self {
             distance_to_keep: 0.0,
             detection_range: 9000.0,
-            staleness_range: 10.,
+            staleness_range: 5.,
             movement_speed: 2.,
         }
     }
