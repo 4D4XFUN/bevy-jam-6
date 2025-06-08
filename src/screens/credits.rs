@@ -38,9 +38,7 @@ fn created_by() -> impl Bundle {
 }
 
 fn assets() -> impl Bundle {
-    grid(vec![
-        ["Pistol Riccoechet Sound", "CC0 by Diboz"],
-    ])
+    grid(vec![["Pistol Riccoechet Sound", "CC0 by Diboz"]])
 }
 
 fn grid(content: Vec<[&'static str; 2]>) -> impl Bundle {
