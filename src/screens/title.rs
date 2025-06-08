@@ -2,6 +2,7 @@
 
 use bevy::prelude::*;
 
+use crate::audio::music;
 use crate::gameplay::level::LevelAssets;
 use crate::ui_assets::{FontAssets, PanelAssets};
 use crate::{asset_tracking::LoadResource, screens::Screen, theme::prelude::*};
@@ -11,7 +12,10 @@ pub(super) fn plugin(app: &mut App) {
         .load_resource::<PanelAssets>()
         .register_type::<FontAssets>()
         .load_resource::<FontAssets>()
-        .add_systems(OnEnter(Screen::Title), spawn_title_screen);
+        .add_systems(
+            OnEnter(Screen::Title),
+            (spawn_title_screen, start_credits_music),
+        );
 }
 
 fn spawn_title_screen(panel: Res<PanelAssets>, fonts: Res<FontAssets>, mut commands: Commands) {
@@ -35,6 +39,14 @@ fn spawn_title_screen(panel: Res<PanelAssets>, fonts: Res<FontAssets>, mut comma
             widget::paneled_button("Play", enter_gameplay_screen, &panel, &fonts.header),
             widget::paneled_button("Credits", enter_credits_screen, &panel, &fonts.header),
         ],
+    ));
+}
+
+fn start_credits_music(mut commands: Commands, assets: Res<AssetServer>) {
+    commands.spawn((
+        Name::new("Title Music"),
+        StateScoped(Screen::Title),
+        music(assets.load("audio/music/EcstasyOfSka.ogg")),
     ));
 }
 
