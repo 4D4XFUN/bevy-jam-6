@@ -23,6 +23,9 @@ pub struct LevelAssets {
     pub levels: Vec<Handle<Scene>>,
     pub current_level: usize,
     pub all_bounties: HashMap<usize, f32>,
+
+    #[dependency]
+    pub eagle_sfx: Handle<AudioSource>,
 }
 
 impl FromWorld for LevelAssets {
@@ -40,6 +43,8 @@ impl FromWorld for LevelAssets {
             levels,
             current_level: 0,
             all_bounties: HashMap::new(),
+            eagle_sfx: asset_server
+                .load("audio/sound_effects/571273__princeofworms__hawkeagle-cry-distant.ogg"),
         }
     }
 }
