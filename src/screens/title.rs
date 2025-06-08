@@ -20,12 +20,18 @@ fn spawn_title_screen(panel: Res<PanelAssets>, fonts: Res<FontAssets>, mut comma
         StateScoped(Screen::Title),
         #[cfg(not(target_family = "wasm"))]
         children![
+            widget::label_with_font("4D4XFUN Presents", &fonts.header),
+            widget::header_with_font("A FISTFUL OF BOOMERANGS", &fonts.header),
+            widget::header(""),
             widget::paneled_button("Play", enter_gameplay_screen, &panel, &fonts.header),
             widget::paneled_button("Credits", enter_credits_screen, &panel, &fonts.header),
             widget::paneled_button("Exit", exit_app, &panel, &fonts.header),
         ],
         #[cfg(target_family = "wasm")]
         children![
+            widget::label_with_font("4D4XFUN Presents", &fonts.header),
+            widget::header_with_font("A FISTFUL OF BOOMERANGS", &fonts.header),
+            widget::header(""),
             widget::paneled_button("Play", enter_gameplay_screen, &panel, &fonts.header),
             widget::paneled_button("Credits", enter_credits_screen, &panel, &fonts.header),
         ],
