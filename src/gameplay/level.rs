@@ -37,6 +37,7 @@ impl FromWorld for LevelAssets {
             asset_server.load(GltfAssetLabel::Scene(0).from_asset("models/Level2.glb")),
             asset_server.load(GltfAssetLabel::Scene(0).from_asset("models/Level3.glb")),
             asset_server.load(GltfAssetLabel::Scene(0).from_asset("models/Level4.glb")),
+            asset_server.load(GltfAssetLabel::Scene(0).from_asset("models/Level5.glb")),
         ];
         Self {
             music: asset_server.load("audio/music/BoomerangTheme.ogg"),
