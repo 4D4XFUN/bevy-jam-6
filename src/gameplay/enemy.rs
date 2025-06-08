@@ -272,6 +272,7 @@ fn attack_target_after_delay(
 
 fn on_death(
     trigger: Trigger<DeathEvent>,
+    query: Query<&Transform>,
     pistolero_assets: Res<PistoleroAssets>,
     mut commands: Commands,
     mut materials: ResMut<Assets<StandardMaterial>>,
@@ -293,7 +294,8 @@ fn on_death(
             GameLayer::all_bits(),
         ));
     let multiplicator = trigger.event().0 as f32;
-    commands.trigger(ScoreEvent::AddScore(100. * multiplicator));
+    let translation = query.get(trigger.target()).unwrap().translation;
+    commands.trigger(ScoreEvent::AddScore(100. * multiplicator, translation));
     commands.trigger(ScoreEvent::EnemyDeath);
     let rand = thread_rng().gen_range(0..pistolero_assets.death_screams.len());
     commands.spawn((
