@@ -2,6 +2,7 @@
 
 mod god_mode;
 
+use crate::dev_tools::god_mode::GodModeState;
 use crate::screens::Screen;
 use avian3d::prelude::PhysicsGizmos;
 use bevy::audio::Volume;
@@ -13,7 +14,6 @@ use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use iyes_perf_ui::PerfUiPlugin;
 use iyes_perf_ui::entries::{PerfUiFramerateEntries, PerfUiWindowEntries};
 use iyes_perf_ui::prelude::{PerfUiPosition, PerfUiRoot};
-use crate::dev_tools::god_mode::GodModeState;
 
 pub(super) fn plugin(app: &mut App) {
     app.add_plugins((
@@ -24,12 +24,12 @@ pub(super) fn plugin(app: &mut App) {
         // bevy::diagnostic::SystemInformationDiagnosticsPlugin,
         bevy::render::diagnostic::RenderDiagnosticsPlugin,
         avian3d::debug_render::PhysicsDebugPlugin::new(FixedUpdate),
-
         // inspector
-        EguiPlugin { enable_multipass_for_primary_context: true, },
+        EguiPlugin {
+            enable_multipass_for_primary_context: true,
+        },
         WorldInspectorPlugin::new().run_if(in_state(GodModeState::God)),
         // boomerang_dev_tools_plugin,
-
         #[cfg(feature = "dev")]
         god_mode::plugin,
     ))

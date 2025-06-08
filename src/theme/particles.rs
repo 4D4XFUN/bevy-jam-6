@@ -1,5 +1,5 @@
-use bevy::prelude::*;
 use bevy::pbr::{NotShadowCaster, NotShadowReceiver};
+use bevy::prelude::*;
 
 pub fn plugin(app: &mut App) {
     app.init_resource::<SmokeParticleConfig>()
@@ -79,10 +79,10 @@ fn spawn_gun_smoke(
 
         let velocity = event.direction * 2.0
             + Vec3::new(
-            (rand::random::<f32>() - 0.5) * 1.0,
-            rand::random::<f32>() * 0.5 + 0.5,
-            (rand::random::<f32>() - 0.5) * 1.0,
-        );
+                (rand::random::<f32>() - 0.5) * 1.0,
+                rand::random::<f32>() * 0.5 + 0.5,
+                (rand::random::<f32>() - 0.5) * 1.0,
+            );
 
         let material = materials.add(StandardMaterial {
             base_color: Color::srgba(1.0, 1.0, 1.0, 1.0),
