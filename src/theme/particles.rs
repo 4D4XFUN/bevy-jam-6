@@ -1,13 +1,14 @@
 use bevy::prelude::*;
 use bevy::render::render_resource::{AsBindGroup, ShaderRef};
 use bevy::color::palettes::css;
+use bevy::pbr::{NotShadowCaster, NotShadowReceiver};
 
 pub fn plugin(app: &mut App) {
     app.init_resource::<SmokeParticleConfig>()
         .add_observer(spawn_gun_smoke)
         .add_systems(Update, update_smoke_particles)
         .add_plugins(MaterialPlugin::<SmokeMaterial>::default());
-    
+
     // reflection
     app.register_type::<SmokeParticle>()
         .register_type::<SmokeParticleConfig>();
@@ -38,15 +39,19 @@ pub struct SmokeParticleConfig {
     min_size: f32,
     max_size: f32,
     ease_function: EaseFunction,
+    particles_per_shot: usize,
+    particle_spread: f32,
 }
 impl Default for SmokeParticleConfig {
     fn default() -> Self {
         Self {
             lifetime: 0.0,
             max_lifetime: 2.0,
-            min_size: 5.0,
-            max_size: 10.0,
-            ease_function: EaseFunction::Linear,
+            min_size: 0.5,
+            max_size: 1.0,
+            ease_function: EaseFunction::ExponentialOut,
+            particles_per_shot: 15,
+            particle_spread: 1.0,
         }
     }
 }
@@ -58,7 +63,6 @@ impl SmokeParticleConfig {
 }
 
 
-// Custom material that always faces camera (billboard)
 #[derive(Asset, TypePath, AsBindGroup, Debug, Clone)]
 pub struct SmokeMaterial {
     #[texture(0)]
@@ -78,26 +82,23 @@ impl Material for SmokeMaterial {
     }
 }
 
-// Spawn smoke as 3D quads
 fn spawn_gun_smoke(
     trigger: Trigger<SpawnGunshotSmokeEvent>,
     mut commands: Commands,
     mut meshes: ResMut<Assets<Mesh>>,
-    mut materials: ResMut<Assets<SmokeMaterial>>,
+    mut materials: ResMut<Assets<StandardMaterial>>,
     asset_server: Res<AssetServer>,
+    particle_configs: Res<SmokeParticleConfig>,
 ) {
     let event = trigger.event();
 
-    // Create a quad mesh
-    let quad_handle = meshes.add(Rectangle::new(1.0, 1.0));
-    let texture_handle = asset_server.load("images/smoke_puff.png");
+    let quad_handle = meshes.add(Plane3d::default().mesh().size(1.0, 1.0));
 
-    // Spawn 3-5 smoke puffs
-    for i in 0..4 {
+    for i in 0..particle_configs.particles_per_shot {
         let random_offset = Vec3::new(
-            (rand::random::<f32>() - 0.5) * 0.2,
-            (rand::random::<f32>() - 0.5) * 0.2,
-            (rand::random::<f32>() - 0.5) * 0.2,
+            (rand::random::<f32>() - 0.5) * particle_configs.particle_spread,
+            (rand::random::<f32>() - 0.5) * particle_configs.particle_spread,
+            (rand::random::<f32>() - 0.5) * particle_configs.particle_spread,
         );
 
         let velocity = event.direction * 2.0
@@ -107,78 +108,67 @@ fn spawn_gun_smoke(
             (rand::random::<f32>() - 0.5) * 1.0,
         );
 
-        let material = materials.add(SmokeMaterial {
-            texture: texture_handle.clone(),
-            color: LinearRgba::new(1.0, 1.0, 1.0, 0.7),
+        let material = materials.add(StandardMaterial {
+            base_color: Color::srgba(1.0, 1.0, 1.0, 1.0),
+            alpha_mode: AlphaMode::Blend,
+            double_sided: true,
+            ..default()
         });
 
         commands.spawn((
             Name::new("SmokeParticle"),
             Mesh3d(quad_handle.clone()),
             MeshMaterial3d(material),
+            // Transform::from_translation(event.position + random_offset)
+            //     .with_scale(Vec3::splat(0.5)),
             Transform::from_translation(event.position + random_offset)
-                .with_scale(Vec3::splat(0.5))
-                .looking_at(event.position, Vec3::Y),
+                .with_scale(Vec3::splat(2.0))
+                .looking_at(event.position + event.direction, Vec3::Y),
             SmokeParticle {
                 velocity,
                 lifetime: 0.0,
             },
-            BillboardLock,
+            NotShadowCaster,
+            NotShadowReceiver,
         ));
     }
 }
 
-// Component to mark billboards
-#[derive(Component)]
-struct BillboardLock;
-
-// Update smoke particles
 fn update_smoke_particles(
     mut commands: Commands,
     time: Res<Time>,
-    camera_query: Query<&Transform, (With<Camera3d>, Without<BillboardLock>)>,
     mut particles: Query<(
         Entity,
         &mut Transform,
-        &MeshMaterial3d<SmokeMaterial>,
+        &MeshMaterial3d<StandardMaterial>,
         &mut SmokeParticle,
-    ), (With<BillboardLock>, Without<Camera3d>)>,
-    mut materials: ResMut<Assets<SmokeMaterial>>,
+    )>,
+    mut materials: ResMut<Assets<StandardMaterial>>,
     particle_config: Res<SmokeParticleConfig>,
 ) {
     let dt = time.delta_secs();
 
-    // Get camera position for billboarding
-    let Ok(camera_transform) = camera_query.single() else {
-        return;
-    };
-
     for (entity, mut transform, material_handle, mut particle) in &mut particles {
-        // Update lifetime
         particle.lifetime += dt;
 
-        // Remove after max lifetime
         if particle.lifetime > particle_config.max_lifetime {
             commands.entity(entity).despawn();
             continue;
         }
 
-        // Simple physics
+        // Move particles
         transform.translation += particle.velocity * dt;
-        particle.velocity *= 0.95; // Drag
-        particle.velocity.y += dt * 0.5; // Smoke rises
+        particle.velocity *= 0.95;
+        particle.velocity.y += dt * 0.5;
 
-        // Billboard - make it face the camera
-        transform.look_at(camera_transform.translation, Vec3::Y);
-
-        // Grow
+        // Scale over time
         let size = particle_config.tween_size(particle.lifetime);
         transform.scale = Vec3::splat(size);
 
-        // Fade by updating material
+        // Fade out linearly over time
         if let Some(material) = materials.get_mut(&material_handle.0) {
             let alpha = 0.7 * (1.0 - particle.lifetime / particle_config.max_lifetime);
-            material.color = LinearRgba::new(1.0, 1.0, 1.0, alpha);
+            material.base_color = Color::srgba(1.0, 1.0, 1.0, alpha);
         }
     }
 }

@@ -52,6 +52,9 @@ pub fn plugin(app: &mut App) {
         .add_observer(on_health_event);
 }
 
+// Raise it ever so slightly so the rim doesn't clip the tops of walls
+const HAT_HEIGHT: f32 = 2.01;
+
 fn add_health_ui(
     trigger: Trigger<OnAdd, Health>,
     health_asset: Res<HealthAsset>,
@@ -66,7 +69,7 @@ fn add_health_ui(
         StateScoped(Screen::Gameplay),
         SceneRoot(health_asset.0.clone()),
         HealthUi(trigger.target()),
-        Transform::from_translation(transform.translation + Vec3::Y),
+        Transform::from_translation(transform.translation.with_y(HAT_HEIGHT)),
     ));
 }
 
@@ -99,7 +102,7 @@ fn move_ui(
         let Ok(health_transform) = healths.get(health_ui.0) else {
             continue;
         };
-        transform.translation = health_transform.translation + Vec3::Y;
+        transform.translation = health_transform.translation.with_y(HAT_HEIGHT);
         transform.rotation = health_transform.rotation;
     }
 }
