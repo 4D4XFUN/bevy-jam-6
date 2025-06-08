@@ -30,7 +30,7 @@ fn spawn_credits_screen(panel: Res<PanelAssets>, fonts: Res<FontAssets>, mut com
 fn created_by() -> impl Bundle {
     grid(vec![
         ["Emily 'tigerplush' P.", "UI, SFX"],
-        ["Sam 'sfarmer1'", "Designer, Programming"],
+        ["Sam 'sfarmer1'", "Design, Programming"],
         ["Martin 'mpwoz'", "Programming"],
         ["Jacudibu", "Programming"],
         ["BurnteToaster", "SFX"],
@@ -38,7 +38,7 @@ fn created_by() -> impl Bundle {
 }
 
 fn assets() -> impl Bundle {
-    grid(vec![["Pistol Riccoechet Sound", "CC0 by Diboz"]])
+    grid(vec![["Pistol Ricochet Sound", "CC0 by Diboz"]])
 }
 
 fn grid(content: Vec<[&'static str; 2]>) -> impl Bundle {
