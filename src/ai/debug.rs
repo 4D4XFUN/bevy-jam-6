@@ -31,7 +31,11 @@ fn show_enemy_paths(
 
     // debug visualization of enemy paths
     for ai in query.iter() {
-        if let AiMovementState::Moving { path, index: _index } = ai {
+        if let AiMovementState::Moving {
+            path,
+            index: _index,
+        } = ai
+        {
             gizmos.linestrip(
                 path.clone().iter().map(|v| v.with_y(0.2)),
                 palettes::css::BLUE,
