@@ -12,6 +12,7 @@ use crate::{
     theme::widget,
     ui_assets::{FontAssets, PanelAssets},
 };
+use crate::audio::sound_effect_non_dilated;
 
 pub fn plugin(app: &mut App) {
     app.init_resource::<Winner>();
@@ -134,12 +135,19 @@ fn reload_current_level(
     next_state.set(Screen::Gameplay);
 }
 
-fn load_next_level(mut next_state: ResMut<NextState<Screen>>, level_assets: ResMut<LevelAssets>) {
+fn load_next_level(mut next_state: ResMut<NextState<Screen>>, level_assets: ResMut<LevelAssets>, mut commands: Commands) {
     let level_data = level_assets.into_inner();
     if level_data.current_level < level_data.levels.len() - 1 {
         level_data.current_level += 1;
         info!("Loading next level: {}", level_data.current_level);
         next_state.set(Screen::Gameplay);
+        
+        // bird cry on start of last level
+        if level_data.current_level == level_data.levels.len() - 1 {
+            commands.spawn(
+                sound_effect_non_dilated(level_data.eagle_sfx.clone(), 0.0),
+            );
+        }
     } else {
         level_data.current_level = 0;
         next_state.set(Screen::Credits);
