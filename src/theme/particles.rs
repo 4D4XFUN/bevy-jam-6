@@ -1,6 +1,4 @@
 use bevy::prelude::*;
-use bevy::render::render_resource::{AsBindGroup, ShaderRef};
-use bevy::color::palettes::css;
 use bevy::pbr::{NotShadowCaster, NotShadowReceiver};
 
 pub fn plugin(app: &mut App) {
@@ -66,14 +64,13 @@ fn spawn_gun_smoke(
     mut commands: Commands,
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<StandardMaterial>>,
-    asset_server: Res<AssetServer>,
     particle_configs: Res<SmokeParticleConfig>,
 ) {
     let event = trigger.event();
 
     let quad_handle = meshes.add(Plane3d::default().mesh().size(1.0, 1.0));
 
-    for i in 0..particle_configs.particles_per_shot {
+    for _ in 0..particle_configs.particles_per_shot {
         let random_offset = Vec3::new(
             (rand::random::<f32>() - 0.5) * particle_configs.particle_spread,
             (rand::random::<f32>() - 0.5) * particle_configs.particle_spread,
