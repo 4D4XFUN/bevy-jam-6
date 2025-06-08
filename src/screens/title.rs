@@ -2,13 +2,9 @@
 
 use bevy::prelude::*;
 
-use crate::gameplay::level::{self, LevelAssets};
+use crate::gameplay::level::LevelAssets;
 use crate::ui_assets::{FontAssets, PanelAssets};
-use crate::{
-    asset_tracking::{LoadResource, ResourceHandles},
-    screens::Screen,
-    theme::prelude::*,
-};
+use crate::{asset_tracking::LoadResource, screens::Screen, theme::prelude::*};
 
 pub(super) fn plugin(app: &mut App) {
     app.register_type::<PanelAssets>()

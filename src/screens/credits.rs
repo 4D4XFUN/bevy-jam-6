@@ -29,7 +29,7 @@ fn spawn_credits_screen(
             if !level_assets.all_bounties.is_empty() {
                 let bounty = level_assets.all_bounties.values().sum::<f32>();
                 parent.spawn(widget::header_with_font(
-                    format!("You collected $ {} in bounty total!", bounty),
+                    format!("You collected $ {bounty} in bounty total!"),
                     &fonts.content,
                 ));
             }
