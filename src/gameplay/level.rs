@@ -4,6 +4,7 @@ use crate::audio::music;
 use crate::physics_layers::GameLayer;
 use crate::{asset_tracking::LoadResource, screens::Screen};
 use avian3d::prelude::CollisionLayers;
+use bevy::platform::collections::HashMap;
 use bevy::prelude::*;
 
 pub(super) fn plugin(app: &mut App) {
@@ -21,6 +22,7 @@ pub struct LevelAssets {
     #[dependency]
     pub levels: Vec<Handle<Scene>>,
     pub current_level: usize,
+    pub all_bounties: HashMap<usize, f32>,
 }
 
 impl FromWorld for LevelAssets {
@@ -37,6 +39,7 @@ impl FromWorld for LevelAssets {
             music: asset_server.load("audio/music/BoomerangTheme.ogg"),
             levels,
             current_level: 0,
+            all_bounties: HashMap::new(),
         }
     }
 }

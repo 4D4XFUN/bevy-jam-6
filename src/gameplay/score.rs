@@ -43,11 +43,25 @@ fn setup(
     panel: Res<PanelAssets>,
     score: Res<Score>,
     winner: Res<Winner>,
+    level_assets: ResMut<LevelAssets>,
     font_assets: Res<FontAssets>,
     mut commands: Commands,
 ) {
     let text = match *winner {
-        Winner::Player => format!("You claimed $ {} as bounty", score.actual_score),
+        Winner::Player => {
+            let level_data = level_assets.into_inner();
+            level_data
+                .all_bounties
+                .entry(level_data.current_level)
+                .and_modify(|entry| {
+                    if *entry < score.actual_score {
+                        *entry = score.actual_score
+                    }
+                })
+                .or_insert(score.actual_score);
+            info!("{:?}", level_data.all_bounties);
+            format!("You claimed $ {} as bounty", score.actual_score)
+        }
         Winner::Enemy => "You been took t' an early grave, pardner".to_string(),
     };
     commands

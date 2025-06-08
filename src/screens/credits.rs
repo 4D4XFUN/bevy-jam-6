@@ -2,6 +2,7 @@
 
 use bevy::{ecs::spawn::SpawnIter, prelude::*, ui::Val::*};
 
+use crate::gameplay::level::LevelAssets;
 use crate::ui_assets::{FontAssets, PanelAssets};
 use crate::{asset_tracking::LoadResource, audio::music, screens::Screen, theme::prelude::*};
 
@@ -13,18 +14,36 @@ pub(super) fn plugin(app: &mut App) {
     app.add_systems(OnEnter(Screen::Credits), start_credits_music);
 }
 
-fn spawn_credits_screen(panel: Res<PanelAssets>, fonts: Res<FontAssets>, mut commands: Commands) {
-    commands.spawn((
-        widget::ui_root("Credits Screen"),
-        StateScoped(Screen::Credits),
-        children![
-            widget::header_with_font("Created by", &fonts.header),
-            created_by(),
-            widget::header_with_font("Assets", &fonts.header),
-            assets(),
-            widget::paneled_button("Back", enter_title_screen, &panel, &fonts.header),
-        ],
-    ));
+fn spawn_credits_screen(
+    panel: Res<PanelAssets>,
+    level_assets: Res<LevelAssets>,
+    fonts: Res<FontAssets>,
+    mut commands: Commands,
+) {
+    commands
+        .spawn((
+            widget::ui_root("Credits Screen"),
+            StateScoped(Screen::Credits),
+        ))
+        .with_children(|parent| {
+            if !level_assets.all_bounties.is_empty() {
+                let bounty = level_assets.all_bounties.values().sum::<f32>();
+                parent.spawn(widget::header_with_font(
+                    format!("You collected $ {bounty} in bounty total!"),
+                    &fonts.content,
+                ));
+            }
+            parent.spawn(widget::header_with_font("Created by", &fonts.header));
+            parent.spawn(created_by());
+            parent.spawn(widget::header_with_font("Assets", &fonts.header));
+            parent.spawn(assets());
+            parent.spawn(widget::paneled_button(
+                "Back",
+                enter_title_screen,
+                &panel,
+                &fonts.header,
+            ));
+        });
 }
 
 fn created_by() -> impl Bundle {
