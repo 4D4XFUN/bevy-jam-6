@@ -12,6 +12,7 @@ mod ammo;
 pub(crate) mod boomerang;
 pub mod camera;
 pub mod enemy;
+mod footsteps;
 pub mod health_and_damage;
 pub mod input;
 pub mod level;
@@ -32,6 +33,7 @@ pub(super) fn plugin(app: &mut App) {
         health_and_damage::plugin,
         score::plugin,
         ammo::plugin,
+        footsteps::plugin,
     ));
 }
 

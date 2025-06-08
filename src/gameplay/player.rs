@@ -1,5 +1,6 @@
 //! Player-specific behavior.
 
+use crate::gameplay::footsteps::Footsteps;
 use crate::gameplay::Gameplay;
 use crate::gameplay::ammo::HasLimitedAmmo;
 use crate::gameplay::boomerang::CurrentBoomerangThrowOrigin;
@@ -76,7 +77,7 @@ fn spawn_player_to_point(
             // also solves problem with weird wall slides
             Friction::ZERO.with_combine_rule(CoefficientCombine::Min),
         ))
-        .insert((Health::default(), HasLimitedAmmo(1)))
+        .insert((Health::default(), HasLimitedAmmo(1), Footsteps::default()))
         .observe(on_player_death);
 }
 

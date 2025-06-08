@@ -40,6 +40,7 @@ oxidized_navigation = { git = "https://github.com/janhohenheim/oxidized_navigati
 
 # these are behind the 'egui' feature, which is only enabled in dev builds (see below)
 bevy-inspector-egui = { optional = true, version = "0.31.0" }
+bevy_hanabi = "0.16.0"
 
 [features]
 default = [

@@ -20,6 +20,7 @@ mod ui_assets;
 use avian3d::PhysicsPlugins;
 use bevy::window::{PresentMode, WindowResolution};
 use bevy::{asset::AssetMetaCheck, prelude::*};
+use bevy_hanabi::HanabiPlugin;
 use bevy_skein::SkeinPlugin;
 use oxidized_navigation::OxidizedNavigation;
 
@@ -77,6 +78,7 @@ impl Plugin for AppPlugin {
                 .set(ImagePlugin::default_nearest()),
             SkeinPlugin::default(),
             PhysicsPlugins::default(),
+            HanabiPlugin,
         ));
 
         // Add other plugins.

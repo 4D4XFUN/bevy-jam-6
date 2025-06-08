@@ -3,6 +3,7 @@ use crate::asset_tracking::LoadResource;
 use crate::audio::TimeDilatedPitch;
 use crate::gameplay::Gameplay;
 use crate::gameplay::boomerang::{BOOMERANG_FLYING_HEIGHT, WeaponTarget};
+use crate::gameplay::footsteps::Footsteps;
 use crate::gameplay::health_and_damage::{CanDamage, DeathEvent};
 use crate::gameplay::player::Player;
 use crate::gameplay::score::ScoreEvent;
@@ -118,6 +119,7 @@ fn spawn_enemies_on_enemy_spawn_points(
             LockedAxes::ROTATION_LOCKED.lock_translation_y(),
             RigidBody::Kinematic,
             Health(1),
+            Footsteps::default(),
         ))
         .observe(on_death)
         .id();
