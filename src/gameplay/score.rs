@@ -7,7 +7,7 @@ use bevy::{
 use crate::gameplay::level::LevelAssets;
 use crate::theme::film_grain::FilmGrainSettingsTween;
 use crate::{
-    gameplay::{enemy::Enemy, health_and_damage::Health, Gameplay},
+    gameplay::{Gameplay, enemy::Enemy, health_and_damage::Health},
     screens::Screen,
     theme::widget,
     ui_assets::{FontAssets, PanelAssets},

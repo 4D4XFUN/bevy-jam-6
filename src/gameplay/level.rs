@@ -27,13 +27,12 @@ impl FromWorld for LevelAssets {
     fn from_world(world: &mut World) -> Self {
         let asset_server = world.resource::<AssetServer>();
         // add new levels here
-        let levels =
-            vec![
-                asset_server.load(GltfAssetLabel::Scene(0).from_asset("models/Level1.glb")),
-                asset_server.load(GltfAssetLabel::Scene(0).from_asset("models/Level2.glb")),
-                asset_server.load(GltfAssetLabel::Scene(0).from_asset("models/Level3.glb")),
-                asset_server.load(GltfAssetLabel::Scene(0).from_asset("models/Level4.glb")),
-            ];
+        let levels = vec![
+            asset_server.load(GltfAssetLabel::Scene(0).from_asset("models/Level1.glb")),
+            asset_server.load(GltfAssetLabel::Scene(0).from_asset("models/Level2.glb")),
+            asset_server.load(GltfAssetLabel::Scene(0).from_asset("models/Level3.glb")),
+            asset_server.load(GltfAssetLabel::Scene(0).from_asset("models/Level4.glb")),
+        ];
         Self {
             music: asset_server.load("audio/music/BoomerangTheme.ogg"),
             levels,
