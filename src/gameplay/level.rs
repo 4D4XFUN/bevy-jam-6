@@ -43,7 +43,8 @@ impl FromWorld for LevelAssets {
             levels,
             current_level: 0,
             all_bounties: HashMap::new(),
-            eagle_sfx: asset_server.load("audio/sound_effects/571273__princeofworms__hawkeagle-cry-distant.ogg"),
+            eagle_sfx: asset_server
+                .load("audio/sound_effects/571273__princeofworms__hawkeagle-cry-distant.ogg"),
         }
     }
 }
