@@ -222,10 +222,12 @@ fn attack_target_after_delay(
                 });
 
             // bullet
+            let mut bullet_transform = Transform::from_translation(origin_transform.translation)
+                .with_scale(Vec3::splat(3.));
+            bullet_transform.look_to(bullet_velocity, Vec3::Y);
             commands.spawn((
                 Name::new("Bullet"),
-                Transform::from_translation(origin_transform.translation)
-                    .with_scale(Vec3::splat(3.)),
+                bullet_transform,
                 Bullet,
                 SceneRoot(pistolero_assets.bullet.clone()),
                 MeshMaterial3d(materials.add(Color::srgb_u8(50, 0, 0))),
