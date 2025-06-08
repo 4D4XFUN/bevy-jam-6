@@ -76,7 +76,6 @@ impl AiMovementState {
             (With<Enemy>, Without<Player>),
         >,
         mut commands: Commands,
-        // mut gizmos: Gizmos,
     ) {
         let target = player.translation;
         for (e, t, state, behavior, mut linear_velocity, pathfinding) in enemies.iter_mut() {
@@ -120,12 +119,6 @@ impl AiMovementState {
                     linear_velocity.x = dir.x;
                     linear_velocity.z = dir.z;
 
-                    // debug visualization
-                    // gizmos.linestrip(
-                    //     path.clone().iter().map(|v| v.with_y(0.2)),
-                    //     palettes::css::BLUE,
-                    // );
-
                     // We've reached a waypoint, increment the index to the next one
                     if dist < 1. {
                         *index += 1; // doesn't work
@@ -133,6 +126,7 @@ impl AiMovementState {
 
                     if *index >= path.len() {
                         commands.entity(e).insert(AiMovementState::Observing);
+                        commands.entity(e).insert(LinearVelocity::ZERO);
                     }
                 }
             }
