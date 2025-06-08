@@ -96,7 +96,10 @@ fn on_click_retry_level(
     next_state.set(Screen::Retry);
 }
 
-fn on_click_next_level(_trigger: Trigger<Pointer<Click>>, mut next_state: ResMut<NextState<Screen>>) {
+fn on_click_next_level(
+    _trigger: Trigger<Pointer<Click>>,
+    mut next_state: ResMut<NextState<Screen>>,
+) {
     next_state.set(Screen::NextLevel);
 }
 
@@ -107,7 +110,10 @@ fn on_click_main_menu(
     next_state.set(Screen::Title);
 }
 
-fn reload_current_level(mut next_state: ResMut<NextState<Screen>>, level_assets: ResMut<LevelAssets>) {
+fn reload_current_level(
+    mut next_state: ResMut<NextState<Screen>>,
+    level_assets: ResMut<LevelAssets>,
+) {
     let level_data = level_assets.into_inner();
     info!("Restarting level {}", level_data.current_level);
     next_state.set(Screen::Gameplay);

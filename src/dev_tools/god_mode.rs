@@ -1,13 +1,13 @@
+use crate::gameplay::enemy::Enemy;
 use crate::gameplay::health_and_damage::{DeathEvent, Health, HealthEvent};
 use crate::gameplay::player::{MovementSettings, Player};
 use avian3d::prelude::RigidBody;
 use bevy::input::common_conditions::input_just_pressed;
 use bevy::prelude::*;
-use crate::gameplay::enemy::Enemy;
 
 /// GOD MODE
 /// press 'g' to enter/exit
-/// 
+///
 /// While in it:
 /// - 1 kills all enemies
 /// - 2 kills player
@@ -25,7 +25,7 @@ pub fn plugin(app: &mut App) {
             .run_if(input_just_pressed(KeyCode::Digit1))
             .run_if(in_state(GodModeState::God)),
     );
-    
+
     app.add_systems(
         Update,
         kill_player
