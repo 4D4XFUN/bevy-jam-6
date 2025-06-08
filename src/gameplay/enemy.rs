@@ -225,7 +225,7 @@ fn attack_target_after_delay(
             commands.spawn((
                 Name::new("Bullet"),
                 Transform::from_translation(origin_transform.translation)
-                    .with_scale(Vec3::new(2., 2., 2.)),
+                    .with_scale(Vec3::splat(3.)),
                 Bullet,
                 SceneRoot(pistolero_assets.bullet.clone()),
                 MeshMaterial3d(materials.add(Color::srgb_u8(50, 0, 0))),
