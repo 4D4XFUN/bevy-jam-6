@@ -19,7 +19,8 @@ pub struct LevelAssets {
     #[dependency]
     music: Handle<AudioSource>,
     #[dependency]
-    levels: Vec<Handle<Scene>>,
+    pub levels: Vec<Handle<Scene>>,
+    pub current_level: usize,
 }
 
 impl FromWorld for LevelAssets {
@@ -27,16 +28,22 @@ impl FromWorld for LevelAssets {
         let asset_server = world.resource::<AssetServer>();
         // add new levels here
         let levels =
-            vec![asset_server.load(GltfAssetLabel::Scene(0).from_asset("models/Environment.glb"))];
+            vec![
+                asset_server.load(GltfAssetLabel::Scene(0).from_asset("models/Level1.glb")),
+                asset_server.load(GltfAssetLabel::Scene(0).from_asset("models/Level2.glb")),
+                asset_server.load(GltfAssetLabel::Scene(0).from_asset("models/Level3.glb")),
+                asset_server.load(GltfAssetLabel::Scene(0).from_asset("models/Level4.glb")),
+            ];
         Self {
             music: asset_server.load("audio/music/BoomerangTheme.ogg"),
             levels,
+            current_level: 0,
         }
     }
 }
 
 /// A system that spawns the main level.
-pub fn spawn_level(mut commands: Commands, level_assets: Res<LevelAssets>) {
+pub fn spawn_level(mut commands: Commands, level_assets: ResMut<LevelAssets>) {
     commands.spawn((
         Name::new("Level"),
         Transform::default(),
@@ -49,7 +56,7 @@ pub fn spawn_level(mut commands: Commands, level_assets: Res<LevelAssets>) {
             ),
             (
                 Name::new("Environment"),
-                SceneRoot(level_assets.levels[0].clone(),),
+                SceneRoot(level_assets.levels[level_assets.current_level].clone(),),
                 CollisionLayers::new(
                     GameLayer::Terrain,
                     [

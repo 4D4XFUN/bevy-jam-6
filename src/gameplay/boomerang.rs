@@ -1,11 +1,11 @@
 use crate::audio::TimeDilatedPitch;
-use crate::gameplay::Gameplay;
 use crate::gameplay::ammo::GiveAmmo;
 use crate::gameplay::enemy::Enemy;
 use crate::gameplay::health_and_damage::CanDamage;
 use crate::gameplay::input::FireBoomerangAction;
 use crate::gameplay::mouse_position::MousePosition;
 use crate::gameplay::player::Player;
+use crate::gameplay::Gameplay;
 use crate::physics_layers::GameLayer;
 use avian3d::prelude::{
     AngularVelocity, Collider, CollisionEventsEnabled, CollisionLayers, LinearVelocity, Physics,
@@ -16,7 +16,7 @@ use bevy::color;
 use bevy::ecs::entity::EntityHashSet;
 use bevy::prelude::*;
 use bevy_enhanced_input::prelude::Fired;
-use rand::{Rng, thread_rng};
+use rand::{thread_rng, Rng};
 
 pub const BOOMERANG_FLYING_HEIGHT: f32 = 1.5;
 

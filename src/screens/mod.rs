@@ -35,4 +35,5 @@ pub enum Screen {
     Gameplay,
     /// This state exists to make retrying a level easier
     Retry,
+    NextLevel,
 }
