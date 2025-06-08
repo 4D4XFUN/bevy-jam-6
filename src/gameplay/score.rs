@@ -4,6 +4,7 @@ use bevy::{
     prelude::*,
 };
 
+use crate::gameplay::level::LevelAssets;
 use crate::theme::film_grain::FilmGrainSettingsTween;
 use crate::{
     gameplay::{Gameplay, enemy::Enemy, health_and_damage::Health},
@@ -22,6 +23,7 @@ pub fn plugin(app: &mut App) {
             ),
         )
         .add_systems(OnEnter(Screen::Retry), retry)
+        .add_systems(OnEnter(Screen::NextLevel), retry)
         .add_systems(
             OnEnter(Gameplay::Normal),
             (
@@ -56,7 +58,7 @@ fn setup(
         .with_children(|parent| {
             parent.spawn((
                 Name::new("Label"),
-                Text::new("GAME OVER"),
+                Text::new("CONGRATS, COWBOY"),
                 TextFont::from_font_size(40.0).with_font(font_assets.header.clone()),
             ));
             parent.spawn((
@@ -66,8 +68,8 @@ fn setup(
             ));
             if Winner::Player == *winner {
                 parent.spawn(widget::paneled_button(
-                    "Next Level",
-                    retry_level,
+                    "Onward",
+                    next_level,
                     &panel,
                     &font_assets.header,
                 ));
@@ -91,12 +93,23 @@ fn retry_level(_trigger: Trigger<Pointer<Click>>, mut next_state: ResMut<NextSta
     next_state.set(Screen::Retry);
 }
 
+fn next_level(_trigger: Trigger<Pointer<Click>>, mut next_state: ResMut<NextState<Screen>>) {
+    next_state.set(Screen::NextLevel);
+}
+
 fn main_menu(_trigger: Trigger<Pointer<Click>>, mut next_state: ResMut<NextState<Screen>>) {
     next_state.set(Screen::Title);
 }
 
-fn retry(mut next_state: ResMut<NextState<Screen>>) {
-    next_state.set(Screen::Gameplay);
+fn retry(mut next_state: ResMut<NextState<Screen>>, level_assets: ResMut<LevelAssets>) {
+    let level_data = level_assets.into_inner();
+    if level_data.current_level < level_data.levels.len() - 1 {
+        level_data.current_level += 1;
+        next_state.set(Screen::Gameplay);
+    } else {
+        level_data.current_level = 0;
+        next_state.set(Screen::Title);
+    }
 }
 
 #[derive(Component)]
