@@ -290,7 +290,7 @@ pub fn draw_target_lines(
     Ok(())
 }
 
-const MAX_TARGETS_SELECTABLE: usize = 3;
+const MAX_TARGETS_SELECTABLE: usize = 300;
 
 pub fn record_target_near_mouse(
     mouse_position: Res<MousePosition>,

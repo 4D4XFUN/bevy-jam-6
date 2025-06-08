@@ -8,7 +8,7 @@ pub fn plugin(app: &mut App) {
 #[reflect(Component)]
 pub struct HasLimitedAmmo(pub i32);
 impl HasLimitedAmmo {
-    pub fn can_shoot(&self) -> bool {
+    pub fn _can_shoot(&self) -> bool {
         self.0 > 0
     }
 }

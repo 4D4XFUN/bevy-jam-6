@@ -527,7 +527,7 @@ fn draw_preview_gizmo(
 // ===============
 
 #[cfg(feature = "dev")]
-pub fn boomerang_dev_tools_plugin(app: &mut App) {
+pub fn _boomerang_dev_tools_plugin(app: &mut App) {
     use bevy_inspector_egui::quick::ResourceInspectorPlugin;
     app.add_plugins(ResourceInspectorPlugin::<BoomerangSettings>::default());
 }
