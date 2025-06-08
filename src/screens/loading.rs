@@ -23,7 +23,7 @@ fn spawn_loading_screen(mut commands: Commands) {
 }
 
 fn enter_gameplay_screen(mut next_screen: ResMut<NextState<Screen>>) {
-    next_screen.set(Screen::Gameplay);
+    next_screen.set(Screen::Title);
 }
 
 fn all_assets_loaded(resource_handles: Res<ResourceHandles>) -> bool {

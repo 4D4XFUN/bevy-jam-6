@@ -2,6 +2,7 @@
 
 use bevy::prelude::*;
 
+use crate::gameplay::level::{self, LevelAssets};
 use crate::ui_assets::{FontAssets, PanelAssets};
 use crate::{
     asset_tracking::{LoadResource, ResourceHandles},
@@ -23,12 +24,7 @@ fn spawn_title_screen(panel: Res<PanelAssets>, fonts: Res<FontAssets>, mut comma
         StateScoped(Screen::Title),
         #[cfg(not(target_family = "wasm"))]
         children![
-            widget::paneled_button(
-                "Play",
-                enter_loading_or_gameplay_screen,
-                &panel,
-                &fonts.header
-            ),
+            widget::paneled_button("Play", enter_gameplay_screen, &panel, &fonts.header),
             widget::paneled_button("Credits", enter_credits_screen, &panel, &fonts.header),
             widget::paneled_button("Exit", exit_app, &panel, &fonts.header),
         ],
@@ -45,16 +41,13 @@ fn spawn_title_screen(panel: Res<PanelAssets>, fonts: Res<FontAssets>, mut comma
     ));
 }
 
-fn enter_loading_or_gameplay_screen(
+fn enter_gameplay_screen(
     _: Trigger<Pointer<Click>>,
-    resource_handles: Res<ResourceHandles>,
+    mut level_assets: ResMut<LevelAssets>,
     mut next_screen: ResMut<NextState<Screen>>,
 ) {
-    if resource_handles.is_all_done() {
-        next_screen.set(Screen::Gameplay);
-    } else {
-        next_screen.set(Screen::Loading);
-    }
+    level_assets.all_bounties.clear();
+    next_screen.set(Screen::Gameplay);
 }
 
 fn _enter_settings_screen(_: Trigger<Pointer<Click>>, mut next_screen: ResMut<NextState<Screen>>) {
