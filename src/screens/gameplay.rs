@@ -3,6 +3,7 @@
 use bevy::{input::common_conditions::input_just_pressed, prelude::*};
 
 use crate::{gameplay::level::spawn_level, screens::Screen};
+use crate::gameplay::Gameplay;
 
 pub(super) fn plugin(app: &mut App) {
     app.add_systems(OnEnter(Screen::Gameplay), spawn_level);
@@ -14,6 +15,6 @@ pub(super) fn plugin(app: &mut App) {
     );
 }
 
-fn return_to_title_screen(mut next_screen: ResMut<NextState<Screen>>) {
-    next_screen.set(Screen::Title);
+fn return_to_title_screen(mut next_screen: ResMut<NextState<Gameplay>>) {
+    next_screen.set(Gameplay::GameOver);
 }

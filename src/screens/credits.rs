@@ -30,19 +30,16 @@ fn spawn_credits_screen(panel: Res<PanelAssets>, fonts: Res<FontAssets>, mut com
 fn created_by() -> impl Bundle {
     grid(vec![
         ["Emily 'tigerplush' P.", "UI, SFX"],
-        ["Jane Doe", "Made the music for the alien invasion"],
+        ["Sam 'sfarmer1'", "Designer, Programming"],
+        ["Martin 'mpwoz'", "Programming"],
+        ["Jacudibu", "Programming"],
+        ["BurnteToaster", "SFX"],
     ])
 }
 
 fn assets() -> impl Bundle {
     grid(vec![
-        ["Ducky sprite", "CC0 by Caz Creates Games"],
-        ["Music", "CC BY 3.0 by Kevin MacLeod"],
         ["Pistol Riccoechet Sound", "CC0 by Diboz"],
-        [
-            "Bevy logo",
-            "All rights reserved by the Bevy Foundation, permission granted for splash screen use when unmodified",
-        ],
     ])
 }
 
@@ -89,7 +86,7 @@ impl FromWorld for CreditsAssets {
     fn from_world(world: &mut World) -> Self {
         let assets = world.resource::<AssetServer>();
         Self {
-            music: assets.load("audio/music/Monkeys Spinning Monkeys.ogg"),
+            music: assets.load("audio/music/EcstasyOfSka.ogg"),
         }
     }
 }
