@@ -18,6 +18,7 @@ mod theme;
 mod ui_assets;
 
 use avian3d::PhysicsPlugins;
+use bevy::audio::Volume;
 use bevy::window::{PresentMode, WindowResolution};
 use bevy::{asset::AssetMetaCheck, prelude::*};
 use bevy_skein::SkeinPlugin;
@@ -92,6 +93,11 @@ impl Plugin for AppPlugin {
         ));
 
         app.add_systems(Update, audio::update_sfx_speed);
+
+        // globally adjust max volume
+        app.add_systems(Startup, |mut global_volume: ResMut<GlobalVolume>| {
+            global_volume.volume = Volume::Linear(0.2);
+        });
     }
 }
 
