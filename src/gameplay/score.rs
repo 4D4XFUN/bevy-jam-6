@@ -13,8 +13,32 @@ use crate::{
     ui_assets::{FontAssets, PanelAssets},
 };
 
+#[derive(Reflect, Resource)]
+struct ScoreSettings {
+    floating_score_speed: f32,
+    min_font_size: f32,
+    max_font_size: f32,
+    /// font size reaches it's max after hitting a score of
+    /// max_font_size_score in $
+    max_font_size_score: f32,
+    floating_score_fadeout_speed: f32,
+}
+
+impl Default for ScoreSettings {
+    fn default() -> Self {
+        ScoreSettings {
+            floating_score_speed: 100.0,
+            min_font_size: 20.0,
+            max_font_size: 24.0,
+            max_font_size_score: 1000.0,
+            floating_score_fadeout_speed: 1.0,
+        }
+    }
+}
+
 pub fn plugin(app: &mut App) {
-    app.init_resource::<Winner>();
+    app.init_resource::<Winner>()
+        .init_resource::<ScoreSettings>();
     app.register_type::<Score>()
         .add_systems(
             OnEnter(Gameplay::GameOver),
@@ -36,6 +60,7 @@ pub fn plugin(app: &mut App) {
             Update,
             update_score.run_if(in_state(Screen::Gameplay).and(resource_changed::<Score>)),
         )
+        .add_systems(Update, float_score)
         .add_observer(on_score_event);
 }
 
@@ -199,18 +224,72 @@ fn update_score(
     score.current_displayed_score = current_score;
 }
 
+#[derive(Component)]
+struct FloatingScore(Vec3, f32);
+
+fn float_score(
+    score_settings: Res<ScoreSettings>,
+    time: Res<Time<Physics>>,
+    camera: Single<(&Camera, &GlobalTransform)>,
+    mut floatys: Query<(Entity, &mut Node, &mut FloatingScore, &mut TextColor)>,
+    mut commands: Commands,
+) {
+    let (camera, global_transform) = camera.into_inner();
+    for (entity, mut node, mut floaty, mut color) in &mut floatys {
+        floaty.1 += time.delta_secs();
+        color
+            .0
+            .set_alpha(1.0 - floaty.1 * score_settings.floating_score_fadeout_speed);
+        let screen_space = camera
+            .world_to_viewport(global_transform, floaty.0)
+            .unwrap();
+        let top = screen_space.y - floaty.1 * score_settings.floating_score_speed;
+        node.top = Val::Px(top);
+        node.left = Val::Px(screen_space.x);
+        if top < 0.0 {
+            commands.entity(entity).despawn();
+        }
+    }
+}
+
 fn on_score_event(
     trigger: Trigger<ScoreEvent>,
+    score_settings: Res<ScoreSettings>,
     mut score: ResMut<Score>,
+    font_assets: Res<FontAssets>,
     mut next_state: ResMut<NextState<Gameplay>>,
     enemies: Query<&Health, With<Enemy>>,
     mut commands: Commands,
 ) {
     match trigger.event() {
-        ScoreEvent::AddScore(dollars) => {
+        ScoreEvent::AddScore(dollars, position) => {
             score.current_t = 0.0;
             score.actual_score += dollars;
             score.old_score = score.current_displayed_score;
+
+            let font_size = score_settings.min_font_size.lerp(
+                score_settings.max_font_size,
+                *dollars / score_settings.max_font_size_score,
+            );
+            let color = Color::hsv(0.0, *dollars / score_settings.max_font_size_score, 1.0);
+            commands.spawn((
+                Node {
+                    position_type: PositionType::Absolute,
+                    display: Display::Flex,
+                    justify_content: JustifyContent::Center,
+                    ..default()
+                },
+                Text::from(format!("$ {dollars}")),
+                TextLayout::new_with_justify(JustifyText::Center),
+                TextFont {
+                    font: font_assets.content.clone(),
+                    font_size,
+                    ..default()
+                },
+                TextColor(color),
+                StateScoped(Screen::Gameplay),
+                FloatingScore(*position, 0.0),
+            ));
         }
         ScoreEvent::EnemyDeath => {
             if enemies.is_empty() {
@@ -227,7 +306,7 @@ fn on_score_event(
 
 #[derive(Event)]
 pub enum ScoreEvent {
-    AddScore(f32),
+    AddScore(f32, Vec3),
     EnemyDeath,
     PlayerDeath,
 }
