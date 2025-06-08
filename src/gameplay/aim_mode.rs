@@ -275,8 +275,8 @@ pub fn draw_target_lines(
             }
 
             let color = match target_entity {
-                Some(_entity) => Color::srgb(0., 1., 0.),
-                None => Color::srgb(1., 0.1, 0.1),
+                Some(_entity) => Color::srgb(0.2, 0.7, 0.2),
+                None => Color::srgb(0.5, 0.1, 0.1),
             };
 
             // todo use retained mode gizmos to be more efficient (or an instanced mesh of a cool looking crosshair)

@@ -7,12 +7,12 @@ use bevy::core_pipeline::bloom::Bloom;
 use bevy::core_pipeline::tonemapping::Tonemapping;
 use bevy::ecs::schedule::IntoScheduleConfigs;
 use bevy::math::{Vec2, Vec3};
-use bevy::prelude::ReflectComponent;
 use bevy::prelude::{
-    Camera, Camera3d, Commands, Component, Entity, EventReader, IsDefaultUiCamera, Msaa, Name,
-    PerspectiveProjection, Projection, Query, Real, Reflect, Res, Single, Time, Timer, TimerMode,
-    Transform, Window, With, Without, default,
+    Camera, Camera3d, Commands, Component, Entity, EventReader, GizmoLineStyle, IsDefaultUiCamera,
+    Msaa, Name, PerspectiveProjection, Projection, Query, Real, Reflect, Res, Single, Time, Timer,
+    TimerMode, Transform, Window, With, Without, default,
 };
+use bevy::prelude::{DefaultGizmoConfigGroup, GizmoConfigStore, ReflectComponent, ResMut};
 use bevy::render::camera::Exposure;
 use bevy::state::condition::in_state;
 use rand::{Rng, thread_rng};
@@ -20,6 +20,7 @@ use rand::{Rng, thread_rng};
 pub fn plugin(app: &mut App) {
     // systems
     app.add_systems(Startup, spawn_camera);
+    app.add_systems(Startup, setup_gizmos_config);
     app.add_systems(
         Update,
         (
@@ -76,6 +77,15 @@ pub fn spawn_camera(mut commands: Commands) {
         Bloom::NATURAL,
         FilmGrainSettings::default(),
     ));
+}
+
+fn setup_gizmos_config(mut config_store: ResMut<GizmoConfigStore>) {
+    let (config, _) = config_store.config_mut::<DefaultGizmoConfigGroup>();
+    config.line.width = 5.;
+    config.line.style = GizmoLineStyle::Dashed {
+        gap_scale: 1.,
+        line_scale: 3.,
+    }
 }
 
 fn camera_follow(

@@ -49,7 +49,7 @@ fn spawn_credits_screen(
 fn created_by() -> impl Bundle {
     grid(vec![
         ["Emily 'tigerplush' P.", "UI, SFX"],
-        ["Sam 'sfarmer1'", "Design, Programming"],
+        ["Sam 'Sandman' F.", "Design, Programming"],
         ["Martin 'mpwoz'", "Programming"],
         ["Jacudibu", "Programming"],
         ["BurnteToaster", "SFX"],
