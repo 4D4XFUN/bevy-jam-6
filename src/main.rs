@@ -18,12 +18,11 @@ mod theme;
 mod ui_assets;
 
 use avian3d::PhysicsPlugins;
+use bevy::audio::Volume;
 use bevy::window::{PresentMode, WindowResolution};
 use bevy::{asset::AssetMetaCheck, prelude::*};
-use bevy::audio::Volume;
 use bevy_skein::SkeinPlugin;
 use oxidized_navigation::OxidizedNavigation;
-use crate::screens::settings::MAX_VOLUME;
 
 fn main() -> AppExit {
     App::new().add_plugins(AppPlugin).run()
@@ -96,7 +95,9 @@ impl Plugin for AppPlugin {
         app.add_systems(Update, audio::update_sfx_speed);
 
         // globally adjust max volume
-        app.add_systems(Startup, |mut global_volume: ResMut<GlobalVolume>| { global_volume.volume = Volume::Linear(0.2); });
+        app.add_systems(Startup, |mut global_volume: ResMut<GlobalVolume>| {
+            global_volume.volume = Volume::Linear(0.2);
+        });
     }
 }
 
