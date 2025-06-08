@@ -28,7 +28,7 @@ fn spawn_title_screen(panel: Res<PanelAssets>, fonts: Res<FontAssets>, mut comma
         children![
             widget::paneled_button(
                 "Play",
-                enter_loading_or_gameplay_screen,
+                enter_gameplay_screen,
                 &panel,
                 &fonts.header
             ),
