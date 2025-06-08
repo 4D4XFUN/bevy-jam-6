@@ -462,7 +462,7 @@ fn on_throw_boomerang_spawn_boomerang(
                         .get(event.thrower_entity)?
                         .translation
                         .with_y(BOOMERANG_FLYING_HEIGHT),
-                ),
+                ).with_scale(Vec3::splat(1.5)),
                 StateScoped(Gameplay::Normal),
                 Flying,
                 SceneRoot(boomerang_assets.mesh.clone()),
