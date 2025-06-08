@@ -29,7 +29,6 @@ fn spawn_title_screen(panel: Res<PanelAssets>, fonts: Res<FontAssets>, mut comma
                 &panel,
                 &fonts.header
             ),
-            // widget::paneled_button("Settings", enter_settings_screen, &panel, &fonts.header),
             widget::paneled_button("Credits", enter_credits_screen, &panel, &fonts.header),
             widget::paneled_button("Exit", exit_app, &panel, &fonts.header),
         ],
@@ -41,7 +40,6 @@ fn spawn_title_screen(panel: Res<PanelAssets>, fonts: Res<FontAssets>, mut comma
                 &panel,
                 &fonts.header
             ),
-            widget::paneled_button("Settings", enter_settings_screen, &panel, &fonts.header),
             widget::paneled_button("Credits", enter_credits_screen, &panel, &fonts.header),
         ],
     ));
