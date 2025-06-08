@@ -1,7 +1,7 @@
 use crate::audio::sound_effect_non_dilated;
 use crate::gameplay::boomerang::{
-    BoomerangHittable, BoomerangTargetKind, CurrentBoomerangThrowOrigin, ThrowBoomerangEvent,
-    get_raycast_target,
+    get_raycast_target, BoomerangHittable, BoomerangTargetKind, CurrentBoomerangThrowOrigin,
+    ThrowBoomerangEvent,
 };
 use crate::gameplay::input::AimModeAction;
 use crate::gameplay::mouse_position::MousePosition;
@@ -12,7 +12,7 @@ use avian3d::prelude::{
 };
 use bevy::asset::{Asset, AssetServer, Handle};
 use bevy::audio::AudioSource;
-use bevy::color::{Color, palettes};
+use bevy::color::{palettes, Color};
 use bevy::ecs::entity::EntityHashSet;
 use bevy::math::{Dir3, Isometry3d, Quat};
 use bevy::prelude::{
@@ -20,7 +20,7 @@ use bevy::prelude::{
     Res, ResMut, Resource, Single, State, States, Transform, Trigger, With, World,
 };
 use bevy_enhanced_input::events::{Completed, Fired};
-use rand::{Rng, thread_rng};
+use rand::{thread_rng, Rng};
 use tracing::{debug, info, warn};
 
 // ===================
@@ -275,8 +275,8 @@ pub fn draw_target_lines(
             }
 
             let color = match target_entity {
-                Some(_entity) => Color::srgb(0., 1., 0.),
-                None => Color::srgb(1., 0.1, 0.1),
+                Some(_entity) => Color::srgb(0.2, 0.7, 0.2),
+                None => Color::srgb(0.5, 0.1, 0.1),
             };
 
             // todo use retained mode gizmos to be more efficient (or an instanced mesh of a cool looking crosshair)
