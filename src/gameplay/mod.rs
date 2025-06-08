@@ -8,6 +8,7 @@ use bevy::prelude::*;
 use crate::screens::Screen;
 
 pub mod aim_mode;
+mod ammo;
 pub(crate) mod boomerang;
 pub mod camera;
 pub mod enemy;
@@ -17,7 +18,6 @@ pub mod level;
 pub mod mouse_position;
 pub mod player;
 mod score;
-mod ammo;
 
 pub(super) fn plugin(app: &mut App) {
     app.add_sub_state::<Gameplay>().add_plugins((

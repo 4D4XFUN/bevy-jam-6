@@ -1,9 +1,11 @@
 use crate::audio::TimeDilatedPitch;
 use crate::gameplay::Gameplay;
+use crate::gameplay::ammo::GiveAmmo;
 use crate::gameplay::enemy::Enemy;
 use crate::gameplay::health_and_damage::CanDamage;
 use crate::gameplay::input::FireBoomerangAction;
 use crate::gameplay::mouse_position::MousePosition;
+use crate::gameplay::player::Player;
 use crate::physics_layers::GameLayer;
 use avian3d::prelude::{
     AngularVelocity, Collider, CollisionEventsEnabled, CollisionLayers, LinearVelocity, Physics,
@@ -15,8 +17,6 @@ use bevy::ecs::entity::EntityHashSet;
 use bevy::prelude::*;
 use bevy_enhanced_input::prelude::Fired;
 use rand::{Rng, thread_rng};
-use crate::gameplay::ammo::GiveAmmo;
-use crate::gameplay::player::Player;
 
 pub const BOOMERANG_FLYING_HEIGHT: f32 = 1.5;
 
@@ -278,7 +278,7 @@ fn on_boomerang_fallen_despawn_boomerang(
         // TODO this assumes booms only fall next to player (they always return, no picking up)
         commands.entity(player_entity).trigger(GiveAmmo(1));
     }
-    
+
     Ok(())
 }
 

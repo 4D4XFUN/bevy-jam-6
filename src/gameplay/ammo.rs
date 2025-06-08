@@ -27,7 +27,7 @@ fn give_ammo(trigger: Trigger<GiveAmmo>, mut query: Query<&mut HasLimitedAmmo>) 
 
     let amount = trigger.0;
     e.0 += amount;
-    
+
     if amount < 0 {
         info!("Deducting {:?} ammos", amount);
     } else {

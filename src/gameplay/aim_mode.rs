@@ -26,10 +26,10 @@ use tracing::{debug, info, warn};
 // ===================
 // AIM MODE
 // ==================
+use crate::gameplay::ammo::{GiveAmmo, HasLimitedAmmo};
 use crate::gameplay::enemy::Enemy;
 use crate::theme::film_grain::FilmGrainSettingsTween;
 use bevy::prelude::*;
-use crate::gameplay::ammo::{GiveAmmo, HasLimitedAmmo};
 
 /// The "minimum possible" speed time can go. We never fully pause the game during slo-mo.
 pub const SLOW_MO_SCALING_FACTOR: f32 = 0.1;
@@ -96,8 +96,8 @@ pub fn enter_aim_mode(
     if state.get() == &AimModeState::Aiming {
         return;
     }
-    
-    if !has_limited_ammo.map(|o|o.0 > 0).unwrap_or(false) {
+
+    if !has_limited_ammo.map(|o| o.0 > 0).unwrap_or(false) {
         // info!("No ammo!");
         return;
     }
