@@ -113,6 +113,13 @@ struct BoomerangAssets {
     mesh: Handle<Scene>,
     toss_sfx: Vec<Handle<AudioSource>>,
     loop_sfx: Handle<AudioSource>,
+    bounce_sfx: Handle<AudioSource>,
+}
+
+impl BoomerangAssets {
+    fn get_bounce_pitch(&self, bounces: usize) -> f32 {
+        1.0.lerp(4.0, bounces as f32 / 10.0)
+    }
 }
 
 impl FromWorld for BoomerangAssets {
@@ -128,6 +135,7 @@ impl FromWorld for BoomerangAssets {
             toss_sfx,
             loop_sfx: asset_server
                 .load("audio/sound_effects/boomerang_sfx/boomerang_loop_single_short.ogg"),
+            bounce_sfx: asset_server.load("audio/sound_effects/boomerang_sfx/ding.ogg"),
         }
     }
 }
@@ -298,6 +306,7 @@ fn send_boomerang_bounce_event(
 
 fn on_boomerang_bounce_advance_to_next_pathing_step_or_fall_down(
     mut bounce_events: EventReader<BounceBoomerangEvent>,
+    boomerang_assets: Res<BoomerangAssets>,
     mut boomerangs: Query<&mut Boomerang, With<Flying>>,
     mut commands: Commands,
 ) -> Result {
@@ -313,6 +322,12 @@ fn on_boomerang_bounce_advance_to_next_pathing_step_or_fall_down(
                 .remove::<BoomerangSfx>()
                 .insert(Falling);
             info!("falling");
+        } else {
+            commands.spawn((
+                AudioPlayer::new(boomerang_assets.bounce_sfx.clone()),
+                PlaybackSettings::DESPAWN,
+                TimeDilatedPitch(boomerang_assets.get_bounce_pitch(boomerang.path_index)),
+            ));
         }
     }
 
@@ -462,7 +477,8 @@ fn on_throw_boomerang_spawn_boomerang(
                         .get(event.thrower_entity)?
                         .translation
                         .with_y(BOOMERANG_FLYING_HEIGHT),
-                ),
+                )
+                .with_scale(Vec3::splat(1.5)),
                 StateScoped(Gameplay::Normal),
                 Flying,
                 SceneRoot(boomerang_assets.mesh.clone()),

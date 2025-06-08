@@ -225,7 +225,7 @@ fn attack_target_after_delay(
             commands.spawn((
                 Name::new("Bullet"),
                 Transform::from_translation(origin_transform.translation)
-                    .with_scale(Vec3::new(2., 2., 2.)),
+                    .with_scale(Vec3::splat(3.)),
                 Bullet,
                 SceneRoot(pistolero_assets.bullet.clone()),
                 MeshMaterial3d(materials.add(Color::srgb_u8(50, 0, 0))),
@@ -272,6 +272,7 @@ fn attack_target_after_delay(
 
 fn on_death(
     trigger: Trigger<DeathEvent>,
+    query: Query<&Transform>,
     pistolero_assets: Res<PistoleroAssets>,
     mut commands: Commands,
     mut materials: ResMut<Assets<StandardMaterial>>,
@@ -293,7 +294,8 @@ fn on_death(
             GameLayer::all_bits(),
         ));
     let multiplicator = trigger.event().0 as f32;
-    commands.trigger(ScoreEvent::AddScore(100. * multiplicator));
+    let translation = query.get(trigger.target()).unwrap().translation;
+    commands.trigger(ScoreEvent::AddScore(100. * multiplicator, translation));
     commands.trigger(ScoreEvent::EnemyDeath);
     let rand = thread_rng().gen_range(0..pistolero_assets.death_screams.len());
     commands.spawn((
