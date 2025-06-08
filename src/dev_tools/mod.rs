@@ -7,7 +7,6 @@ use avian3d::prelude::PhysicsGizmos;
 use bevy::audio::Volume;
 use bevy::color::palettes;
 use bevy::dev_tools::states::log_transitions;
-use bevy::input::common_conditions::input_just_pressed;
 use bevy::prelude::*;
 use bevy_inspector_egui::bevy_egui::EguiPlugin;
 use bevy_inspector_egui::quick::WorldInspectorPlugin;
