@@ -22,8 +22,8 @@ pub fn plugin(app: &mut App) {
                 FilmGrainSettingsTween::tween_close_vignette_to_black_screen,
             ),
         )
-        .add_systems(OnEnter(Screen::Retry), retry)
-        .add_systems(OnEnter(Screen::NextLevel), retry)
+        .add_systems(OnEnter(Screen::Retry), reload_current_level)
+        .add_systems(OnEnter(Screen::NextLevel), load_next_level)
         .add_systems(
             OnEnter(Gameplay::Normal),
             (
@@ -69,42 +69,55 @@ fn setup(
             if Winner::Player == *winner {
                 parent.spawn(widget::paneled_button(
                     "Onward",
-                    next_level,
+                    on_click_next_level,
                     &panel,
                     &font_assets.header,
                 ));
             }
             parent.spawn(widget::paneled_button(
                 "Retry",
-                retry_level,
+                on_click_retry_level,
                 &panel,
                 &font_assets.header,
             ));
             parent.spawn(widget::paneled_button(
                 "Main Menu",
-                main_menu,
+                on_click_main_menu,
                 &panel,
                 &font_assets.header,
             ));
         });
 }
 
-fn retry_level(_trigger: Trigger<Pointer<Click>>, mut next_state: ResMut<NextState<Screen>>) {
+fn on_click_retry_level(
+    _trigger: Trigger<Pointer<Click>>,
+    mut next_state: ResMut<NextState<Screen>>,
+) {
     next_state.set(Screen::Retry);
 }
 
-fn next_level(_trigger: Trigger<Pointer<Click>>, mut next_state: ResMut<NextState<Screen>>) {
+fn on_click_next_level(_trigger: Trigger<Pointer<Click>>, mut next_state: ResMut<NextState<Screen>>) {
     next_state.set(Screen::NextLevel);
 }
 
-fn main_menu(_trigger: Trigger<Pointer<Click>>, mut next_state: ResMut<NextState<Screen>>) {
+fn on_click_main_menu(
+    _trigger: Trigger<Pointer<Click>>,
+    mut next_state: ResMut<NextState<Screen>>,
+) {
     next_state.set(Screen::Title);
 }
 
-fn retry(mut next_state: ResMut<NextState<Screen>>, level_assets: ResMut<LevelAssets>) {
+fn reload_current_level(mut next_state: ResMut<NextState<Screen>>, level_assets: ResMut<LevelAssets>) {
+    let level_data = level_assets.into_inner();
+    info!("Restarting level {}", level_data.current_level);
+    next_state.set(Screen::Gameplay);
+}
+
+fn load_next_level(mut next_state: ResMut<NextState<Screen>>, level_assets: ResMut<LevelAssets>) {
     let level_data = level_assets.into_inner();
     if level_data.current_level < level_data.levels.len() - 1 {
         level_data.current_level += 1;
+        info!("Loading next level: {}", level_data.current_level);
         next_state.set(Screen::Gameplay);
     } else {
         level_data.current_level = 0;
