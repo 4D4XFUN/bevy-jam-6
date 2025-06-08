@@ -15,6 +15,8 @@ use bevy::ecs::entity::EntityHashSet;
 use bevy::prelude::*;
 use bevy_enhanced_input::prelude::Fired;
 use rand::{Rng, thread_rng};
+use crate::gameplay::ammo::GiveAmmo;
+use crate::gameplay::player::Player;
 
 pub const BOOMERANG_FLYING_HEIGHT: f32 = 1.5;
 
@@ -266,12 +268,17 @@ fn move_falling_boomerangs(
 
 fn on_boomerang_fallen_despawn_boomerang(
     mut fallen_events: EventReader<BoomerangHasFallenOnGroundEvent>,
+    player: Single<Entity, With<Player>>,
     mut commands: Commands,
 ) -> Result {
+    let player_entity = player.into_inner();
     for event in fallen_events.read() {
         commands.entity(event.boomerang_entity).despawn();
-    }
 
+        // TODO this assumes booms only fall next to player (they always return, no picking up)
+        commands.entity(player_entity).trigger(GiveAmmo(1));
+    }
+    
     Ok(())
 }
 

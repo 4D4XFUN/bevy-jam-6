@@ -17,6 +17,7 @@ pub mod level;
 pub mod mouse_position;
 pub mod player;
 mod score;
+mod ammo;
 
 pub(super) fn plugin(app: &mut App) {
     app.add_sub_state::<Gameplay>().add_plugins((
@@ -30,6 +31,7 @@ pub(super) fn plugin(app: &mut App) {
         enemy::plugin,
         health_and_damage::plugin,
         score::plugin,
+        ammo::plugin,
     ));
 }
 
