@@ -16,9 +16,11 @@ use crate::gameplay::boomerang::Boomerang;
 
 #[derive(Event)]
 pub enum HealthEvent {
+    // Damage, NumBounces (for multiplier)
     Damage(u32, usize),
 }
 
+// NumBounces
 #[derive(Event)]
 pub struct DeathEvent(pub usize);
 

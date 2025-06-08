@@ -1,15 +1,36 @@
-use crate::gameplay::health_and_damage::Health;
+use crate::gameplay::enemy::Enemy;
+use crate::gameplay::health_and_damage::{DeathEvent, Health, HealthEvent};
 use crate::gameplay::player::{MovementSettings, Player};
 use avian3d::prelude::RigidBody;
 use bevy::input::common_conditions::input_just_pressed;
 use bevy::prelude::*;
 
+/// GOD MODE
+/// press 'g' to enter/exit
+///
+/// While in it:
+/// - 1 kills all enemies
+/// - 2 kills player
 pub fn plugin(app: &mut App) {
     app.init_state::<GodModeState>();
 
     app.add_systems(
         Update,
         toggle_god_mode.run_if(input_just_pressed(KeyCode::KeyG)),
+    );
+
+    app.add_systems(
+        Update,
+        kill_all_enemies
+            .run_if(input_just_pressed(KeyCode::Digit1))
+            .run_if(in_state(GodModeState::God)),
+    );
+
+    app.add_systems(
+        Update,
+        kill_player
+            .run_if(input_just_pressed(KeyCode::Digit2))
+            .run_if(in_state(GodModeState::God)),
     );
 
     app.add_systems(OnEnter(GodModeState::God), enable_god_mode);
@@ -47,4 +68,16 @@ fn disable_god_mode(player: Single<Entity, With<Player>>, mut commands: Commands
         .insert(RigidBody::Dynamic)
         .insert(MovementSettings::default())
         .insert(Health::default());
+}
+
+fn kill_all_enemies(enemies: Query<Entity, (With<Enemy>, With<Health>)>, mut commands: Commands) {
+    info!("kill {} enemies:", enemies.iter().len());
+    for e in enemies.iter() {
+        commands.entity(e).trigger(HealthEvent::Damage(100, 1));
+    }
+}
+fn kill_player(player: Single<Entity, (With<Player>, With<Health>)>, mut commands: Commands) {
+    let p = player.into_inner();
+    info!("kill player: {}", p);
+    commands.entity(p).trigger(DeathEvent(1));
 }
