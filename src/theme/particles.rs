@@ -6,16 +6,15 @@ use bevy::pbr::{NotShadowCaster, NotShadowReceiver};
 pub fn plugin(app: &mut App) {
     app.init_resource::<SmokeParticleConfig>()
         .add_observer(spawn_gun_smoke)
-        .add_systems(Update, update_smoke_particles)
-        .add_plugins(MaterialPlugin::<SmokeMaterial>::default());
+        .add_systems(Update, update_smoke_particles);
 
     // reflection
     app.register_type::<SmokeParticle>()
         .register_type::<SmokeParticleConfig>();
 
     // dev tool
-    use bevy_inspector_egui::quick::ResourceInspectorPlugin;
-    app.add_plugins(ResourceInspectorPlugin::<SmokeParticleConfig>::default());
+    // use bevy_inspector_egui::quick::ResourceInspectorPlugin;
+    // app.add_plugins(ResourceInspectorPlugin::<SmokeParticleConfig>::default());
 }
 
 #[derive(Component, Debug, Reflect)]
@@ -59,26 +58,6 @@ impl SmokeParticleConfig {
     pub fn tween_size(&self, lifetime: f32) -> f32 {
         let progress = lifetime / self.max_lifetime;
         EasingCurve::new(self.min_size, self.max_size, self.ease_function).sample_clamped(progress)
-    }
-}
-
-
-#[derive(Asset, TypePath, AsBindGroup, Debug, Clone)]
-pub struct SmokeMaterial {
-    #[texture(0)]
-    #[sampler(1)]
-    pub texture: Handle<Image>,
-    #[uniform(2)]
-    pub color: LinearRgba,
-}
-
-impl Material for SmokeMaterial {
-    fn fragment_shader() -> ShaderRef {
-        "shaders/smoke.wgsl".into()
-    }
-
-    fn alpha_mode(&self) -> AlphaMode {
-        AlphaMode::Blend
     }
 }
 
