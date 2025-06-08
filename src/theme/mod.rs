@@ -6,6 +6,7 @@
 pub mod film_grain;
 pub mod interaction;
 pub mod palette;
+pub mod particles;
 pub mod widget;
 
 #[allow(unused_imports)]
@@ -22,4 +23,7 @@ pub(super) fn plugin(app: &mut App) {
     // grain
     app.add_plugins(FilmGrainPlugin);
     app.add_systems(Update, update_film_grain_time);
+
+    // particles
+    app.add_plugins(particles::plugin);
 }

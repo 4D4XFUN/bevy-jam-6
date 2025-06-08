@@ -9,6 +9,7 @@ use crate::gameplay::score::ScoreEvent;
 use crate::gameplay::{boomerang::BoomerangHittable, health_and_damage::Health};
 use crate::physics_layers::GameLayer;
 use crate::screens::Screen;
+use crate::theme::particles::SpawnGunshotSmokeEvent;
 use avian3d::prelude::{
     AngularDamping, AngularVelocity, Collider, CollisionEventsEnabled, CollisionLayers, Friction,
     LinearDamping, LinearVelocity, LockedAxes, Physics, PhysicsLayer, Restitution, RigidBody,
@@ -189,6 +190,7 @@ fn attack_target_after_delay(
     mut commands: Commands,
     mut attacker_query: Query<
         (
+            Entity,
             &CanUseRangedAttack,
             &Transform,
             &WeaponTarget,
@@ -203,7 +205,7 @@ fn attack_target_after_delay(
 ) {
     let mut rand = thread_rng();
     let player_transform = player_query.into_inner();
-    for (ranged_attack, origin_transform, attacker_target, mut can_delay) in
+    for (attacker_entity, ranged_attack, origin_transform, attacker_target, mut can_delay) in
         attacker_query.iter_mut()
     {
         can_delay.timer.tick(time.delta());
@@ -211,6 +213,15 @@ fn attack_target_after_delay(
             let bullet_velocity =
                 (player_transform.translation - origin_transform.translation).normalize_or_zero();
 
+            // particles
+            commands
+                .entity(attacker_entity)
+                .trigger(SpawnGunshotSmokeEvent {
+                    position: origin_transform.translation,
+                    direction: bullet_velocity,
+                });
+
+            // bullet
             commands.spawn((
                 Name::new("Bullet"),
                 Transform::from_translation(origin_transform.translation)
