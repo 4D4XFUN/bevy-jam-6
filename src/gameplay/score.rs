@@ -14,6 +14,7 @@ use crate::{
 };
 
 pub fn plugin(app: &mut App) {
+    app.init_resource::<Winner>();
     app.register_type::<Score>()
         .add_systems(
             OnEnter(Gameplay::GameOver),
@@ -127,7 +128,7 @@ fn load_next_level(mut next_state: ResMut<NextState<Screen>>, level_assets: ResM
         next_state.set(Screen::Gameplay);
     } else {
         level_data.current_level = 0;
-        next_state.set(Screen::Title);
+        next_state.set(Screen::Credits);
     }
 }
 
@@ -217,10 +218,11 @@ pub enum ScoreEvent {
     PlayerDeath,
 }
 
-#[derive(PartialEq, Reflect, Resource)]
+#[derive(PartialEq, Reflect, Resource, Default)]
 #[reflect(Resource)]
 pub enum Winner {
     Player,
+    #[default]
     Enemy,
 }
 

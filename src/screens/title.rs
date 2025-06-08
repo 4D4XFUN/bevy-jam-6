@@ -29,7 +29,7 @@ fn spawn_title_screen(panel: Res<PanelAssets>, fonts: Res<FontAssets>, mut comma
                 &panel,
                 &fonts.header
             ),
-            widget::paneled_button("Settings", enter_settings_screen, &panel, &fonts.header),
+            // widget::paneled_button("Settings", enter_settings_screen, &panel, &fonts.header),
             widget::paneled_button("Credits", enter_credits_screen, &panel, &fonts.header),
             widget::paneled_button("Exit", exit_app, &panel, &fonts.header),
         ],
@@ -59,7 +59,7 @@ fn enter_loading_or_gameplay_screen(
     }
 }
 
-fn enter_settings_screen(_: Trigger<Pointer<Click>>, mut next_screen: ResMut<NextState<Screen>>) {
+fn _enter_settings_screen(_: Trigger<Pointer<Click>>, mut next_screen: ResMut<NextState<Screen>>) {
     next_screen.set(Screen::Settings);
 }
 
