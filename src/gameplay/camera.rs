@@ -1,5 +1,5 @@
-use crate::gameplay::boomerang::BounceBoomerangEvent;
 use crate::gameplay::Gameplay;
+use crate::gameplay::boomerang::BounceBoomerangEvent;
 use crate::theme::film_grain::FilmGrainSettings;
 use bevy::app::{App, Startup, Update};
 use bevy::color::Color;
@@ -7,11 +7,15 @@ use bevy::core_pipeline::bloom::Bloom;
 use bevy::core_pipeline::tonemapping::Tonemapping;
 use bevy::ecs::schedule::IntoScheduleConfigs;
 use bevy::math::{Vec2, Vec3};
-use bevy::prelude::{default, Camera, Camera3d, Commands, Component, Entity, EventReader, GizmoLineStyle, IsDefaultUiCamera, Msaa, Name, PerspectiveProjection, Projection, Query, Real, Reflect, Res, Single, Time, Timer, TimerMode, Transform, Window, With, Without};
+use bevy::prelude::{
+    Camera, Camera3d, Commands, Component, Entity, EventReader, GizmoLineStyle, IsDefaultUiCamera,
+    Msaa, Name, PerspectiveProjection, Projection, Query, Real, Reflect, Res, Single, Time, Timer,
+    TimerMode, Transform, Window, With, Without, default,
+};
 use bevy::prelude::{DefaultGizmoConfigGroup, GizmoConfigStore, ReflectComponent, ResMut};
 use bevy::render::camera::Exposure;
 use bevy::state::condition::in_state;
-use rand::{thread_rng, Rng};
+use rand::{Rng, thread_rng};
 
 pub fn plugin(app: &mut App) {
     // systems
@@ -75,8 +79,7 @@ pub fn spawn_camera(mut commands: Commands) {
     ));
 }
 
-fn setup_gizmos_config(
-    mut config_store: ResMut<GizmoConfigStore>) {
+fn setup_gizmos_config(mut config_store: ResMut<GizmoConfigStore>) {
     let (config, _) = config_store.config_mut::<DefaultGizmoConfigGroup>();
     config.line.width = 5.;
     config.line.style = GizmoLineStyle::Dashed {

@@ -1,7 +1,7 @@
 use crate::audio::sound_effect_non_dilated;
 use crate::gameplay::boomerang::{
-    get_raycast_target, BoomerangHittable, BoomerangTargetKind, CurrentBoomerangThrowOrigin,
-    ThrowBoomerangEvent,
+    BoomerangHittable, BoomerangTargetKind, CurrentBoomerangThrowOrigin, ThrowBoomerangEvent,
+    get_raycast_target,
 };
 use crate::gameplay::input::AimModeAction;
 use crate::gameplay::mouse_position::MousePosition;
@@ -12,7 +12,7 @@ use avian3d::prelude::{
 };
 use bevy::asset::{Asset, AssetServer, Handle};
 use bevy::audio::AudioSource;
-use bevy::color::{palettes, Color};
+use bevy::color::{Color, palettes};
 use bevy::ecs::entity::EntityHashSet;
 use bevy::math::{Dir3, Isometry3d, Quat};
 use bevy::prelude::{
@@ -20,7 +20,7 @@ use bevy::prelude::{
     Res, ResMut, Resource, Single, State, States, Transform, Trigger, With, World,
 };
 use bevy_enhanced_input::events::{Completed, Fired};
-use rand::{thread_rng, Rng};
+use rand::{Rng, thread_rng};
 use tracing::{debug, info, warn};
 
 // ===================
